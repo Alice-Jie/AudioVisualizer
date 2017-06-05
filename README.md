@@ -17,9 +17,13 @@ Circle Audio Visualizer目前使用的插件
     
     window.wallpaperRegisterAudioListener && window.wallpaperRegisterAudioListener(wallpaperAudioListener);
 ```
-* jquery.date.js：基于moment-with-locales.min.js绘制日期插件如果你要使用它：
+* jquery.date.js：基于moment-with-locales.min.js绘制日期插件，如果你要使用它：
 ```javascript
     $('body').date({});
+```
+* jquery.particles.js：粒子插件，如果你要使用它：
+```javascript
+    $('body').particles({}); 
 ```
 * juqery.slider.js：用于幻灯片切换插件，支持css、image、canvas切换，如果你要使用它：
 ```javascript
