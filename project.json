@@ -1,0 +1,1061 @@
+{
+  "file": "index.html",
+  "general": {
+    "properties": {
+      "schemecolor": {
+        "order": 0,
+        "text": "ui_browse_properties_scheme_color",
+        "type": "color",
+        "value": "0.7529411764705882 0.7529411764705882 0.7529411764705882"
+      },
+      "img_Text": {
+        "order": 1,
+        "text": "<br/><h4>背景设置(Background Settings)</h4><small>自定义背景，以及背景的填充方式</small><br/>",
+        "type": "text"
+      },
+      "image_BGColor": {
+        "order": 2,
+        "condition": "directory_isDirectory.value == false || directory_sliderStyle.value == 1",
+        "text": "<br/>背景颜色<br/>Background Color<br/>",
+        "type": "color",
+        "value": "1 1 1"
+      },
+      "image": {
+        "order": 3,
+        "condition": "directory_isDirectory.value == false || directory_sliderStyle.value == 1",
+        "text": "<br/>背景图片<br/>Background Img<br/>",
+        "type": "file"
+      },
+      "image_fillStyle": {
+        "order": 4,
+        "condition": "directory_isDirectory.value == false || directory_sliderStyle.value == 1",
+        "text": "<br/>背景填充方式<br/>Background Fill Style<br/>",
+        "type": "combo",
+        "options": [
+          {
+            "label": "填充/Fill",
+            "value": 1
+          },
+          {
+            "label": "适应/Fit",
+            "value": 2
+          },
+          {
+            "label": "拉伸/Stretch",
+            "value": 3
+          },
+          {
+            "label": "平铺/Tile",
+            "value": 4
+          },
+          {
+            "label": "居中/Center",
+            "value": 5
+          }
+        ],
+        "value": 1
+      },
+      "directory_isDirectory": {
+        "order": 5,
+        "text": "<br/>幻灯片模式<br/>Slideshow Mode?<br/>",
+        "type": "bool",
+        "value": false
+      },
+      "directory": {
+        "order": 6,
+        "condition": "directory_isDirectory.value == true",
+        "text": "<br/>背景文件夹<br/>Background Folder<br/>",
+        "type": "directory",
+        "mode": "fetchall"
+      },
+      "directory_sliderStyle": {
+        "order": 7,
+        "condition": "directory_isDirectory.value == true",
+        "text": "<br/>滑动方式<br/>Sliding Style<br/>",
+        "type": "combo",
+        "options": [
+          {
+            "label": "CSS",
+            "value": 1
+          },
+          {
+            "label": "Img",
+            "value": 2
+          },
+          {
+            "label": "Canvas",
+            "value": 3
+          }
+        ],
+        "value": 1
+      },
+      "directory_effect": {
+        "order": 8,
+        "condition": "directory_isDirectory.value == true && directory_sliderStyle.value != 1",
+        "text": "<br/>切换特效<br/>Sliding Effect<br/>",
+        "type": "combo",
+        "options": [
+          {
+            "label": "关闭/Close",
+            "value": 0
+          },
+          {
+            "label": "覆盖/Cover",
+            "value": 1
+          },
+          {
+            "label": "渐显/Fade-In",
+            "value": 2
+          },
+          {
+            "label": "渐隐/Fade-Out",
+            "value": 3
+          },
+          {
+            "label": "洗牌/Shuffle",
+            "value": 4
+          },
+          {
+            "label": "滑动/Slider",
+            "value": 5
+          },
+          {
+            "label": "拉伸/Vert-In",
+            "value": 6
+          },
+          {
+            "label": "收缩/Vert-Out",
+            "value": 7
+          },
+          {
+            "label": "放大/Zoom-In",
+            "value": 8
+          },
+          {
+            "label": "缩小/Zoom-Out",
+            "value": 9
+          }
+        ],
+        "value": 0
+      },
+      "IMG_FitStyle": {
+        "order": 9,
+        "condition": "directory_isDirectory.value == true && directory_sliderStyle.value == 2",
+        "text": "<br/>图片填充方式<br/>Image Fill Style<br/>",
+        "type": "combo",
+        "options": [
+          {
+            "label": "填充/Fill",
+            "value": 1
+          },
+          {
+            "label": "适应/Fit",
+            "value": 2
+          },
+          {
+            "label": "拉伸/Stretch",
+            "value": 3
+          },
+          {
+            "label": "缩小/Scale-Down",
+            "value": 4
+          },
+          {
+            "label": "居中/Center",
+            "value": 5
+          }
+        ],
+        "value": 1
+      },
+      "IMG_BGColor": {
+        "order": 10,
+        "condition": "directory_isDirectory.value == true && directory_sliderStyle.value == 2",
+        "text": "<br/>图片背景颜色<br/>Image Background Color<br/>",
+        "type": "color",
+        "value": "1 1 1"
+      },
+      "directory_readStyle": {
+        "order": 11,
+        "condition": "directory_isDirectory.value == true",
+        "text": "<br/>读取模式<br/>Read Mode<br/>",
+        "type": "combo",
+        "options": [
+          {
+            "label": "顺序/Sequential",
+            "value": 1
+          },
+          {
+            "label": "随机/Random",
+            "value": 2
+          }
+        ],
+        "value": 1
+      },
+      "directory_timeUnits": {
+        "order": 12,
+        "condition": "directory_isDirectory.value == true",
+        "text": "<br/>时间单位<br/>Time Units<br/>",
+        "type": "combo",
+        "options": [
+          {
+            "label": "秒/sec",
+            "value": 1
+          },
+          {
+            "label": "分/min",
+            "value": 2
+          },
+          {
+            "label": "小时/hour",
+            "value": 3
+          }
+        ],
+        "value": 2
+      },
+      "directory_pauseTime": {
+        "order": 13,
+        "condition": "directory_isDirectory.value == true",
+        "text": "<br/>停留时间<br/>Pause Time<br/>",
+        "type": "slider",
+        "max": 60,
+        "min": 1,
+        "value": 5
+      },
+      "global_Text": {
+        "order": 14,
+        "text": "<br/><h4>全局设置(Global Settings)</h4><small>全局设置，影响音频圆环和时钟</small><br/>",
+        "type": "text"
+      },
+      "global_GlobalSettings": {
+        "order": 15,
+        "text": "<br/>全局设置<br/>Global Settings?<br/>",
+        "type": "bool",
+        "value": true
+      },
+      "global_opacity": {
+        "order": 16,
+        "condition": "global_GlobalSettings.value == true",
+        "text": "<br/>不透明度<br/>Opacity<br/>",
+        "type": "slider",
+        "max": 100,
+        "min": 0,
+        "value": 90
+      },
+      "global_color": {
+        "order": 17,
+        "condition": "global_GlobalSettings.value == true",
+        "text": "<br/>颜色<br/>Color<br/>",
+        "type": "color",
+        "value": "1 1 1"
+      },
+      "global_shadowColor": {
+        "order": 18,
+        "condition": "global_GlobalSettings.value == true",
+        "text": "<br/>模糊颜色<br/>Blur Color<br/>",
+        "type": "color",
+        "value": "1 1 1"
+      },
+      "global_shadowBlur": {
+        "order": 19,
+        "condition": "global_GlobalSettings.value == true",
+        "text": "<br/>模糊程度<br/>Blur Size<br/>",
+        "type": "slider",
+        "max": 10,
+        "min": 0,
+        "value": 3
+      },
+      "global_offsetX": {
+        "order": 20,
+        "condition": "global_GlobalSettings.value == true",
+        "text": "<br/>X轴偏移<br/>Center of Ring-X(%)<br/>",
+        "type": "slider",
+        "max": 100,
+        "min": 0,
+        "value": 50
+      },
+      "global_offsetY": {
+        "order": 21,
+        "condition": "global_GlobalSettings.value == true",
+        "text": "<br/>Y轴偏移<br/>Center of Ring-Y(%)<br/>",
+        "type": "slider",
+        "max": 100,
+        "min": 0,
+        "value": 50
+      },
+      "global_isClickOffset": {
+        "order": 22,
+        "condition": "global_GlobalSettings.value == true",
+        "text": "<br/>鼠标坐标偏移<br/>Mouse Coordinate Offset?<br/>",
+        "type": "bool",
+        "value": false
+      },
+      "audio_AudioText": {
+        "order": 23,
+        "text": "<br/><h4>音频设置(Audio Settings)</h4><small>设置音频相关的参数</small><br/>",
+        "type": "text"
+      },
+      "audio_amplitude": {
+        "order": 24,
+        "text": "<br/>音频振幅<br/>Audio Amplitude<br/>",
+        "type": "slider",
+        "max": 10,
+        "min": 1,
+        "value": 5
+      },
+      "audio_decline": {
+        "order": 25,
+        "text": "<br/>音频衰弱<br/>Audio Decline<br/>",
+        "type": "slider",
+        "max": 20,
+        "min": 0,
+        "value": 20
+      },
+      "audio_RingText": {
+        "order": 26,
+        "text": "<br/><h4>圆环设置(Ring Settings)</h4><small>设置音频圆环相关的参数</small><br/>",
+        "type": "text"
+      },
+      "audio_isRing": {
+        "order": 27,
+        "text": "<br/>显示圆环<br/>Show Ring?<br/>",
+        "type": "bool",
+        "value": true
+      },
+      "audio_isStaticRing": {
+        "order": 28,
+        "condition": "audio_isRing.value == true",
+        "text": "<br/>显示静态圆环<br/>Show Static Ring?<br/>",
+        "type": "bool",
+        "value": false
+      },
+      "audio_isInnerRing": {
+        "order": 29,
+        "condition": "audio_isRing.value == true",
+        "text": "<br/>显示内圆环<br/>Show Inner Ring?<br/>",
+        "type": "bool",
+        "value": true
+      },
+      "audio_isOuterRing": {
+        "order": 30,
+        "condition": "audio_isRing.value == true",
+        "text": "<br/>显示外圆环<br/>Show Outer Ring?<br/>",
+        "type": "bool",
+        "value": true
+      },
+      "audio_radius": {
+        "order": 31,
+        "condition": "audio_isRing.value == true || audio_isLineTo.value == true",
+        "text": "<br/>圆环半径<br/>Radius<br/>",
+        "type": "slider",
+        "max": 10,
+        "min": 1,
+        "value": 5
+      },
+      "audio_ringRotation": {
+        "order": 32,
+        "condition": "audio_isRing.value == true || audio_isLineTo.value == true",
+        "text": "<br/>旋转圆环<br/>Rotating Ring<br/>",
+        "type": "slider",
+        "max": 60,
+        "min": -60,
+        "value": 0
+      },
+      "audio_opacity": {
+        "order": 33,
+        "condition": "global_GlobalSettings.value == false && (audio_isRing.value == true || audio_isLineTo.value == true || audio_isBall.value == true)",
+        "text": "<br/>不透明度<br/>Opacity<br/>",
+        "type": "slider",
+        "max": 100,
+        "min": 0,
+        "value": 90
+      },
+      "audio_color": {
+        "order": 34,
+        "condition": "global_GlobalSettings.value == false && (audio_isRing.value == true || audio_isLineTo.value == true || audio_isBall.value == true)",
+        "text": "<br/>颜色<br/>Color<br/>",
+        "type": "color",
+        "value": "1 1 1"
+      },
+      "audio_shadowColor": {
+        "order": 35,
+        "condition": "global_GlobalSettings.value == false && (audio_isRing.value == true || audio_isLineTo.value == true || audio_isBall.value == true)",
+        "text": "<br/>模糊颜色<br/>Blur Color<br/>",
+        "type": "color",
+        "value": "1 1 1"
+      },
+      "audio_shadowBlur": {
+        "order": 36,
+        "condition": "global_GlobalSettings.value == false && (audio_isRing.value == true || audio_isLineTo.value == true || audio_isBall.value == true)",
+        "text": "<br/>模糊程度<br/>Blur Size<br/>",
+        "type": "slider",
+        "max": 10,
+        "min": 0,
+        "value": 3
+      },
+      "audio_offsetX": {
+        "order": 37,
+        "condition": "global_GlobalSettings.value == false && (audio_isRing.value == true || audio_isLineTo.value == true || audio_isBall.value == true)",
+        "text": "<br/>X轴偏移<br/>Center of Ring-X(%)<br/>",
+        "type": "slider",
+        "max": 100,
+        "min": 0,
+        "value": 50
+      },
+      "audio_offsetY": {
+        "order": 38,
+        "condition": "global_GlobalSettings.value == false && (audio_isRing.value == true || audio_isLineTo.value == true || audio_isBall.value == true)",
+        "text": "<br/>Y轴偏移<br/>Center of Ring-Y(%)<br/>",
+        "type": "slider",
+        "max": 100,
+        "min": 0,
+        "value": 50
+      },
+      "audio_isClickOffset": {
+        "order": 39,
+        "condition": "global_GlobalSettings.value == false && (audio_isRing.value == true || audio_isLineTo.value == true || audio_isBall.value == true)",
+        "text": "<br/>鼠标坐标偏移<br/>Mouse Coordinate Offset?<br/>",
+        "type": "bool",
+        "value": false
+      },
+      "audio_LineText": {
+        "order": 40,
+        "text": "<br/><h4>线条设置(Line Settings)</h4><small>设置线条相关的参数</small><br/>",
+        "type": "text"
+      },
+      "audio_isLineTo": {
+        "order": 41,
+        "text": "<br/>显示连线<br/>Show Line?<br/>",
+        "type": "bool",
+        "value": false
+      },
+      "audio_firstPoint": {
+        "order": 42,
+        "condition": "audio_isLineTo.value == true",
+        "text": "<br/>第一点<br/>First Point<br/>",
+        "type": "combo",
+        "options": [
+          {
+            "label": "静态环/Static Ring",
+            "value": 1
+          },
+          {
+            "label": "内环/Inner Ring",
+            "value": 2
+          },
+          {
+            "label": "外环/Outer Ring",
+            "value": 3
+          }
+        ],
+        "value": 2
+      },
+      "audio_secondPoint": {
+        "order": 43,
+        "condition": "audio_isLineTo.value == true",
+        "text": "<br/>第二点<br/>Second Point<br/>",
+        "type": "combo",
+        "options": [
+          {
+            "label": "静态环/Static Ring",
+            "value": 1
+          },
+          {
+            "label": "内环/Inner Ring",
+            "value": 2
+          },
+          {
+            "label": "外环/Outer Ring",
+            "value": 3
+          }
+        ],
+        "value": 3
+      },
+      "audio_pointNum": {
+        "order": 44,
+        "condition": "audio_isRing.value == true || audio_isLineTo.value == true",
+        "text": "<br/>点的数量<br/>Point Number<br/>",
+        "type": "slider",
+        "max": 120,
+        "min": 3,
+        "value": 120
+      },
+      "audio_distance": {
+        "order": 45,
+        "condition": "audio_isRing.value == true || audio_isLineTo.value == true",
+        "text": "<br/>内外环距离<br/>Distance<br/>",
+        "type": "slider",
+        "max": 100,
+        "min": 0,
+        "value": 0
+      },
+      "audio_lineWidth": {
+        "order": 46,
+        "condition": "audio_isRing.value == true || audio_isLineTo.value == true",
+        "text": "<br/>线条粗细<br/>Line Width<br/>",
+        "type": "slider",
+        "max": 10,
+        "min": 1,
+        "value": 5
+      },
+      "audio_BallText": {
+        "order": 47,
+        "text": "<br/><h4>小球设置(Ball Settings)</h4><small>设置小球相关的参数</small><br/>",
+        "type": "text"
+      },
+      "audio_isBall": {
+        "order": 48,
+        "text": "<br/>显示小球<br/>Show Ball?<br/>",
+        "type": "bool",
+        "value": true
+      },
+      "audio_ballSpacer": {
+        "order": 49,
+        "condition": "audio_isBall.value == true",
+        "text": "<br/>小球间隔<br/>Ball Spacer<br/>",
+        "type": "slider",
+        "max": 10,
+        "min": 1,
+        "value": 4
+      },
+      "audio_ballSize": {
+        "order": 50,
+        "condition": "audio_isBall.value == true",
+        "text": "<br/>小球大小<br/>Ball Size<br/>",
+        "type": "slider",
+        "max": 10,
+        "min": 1,
+        "value": 3
+      },
+      "audio_ballRotation": {
+        "order": 51,
+        "condition": "audio_isBall.value == true",
+        "text": "<br/>旋转小球<br/>Rotating Ball<br/>",
+        "type": "slider",
+        "max": 60,
+        "min": -60,
+        "value": 0
+      },
+      "date_Text": {
+        "order": 52,
+        "text": "<br/><h4>日期设置(Date Settings)</h4><small>设置日期相关的参数</small><br/>",
+        "type": "text"
+      },
+      "date_isDate": {
+        "order": 53,
+        "text": "<br/>显示日期<br/>Show Date?<br/>",
+        "type": "bool",
+        "value": true
+      },
+      "date_language": {
+        "order": 54,
+        "condition": "date_isDate.value == true",
+        "text": "<br/>日期语言<br/>Date Language<br/>",
+        "type": "combo",
+        "options": [
+          {
+            "label": "عربية‎ لغة ",
+            "value": 1
+          },
+          {
+            "label": "Nederlands",
+            "value": 2
+          },
+          {
+            "label": "English",
+            "value": 3
+          },
+          {
+            "label": "فارسی‎",
+            "value": 4
+          },
+          {
+            "label": "Suomi",
+            "value": 5
+          },
+          {
+            "label": "Français",
+            "value": 6
+          },
+          {
+            "label": "Deutsch",
+            "value": 7
+          },
+          {
+            "label": "Italiano",
+            "value": 8
+          },
+          {
+            "label": "日本語",
+            "value": 9
+          },
+          {
+            "label": "한국어",
+            "value": 10
+          },
+          {
+            "label": "Norsk",
+            "value": 11
+          },
+          {
+            "label": "Polski",
+            "value": 12
+          },
+          {
+            "label": "Português",
+            "value": 13
+          },
+          {
+            "label": "română",
+            "value": 14
+          },
+          {
+            "label": "Русский язык",
+            "value": 15
+          },
+          {
+            "label": "简体中文",
+            "value": 16
+          },
+          {
+            "label": "Español",
+            "value": 17
+          },
+          {
+            "label": "svenska",
+            "value": 18
+          },
+          {
+            "label": "繁體中文",
+            "value": 19
+          },
+          {
+            "label": "Türkçe",
+            "value": 20
+          }
+        ],
+        "value": 16
+      },
+      "date_timeStyle": {
+        "order": 55,
+        "condition": "date_isDate.value == true",
+        "text": "<br/>时间风格<br/>Time Style<br/>",
+        "type": "combo",
+        "options": [
+          {
+            "label": "hh:mm:ss a",
+            "value": 1
+          },
+          {
+            "label": "hh:mm:ss",
+            "value": 2
+          },
+          {
+            "label": "HH:mm:ss a",
+            "value": 3
+          },
+          {
+            "label": "HH:mm:ss",
+            "value": 4
+          },
+          {
+            "label": "hh:mm a",
+            "value": 5
+          },
+          {
+            "label": "hh:mm",
+            "value": 6
+          },
+          {
+            "label": "HH:mm a",
+            "value": 7
+          },
+          {
+            "label": "HH:mm",
+            "value": 8
+          }
+        ],
+        "value": 1
+      },
+      "date_dateStyle": {
+        "order": 56,
+        "condition": "date_isDate.value == true",
+        "text": "<br/>日期风格<br/>Date Style<br/>",
+        "type": "combo",
+        "options": [
+          {
+            "label": "LL",
+            "value": 1
+          },
+          {
+            "label": "LL dddd",
+            "value": 2
+          },
+          {
+            "label": "MM - DD dddd",
+            "value": 3
+          },
+          {
+            "label": "MM - DD",
+            "value": 4
+          },
+          {
+            "label": "MMM Do dddd",
+            "value": 5
+          },
+          {
+            "label": "MMM Do",
+            "value": 6
+          },
+          {
+            "label": "Days DDDD",
+            "value": 7
+          }
+        ],
+        "value": 2
+      },
+      "date_fontSize": {
+        "order": 57,
+        "condition": "date_isDate.value == true",
+        "text": "<br/>字体大小<br/>Font Size<br/>",
+        "type": "slider",
+        "max": 200,
+        "min": 10,
+        "value": 60
+      },
+      "date_timeFontSize": {
+        "order": 58,
+        "condition": "date_isDate.value == true",
+        "text": "<br/>时间字体大小<br/>Time Font Size<br/>",
+        "type": "slider",
+        "max": 200,
+        "min": 10,
+        "value": 60
+      },
+      "date_dateFontSize": {
+        "order": 59,
+        "condition": "date_isDate.value == true",
+        "text": "<br/>日期字体大小<br/>Date Font Size<br/>",
+        "type": "slider",
+        "max": 200,
+        "min": 10,
+        "value": 30
+      },
+      "date_opacity": {
+        "order": 60,
+        "condition": "global_GlobalSettings.value == false && date_isDate.value == true",
+        "text": "<br/>不透明度<br/>Opacity<br/>",
+        "type": "slider",
+        "max": 100,
+        "min": 0,
+        "value": 90
+      },
+      "date_color": {
+        "order": 61,
+        "condition": "global_GlobalSettings.value == false && date_isDate.value == true",
+        "text": "<br/>颜色<br/>Color<br/>",
+        "type": "color",
+        "value": "1 1 1"
+      },
+      "date_shadowColor": {
+        "order": 62,
+        "condition": "global_GlobalSettings.value == false && date_isDate.value == true",
+        "text": "<br/>模糊颜色<br/>Blur Color<br/>",
+        "type": "color",
+        "value": "1 1 1"
+      },
+      "date_shadowBlur": {
+        "order": 63,
+        "condition": "global_GlobalSettings.value == false && date_isDate.value == true",
+        "text": "<br/>模糊程度<br/>Blur Size<br/>",
+        "type": "slider",
+        "max": 10,
+        "min": 0,
+        "value": 3
+      },
+      "date_offsetX": {
+        "order": 64,
+        "condition": "global_GlobalSettings.value == false && date_isDate.value == true",
+        "text": "<br/>X轴偏移<br/>Center of Ring-X(%)<br/>",
+        "type": "slider",
+        "max": 100,
+        "min": 0,
+        "value": 50
+      },
+      "date_offsetY": {
+        "order": 65,
+        "condition": "global_GlobalSettings.value == false && date_isDate.value == true",
+        "text": "<br/>Y轴偏移<br/>Center of Ring-Y(%)<br/>",
+        "type": "slider",
+        "max": 100,
+        "min": 0,
+        "value": 50
+      },
+      "date_isClickOffset": {
+        "order": 66,
+        "condition": "global_GlobalSettings.value == false && date_isDate.value == true",
+        "text": "<br/>鼠标坐标偏移<br/>Mouse Coordinate Offset?<br/>",
+        "type": "bool",
+        "value": false
+      },
+      "particles_Text": {
+        "order": 67,
+        "text": "<br/><h4>粒子设置(Particles Settings)</h4><small>设置粒子相关的参数</small><br/>",
+        "type": "text"
+      },
+      "particles_isParticles": {
+        "order": 68,
+        "text": "<br/>开启粒子效果<br/>Show Particles?<br/>",
+        "type": "bool",
+        "value": false
+      },
+      "particles_number": {
+        "order": 69,
+        "condition": "particles_isParticles.value == true",
+        "text": "<br/>粒子数量<br/>Particles Number<br/>",
+        "type": "slider",
+        "max": 500,
+        "min": 0,
+        "value": 100
+      },
+      "particles_opacity": {
+        "order": 70,
+        "condition": "particles_isParticles.value == true",
+        "text": "<br/>粒子不透明度<br/>Particles Opacity<br/>",
+        "type": "slider",
+        "max": 100,
+        "min": 0,
+        "value": 75
+      },
+      "particles_opacityRandom": {
+        "order": 71,
+        "condition": "particles_isParticles.value == true",
+        "text": "<br/>随机不透明度<br/>Opacity Random?<br/>",
+        "type": "bool",
+        "value": true
+      },
+      "particles_color": {
+        "order": 72,
+        "condition": "particles_isParticles.value == true",
+        "text": "<br/>粒子颜色<br/>Particles Color<br/>",
+        "type": "color",
+        "value": "1 1 1"
+      },
+      "particles_shadowColor": {
+        "order": 73,
+        "condition": "particles_isParticles.value == true",
+        "text": "<br/>粒子模糊颜色<br/>Particles Blur Color<br/>",
+        "type": "color",
+        "value": "1 1 1"
+      },
+      "particles_shadowBlur": {
+        "order": 74,
+        "condition": "particles_isParticles.value == true",
+        "text": "<br/>粒子模糊程度<br/>Particles Blur Size<br/>",
+        "type": "slider",
+        "max": 5,
+        "min": 0,
+        "value": 0
+      },
+      "particles_shapeType": {
+        "order": 75,
+        "condition": "particles_isParticles.value == true",
+        "text": "<br/>粒子形状<br/>Particles Shape Type<br/>",
+        "type": "combo",
+        "options": [
+          {
+            "label": "圆形/circle",
+            "value": 1
+          },
+          {
+            "label": "正方形/edge",
+            "value": 2
+          },
+          {
+            "label": "三角形/triangle",
+            "value": 3
+          },
+          {
+            "label": "星形/star",
+            "value": 4
+          },
+          {
+            "label": "图片/image",
+            "value": 5
+          }
+        ],
+        "value": 1
+      },
+      "particles_image": {
+        "order": 76,
+        "condition": "particles_isParticles.value == true && particles_shapeType.value == 5",
+        "text": "<br/>粒子图片<br/>Particles Img<br/>",
+        "type": "file"
+      },
+      "particles_sizeValue": {
+        "order": 77,
+        "condition": "particles_isParticles.value == true",
+        "text": "<br/>粒子大小<br/>Particles Size Value<br/>",
+        "type": "slider",
+        "max": 50,
+        "min": 0,
+        "value": 5
+      },
+      "particles_sizeRandom": {
+        "order": 78,
+        "condition": "particles_isParticles.value == true",
+        "text": "<br/>随机大小<br/>Size Random?<br/>",
+        "type": "bool",
+        "value": true
+      },
+      "particles_linkEnable": {
+        "order": 79,
+        "condition": "particles_isParticles.value == true",
+        "text": "<br/>显示连线<br/>Show Line?<br/>",
+        "type": "bool",
+        "value": false
+      },
+      "particles_linkDistance": {
+        "order": 80,
+        "condition": "particles_isParticles.value == true && particles_linkEnable.value == true",
+        "text": "<br/>连线距离<br/>Line Distance<br/>",
+        "type": "slider",
+        "max": 300,
+        "min": 0,
+        "value": 100
+      },
+      "particles_linkWidth": {
+        "order": 81,
+        "condition": "particles_isParticles.value == true && particles_linkEnable.value == true",
+        "text": "<br/>连线宽度<br/>Line Width<br/>",
+        "type": "slider",
+        "max": 10,
+        "min": 0,
+        "value": 2
+      },
+      "particles_linkColor": {
+        "order": 82,
+        "condition": "particles_isParticles.value == true && particles_linkEnable.value == true",
+        "text": "<br/>连线颜色<br/>Line Color<br/>",
+        "type": "color",
+        "value": "1 1 1"
+      },
+      "particles_linkOpacity": {
+        "order": 83,
+        "condition": "particles_isParticles.value == true && particles_linkEnable.value == true",
+        "text": "<br/>连线不透明度<br/>Line Opacity<br/>",
+        "type": "slider",
+        "max": 100,
+        "min": 0,
+        "value": 75
+      },
+      "particles_isMove": {
+        "order": 84,
+        "condition": "particles_isParticles.value == true",
+        "text": "<br/>是否移动<br/>Particles Move?<br/>",
+        "type": "bool",
+        "value": true
+      },
+      "particles_speed": {
+        "order": 85,
+        "condition": "particles_isParticles.value == true",
+        "text": "<br/>粒子速度<br/>Particles Speed<br/>",
+        "type": "slider",
+        "max": 50,
+        "min": 1,
+        "value": 10
+      },
+      "particles_speedRandom": {
+        "order": 86,
+        "condition": "particles_isParticles.value == true",
+        "text": "<br/>随机速度<br/>Speed Random?<br/>",
+        "type": "bool",
+        "value": true
+      },
+      "particles_direction": {
+        "order": 87,
+        "condition": "particles_isParticles.value == true",
+        "text": "<br/>粒子方向<br/>Direction of Particles<br/>",
+        "type": "combo",
+        "options": [
+          {
+            "label": "无/none",
+            "value": 1
+          },
+          {
+            "label": "顶部/top",
+            "value": 2
+          },
+          {
+            "label": "右上角/top-right",
+            "value": 3
+          },
+          {
+            "label": "右侧/right",
+            "value": 4
+          },
+          {
+            "label": "右下角/bottom-right",
+            "value": 5
+          },
+          {
+            "label": "底部/bottom",
+            "value": 6
+          },
+          {
+            "label": "左下角/bottom-left",
+            "value": 7
+          },
+          {
+            "label": "左侧/left",
+            "value": 8
+          },
+          {
+            "label": "左上角/top-left",
+            "value": 9
+          }
+        ],
+        "value": 4
+      },
+      "particles_isStraight": {
+        "order": 88,
+        "condition": "particles_isParticles.value == true",
+        "text": "<br/>笔直移动<br/>Move Straight?<br/>",
+        "type": "bool",
+        "value": false
+      },
+      "particles_isBounce": {
+        "order": 89,
+        "condition": "particles_isParticles.value == true",
+        "text": "<br/>粒子反弹<br/>is Bounce?<br/>",
+        "type": "bool",
+        "value": false
+      },
+      "particles_moveOutMode": {
+        "order": 90,
+        "condition": "particles_isParticles.value == true",
+        "text": "<br/>离屏模式<br/>Move Out Mode<br/>",
+        "type": "combo",
+        "options": [
+          {
+            "label": "离开/Out",
+            "value": 1
+          },
+          {
+            "label": "反弹/Bounce",
+            "value": 2
+          }
+        ],
+        "value": 1
+      }
+    },
+    "supportsaudioprocessing": true
+  },
+  "preview": "preview.jpg",
+  "tags": [
+    "Relaxing"
+  ],
+  "title": "[4K]Circle Audio Visualizer(自定义背景&圆形音频可视化&多语言日期)",
+  "type": "web",
+  "visibility": "public",
+  "workshopid": 921617616
+}
