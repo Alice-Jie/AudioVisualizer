@@ -1,6 +1,8 @@
 ![mahua](https://steamuserimages-a.akamaihd.net/ugc/816685937288288292/89720D1D71A87391C3C1668779883A311D6EF73B/?interpolation=lanczos-none&output-format=jpeg&output-quality=95&fit=inside|268:268&composite-to%3D%2A%2C%2A%7C268%3A268&background-color=black)
+
 ##[4K]Circle Audio Visualizer(自定义背景&圆形音频可视化&多语言日期)
-一个在Wallpaper Engine创意工坊上的开源项目
+一个在Wallpaper Engine创意工坊上的开源项目:
+http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
 
 ##Circle Audio Visualizer目前使用的插件
 
