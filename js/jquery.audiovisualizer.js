@@ -67,6 +67,7 @@
 
 
     var lastAudioSamples = [];  // 上次音频数组记录
+
     for (var i = 0; i < 128; i++) {
         lastAudioSamples[i] = 0;
     }
@@ -77,6 +78,22 @@
 
     //私有方法
     //--------------------------------------------------------------------------------------------------------------
+
+    /**
+     *  判断音频数组是否为0
+     *
+     * @param  {Array<float>} audioSamples 音频数组
+     * @return {boolean} 零值布尔值
+     */
+    function notZero(audioSamples) {
+        audioSamples = audioSamples || [];
+        for (var i = 0; i < audioSamples.length; i++) {
+            if (audioSamples[i] !== 0) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     // 音频提取方法
     //-----------------------------------------------------------
@@ -170,7 +187,7 @@
      * @return {float} 角度
      */
     function getDeg(point, index, angle) {
-        return Math.PI / 180 * ( 360 / point ) * ( index + angle / 3 )
+        return (Math.PI / 180) * ( 360 / point ) * ( index + angle / 3 );
     }
 
     /**
@@ -213,7 +230,10 @@
         for (var i = 0; i < ringArray.length; i++) {
             var deg = getDeg(ringArray.length, i, rotationAngle1);  // 该点的度数
             var audioValue = getAudioSamples(audioSamples, i, that.decline, isChange);  // 获取当前audioSamples[i]的值
-            var radius = that.radius * (minLength / 2) + direction * (that.distance + audioValue * (that.amplitude * 15));  // 设置当前点对应的半径
+            // 设置当前点对应的半径
+            var radius = that.radius * (minLength / 2)
+                + direction * (that.distance
+                + audioValue * (that.amplitude * 15));
             var point = getXY(radius, deg, originX, originY);  // 获取当前点对应的坐标
             pointArray.push({'x': point.x, 'y': point.y});  // 将点的坐标储存至坐标数组
         }
@@ -261,7 +281,10 @@
         for (var i = 0; i < ballArray.length; i++) {
             var deg = getDeg(ballArray.length, i, rotationAngle2);  // 该点的度数
             var audioValue = Math.min(audioSamples[i] ? audioSamples[i] : 0, 1);  // 获取当前audioSamples[i]的值， 溢出部分按值1处理
-            var radius = that.radius * (minLength / 2) + (that.distance + 50) + audioValue * 75;  // 设置当前点对应的半径
+            // 设置当前点对应的半径
+            var radius = that.radius * (minLength / 2)
+                + (that.distance + 50)
+                + audioValue * 75;
             var point = getXY(radius, deg, originX, originY);  // 获取点的坐标并储存至坐标数组
             pointArray.push({'x': point.x, 'y': point.y});
         }
@@ -359,6 +382,33 @@
         context.stroke();
     }
 
+    /** 绘制音频圆环和小球 */
+    function drawAudioVisualizer(that) {
+        context.clearRect(0, 0, canvasWidth, canvasHeight);
+        // 绘制圆环
+        if (that.isRing) {
+            if (that.isStaticRing) {
+                drawRing(staticPointsArray);
+            }
+            if (that.isInnerRing) {
+                drawRing(pointArray1);
+            }
+            if (that.isOuterRing) {
+                drawRing(pointArray2);
+            }
+        }
+        // 绘制连线
+        var firstArray  = getPointArray(that.firstPoint);
+        var secondArray = getPointArray(that.secondPoint);
+        if (that.isLineTo && that.firstPoint !== that.secondPoint) {
+            drawLine(firstArray, secondArray);
+        }
+        // 绘制小球
+        if (that.isBall) {
+            drawBall(ballPointArray, that.ballSize);
+        }
+    }
+
     //构造函数和公共方法
     //--------------------------------------------------------------------------------------------------------------
 
@@ -420,6 +470,12 @@
         minLength = Math.min(canvasWidth, canvasHeight);
         originX = canvasWidth * this.offsetX;
         originY = canvasHeight * this.offsetY;
+        // 初始化坐标数组
+        pointArray1 = setPoint(lastAudioSamples, -1, this, true);
+        pointArray2 = setPoint(lastAudioSamples, 1, this, false);
+        staticPointsArray = setStaticPoint(lastAudioSamples, this);
+        ballPointArray = setBall(lastAudioSamples, this);
+        rotation(this.rotation);  // 更新角度偏移值
 
         // 创建并初始化绘图的环境
         context = canvas.getContext('2d');
@@ -434,6 +490,7 @@
         $(this.$el).append(canvas);  // 添加canvas
 
         this.setupPointerEvents();  // 添加交互事件
+        drawAudioVisualizer(this);  // 绘制音频圆环
     };
 
     // 公共方法
@@ -450,6 +507,7 @@
                     var y = e.clientY || canvasHeight * that.offsetY;
                     that.offsetX = x / canvasWidth;
                     that.offsetY = y / canvasHeight;
+                    drawAudioVisualizer(this);
                 }
             });
 
@@ -477,42 +535,18 @@
          * @param  {Array<float>} audioSamples 音频数组
          */
         drawCanvas: function (audioSamples) {
-            this.clearCanvas();
-            // 获取位置
+            // 更新原点坐标位置
             originX = canvasWidth * this.offsetX;
             originY = canvasHeight * this.offsetY;
-            // 获取数组坐标
+            // 更新数组坐标
             pointArray1 = setPoint(audioSamples, -1, this, true);
             pointArray2 = setPoint(audioSamples, 1, this, false);
             staticPointsArray = setStaticPoint(audioSamples, this);
             ballPointArray = setBall(audioSamples, this);
             rotation(this.rotation);  // 更新角度偏移值
-
-            // 绘制圆环和小球
-            if (this.isRing) {
-                if (this.isStaticRing) {
-                    drawRing(staticPointsArray);
-                }
-                if (this.isInnerRing) {
-                    drawRing(pointArray1);
-                }
-                if (this.isOuterRing) {
-                    drawRing(pointArray2);
-                }
+            if (notZero(audioSamples) || notZero(lastAudioSamples) || this.ringRotation || this.ballRotation) {
+                drawAudioVisualizer(this);
             }
-
-            // 绘制连线
-            var firstArray  = getPointArray(this.firstPoint);
-            var secondArray = getPointArray(this.secondPoint);
-            if (this.isLineTo && this.firstPoint !== this.secondPoint) {
-                drawLine(firstArray, secondArray);
-            }
-
-            // 绘制小球
-            if (this.isBall) {
-                drawBall(ballPointArray, this.ballSize);
-            }
-
         },
 
         /** 移除canvas */
@@ -536,19 +570,25 @@
                 case 'color':
                     context.fillStyle = 'rgb(' + value + ')';
                     context.strokeStyle = 'rgb(' + value + ')';
+                    drawAudioVisualizer(this);
                     break;
                 case 'shadowColor':
                     context.shadowColor = 'rgb(' + value + ')';
+                    drawAudioVisualizer(this);
                     break;
                 case 'shadowBlur':
                     context.shadowBlur = value;
+                    drawAudioVisualizer(this);
                     break;
                 case 'lineWidth':
                     context.lineWidth = value;
+                    drawAudioVisualizer(this);
+                    break;
+                case 'isClickOffset':
+                    this[property] = value;
                     break;
                 case 'offsetX':
                 case 'offsetY':
-                case 'isClickOffset':
                 case 'isRing':
                 case 'isStaticRing':
                 case 'isInnerRing':
@@ -567,6 +607,7 @@
                 case 'ballSize':
                 case 'ballRotation':
                     this[property] = value;
+                    drawAudioVisualizer(this);
                     break;
             }
         }
