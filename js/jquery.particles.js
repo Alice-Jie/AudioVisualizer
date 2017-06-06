@@ -697,7 +697,6 @@
 
         initParticlesArray(this);  // 初始化粒子列表
         this.setupPointerEvents();
-
     };
 
     // 公共方法

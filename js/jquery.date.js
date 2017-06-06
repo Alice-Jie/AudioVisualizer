@@ -1,6 +1,6 @@
 /**
  * jQuery date plugin v0.0.2
- * momentjs: http://momentjs.cn/
+ * moment.js: http://momentjs.cn/
  * project: http://steamcommunity.com/sharedfiles/filedetails/?id=921617616&searchtext=
  * @license MIT licensed
  * @author Alice
@@ -124,6 +124,9 @@
         }
     }
 
+    // 计时器方法
+    //-----------------------------------------------------------
+
     /**
      * 开始时间计时器
      *
@@ -224,7 +227,6 @@
         // 默认开启
         this.setupPointerEvents();
         this.startDate();
-
     };
 
     // 公共方法

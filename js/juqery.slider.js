@@ -1220,7 +1220,6 @@
 
         // 添加交互事件
         this.setupPointerEvents();
-
     };
 
     // 公共方法

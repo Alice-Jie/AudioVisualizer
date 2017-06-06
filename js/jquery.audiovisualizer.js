@@ -1,9 +1,9 @@
 /**
- * jQuery AudioVisualizer plugin v0.0.1
+ * jQuery AudioVisualizer plugin v0.0.2
  * project: http://steamcommunity.com/sharedfiles/filedetails/?id=921617616&searchtext=
  * @license MIT licensed
  * @author Alice
- * @date 2017/06/04
+ * @date 2017/06/06
  */
 
 (function (global, factory) {
@@ -562,7 +562,7 @@
             updateAudioVisualizer(this, audioSamples);
             if (notZero(audioSamples)
                 || notZero(lastAudioSamples)
-                || this.ringRotation
+                || (this.ringRotation && this.isLineTo)
                 || this.ballRotation) {
                 drawAudioVisualizer(this);
                 runCount = 1;
