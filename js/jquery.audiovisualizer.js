@@ -76,6 +76,8 @@
     var rotationAngle1 = 0,
         rotationAngle2 = 0;
 
+    var runCount = 1;  // 绘制次数
+
     //私有方法
     //--------------------------------------------------------------------------------------------------------------
 
@@ -311,6 +313,22 @@
         }
     }
 
+    /**
+     * 更新坐标数组
+     *
+     * @param {Function}     that         方法AudioVisualizer
+     * @param {Array<float>} audioSamples 音频数组
+     */
+    function updateAudioVisualizer(that, audioSamples) {
+        originX = canvasWidth * that.offsetX;
+        originY = canvasHeight * that.offsetY;
+        pointArray1 = setPoint(audioSamples, -1, that, true);
+        pointArray2 = setPoint(audioSamples, 1, that, false);
+        staticPointsArray = setStaticPoint(audioSamples, that);
+        ballPointArray = setBall(audioSamples, that);
+        rotation(that.rotation);  // 更新角度偏移值
+    }
+
     // Canvas绘制方法
     //-----------------------------------------------------------
 
@@ -382,7 +400,19 @@
         context.stroke();
     }
 
-    /** 绘制音频圆环和小球 */
+    /**
+     * 绘制音频圆环和小球
+     *
+     * @param {Function} that 方法AudioVisualizer
+     * - that.isRing      {boolean} 显示圆环开关
+     * - that.isInnerRing {boolean} 显示内环开关
+     * - that.isOuterRing {boolean} 显示外环开关
+     * - that.firstPoint  {int}     始点编号
+     * - that.secondPoint {int}     末点编号
+     * - that.isLineTo    {boolean} 显示连线开关
+     * - that.isBall      {boolean} 显示小球开关
+     * - that.ballSize    {int}     小球大小
+     */
     function drawAudioVisualizer(that) {
         context.clearRect(0, 0, canvasWidth, canvasHeight);
         // 绘制圆环
@@ -398,7 +428,7 @@
             }
         }
         // 绘制连线
-        var firstArray  = getPointArray(that.firstPoint);
+        var firstArray = getPointArray(that.firstPoint);
         var secondArray = getPointArray(that.secondPoint);
         if (that.isLineTo && that.firstPoint !== that.secondPoint) {
             drawLine(firstArray, secondArray);
@@ -424,7 +454,7 @@
         // 全局参数
         this.opacity = options.opacity;              // 不透明度
         this.color = options.color;                  // 颜色
-		this.shadowColor = options.shadowColor;      // 阴影颜色
+        this.shadowColor = options.shadowColor;      // 阴影颜色
         this.shadowBlur = options.shadowBlur;        // 模糊大小
         // 坐标参数
         this.offsetX = options.offsetX;              // X坐标偏移
@@ -468,14 +498,6 @@
 
         // 获取最小宽度以及原点
         minLength = Math.min(canvasWidth, canvasHeight);
-        originX = canvasWidth * this.offsetX;
-        originY = canvasHeight * this.offsetY;
-        // 初始化坐标数组
-        pointArray1 = setPoint(lastAudioSamples, -1, this, true);
-        pointArray2 = setPoint(lastAudioSamples, 1, this, false);
-        staticPointsArray = setStaticPoint(lastAudioSamples, this);
-        ballPointArray = setBall(lastAudioSamples, this);
-        rotation(this.rotation);  // 更新角度偏移值
 
         // 创建并初始化绘图的环境
         context = canvas.getContext('2d');
@@ -490,7 +512,9 @@
         $(this.$el).append(canvas);  // 添加canvas
 
         this.setupPointerEvents();  // 添加交互事件
-        drawAudioVisualizer(this);  // 绘制音频圆环
+        // 绘制音频圆环
+        updateAudioVisualizer(this, lastAudioSamples);
+        drawAudioVisualizer(this);
     };
 
     // 公共方法
@@ -507,14 +531,14 @@
                     var y = e.clientY || canvasHeight * that.offsetY;
                     that.offsetX = x / canvasWidth;
                     that.offsetY = y / canvasHeight;
-                    drawAudioVisualizer(this);
+                    drawAudioVisualizer(that);
                 }
             });
 
             // 窗体改变事件
-            $(window).on('resize', function() {
+            $(window).on('resize', function () {
                 // 改变宽度和高度
-                canvasWidth =  window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+                canvasWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
                 canvasHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
                 // 获取最小宽度以及原点
                 minLength = Math.min(canvasWidth, canvasHeight);
@@ -535,22 +559,22 @@
          * @param  {Array<float>} audioSamples 音频数组
          */
         drawCanvas: function (audioSamples) {
-            // 更新原点坐标位置
-            originX = canvasWidth * this.offsetX;
-            originY = canvasHeight * this.offsetY;
-            // 更新数组坐标
-            pointArray1 = setPoint(audioSamples, -1, this, true);
-            pointArray2 = setPoint(audioSamples, 1, this, false);
-            staticPointsArray = setStaticPoint(audioSamples, this);
-            ballPointArray = setBall(audioSamples, this);
-            rotation(this.rotation);  // 更新角度偏移值
-            if (notZero(audioSamples) || notZero(lastAudioSamples) || this.ringRotation || this.ballRotation) {
+            updateAudioVisualizer(this, audioSamples);
+            if (notZero(audioSamples)
+                || notZero(lastAudioSamples)
+                || this.ringRotation
+                || this.ballRotation) {
                 drawAudioVisualizer(this);
+                runCount = 1;
+            } else if(runCount > 0) {
+                drawAudioVisualizer(this);
+                runCount--;
             }
+
         },
 
         /** 移除canvas */
-        destroy: function() {
+        destroy: function () {
             this.$el
                 .off('#canvas-audio')
                 .removeData('audiovisualizer');
@@ -607,6 +631,7 @@
                 case 'ballSize':
                 case 'ballRotation':
                     this[property] = value;
+                    updateAudioVisualizer(this, lastAudioSamples);
                     drawAudioVisualizer(this);
                     break;
             }

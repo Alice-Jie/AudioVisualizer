@@ -262,7 +262,7 @@
         "type": "slider",
         "max": 10,
         "min": 0,
-        "value": 3
+        "value": 0
       },
       "global_offsetX": {
         "order": 20,
@@ -390,7 +390,7 @@
         "type": "slider",
         "max": 10,
         "min": 0,
-        "value": 3
+        "value": 0
       },
       "audio_offsetX": {
         "order": 37,
@@ -770,7 +770,7 @@
         "type": "slider",
         "max": 10,
         "min": 0,
-        "value": 3
+        "value": 0
       },
       "date_offsetX": {
         "order": 64,
