@@ -570,9 +570,11 @@
                 break;
             // 绘制图片
             case 'image':
+                var width, height;  // 图片宽度和高度
+                width = currantCanvas.width;
+                height = currantCanvas.height;
                 if(currantCanvas.width > particles.radius * 10 || currantCanvas.height > particles.radius * 10) {
                     var scaling = 0.5;  // 缩放值
-                    var width, height;  // 绘制宽度和高度
                     if (currantCanvas.width > currantCanvas.height) {
                         scaling = particles.radius * 10 / currantCanvas.width ;
                     } else {
