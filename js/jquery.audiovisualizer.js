@@ -173,11 +173,12 @@
      */
     function rotation(rotationAngle, deg) {
         rotationAngle += Math.PI / 180 * deg;
-        if (rotationAngle >= 360 && rotationAngle <= 360) {
-            rotationAngle = 0;
+        if (rotationAngle >= Math.PI * 2) {
+            rotationAngle = rotationAngle - Math.PI * 2;
+        } else if (rotationAngle <= Math.PI * -2) {
+            rotationAngle = rotationAngle - Math.PI * -2;
         }
         return rotationAngle;
-
     }
 
     /**

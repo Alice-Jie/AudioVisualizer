@@ -891,8 +891,24 @@
         "text": "<br/>粒子图片<br/>Particles Img<br/>",
         "type": "file"
       },
-      "particles_sizeValue": {
+      "particles_rotationAngle": {
         "order": 77,
+        "condition": "particles_isParticles.value == true",
+        "text": "<br/>粒子旋转角度<br/>Particles Rotation Angle<br/>",
+        "type": "slider",
+        "max": 90,
+        "min": -90,
+        "value": 0
+      },
+      "particles_angleRandom": {
+        "order": 78,
+        "condition": "particles_isParticles.value == true",
+        "text": "<br/>随机角度<br/>Angle Random?<br/>",
+        "type": "bool",
+        "value": true
+      },
+      "particles_sizeValue": {
+        "order": 79,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>粒子大小<br/>Particles Size Value<br/>",
         "type": "slider",
@@ -901,21 +917,21 @@
         "value": 5
       },
       "particles_sizeRandom": {
-        "order": 78,
+        "order": 80,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>随机大小<br/>Size Random?<br/>",
         "type": "bool",
         "value": true
       },
       "particles_linkEnable": {
-        "order": 79,
+        "order": 81,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>显示连线<br/>Show Line?<br/>",
         "type": "bool",
         "value": false
       },
       "particles_linkDistance": {
-        "order": 80,
+        "order": 82,
         "condition": "particles_isParticles.value == true && particles_linkEnable.value == true",
         "text": "<br/>连线距离<br/>Line Distance<br/>",
         "type": "slider",
@@ -924,7 +940,7 @@
         "value": 100
       },
       "particles_linkWidth": {
-        "order": 81,
+        "order": 83,
         "condition": "particles_isParticles.value == true && particles_linkEnable.value == true",
         "text": "<br/>连线宽度<br/>Line Width<br/>",
         "type": "slider",
@@ -933,14 +949,14 @@
         "value": 2
       },
       "particles_linkColor": {
-        "order": 82,
+        "order": 84,
         "condition": "particles_isParticles.value == true && particles_linkEnable.value == true",
         "text": "<br/>连线颜色<br/>Line Color<br/>",
         "type": "color",
         "value": "1 1 1"
       },
       "particles_linkOpacity": {
-        "order": 83,
+        "order": 85,
         "condition": "particles_isParticles.value == true && particles_linkEnable.value == true",
         "text": "<br/>连线不透明度<br/>Line Opacity<br/>",
         "type": "slider",
@@ -949,14 +965,14 @@
         "value": 75
       },
       "particles_isMove": {
-        "order": 84,
+        "order": 86,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>是否移动<br/>Particles Move?<br/>",
         "type": "bool",
         "value": true
       },
       "particles_speed": {
-        "order": 85,
+        "order": 87,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>粒子速度<br/>Particles Speed<br/>",
         "type": "slider",
@@ -965,14 +981,14 @@
         "value": 10
       },
       "particles_speedRandom": {
-        "order": 86,
+        "order": 88,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>随机速度<br/>Speed Random?<br/>",
         "type": "bool",
         "value": true
       },
       "particles_direction": {
-        "order": 87,
+        "order": 89,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>粒子方向<br/>Direction of Particles<br/>",
         "type": "combo",
@@ -1017,21 +1033,21 @@
         "value": 4
       },
       "particles_isStraight": {
-        "order": 88,
+        "order": 90,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>笔直移动<br/>Move Straight?<br/>",
         "type": "bool",
         "value": false
       },
       "particles_isBounce": {
-        "order": 89,
+        "order": 91,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>粒子反弹<br/>is Bounce?<br/>",
         "type": "bool",
         "value": false
       },
       "particles_moveOutMode": {
-        "order": 90,
+        "order": 92,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>离屏模式<br/>Move Out Mode<br/>",
         "type": "combo",

@@ -786,6 +786,14 @@
             if (properties.particles_image) {
                 wallpaper.particles('particlesImage', properties.particles_image.value);
             }
+            // 粒子旋转角度
+            if (properties.particles_rotationAngle) {
+                wallpaper.particles('set', 'rotationAngle', properties.particles_rotationAngle.value);
+            }
+            // 随机角度
+            if (properties.particles_angleRandom) {
+                wallpaper.particles('set', 'angleRandom', properties.particles_angleRandom.value);
+            }
             // 粒子大小
             if (properties.particles_sizeValue) {
                 wallpaper.particles('set', 'sizeValue', properties.particles_sizeValue.value);
