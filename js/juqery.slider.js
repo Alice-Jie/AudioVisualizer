@@ -100,6 +100,20 @@
     }
 
     /**
+     * 随机数组索引
+     * @param {int}            index 当前数组索引
+     * @param {Array|<string>} array 字符串数组
+     */
+    function randomIndex (index, array) {
+        var old = index;
+        index = Math.floor(Math.random() * (array.length));
+        if (index === old) {
+            index = randomIndex(index, array);
+        }
+        return index;
+    }
+
+    /**
      *  更新数组索引值
      *
      *  @param {Array<*>} array    数组
@@ -121,17 +135,7 @@
                     return 0;
                 }
                 // 随机读取
-                index = Math.floor(Math.random() * (array.length));
-                if (index === array.length) {
-                    index = array.length - 1;
-                }
-                // 如果读取到当前索引，重新读取
-                while (index === old) {
-                    index = Math.floor(Math.random() * (array.length));
-                    if (index === array.length) {
-                        index = array.length - 1;
-                    }
-                }
+                index = randomIndex(index, array);
             } else {
                 // 顺序读取
                 index + 1 < array.length ? index++ : index = 0;
