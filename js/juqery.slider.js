@@ -1282,6 +1282,8 @@
         cssSrcUserImg: function () {
             if (userImg) {
                 this.$el.css('background-image', "url('file:///" + userImg + "')");
+            } else {
+                this.$el.css('background-image', 'url(img/bg.png)');
             }
         },
 
@@ -1306,8 +1308,12 @@
 
         /** 设置当前图片为用户图片 */
         imgSrcUserImg: function () {
-            if (isRun && userImg) {
-                currantImg.src = 'file:///' + userImg;
+            if (isRun) {
+                if (userImg) {
+                    currantImg.src = 'file:///' + userImg;
+                } else {
+                    currantImg.src = 'img/bg.png';
+                }
             }
         },
 
@@ -1316,20 +1322,27 @@
             currantImg.src = 'img/bg.png';
         },
 
+        /** 绘制用户图片 */
+        drawUserImg: function () {
+            if (isRun) {
+                if (userImg) {
+                    currantImg.src = 'file:///' + userImg;
+                    currantImg.onload = function () {
+                        context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
+                    };
+                } else {
+                    currantImg.src = 'img/bg.png';
+                    currantImg.onload = function () {
+                        context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
+                    };
+                }
+            }
+        },
+
         /** 绘制默认图片 */
         drawDefaultImg: function () {
             if (isRun) {
                 currantImg.src = 'img/bg.png';
-                currantImg.onload = function () {
-                    context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
-                };
-            }
-        },
-
-        /** 绘制用户图片 */
-        drawUserImg: function () {
-            if (isRun) {
-                currantImg.src = 'file:///' + userImg;
                 currantImg.onload = function () {
                     context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
                 };

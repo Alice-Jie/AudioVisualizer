@@ -236,14 +236,24 @@
                             wallpaper.slider('clearCanvas')
                                 .slider('delImg');
                     }
-                    wallpaper.slider('startSlider');
+                    wallpaper.slider('startSlider')
+                        .slider('changeSlider', sliderStyle);
                 } else {
                     wallpaper.slider('setIsRun', false)
                         .slider('stopSlider')
                         .slider('clearCanvas')
                         .slider('delImg')
-                        .slider('cssSrcDefaultImg')
                         .slider('cssSrcUserImg');
+                }
+            }
+            // 图片文件夹
+            if (properties.directory) {
+                if (properties.directory.value) {
+                    wallpaper.slider('changeSlider', sliderStyle);
+                } else {
+                    wallpaper.slider('clearCanvas')
+                        .slider('cssSrcUserImg')
+                        .slider('imgSrcUserImg');
                 }
             }
             // 滑动样式
