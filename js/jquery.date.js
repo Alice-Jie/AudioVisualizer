@@ -1,10 +1,10 @@
 /**
- * jQuery date plugin v0.0.2
+ * jQuery date plugin v0.0.3
  * moment.js: http://momentjs.cn/
  * project: http://steamcommunity.com/sharedfiles/filedetails/?id=921617616&searchtext=
  * @license MIT licensed
  * @author Alice
- * @date 2017/06/04
+ * @date 2017/06/09
  */
 
 (function (global, factory) {
@@ -60,7 +60,21 @@
     var originX, originY;           // 原点位置
     var minLength = 300;            // 最小长度
 
-    var timer = null;  // 时间计时器
+    var city = 'beijing';  // 城市
+    var weather = {
+        basic: {
+            cnty: '中国',  // 国家
+            city: '北京'   // 城市
+        },
+        now: {
+            cond: '晴',    // 天气状况描述
+            tmp: '15'      // 温度
+        }
+    };
+    var weatherStr = '';   // 天气信息
+
+    var timer = null;         // 时间计时器
+    var weatherTimer = null;  // 天气计时器
 
     //私有方法
     //--------------------------------------------------------------------------------------------------------------
@@ -100,6 +114,37 @@
     }
 
     /**
+     * 获取天气
+     * - 请勿盗取使用本人key，请到和风天气申请key使用（https://www.heweather.com/）
+     * - 访问次数限制：4000
+     *
+     * @param {string} city 城市（China）
+     * @return {JSON} 事实天气
+     */
+    function getWeather(city) {
+        $.ajax({
+            dataType: "json",
+            type: "GET",
+            url: 'https://free-api.heweather.com/v5/now?city=' + city + '&key=71f9989659254be9a991375a04511d54',
+            success: function (result) {
+                // 获取天气信息
+                weather.basic.cnty = result.HeWeather5[0].basic.cnty;
+                weather.basic.city = result.HeWeather5[0].basic.city;
+                weather.now.cond = result.HeWeather5[0].now.cond.txt;
+                weather.now.tmp = result.HeWeather5[0].now.tmp;
+                // 写入weatherStr
+                weatherStr = weather.basic.cnty + ' '
+                    + weather.basic.city + ' '
+                    + weather.now.cond
+                    + ' ' + weather.now.tmp + '℃';
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                weatherStr = '读取城市天气失败，请检查城市名';
+            }
+        });
+    }
+
+    /**
      * 获取日期
      *
      * @param  {int} dateStyle 日期风格选择
@@ -121,6 +166,8 @@
                 return moment().format('MMM Do');
             case 7:
                 return moment().format('[Days] DDDD');
+            case 8:
+                return weatherStr || '读取天气数据中...';
         }
     }
 
@@ -157,6 +204,20 @@
     /** 停止时间计时器 */
     function stopDateTimer() {
         setInterval(timer);
+    }
+
+    /** 开始天气计时器 */
+    function runWeatherTimer() {
+        // 每隔3个小时读取一次天气
+        weatherTimer = setInterval(
+            function () {
+                getWeather(city);
+            }, 10800000);
+    }
+
+    /** 停止天气计时器 */
+    function stopWeatherTimer() {
+        setInterval(weatherTimer);
     }
 
     //构造函数和公共方法
@@ -248,9 +309,9 @@
             });
 
             // 窗体改变事件
-            $(window).on('resize', function() {
+            $(window).on('resize', function () {
                 // 改变宽度和高度
-                canvasWidth =  window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+                canvasWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
                 canvasHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
                 // 获取最小宽度以及原点
                 minLength = Math.min(canvasWidth, canvasHeight);
@@ -258,6 +319,12 @@
                 originY = canvasHeight * this.offsetY;
             });
 
+        },
+
+        /** 设置城市 */
+        setCity: function (c) {
+            city = c;
+            getWeather(city);
         },
 
         /** 清除Canvas内容 */
@@ -280,6 +347,7 @@
 
         /** 开始绘制时间 */
         startDate: function () {
+            stopDateTimer();
             runDateTimer(this);
         },
 
@@ -288,8 +356,19 @@
             stopDateTimer();
         },
 
+        /** 开始天气计时器 */
+        startWeather: function () {
+            stopWeatherTimer();
+            runWeatherTimer();
+        },
+
+        /** 停止天气计时器 */
+        stopWeather: function () {
+            stopWeatherTimer();
+        },
+
         /** 移除canvas */
-        destroy: function() {
+        destroy: function () {
             this.$el
                 .off('#canvas-date')
                 .removeData('date');

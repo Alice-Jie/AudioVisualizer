@@ -196,7 +196,7 @@
             // 背景颜色
             if (properties.image_BGColor) {
                 var color = properties.image_BGColor.value.split(' ').map(function (c) {
-                    return Math.ceil(c * 255)
+                    return Math.ceil(c * 255);
                 });
                 wallpaper.css({
                     'background-image': 'none',
@@ -307,7 +307,7 @@
             // IMG背景颜色
             if (properties.IMG_BGColor) {
                 var color = properties.IMG_BGColor.value.split(' ').map(function (c) {
-                    return Math.ceil(c * 255)
+                    return Math.ceil(c * 255);
                 });
                 wallpaper.slider('set', 'imgBGColor', color);
             }
@@ -425,7 +425,7 @@
             // 颜色
             if (properties.global_color) {
                 globalSettings.color = properties.global_color.value.split(' ').map(function (c) {
-                    return Math.ceil(c * 255)
+                    return Math.ceil(c * 255);
                 });
                 if (isGlobalSettings === true) {
                     wallpaper.audiovisualizer('set', 'color', globalSettings.color)
@@ -435,7 +435,7 @@
             // 模糊颜色
             if (properties.global_shadowColor) {
                 globalSettings.shadowColor = properties.global_shadowColor.value.split(' ').map(function (c) {
-                    return Math.ceil(c * 255)
+                    return Math.ceil(c * 255);
                 });
                 if (isGlobalSettings === true) {
                     wallpaper.audiovisualizer('set', 'shadowColor', globalSettings.shadowColor)
@@ -540,7 +540,7 @@
             // 圆环和小球颜色
             if (properties.audio_color) {
                 audio.color = properties.audio_color.value.split(' ').map(function (c) {
-                    return Math.ceil(c * 255)
+                    return Math.ceil(c * 255);
                 });
                 if (isGlobalSettings === false) {
                     wallpaper.audiovisualizer('set', 'color', audio.color);
@@ -549,7 +549,7 @@
             // 圆环和小球模糊颜色
             if (properties.audio_shadowColor) {
                 audio.shadowColor = properties.audio_shadowColor.value.split(' ').map(function (c) {
-                    return Math.ceil(c * 255)
+                    return Math.ceil(c * 255);
                 });
                 if (isGlobalSettings === false) {
                     wallpaper.audiovisualizer('set', 'shadowColor', audio.shadowColor);
@@ -651,6 +651,16 @@
             // 日期样式
             if (properties.date_dateStyle) {
                 wallpaper.date('set', 'dateStyle', properties.date_dateStyle.value);
+                // 天气计时器开关
+                if (properties.date_dateStyle === 8) {
+                    wallpaper.date('startWeather');
+                } else {
+                    wallpaper.date('stopWeather');
+                }
+            }
+            // 天气城市
+            if (properties.date_city) {
+                wallpaper.date('setCity', properties.date_city.value);
             }
             // 字体大小
             if (properties.date_fontSize) {
@@ -675,7 +685,7 @@
             // 日期颜色
             if (properties.date_color) {
                 date.color = properties.date_color.value.split(' ').map(function (c) {
-                    return Math.ceil(c * 255)
+                    return Math.ceil(c * 255);
                 });
                 if (isGlobalSettings === false) {
                     wallpaper.date('set', 'color', date.color);
@@ -684,7 +694,7 @@
             // 日期模糊颜色
             if (properties.date_shadowColor) {
                 date.shadowColor = properties.date_shadowColor.value.split(' ').map(function (c) {
-                    return Math.ceil(c * 255)
+                    return Math.ceil(c * 255);
                 });
                 if (isGlobalSettings === false) {
                     wallpaper.date('set', 'shadowColor', date.shadowColor);
@@ -746,14 +756,14 @@
             // 粒子颜色
             if (properties.particles_color) {
                 var color = properties.particles_color.value.split(' ').map(function (c) {
-                    return Math.ceil(c * 255)
+                    return Math.ceil(c * 255);
                 });
                 wallpaper.particles('set', 'color', color);
             }
             // 粒子模糊颜色
             if (properties.particles_shadowColor) {
                 var color = properties.particles_shadowColor.value.split(' ').map(function (c) {
-                    return Math.ceil(c * 255)
+                    return Math.ceil(c * 255);
                 });
                 wallpaper.particles('set', 'shadowColor', color);
             }
@@ -818,7 +828,7 @@
             // 连线颜色
             if (properties.particles_linkColor) {
                 var color = properties.particles_linkColor.value.split(' ').map(function (c) {
-                    return Math.ceil(c * 255)
+                    return Math.ceil(c * 255);
                 });
                 wallpaper.particles('set', 'linkColor', color);
             }

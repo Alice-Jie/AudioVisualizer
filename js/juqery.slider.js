@@ -104,7 +104,7 @@
      * @param {int}            index 当前数组索引
      * @param {Array|<string>} array 字符串数组
      */
-    function randomIndex (index, array) {
+    function randomIndex(index, array) {
         var old = index;
         index = Math.floor(Math.random() * (array.length));
         if (index === old) {
@@ -1218,7 +1218,7 @@
             'width': canvasWidth,
             'height': canvasHeight,
             'object-fit': this.imgFit,
-            'background-color':  'rgb(' + this.imgBGColor + ')',
+            'background-color': 'rgb(' + this.imgBGColor + ')',
             'z-index': -1
         });  // currantImg CSS
 
@@ -1240,9 +1240,9 @@
             });
 
             // 窗体改变事件
-            $(window).on('resize', function() {
+            $(window).on('resize', function () {
                 // 改变宽度和高度
-                canvasWidth =  window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+                canvasWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
                 canvasHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
                 // 获取最小宽度以及原点
                 originX = canvasWidth * this.offsetX;
@@ -1306,8 +1306,8 @@
 
         /** 设置当前图片为用户图片 */
         imgSrcUserImg: function () {
-            if(isRun && userImg) {
-                currantImg.src =  'file:///' + userImg;
+            if (isRun && userImg) {
+                currantImg.src = 'file:///' + userImg;
             }
         },
 

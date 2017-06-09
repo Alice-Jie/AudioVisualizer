@@ -182,8 +182,8 @@
      * @param {int}     index 粒子数组索引
      * @param {boolean} isBounce 粒子反弹开关
      */
-    function bounceParticles (index, isBounce) {
-        if(isBounce) {
+    function bounceParticles(index, isBounce) {
+        if (isBounce) {
             for (var i = 0; i < particlesArray.length; i++) {
                 // 跳过索引相同的粒子
                 if (i === index) {
@@ -307,18 +307,18 @@
                 // 粒子全局属性
                 opacity: that.opacity,           // 不透明度
                 color: that.color,               // 粒子颜色
-                shadowColor: that.shadowColor,  // 阴影颜色
-                shadowBlur: that.shadowBlur,    // 模糊大小
+                shadowColor: that.shadowColor,   // 阴影颜色
+                shadowBlur: that.shadowBlur,     // 模糊大小
                 // 尺寸属性
-                shapeType: that.shapeType,      // 粒子形状
-                rotationAngle: 0,              // 旋转角度
-                currantAngle: 0,               // 当前角度
+                shapeType: that.shapeType,       // 粒子形状
+                rotationAngle: 0,                // 旋转角度
+                currantAngle: 0,                 // 当前角度
                 // 大小属性
-                radius: that.sizeValue,         // 粒子大小
+                radius: that.sizeValue,          // 粒子大小
                 // 坐标属性
                 x: x,                            // X轴坐标
                 y: y,                            // Y轴坐标
-                speed: 0,                       // 移动速度
+                speed: 0,                        // 移动速度
                 vx: 0,                           // X轴方向向量
                 vy: 0                            // Y轴方向向量
             });
@@ -373,8 +373,8 @@
                     shadowBlur: that.shadowBlur,    // 模糊大小
                     // 尺寸属性
                     shapeType: that.shapeType,      // 粒子形状
-                    rotationAngle: 0,              // 旋转角度
-                    currantAngle: 0,               // 当前角度
+                    rotationAngle: 0,               // 旋转角度
+                    currantAngle: 0,                // 当前角度
                     // 大小属性
                     radius: that.sizeValue,         // 粒子大小
                     // 坐标属性
@@ -547,13 +547,13 @@
             case 'edge':
                 context.translate(particles.x + particles.radius / 2, particles.y + particles.radius / 2);
                 context.rotate(particles.currantAngle);
-                context.rect( - particles.radius,  - particles.radius, particles.radius * 2, particles.radius * 2);
+                context.rect(-particles.radius, -particles.radius, particles.radius * 2, particles.radius * 2);
                 break;
             // 绘制三角形
             case 'triangle':
                 context.translate(particles.x + particles.radius / 2, particles.y + particles.radius / 2);
                 context.rotate(particles.currantAngle);
-                drawShape(context, - particles.radius, particles.radius / 1.66, particles.radius * 2, 3, 2);
+                drawShape(context, -particles.radius, particles.radius / 1.66, particles.radius * 2, 3, 2);
                 break;
             // 绘制星形
             case 'star':
@@ -561,8 +561,8 @@
                 context.rotate(particles.currantAngle);
                 drawShape(
                     context,
-                    - particles.radius * 2 / (5 / 4),      // startX
-                    - particles.radius / (2 * 2.66 / 3.5), // startY
+                    -particles.radius * 2 / (5 / 4),      // startX
+                    -particles.radius / (2 * 2.66 / 3.5), // startY
                     particles.radius * 2 * 2.66 / (5 / 3), // sideLength
                     5,                                      // sideCountNumerator
                     2                                       // sideCountDenominator
@@ -573,10 +573,10 @@
                 var width, height;  // 图片宽度和高度
                 width = currantCanvas.width;
                 height = currantCanvas.height;
-                if(currantCanvas.width > particles.radius * 10 || currantCanvas.height > particles.radius * 10) {
+                if (currantCanvas.width > particles.radius * 10 || currantCanvas.height > particles.radius * 10) {
                     var scaling = 0.5;  // 缩放值
                     if (currantCanvas.width > currantCanvas.height) {
-                        scaling = particles.radius * 10 / currantCanvas.width ;
+                        scaling = particles.radius * 10 / currantCanvas.width;
                     } else {
                         scaling = particles.radius * 10 / currantCanvas.height;
                     }
@@ -585,7 +585,7 @@
                 }
                 context.translate(particles.x + particles.radius / 2, particles.y + particles.radius / 2);
                 context.rotate(particles.currantAngle);
-                context.drawImage(currantCanvas, - width / 2, - height / 2, width, height);
+                context.drawImage(currantCanvas, -width / 2, -height / 2, width, height);
                 break;
         }
         context.closePath();
@@ -750,9 +750,9 @@
         setupPointerEvents: function () {
 
             // 窗体改变事件
-            $(window).on('resize', function() {
+            $(window).on('resize', function () {
                 // 改变宽度和高度
-                canvasWidth =  window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+                canvasWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
                 canvasHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
             });
 
@@ -777,9 +777,9 @@
             }
             // 绘制离屏Canvas
             img.onload = function () {
-                if(img.width > imgWidth || img.height > imgHeight) {
+                if (img.width > imgWidth || img.height > imgHeight) {
                     var scaling = 0.5;  // 缩放值
-                    if(img.width > img.height) {
+                    if (img.width > img.height) {
                         scaling = imgWidth / img.width;
                     } else {
                         scaling = imgHeight / img.height;
