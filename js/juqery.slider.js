@@ -1,9 +1,9 @@
 /**
- * jQuery Slider plugin v0.0.6
+ * jQuery Slider plugin v0.0.7
  * project: http://steamcommunity.com/sharedfiles/filedetails/?id=921617616&searchtext=
  * @license MIT licensed
  * @author Alice
- * @date 2017/05/28
+ * @date 2017/06/09
  */
 
 (function (global, factory) {
@@ -1278,6 +1278,18 @@
             }
         },
 
+        /** 设置background-image为用户图片 */
+        cssSrcUserImg: function () {
+            if (userImg) {
+                this.$el.css('background-image', "url('file:///" + userImg + "')");
+            }
+        },
+
+        /** 设置background-image为默认图片 */
+        cssSrcDefaultImg: function () {
+            this.$el.css('background-image', 'url(img/bg.png)');
+        },
+
         /** 添加上张图片和当前图片 */
         addImg: function () {
             if (isRun) {
@@ -1294,7 +1306,9 @@
 
         /** 设置当前图片为用户图片 */
         imgSrcUserImg: function () {
-            currantImg.src =  'file:///' + userImg;
+            if(isRun && userImg) {
+                currantImg.src =  'file:///' + userImg;
+            }
         },
 
         /** 设置当前图片为默认图片 */
@@ -1322,16 +1336,35 @@
             }
         },
 
-        /** 绘制imgList当前图片 */
-        drawCanvas: function () {
-            if (isRun) {
-                drawBackgroud();
-            }
-        },
-
         /** 清空Canvas内容 */
         clearCanvas: function () {
             context.clearRect(0, 0, canvasWidth, canvasHeight);
+        },
+
+        /**
+         * 使用imgList当前图片
+         *
+         * @pram {Int} sliderStyle 背景切换模式
+         */
+        changeSlider: function (sliderStyle) {
+            if (isRun) {
+                switch (sliderStyle) {
+                    // css
+                    case 1:
+                        changeBackgroud();
+                        break;
+                    // img
+                    case 2:
+                        changeImage();
+                        break;
+                    // canvas
+                    case 3:
+                        drawBackgroud();
+                        break;
+                    default:
+                        changeBackgroud();
+                }
+            }
         },
 
         /**

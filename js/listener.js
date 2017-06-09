@@ -207,10 +207,10 @@
             if (properties.image) {
                 if (properties.image.value) {
                     wallpaper.slider('setUserImg', properties.image.value)
-                        .css('background-image', "url('file:///" + properties.image.value + "')");
+                        .slider('cssSrcUserImg');
                 } else {
                     wallpaper.slider('setUserImg', '')
-                        .css('background-image', 'url(img/bg.png)');
+                        .slider('cssSrcDefaultImg');
                 }
             }
             // 幻灯片模式
@@ -230,8 +230,7 @@
                             break;
                         // canvas
                         case 3:
-                            wallpaper.slider('delImg')
-                                .slider('drawCanvas');
+                            wallpaper.slider('delImg');
                             break;
                         default:
                             wallpaper.slider('clearCanvas')
@@ -242,7 +241,9 @@
                     wallpaper.slider('setIsRun', false)
                         .slider('stopSlider')
                         .slider('clearCanvas')
-                        .slider('delImg');
+                        .slider('delImg')
+                        .slider('cssSrcDefaultImg')
+                        .slider('cssSrcUserImg');
                 }
             }
             // 滑动样式
@@ -263,15 +264,15 @@
                     // canvas
                     case 3:
                         sliderStyle = 3;
-                        wallpaper.slider('delImg')
-                            .slider('drawCanvas');
+                        wallpaper.slider('delImg');
                         break;
                     default:
                         sliderStyle = 1;
                         wallpaper.slider('clearCanvas')
                             .slider('delImg');
                 }
-                wallpaper.slider('set', 'sliderStyle', properties.directory_sliderStyle.value);
+                wallpaper.slider('set', 'sliderStyle', sliderStyle)
+                    .slider('changeSlider', sliderStyle);
             }
             // 切换特效
             if (properties.directory_effect) {
