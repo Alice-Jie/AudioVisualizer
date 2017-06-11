@@ -567,7 +567,7 @@
                 || this.ballRotation) {
                 drawAudioVisualizer(this);
                 runCount = 1;
-            } else if(runCount > 0) {
+            } else if (runCount > 0) {
                 drawAudioVisualizer(this);
                 runCount--;
             }

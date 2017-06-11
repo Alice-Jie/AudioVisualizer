@@ -1174,7 +1174,7 @@
         this.$el = $(el);
 
         this.sliderStyle = options.sliderStyle;  // 背景切换模式
-        this.ReadStyle = options.ReadStyle;      // 读取模式
+        this.readStyle = options.readStyle;      // 读取模式
         this.effect = options.effect;            // 时间单位
         this.timeUnits = options.timeUnits;      // 切换特效
         this.pauseTime = options.pauseTime;      // 动画切换速度
@@ -1372,7 +1372,7 @@
         /**
          * 使用imgList当前图片
          *
-         * @pram {Int} sliderStyle 背景切换模式
+         * @pram {int} sliderStyle 背景切换模式
          */
         changeSlider: function (sliderStyle) {
             if (isRun) {
@@ -1479,7 +1479,7 @@
     // 默认参数
     Slider.DEFAULTS = {
         sliderStyle: 1,            // 背景切换模式
-        ReadStyle: 1,              // 读取模式
+        readStyle: 1,              // 读取模式
         timeUnits: 'sec',          // 时间单位
         pauseTime: 1,              // 背景停留时间
         effect: 'none',            // 切换特效
