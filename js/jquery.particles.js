@@ -410,55 +410,49 @@
     }
 
     /**
-     * 设置粒子数组全局粒子属性
+     *  设置粒子数组粒子属性
+     * @param {Function} that     方法Particles
+     * @param {string}   property 属性名
      *
-     * @param {Function} that 方法Particles
-     * - that.opacityRandom {boolean} 随机不透明度
-     * - that.opacity       {float}   不透明度
-     * - that.color         {string}  粒子颜色
-     * - that.shadowColor   {string}  阴影颜色
-     * - that.shadowBlur    {int}     阴影大小
      */
-    function setParticlesGlobalValue(that) {
+    function setParticles(that, property) {
         for (var i = 0; i < particlesArray.length; i++) {
-            particlesArray[i].opacity = that.opacityRandom ? Math.min(Math.random(), that.opacity) : that.opacity;
-            particlesArray[i].color = that.color;              // 粒子颜色
-            particlesArray[i].shadowColor = that.shadowColor;  // 阴影颜色
-            particlesArray[i].shadowBlur = that.shadowBlur;    // 模糊大小
-        }
-    }
-
-    /**
-     * 设置粒子数组粒子尺寸属性
-     *
-     * @param {Function} that 方法Particles
-     * - that.sizeValue  {int}     粒子大小
-     * - that.sizeRandom {boolean} 随机大小
-     * - that.shapeType  {string}  粒子形状
-     */
-    function setParticlesSizeValue(that) {
-        for (var i = 0; i < particlesArray.length; i++) {
-            particlesArray[i].shapeType = that.shapeType;
-            particlesArray[i].radius = (that.sizeRandom ? Math.random() : 1) * that.sizeValue;
-            if (that.rotationAngle !== 0) {
-                particlesArray[i].rotationAngle = (that.angleRandom ? Math.random() : 1) * that.rotationAngle * (Math.PI / 180);
+            switch (property) {
+                case 'opacity':
+                case 'opacityRandom':
+                    particlesArray[i].opacity = that.opacityRandom ? Math.min(Math.random(), that.opacity) : that.opacity;
+                    break;
+                case 'color':
+                    particlesArray[i].color = that.color;
+                    break;
+                case 'shadowColor':
+                    particlesArray[i].shadowColor = that.shadowColor;
+                    break;
+                case 'shadowBlur':
+                    particlesArray[i].shadowBlur = that.shadowBlur;
+                    break;
+                case 'shapeType':
+                    particlesArray[i].shapeType = that.shapeType;
+                    break;
+                case 'sizeValue':
+                case 'sizeRandom':
+                    particlesArray[i].radius = (that.sizeRandom ? Math.random() : 1) * that.sizeValue;
+                    break;
+                case 'rotationAngle':
+                case 'angleRandom':
+                    if (that.rotationAngle !== 0) {
+                        particlesArray[i].rotationAngle = (that.angleRandom ? Math.random() : 1) * that.rotationAngle * (Math.PI / 180);
+                    }
+                    break;
+                case 'speed':
+                case 'speedRandom':
+                    particlesArray[i].speed = (that.speedRandom ? Math.random() : 1) * that.speed;
+                    break;
+                case 'isStraight':
+                case 'direction':
+                    moveStraight(particlesArray[i], that.isStraight, that.direction);
+                    break;
             }
-        }
-    }
-
-    /**
-     * 设置粒子数组粒子移动属性
-     *
-     * @param {Function} that 方法Particles
-     * - that.speedRandom {boolean} 随机速度
-     * - that.speed       {int}     粒子速度
-     * - that.isStraight  {boolean} 笔直移动
-     * - that.direction   {string}  粒子方向
-     */
-    function setParticlesMoveValue(that) {
-        for (var i = 0; i < particlesArray.length; i++) {
-            particlesArray[i].speed = (that.speedRandom ? Math.random() : 1) * that.speed;
-            moveStraight(particlesArray[i], that.isStraight, that.direction);
         }
     }
 
@@ -675,32 +669,35 @@
         this.$el = $(el);
 
         // 全局属性
-        this.number = options.number;                // 粒子数量
-        this.opacity = options.opacity;              // 不透明度
-        this.color = options.color;                  // 粒子颜色
-        this.shadowColor = options.shadowColor;      // 模糊颜色
-        this.shadowBlur = options.shadowBlur;        // 模糊大小
+        this.number = options.number;                 // 粒子数量
+        this.opacity = options.opacity;               // 不透明度
+        this.color = options.color;                   // 粒子颜色
+        this.shadowColor = options.shadowColor;       // 模糊颜色
+        this.shadowBlur = options.shadowBlur;         // 模糊大小
         // 形状属性
-        this.shapeType = options.shapeType;          // 粒子形状
-        this.rotationAngle = options.rotationAngle;  // 旋转角度
-        this.angleRandom = options.angleRandom;      // 随机角度
+        this.shapeType = options.shapeType;           // 粒子形状
+        this.rotationAngle = options.rotationAngle;   // 旋转角度
+        this.angleRandom = options.angleRandom;       // 随机角度
         // 大小属性
-        this.sizeValue = options.sizeValue;          // 粒子大小
-        this.sizeRandom = options.sizeRandom;        // 随机大小
+        this.sizeValue = options.sizeValue;           // 粒子大小
+        this.sizeRandom = options.sizeRandom;         // 随机大小
         // 连接属性
-        this.linkEnable = options.linkEnable;        // 连接开关
-        this.linkDistance = options.linkDistance;    // 连接距离
-        this.linkWidth = options.linkWidth;          // 连线宽度
-        this.linkColor = options.linkColor;          // 连接颜色
-        this.linkOpacity = options.linkOpacity;      // 连线不透明度
+        this.linkEnable = options.linkEnable;         // 连接开关
+        this.linkDistance = options.linkDistance;     // 连接距离
+        this.linkWidth = options.linkWidth;           // 连线宽度
+        this.linkColor = options.linkColor;           // 连接颜色
+        this.linkOpacity = options.linkOpacity;       // 连线不透明度
         // 移动属性
-        this.isMove = options.isMove;                // 移动开关
-        this.speed = options.speed;                  // 粒子速度
-        this.speedRandom = options.speedRandom;      // 随机速度
-        this.direction = options.direction;          // 粒子方向
-        this.isStraight = options.isStraight;        // 笔直移动
-        this.isBounce = options.isBounce;            // 粒子反弹
-        this.moveOutMode = options.moveOutMode;      // 离屏模式
+        this.isMove = options.isMove;                 // 移动开关
+        this.speed = options.speed;                   // 粒子速度
+        this.speedRandom = options.speedRandom;       // 随机速度
+        this.direction = options.direction;           // 粒子方向
+        this.isStraight = options.isStraight;         // 笔直移动
+        this.isBounce = options.isBounce;             // 粒子反弹
+        this.moveOutMode = options.moveOutMode;       // 离屏模式
+        // 交互事件（概念阶段）
+        this.event = options.event;                    // 触发事件
+        this.interactivity = options.interactivity;  // 交互事件
 
         // 创建并初始化canvas
         canvas = document.createElement('canvas');
@@ -813,7 +810,6 @@
          */
         set: function (property, value) {
             switch (property) {
-                case 'number':
                 case 'linkEnable':
                 case 'linkDistance':
                 case 'linkWidth':
@@ -829,23 +825,17 @@
                 case 'opacityRandom':
                 case 'shadowColor':
                 case 'shadowBlur':
-                    this[property] = value;
-                    setParticlesGlobalValue(this);
-                    break;
                 case 'shapeType':
                 case 'rotationAngle':
                 case 'angleRandom':
                 case 'sizeValue':
                 case 'sizeRandom':
-                    this[property] = value;
-                    setParticlesSizeValue(this);
-                    break;
                 case 'speed':
                 case 'speedRandom':
                 case 'direction':
                 case 'isStraight':
                     this[property] = value;
-                    setParticlesMoveValue(this);
+                    setParticles(this, property);
                     break;
             }
         }
@@ -881,7 +871,10 @@
         direction: 'bottom',         // 粒子方向
         isStraight: false,           // 笔直移动
         isBounce: false,             // 粒子反弹
-        moveOutMode: 'out'           // 离屏模式
+        moveOutMode: 'out',          // 离屏模式
+        // 交互事件（概念阶段）
+        event: 'none',                // 触发事件
+        interactivity: 'none'        // 交互事件
     };
 
     //定义Particles插件
