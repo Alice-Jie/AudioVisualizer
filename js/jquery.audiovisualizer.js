@@ -507,7 +507,7 @@
         context.lineWidth = this.lineWidth;
         context.strokeStyle = 'rgb(' + this.color + ')';
         // 阴影属性
-        context.shadowColor = 'rgb(' + this.color + ')';
+        context.shadowColor = 'rgb(' + this.shadowColor + ')';
         context.shadowBlur = this.shadowBlur;
 
         $(this.$el).append(canvas);  // 添加canvas
@@ -526,7 +526,7 @@
 
             // 点击事件
             var that = this;
-            $(this.$el).click(function (e) {
+            $(this.$el).on('click', function (e) {
                 if (that.isClickOffset) {
                     var x = e.clientX || canvasWidth * that.offsetX;
                     var y = e.clientY || canvasHeight * that.offsetY;

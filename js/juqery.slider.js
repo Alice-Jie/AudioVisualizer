@@ -733,15 +733,19 @@
                 effectTimer = requestAnimationFrame(function animal() {
                     if (currantWidth < canvasWidth) {
                         // 当前图片宽度从屏幕中央向左右拉伸
-                        $(currantImg).css('width', currantWidth + 'px');
-                        $(currantImg).css('left', currantLeft + 'px');
+                        $(currantImg).css({
+                            'width': currantWidth,
+                            'left': currantLeft
+                        });
                         // 更新当前图片宽度和left值
                         currantWidth += canvasWidth / 50;
                         currantLeft -= originX / 50;
                         effectTimer = requestAnimationFrame(animal);
                     } else {
-                        $(currantImg).css('width', canvasWidth + 'px');
-                        $(currantImg).css('left', 0 + 'px');
+                        $(currantImg).css({
+                            'width': canvasWidth,
+                            'left': 0
+                        });
                         cancelAnimationFrame(effectTimer);
                     }
                 });
@@ -775,17 +779,21 @@
                 effectTimer = requestAnimationFrame(function animal() {
                     if (prevWidth > 0) {
                         // 上张图片宽度向中央收缩
-                        $(prevImg).css('width', prevWidth + 'px');
-                        $(prevImg).css('left', prevLeft + 'px');
+                        $(prevImg).css({
+                            'width': prevWidth,
+                            'left': prevLeft
+                        });
                         // 更新当前图片宽度和left值
                         prevWidth -= canvasWidth / 50;
                         prevLeft += originX / 50;
                         effectTimer = requestAnimationFrame(animal);
                     } else {
                         $(currantImg).css('z-index', -1);
-                        $(prevImg).css('z-index', -2);
-                        $(prevImg).css('width', canvasWidth + 'px');
-                        $(prevImg).css('left', 0 + 'px');
+                        $(prevImg).css({
+                            'z-index': -2,
+                            'width': canvasWidth,
+                            'left': 0
+                        });
                         cancelAnimationFrame(effectTimer);
                     }
                 });
@@ -822,10 +830,12 @@
                 effectTimer = requestAnimationFrame(function animal() {
                     // 当前图片从屏幕中央向四周放大
                     if (currantWidth <= canvasWidth && currantHeight <= canvasWidth) {
-                        $(currantImg).css('width', currantWidth + 'px');
-                        $(currantImg).css('height', currantHeight + 'px');
-                        $(currantImg).css('left', currantLeft + 'px');
-                        $(currantImg).css('top', currantTop + 'px');
+                        $(currantImg).css({
+                            'width': currantWidth,
+                            'height': currantHeight,
+                            'left': currantLeft,
+                            'top': currantTop
+                        });
                         // 更新当前图片宽度、left值和top值
                         currantLeft -= originX / 50;
                         currantTop -= originY / 50;
@@ -833,10 +843,12 @@
                         currantHeight += canvasHeight / 50;
                         effectTimer = requestAnimationFrame(animal);
                     } else {
-                        $(currantImg).css('width', canvasWidth + 'px');
-                        $(currantImg).css('height', canvasHeight + 'px');
-                        $(currantImg).css('left', 0 + 'px');
-                        $(currantImg).css('top', 0 + 'px');
+                        $(currantImg).css({
+                            'width': currantWidth,
+                            'height': currantHeight,
+                            'left': 0,
+                            'top': 0
+                        });
                         cancelAnimationFrame(effectTimer);
                     }
                 });
@@ -873,10 +885,12 @@
                 effectTimer = requestAnimationFrame(function animal() {
                     if (prevWidth + canvasWidth / 50 > 0 && prevHeight + canvasWidth / 50 > 0) {
                         // 当前图片向屏幕中央收缩
-                        $(prevImg).css('width', prevWidth + 'px');
-                        $(prevImg).css('height', prevHeight + 'px');
-                        $(prevImg).css('left', prevLeft + 'px');
-                        $(prevImg).css('top', prevTop + 'px');
+                        $(prevImg).css({
+                            'width': prevWidth,
+                            'height': prevHeight,
+                            'left': prevLeft,
+                            'top': prevTop
+                        });
                         // 更新上张图片宽度、left值和top值
                         prevLeft += originX / 50;
                         prevTop += originY / 50;
@@ -885,12 +899,13 @@
                         effectTimer = requestAnimationFrame(animal);
                     } else {
                         $(currantImg).css('z-index', -1);
-                        $(prevImg).css('z-index', -2);
-                        $(prevImg).css('width', canvasWidth + 'px');
-                        $(prevImg).css('height', canvasHeight + 'px');
-                        $(prevImg).css('left', 0 + 'px');
-                        $(prevImg).css('top', 0 + 'px');
-                        context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
+                        $(prevImg).css({
+                            'z-index': -2,
+                            'width': canvasWidth,
+                            'height': canvasHeight,
+                            'left': 0,
+                            'top': 0
+                        });
                         cancelAnimationFrame(effectTimer);
                     }
                 });
