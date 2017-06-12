@@ -12,7 +12,7 @@ audiovisualizer插件
 #### 说明：
 audiovisualizer插件用于创建一个canvas,并绘制一个音频圆环。从`wallpaperAudioListener`接收音频数组`audioArray`，并根据`audioArray`绘制音频圆环。
 
-如果你不知道wallpaperAudioListener，请点击：[Advanced: Web audio visualizer](http://steamcommunity.com/sharedfiles/filedetails/?id=786006047)
+如果你不知道`wallpaperAudioListener`，请点击：[Advanced: Web audio visualizer](http://steamcommunity.com/sharedfiles/filedetails/?id=786006047)
 
 
 #### 使用：
@@ -41,7 +41,7 @@ audiovisualizer插件用于创建一个canvas,并绘制一个音频圆环。从`
 | 名称 | 类型 | 默认| 描述
 |------|------|-----|-----
 opacity | float | 0.90 | canvas的不透明度
-color | string | '255,255,255' RGB格式颜色，用于设置context.fillStyle、strokeStyle
+color | string | '255,255,255' | RGB格式颜色，用于设置context.fillStyle、strokeStyle
 shadowColor | string | '255,255,255' | RGB格式颜色，用于设置context.shadowColor
 shadowBlur | int | 15 | 用于设置shadowBlur
 offsetX | float | 0.5 | X坐标偏移系数，范围在0~1之间
@@ -156,8 +156,8 @@ language | string | 'zh_cn' | 日期语言
 
 调用`$(selector).date('setCity', cityStr);`清除canvas内容。
 
-参数类型 | 参数名 | 参数描述 |
----------|--------|----------|
+参数类型 | 参数名 | 参数描述 
+---------|--------|----------
 string | cityStr | 城市名（仅限中国）
 
 **clearCanvas：**
@@ -216,7 +216,11 @@ slider插件
 ---
 
 #### 说明：
-slider插件用于背景切换，目前提供了`css`、`image`、`canvas`三种模式切换，image和canvas支持背景切换特效。
+slider插件用于背景切换，从`window.wallpaperPropertyListener`扩展方法`userDirectoryFilesAddedOrChanged`和`userDirectoryFilesRemoved`接收属性名`propertyName`、图片文件路径数组`Files`。
+
+如果你不知道扩展方法`userDirectoryFilesAddedOrChanged`和`userDirectoryFilesRemoved`，请点击：[Advanced: Web user customization - Importing User Images](http://steamcommunity.com/sharedfiles/filedetails/?id=795674740)
+
+目前提供了`css`、`image`、`canvas`三种模式切换，image和canvas支持背景切换特效。
 
 
 #### 使用：
@@ -432,16 +436,16 @@ moveOutMode | string | 'out' | 粒子离开canvas所发生的行为
 
 调用`$(selector).particles('addParticles', num);`向canvsa添加粒子。
 
-参数类型 | 参数名 | 参数描述 |
----------|--------|----------|
+参数类型 | 参数名 | 参数描述 
+---------|--------|----------
 int | num | 添加/删除粒子的数量
 
 **particlesImage：**
 
 调用`$(selector).particles('particlesImage', imgSrc);`改变图片粒子的图片路径。
 
-参数类型 | 参数名 | 参数描述 |
----------|--------|----------|
+参数类型 | 参数名 | 参数描述 
+---------|--------|----------
 string | imgSrc | 图片粒子路径
 
 **startParticles：**
