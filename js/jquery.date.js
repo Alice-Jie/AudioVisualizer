@@ -127,19 +127,30 @@
             type: "GET",
             url: 'https://free-api.heweather.com/v5/now?city=' + city + '&key=71f9989659254be9a991375a04511d54',
             success: function (result) {
-                // 获取天气信息
-                weather.basic.cnty = result.HeWeather5[0].basic.cnty;
-                weather.basic.city = result.HeWeather5[0].basic.city;
-                weather.now.cond = result.HeWeather5[0].now.cond.txt;
-                weather.now.tmp = result.HeWeather5[0].now.tmp;
-                // 写入weatherStr
-                weatherStr = weather.basic.cnty + ' '
-                    + weather.basic.city + ' '
-                    + weather.now.cond
-                    + ' ' + weather.now.tmp + '℃';
+                // 获取接口状态
+                if (result.HeWeather5[0].status === 'ok') {
+                    // 获取天气信息
+                    weather.basic.cnty = result.HeWeather5[0].basic.cnty;
+                    weather.basic.city = result.HeWeather5[0].basic.city;
+                    weather.now.cond = result.HeWeather5[0].now.cond.txt;
+                    weather.now.tmp = result.HeWeather5[0].now.tmp;
+                    // 写入weatherStr
+                    weatherStr = weather.basic.cnty + ' '
+                        + weather.basic.city + ' '
+                        + weather.now.cond
+                        + ' ' + weather.now.tmp + '℃';
+                } else {
+                    weatherStr = '未知错误,' + result.HeWeather5[0].status;
+                }
             },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                weatherStr = '读取城市天气失败，请检查城市名';
+            error: function (XMLHttpRequest) {
+                if (XMLHttpRequest.status === 401) {
+                    weatherStr = '错误' + XMLHttpRequest.status + '本日和风天气访问次数达到上限';
+                } else if (XMLHttpRequest.status === 412) {
+                    weatherStr = '错误' + XMLHttpRequest.status + '本日和风天气访问次数达到上限';
+                } else {
+                    weatherStr = '错误' + XMLHttpRequest.status + " " + XMLHttpRequest.statusText;
+                }
             }
         });
     }

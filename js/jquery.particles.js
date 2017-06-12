@@ -760,12 +760,20 @@
             context.clearRect(0, 0, canvasWidth, canvasHeight);
         },
 
-        /** 添加粒子 */
+        /**
+         *  添加粒子
+         *
+         *  @param {int} num 添加/删除粒子的数量
+         */
         addParticles: function (num) {
             addParticles(this, num);
         },
 
-        /** 改变当前图片 */
+        /**
+         *  改变当前图片
+         *
+         *  @param {string} imgSrc 图片粒子路径
+         */
         particlesImage: function (imgSrc) {
             if (imgSrc) {
                 img.src = 'file:///' + imgSrc;
@@ -792,13 +800,13 @@
             }
         },
 
-        /** 开始粒子效果 */
+        /** 开始粒子计时器 */
         startParticles: function () {
             stopParticlesTimer();
             runParticlesTimer(this);
         },
 
-        /** 停止粒子效果 */
+        /** 停止粒子计时器 */
         stopParticles: function () {
             stopParticlesTimer();
         },
