@@ -184,27 +184,27 @@
      */
     function bounceParticles(index, isBounce) {
         if (isBounce) {
+            var particles1 = particlesArray[index];
+            var particles1_dist = 0;
+            if (particles1.shapeType === 'image') {
+                particles1_dist = Math.min(getImgSize(particles1).width, getImgSize(particles1).height) / 2;
+            } else {
+                particles1_dist = particles1.radius;
+            }
             for (var i = 0; i < particlesArray.length; i++) {
                 // 跳过索引相同的粒子
                 if (i === index) {
                     continue;
                 }
-                var particles1 = particlesArray[index];
                 var particles2 = particlesArray[i];
-                // 获取对象粒子和当前粒子之间距离
-                var dist = getDist(particles1.x, particles1.y, particles2.x, particles2.y);
-                // 获取粒子间最小碰撞距离
-                var particles1_dist = 0, particles2_dist = 0;
-                if (particles1.shapeType === 'image') {
-                    particles1_dist = Math.min(getImgSize(particles1).width, getImgSize(particles1).height);
-                } else {
-                    particles1_dist = particles1.radius;
-                }
+                var particles2_dist = 0;
                 if (particles2.shapeType === 'image') {
-                    particles2_dist = Math.min(getImgSize(particles2).width, getImgSize(particles2).height);
+                    particles2_dist = Math.min(getImgSize(particles2).width, getImgSize(particles2).height) / 2;
                 } else {
                     particles2_dist = particles2.radius;
                 }
+                // 获取对象粒子和当前粒子之间距离
+                var dist = getDist(particles1.x + particles1_dist, particles1.y + particles1_dist, particles2.x + particles2_dist, particles2.y + particles2_dist);
                 var dist_p = particles1_dist + particles2_dist;
                 // 如果粒子距离小于等于两者半径之和
                 if (dist <= dist_p) {
