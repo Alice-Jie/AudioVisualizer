@@ -494,6 +494,33 @@
     //-----------------------------------------------------------
 
     /**
+     * 获取粒子图片宽度和高度
+     *
+     * @param {!Object} particles 粒子对象
+     * @return {Object} 图片宽高对象
+     */
+    function getImgSize(particles) {
+        // 图片宽度和高度
+        var width = currantCanvas.width,
+            height = currantCanvas.height;
+        // 如果图片超过粒子的尺寸限制
+        if (currantCanvas.width > particles.radius * 10 || currantCanvas.height > particles.radius * 10) {
+            var scaling = 0.5;  // 缩放值
+            if (currantCanvas.width > currantCanvas.height) {
+                scaling = particles.radius * 10 / currantCanvas.width;
+            } else {
+                scaling = particles.radius * 10 / currantCanvas.height;
+            }
+            width = currantCanvas.width * scaling;
+            height = currantCanvas.height * scaling;
+        }
+        return {
+            'width': width,
+            'height': height
+        };
+    }
+
+    /**
      * 绘制多边形
      *
      * @param {!Object} context context      对象
@@ -564,20 +591,10 @@
                 break;
             // 绘制图片
             case 'image':
-                var width, height;  // 图片宽度和高度
-                width = currantCanvas.width;
-                height = currantCanvas.height;
-                if (currantCanvas.width > particles.radius * 10 || currantCanvas.height > particles.radius * 10) {
-                    var scaling = 0.5;  // 缩放值
-                    if (currantCanvas.width > currantCanvas.height) {
-                        scaling = particles.radius * 10 / currantCanvas.width;
-                    } else {
-                        scaling = particles.radius * 10 / currantCanvas.height;
-                    }
-                    width = currantCanvas.width * scaling;
-                    height = currantCanvas.height * scaling;
-                }
-                context.translate(particles.x + particles.radius / 2, particles.y + particles.radius / 2);
+                // 获取图片粒子的宽和高
+                var width = getImgSize(particles).width,
+                    height = getImgSize(particles).height;
+                context.translate(particles.x + width / 2, particles.y + height / 2);
                 context.rotate(particles.currantAngle);
                 context.drawImage(currantCanvas, -width / 2, -height / 2, width, height);
                 break;
@@ -609,12 +626,45 @@
             var dist = getDist(particles1.x, particles1.y, particles2.x, particles2.y);
             if (dist <= that.linkDistance) {
                 var d = (that.linkDistance - dist) / that.linkDistance;
+                var width = 0, height = 0;  // 粒子高度和宽度
                 context.save();
                 context.lineWidth = d * that.linkWidth;
                 context.strokeStyle = "rgba(" + that.linkColor + "," + Math.min(d, that.linkOpacity) + ")";
                 context.beginPath();
-                context.moveTo(particles1.x, particles1.y);
-                context.lineTo(particles2.x, particles2.y);
+                // 设置宽度和高度
+                switch (particles1.shapeType) {
+                    case 'circle':
+                        width = height = 0;
+                        break;
+                    case 'edge':
+                    case 'triangle':
+                    case 'star':
+                        width = height = particles1.radius / 2;
+                        break;
+                    // 绘制图片
+                    case 'image':
+                        width = getImgSize(particles1).width / 2;
+                        height = getImgSize(particles1).height / 2;
+                        break;
+                }
+                context.moveTo(particles1.x + width, particles1.y + height);
+                // 设置宽度和高度
+                switch (particles2.shapeType) {
+                    case 'circle':
+                        width = height = 0;
+                        break;
+                    case 'edge':
+                    case 'triangle':
+                    case 'star':
+                        width = height = particles2.radius / 2;
+                        break;
+                    // 绘制图片
+                    case 'image':
+                        width = getImgSize(particles2).width / 2;
+                        height = getImgSize(particles2).height / 2;
+                        break;
+                }
+                context.lineTo(particles2.x + width, particles2.y + height);
                 context.closePath();
                 context.stroke();
                 context.restore();
@@ -724,8 +774,7 @@
 
         // 创建并初始化离屏canvas
         currantCanvas = document.createElement('canvas');
-        currantCanvas.width = canvasWidth;
-        currantCanvas.height = canvasHeight;
+        currantCanvas.width = currantCanvas.height = 500;
         currantContext = currantCanvas.getContext('2d');
 
         // 初始化Img属性
