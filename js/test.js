@@ -38,10 +38,7 @@
     // Particles插件调试区域
     //--------------------------------------------------------------------------------------------------------------
 
-    //$('body').particles({
-    //    shapeType: 'image'
-    //});
-
-    // $('body').particles('startParticles');
+    //$('body').particles({});
+    //$('body').particles('startParticles');
 
 })(jQuery, window, document);

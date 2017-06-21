@@ -1,10 +1,10 @@
 /**
- * jQuery Particles plugin v0.0.2
+ * jQuery Particles plugin v0.0.3
  * reference: http://github.com/VincentGarreau/particles.js
  * project: http://steamcommunity.com/sharedfiles/filedetails/?id=921617616&searchtext=
  * @license MIT licensed
  * @author Alice
- * @date 2017/06/02
+ * @date 2017/06/21
  */
 
 (function (global, factory) {
@@ -94,12 +94,12 @@
      * @param {int} index 粒子数组索引
      */
     function checkOverlap(index) {
+        var particles1 = particlesArray[index];
         for (var i = 0; i < particlesArray.length; i++) {
             // 跳过索引相同的粒子
             if (i === index) {
                 continue;
             }
-            var particles1 = particlesArray[index];
             var particles2 = particlesArray[i];
             // 获取对象粒子和当前粒子之间距离
             var dist = getDist(particles1.x, particles1.y, particles2.x, particles2.y);
@@ -175,6 +175,33 @@
             particles.x += particles.vx * speed;
             particles.y += particles.vy * speed;
         }
+    }
+
+    /**
+     * 获取粒子图片宽度和高度
+     *
+     * @param {!Object} particles 粒子对象
+     * @return {Object} 图片宽高对象
+     */
+    function getImgSize(particles) {
+        // 图片宽度和高度
+        var width = currantCanvas.width,
+            height = currantCanvas.height;
+        // 如果图片超过粒子的尺寸限制
+        if (currantCanvas.width > particles.radius * 10 || currantCanvas.height > particles.radius * 10) {
+            var scaling = 0.5;  // 缩放值
+            if (currantCanvas.width > currantCanvas.height) {
+                scaling = particles.radius * 10 / currantCanvas.width;
+            } else {
+                scaling = particles.radius * 10 / currantCanvas.height;
+            }
+            width = currantCanvas.width * scaling;
+            height = currantCanvas.height * scaling;
+        }
+        return {
+            'width': width,
+            'height': height
+        };
     }
 
     /**
@@ -422,6 +449,25 @@
     }
 
     /**
+     * 根据粒子密度确定粒子数量
+     *
+     * @param {Function} that 方法Particles
+     */
+    function densityAutoParticles(that) {
+        if (that.isDensity) {
+            var area = canvasWidth * canvasHeight / 1000;  // 计算密度
+            var particlesNum = area * that.number / that.densityArea;  // 基于密度区域的粒子个数
+            // 添加或则移除X个粒子
+            var missingParticles = particlesArray.length - particlesNum;
+            if (missingParticles < 0) {
+                addParticles(that, that.number + Math.abs(missingParticles));
+            } else {
+                addParticles(that, that.number - missingParticles);
+            }
+        }
+    }
+
+    /**
      *  设置粒子数组粒子属性
      * @param {Function} that     方法Particles
      * @param {string}   property 属性名
@@ -506,33 +552,6 @@
     //-----------------------------------------------------------
 
     /**
-     * 获取粒子图片宽度和高度
-     *
-     * @param {!Object} particles 粒子对象
-     * @return {Object} 图片宽高对象
-     */
-    function getImgSize(particles) {
-        // 图片宽度和高度
-        var width = currantCanvas.width,
-            height = currantCanvas.height;
-        // 如果图片超过粒子的尺寸限制
-        if (currantCanvas.width > particles.radius * 10 || currantCanvas.height > particles.radius * 10) {
-            var scaling = 0.5;  // 缩放值
-            if (currantCanvas.width > currantCanvas.height) {
-                scaling = particles.radius * 10 / currantCanvas.width;
-            } else {
-                scaling = particles.radius * 10 / currantCanvas.height;
-            }
-            width = currantCanvas.width * scaling;
-            height = currantCanvas.height * scaling;
-        }
-        return {
-            'width': width,
-            'height': height
-        };
-    }
-
-    /**
      * 绘制多边形
      *
      * @param {!Object} context context      对象
@@ -594,9 +613,9 @@
                 context.rotate(particles.currantAngle);
                 drawShape(
                     context,
-                    -particles.radius * 2 / (5 / 4),      // startX
-                    -particles.radius / (2 * 2.66 / 3.5), // startY
-                    particles.radius * 2 * 2.66 / (5 / 3), // sideLength
+                    -particles.radius * 2 / (5 / 4),        // startX
+                    -particles.radius / (2 * 2.66 / 3.5),   // startY
+                    particles.radius * 2 * 2.66 / (5 / 3),  // sideLength
                     5,                                      // sideCountNumerator
                     2                                       // sideCountDenominator
                 );
@@ -732,6 +751,8 @@
 
         // 全局属性
         this.number = options.number;                 // 粒子数量
+        this.isDensity = options.isDensity;           // 粒子密度开关
+        this.densityArea = options.densityArea;       // 粒子密度范围
         this.opacity = options.opacity;               // 不透明度
         this.color = options.color;                   // 粒子颜色
         this.shadowColor = options.shadowColor;       // 模糊颜色
@@ -758,8 +779,8 @@
         this.isBounce = options.isBounce;             // 粒子反弹
         this.moveOutMode = options.moveOutMode;       // 离屏模式
         // 交互事件（概念阶段）
-        this.event = options.event;                    // 触发事件
-        this.interactivity = options.interactivity;  // 交互事件
+        this.event = options.event;                   // 触发事件
+        this.interactivity = options.interactivity;   // 交互事件
 
         // 创建并初始化canvas
         canvas = document.createElement('canvas');
@@ -798,6 +819,7 @@
         $(this.$el).append(canvas);  // 添加canvas
 
         initParticlesArray(this);  // 初始化粒子列表
+        densityAutoParticles(this);  // 基于粒子密度调节粒子数量
         this.setupPointerEvents();
     };
 
@@ -879,6 +901,7 @@
          */
         set: function (property, value) {
             switch (property) {
+                case 'isDensity':
                 case 'linkEnable':
                 case 'linkDistance':
                 case 'linkWidth':
@@ -888,6 +911,10 @@
                 case 'isBounce':
                 case 'moveOutMode':
                     this[property] = value;
+                    break;
+                case 'densityArea':
+                    this[property] = value;
+                    densityAutoParticles(this);
                     break;
                 case 'color':
                 case 'opacity':
@@ -915,6 +942,8 @@
     Particles.DEFAULTS = {
         // 全局属性
         number: 100,                 // 粒子数量
+        isDensity: false,            // 粒子密度开关
+        densityArea: 800,            // 粒子密度范围
         opacity: 0.75,               // 不透明度
         opacityRandom: false,        // 随机不透明度
         color: '255,255,255',        // 粒子颜色
@@ -942,7 +971,7 @@
         isBounce: false,             // 粒子反弹
         moveOutMode: 'out',          // 离屏模式
         // 交互事件（概念阶段）
-        event: 'none',                // 触发事件
+        event: 'none',               // 触发事件
         interactivity: 'none'        // 交互事件
     };
 
