@@ -179,6 +179,7 @@ string | cityStr | 城市名（仅限中国）
 调用`$(selector).date('stopDate');`停止日期计时器
 
 **setWeather：**
+
 调用`$(selector).date('setWeather');`更新天气信息
 
 **startWeather：**
