@@ -58,6 +58,7 @@
 
     /**
      *  设置背景切换模式
+     *
      *  @param  {int} n 背景切换模式对应值
      *  @return {string} 背景切换模式标识串
      */
@@ -74,6 +75,7 @@
 
     /**
      *  设置读取模式
+     *
      *  @param  {int} n 背景切换模式对应值
      *  @return {string} 背景切换模式标识串
      */
@@ -169,6 +171,7 @@
 
     /**
      *  设置音频圆环
+     *
      *  @param  {int} n 音频圆环对应值
      *  @return {string} 音频圆环标识串
      */
@@ -185,6 +188,7 @@
 
     /**
      *  设置日期风格
+     *
      *  @param  {int} n 日期风格对应值
      *  @return {string} 日期风格标识串
      */
@@ -211,6 +215,7 @@
 
     /**
      *  设置日期风格
+     *
      *  @param  {int} n 日期风格对应值
      *  @return {string} 日期风格标识串
      */
@@ -236,7 +241,25 @@
     }
 
     /**
+     *  设置设置天气接口提供者
+     *
+     *  @param  {int} n 天气接口提供者对应值
+     *  @return {string} 天气接口提供者标识串
+     */
+    function setWeatherProvider(n) {
+        switch (n) {
+            case 1:
+                return 'heweather';
+            case 2:
+                return 'baidu';
+            case 3:
+                return 'sina';
+        }
+    }
+
+    /**
      *  设置日期语言
+     *
      *  @param  {int} n 日期语言对应值
      *  @return {string} 日期语言标识串
      */
@@ -310,6 +333,7 @@
 
     /**
      *  设置粒子类型
+     *
      *  @param  {int} n 粒子类型对应值
      *  @return {string} 粒子类型标识串
      */
@@ -330,6 +354,7 @@
 
     /**
      *  设置粒子方向
+     *
      *  @param  {int} n 粒子方向对应值
      *  @return {string} 粒子方向标识串
      */
@@ -358,6 +383,7 @@
 
     /**
      *  设置离屏模式
+     *
      *  @param  {int} n 离屏模式对应值
      *  @return {string} 离屏模式标识串
      */
@@ -845,9 +871,13 @@
                     wallpaper.date('stopWeather');
                 }
             }
+            // 天气接口提供者
+            if (properties.date_weatherProvider) {
+                wallpaper.date('set', 'weatherProvider', setWeatherProvider(properties.date_weatherProvider.value));
+            }
             // 天气城市
             if (properties.date_city) {
-                wallpaper.date('setCity', properties.date_city.value);
+                wallpaper.date('set', 'currentCity', properties.date_city.value);
             }
             // 字体大小
             if (properties.date_fontSize) {

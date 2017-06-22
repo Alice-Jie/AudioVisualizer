@@ -149,6 +149,8 @@ dateStyle | string | 'LL dddd' | 日期显示风格
 timeFontSize | int | 60 | 时间字体大小
 dateFontSize | int | 30 | 日期字体大小
 language | string | 'zh_cn' | 日期语言
+weatherProvider | string | 'sina' | 天气API提供者
+currentCity | string | 'zh_cn' | 当前城市
 
 #### 方法列表：
 
@@ -175,6 +177,9 @@ string | cityStr | 城市名（仅限中国）
 **stopDate：**
 
 调用`$(selector).date('stopDate');`停止日期计时器
+
+**setWeather：**
+调用`$(selector).date('setWeather');`更新天气信息
 
 **startWeather：**
 
