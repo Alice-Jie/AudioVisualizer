@@ -53,6 +53,188 @@
     // 定义方法
     //--------------------------------------------------------------------------------------------------------------
 
+    // 数字转换成标识字符串
+    //-----------------------------------------------------------
+
+    /**
+     *  设置背景切换模式
+     *  @param  {int} n 背景切换模式对应值
+     *  @return {string} 背景切换模式标识串
+     */
+    function setSliderStyle(n) {
+        switch (n) {
+            case 1:
+                return 'css';
+            case 2:
+                return 'image';
+            case 3:
+                return 'canvas';
+        }
+    }
+
+    /**
+     *  设置读取模式
+     *  @param  {int} n 背景切换模式对应值
+     *  @return {string} 背景切换模式标识串
+     */
+    function setReadStyle(n) {
+        switch (n) {
+            case 1:
+                return 'sequential';
+            case 2:
+                return 'random';
+        }
+    }
+
+    /**
+     * 设置特效
+     *
+     *  @param  {int} n 滑动特效对应值
+     *  @return {string} 滑动特效标识串
+     */
+    function setEffect(n) {
+        switch (n) {
+            case 0:
+                return 'none';
+            case 1:
+                return 'cover';
+            case 2:
+                return 'fadeIn';
+            case 3:
+                return 'fadeOut';
+            case 4:
+                return 'shuffle';
+            case 5:
+                return 'slider';
+            case 6:
+                return 'vertIn';
+            case 7:
+                return 'vertOut';
+            case 8:
+                return 'zoomIn';
+            case 9:
+                return 'zoomOut';
+            default:
+                return 'none';
+        }
+    }
+
+    /**
+     * 设置IMG适应样式
+     *
+     *  @param  {int} n IMG适应样式对应值
+     *  @return {string} IMG适应样式标识串
+     */
+    function setIMGFitStyle(n) {
+        switch (n) {
+            // Fill
+            case 1:
+                return 'cover';
+            // Fit
+            case 2:
+                return 'contain';
+            // Stretch
+            case 3:
+                return 'fill';
+            // Scale-Down
+            case 4:
+                return 'scale-down';
+            // Center
+            case 5:
+                return 'none';
+        }
+    }
+
+    /**
+     * 设置时间单位
+     *
+     *  @param  {int} n 时间单位对应值
+     *  @return {string} 时间单位标识串
+     */
+    function setTimeUnits(n) {
+        switch (n) {
+            case 1:
+                timeUnits = 'sec';
+                break;
+            case 2:
+                timeUnits = 'min';
+                break;
+            case 3:
+                timeUnits = 'hour';
+                break;
+            default:
+                timeUnits = 'sec';
+        }
+    }
+
+    /**
+     *  设置音频圆环
+     *  @param  {int} n 音频圆环对应值
+     *  @return {string} 音频圆环标识串
+     */
+    function setPoint(n) {
+        switch (n) {
+            case 1:
+                return 'staticRing';
+            case 2:
+                return 'innerRing';
+            case 3:
+                return 'outerRing';
+        }
+    }
+
+    /**
+     *  设置日期风格
+     *  @param  {int} n 日期风格对应值
+     *  @return {string} 日期风格标识串
+     */
+    function setTimeStyle(n) {
+        switch (n) {
+            case 1:
+                return 'hh:mm:ss a';
+            case 2:
+                return 'hh:mm:ss';
+            case 3:
+                return 'HH:mm:ss a';
+            case 4:
+                return 'HH:mm:ss';
+            case 5:
+                return 'hh:mm a';
+            case 6:
+                return 'hh:mm';
+            case 7:
+                return 'HH:mm a';
+            case 8:
+                return 'HH:mm';
+        }
+    }
+
+    /**
+     *  设置日期风格
+     *  @param  {int} n 日期风格对应值
+     *  @return {string} 日期风格标识串
+     */
+    function setDateStyle(n) {
+        switch (n) {
+            case 1:
+                return 'LL';
+            case 2:
+                return 'LL dddd';
+            case 3:
+                return 'MM - DD dddd';
+            case 4:
+                return 'MM - DD';
+            case 5:
+                return 'MMM Do dddd';
+            case 6:
+                return 'MMM Do';
+            case 7:
+                return '[Days] DDDD';
+            case 8:
+                return 'weather';
+        }
+    }
+
     /**
      *  设置日期语言
      *  @param  {int} n 日期语言对应值
@@ -127,35 +309,64 @@
     }
 
     /**
-     * 设置特效
-     *
-     *  @param  {int} n 滑动特效对应值
-     *  @return {string} 滑动特效标识串
+     *  设置粒子类型
+     *  @param  {int} n 粒子类型对应值
+     *  @return {string} 粒子类型标识串
      */
-    function setEffect(n) {
+    function setShapeType(n) {
         switch (n) {
-            case 0:
-                return 'none';
             case 1:
-                return 'cover';
+                return 'circle';
             case 2:
-                return 'fadeIn';
+                return 'edge';
             case 3:
-                return 'fadeOut';
+                return 'triangle';
             case 4:
-                return 'shuffle';
+                return 'star';
             case 5:
-                return 'slider';
-            case 6:
-                return 'vertIn';
-            case 7:
-                return 'vertOut';
-            case 8:
-                return 'zoomIn';
-            case 9:
-                return 'zoomOut';
-            default:
+                return 'image';
+        }
+    }
+
+    /**
+     *  设置粒子方向
+     *  @param  {int} n 粒子方向对应值
+     *  @return {string} 粒子方向标识串
+     */
+    function setDirection(n) {
+        switch (n) {
+            case 1:
                 return 'none';
+            case 2:
+                return 'top';
+            case 3:
+                return 'top-right';
+            case 4:
+                return 'right';
+            case 5:
+                return 'bottom-right';
+            case 6:
+                return 'bottom';
+            case 7:
+                return 'bottom-left';
+            case 8:
+                return 'left';
+            case 9:
+                return 'top-left';
+        }
+    }
+
+    /**
+     *  设置离屏模式
+     *  @param  {int} n 离屏模式对应值
+     *  @return {string} 离屏模式标识串
+     */
+    function setMoveOutMode(n) {
+        switch (n) {
+            case 1:
+                return 'out';
+            case 2:
+                return 'bounce';
         }
     }
 
@@ -237,7 +448,7 @@
                                 .slider('delImg');
                     }
                     wallpaper.slider('startSlider')
-                        .slider('changeSlider', sliderStyle);
+                        .slider('changeSlider', setSliderStyle(sliderStyle));
                 } else {
                     wallpaper.slider('setIsRun', false)
                         .slider('stopSlider')
@@ -249,7 +460,7 @@
             // 图片文件夹
             if (properties.directory) {
                 if (properties.directory.value) {
-                    wallpaper.slider('changeSlider', sliderStyle);
+                    wallpaper.slider('changeSlider', setSliderStyle(sliderStyle));
                 } else {
                     wallpaper.slider('clearCanvas')
                         .slider('cssSrcUserImg')
@@ -281,8 +492,8 @@
                         wallpaper.slider('clearCanvas')
                             .slider('delImg');
                 }
-                wallpaper.slider('set', 'sliderStyle', sliderStyle)
-                    .slider('changeSlider', sliderStyle);
+                wallpaper.slider('set', 'sliderStyle', setSliderStyle(sliderStyle))
+                    .slider('changeSlider', setSliderStyle(sliderStyle));
             }
             // 切换特效
             if (properties.directory_effect) {
@@ -290,29 +501,7 @@
             }
             // IMG适应样式
             if (properties.IMG_FitStyle) {
-                switch (properties.IMG_FitStyle.value) {
-                    // Fill
-                    case 1:
-                        wallpaper.slider('set', 'imgFit', 'cover');
-                        break;
-                    // Fit
-                    case 2:
-                        wallpaper.slider('set', 'imgFit', 'contain');
-                        break;
-                    // Stretch
-                    case 3:
-                        wallpaper.slider('set', 'imgFit', 'fill');
-                        break;
-                    // Scale-Down
-                    case 4:
-                        wallpaper.slider('set', 'imgFit', 'scale-down');
-                        break;
-                    // Center
-                    case 5:
-                        wallpaper.slider('set', 'imgFit', 'none');
-                        break;
-                    default:
-                }
+                wallpaper.slider('set', 'imgFit', setIMGFitStyle(properties.IMG_FitStyle.value));
             }
             // IMG背景颜色
             if (properties.IMG_BGColor) {
@@ -323,23 +512,11 @@
             }
             // 读取模式
             if (properties.directory_readStyle) {
-                wallpaper.slider('set', 'readStyle', properties.directory_readStyle.value);
+                wallpaper.slider('set', 'readStyle', setReadStyle(properties.directory_readStyle.value));
             }
             // 选择时间单位
             if (properties.directory_timeUnits) {
-                switch (properties.directory_timeUnits.value) {
-                    case 1:
-                        timeUnits = 'sec';
-                        break;
-                    case 2:
-                        timeUnits = 'min';
-                        break;
-                    case 3:
-                        timeUnits = 'hour';
-                        break;
-                    default:
-                        timeUnits = 'sec';
-                }
+                setTimeUnits(properties.directory_timeUnits.value);
                 wallpaper.slider('set', 'timeUnits', timeUnits);
             }
             // 停留时间
@@ -603,11 +780,11 @@
             }
             // 第一点
             if (properties.audio_firstPoint) {
-                wallpaper.audiovisualizer('set', 'firstPoint', properties.audio_firstPoint.value);
+                wallpaper.audiovisualizer('set', 'firstPoint', setPoint(properties.audio_firstPoint.value));
             }
             // 第二点
             if (properties.audio_secondPoint) {
-                wallpaper.audiovisualizer('set', 'secondPoint', properties.audio_secondPoint.value);
+                wallpaper.audiovisualizer('set', 'secondPoint', setPoint(properties.audio_secondPoint.value));
             }
             // 圆环点数
             if (properties.audio_pointNum) {
@@ -656,11 +833,11 @@
             }
             // 时间样式
             if (properties.date_timeStyle) {
-                wallpaper.date('set', 'timeStyle', properties.date_timeStyle.value);
+                wallpaper.date('set', 'timeStyle', setTimeStyle(properties.date_timeStyle.value));
             }
             // 日期样式
             if (properties.date_dateStyle) {
-                wallpaper.date('set', 'dateStyle', properties.date_dateStyle.value);
+                wallpaper.date('set', 'dateStyle', setDateStyle(properties.date_dateStyle.value));
                 // 天气计时器开关
                 if (properties.date_dateStyle === 8) {
                     wallpaper.date('startWeather');
@@ -783,25 +960,7 @@
             }
             // 粒子类型
             if (properties.particles_shapeType) {
-                switch (properties.particles_shapeType.value) {
-                    case 1:
-                        wallpaper.particles('set', 'shapeType', 'circle');
-                        break;
-                    case 2:
-                        wallpaper.particles('set', 'shapeType', 'edge');
-                        break;
-                    case 3:
-                        wallpaper.particles('set', 'shapeType', 'triangle');
-                        break;
-                    case 4:
-                        wallpaper.particles('set', 'shapeType', 'star');
-                        break;
-                    case 5:
-                        wallpaper.particles('set', 'shapeType', 'image');
-                        break;
-                    default:
-                        wallpaper.particles('set', 'shapeType', 'circle');
-                }
+                wallpaper.particles('set', 'shapeType', setShapeType(properties.particles_shapeType.value));
             }
             // 粒子图片
             if (properties.particles_image) {
@@ -860,37 +1019,7 @@
             }
             // 粒子方向
             if (properties.particles_direction) {
-                switch (properties.particles_direction.value) {
-                    case 1:
-                        wallpaper.particles('set', 'direction', 'none');
-                        break;
-                    case 2:
-                        wallpaper.particles('set', 'direction', 'top');
-                        break;
-                    case 3:
-                        wallpaper.particles('set', 'direction', 'top-right');
-                        break;
-                    case 4:
-                        wallpaper.particles('set', 'direction', 'right');
-                        break;
-                    case 5:
-                        wallpaper.particles('set', 'direction', 'bottom-right');
-                        break;
-                    case 6:
-                        wallpaper.particles('set', 'direction', 'bottom');
-                        break;
-                    case 7:
-                        wallpaper.particles('set', 'direction', 'bottom-left');
-                        break;
-                    case 8:
-                        wallpaper.particles('set', 'direction', 'left');
-                        break;
-                    case 9:
-                        wallpaper.particles('set', 'direction', 'top-left');
-                        break;
-                    default:
-                        wallpaper.particles('set', 'direction', 'none');
-                }
+                wallpaper.particles('set', 'direction', setDirection(properties.particles_direction.value));
             }
             // 粒子是否笔直移动
             if (properties.particles_isStraight) {
@@ -902,16 +1031,7 @@
             }
             // 粒子离屏模式
             if (properties.particles_moveOutMode) {
-                switch (properties.particles_moveOutMode.value) {
-                    case 1:
-                        wallpaper.particles('set', 'moveOutMode', 'out');
-                        break;
-                    case 2:
-                        wallpaper.particles('set', 'moveOutMode', 'bounce');
-                        break;
-                    default:
-                        wallpaper.particles('set', 'moveOutMode', 'out');
-                }
+                wallpaper.particles('set', 'moveOutMode', setMoveOutMode(properties.particles_moveOutMode.value));
             }
         },
 

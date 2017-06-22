@@ -56,8 +56,8 @@ isInnerRing | boolean | true | 显示内环开关
 isOuterRing | boolean | true | 显示外环开关
 ringRotation | int | 0 | 旋转音频圆环，负数为逆时针旋转，正数为顺时针旋转
 isLineTo | boolean | false | 显示内外环之间点与点连开关
-firstPoint | int | 2 | 连线的始点所在环编号，1、静态环 2、内环 3、外环
-secondPoint | int | 3 | 连线的末点所在环编号，1、静态环 2、内环 3、外环
+firstPoint | string | 'innerRing' | 连线的始点标识字符串
+secondPoint | string | 'outerRing' | 连线的末点标识字符串
 pointNum | int | 120 | 音频圆环上点的数量，范围在0~120之间
 distance | int | 0 | 内外环与静态环之间的距离
 lineWidth | int | 5 | 用于设置context.lineWidth
@@ -144,8 +144,8 @@ offsetX | float | 0.5 | X坐标偏移系数，范围在0~1之间
 offsetY | float | 0.5 | Y坐标偏移系数，范围在0~1之间
 isClickOffset | boolean | false | 开启后，根据鼠标点击位置确定XY坐标偏移系数 |
 isDate | boolean | true | 显示日期日期
-timeStyle | int | 1 | 时间显示风格编号
-dateStyle | int | 2 | 日期显示风格编号
+timeStyle | string | 'hh:mm:ss a' | 时间显示风格
+dateStyle | string | 'LL dddd' | 日期显示风格
 timeFontSize | int | 60 | 时间字体大小
 dateFontSize | int | 30 | 日期字体大小
 language | string | 'zh_cn' | 日期语言
@@ -247,8 +247,8 @@ slider插件用于背景切换，从`window.wallpaperPropertyListener`扩展方�
 
 | 名称 | 类型 | 默认| 描述 
 |------|------|-----|------
-sliderStyle | int | 1 | 背景切换模式 1、css 2、image 3、canvas
-readStyle | int | 1 | 读取模式 1、顺序读取 2、随机读取
+sliderStyle | string | 'css' | 背景切换模式
+readStyle | string | 'sequential' | 读取模式
 timeUnits | string | 'sec' | 时间单位：'sec'、'min'、'hour'
 pauseTime | int | 1 | 当前背景停留时间
 effect | string | 'none' | 背景切换特效

@@ -1,9 +1,9 @@
 /**
- * jQuery Slider plugin v0.0.7
+ * jQuery Slider plugin v0.0.8
  * project: http://steamcommunity.com/sharedfiles/filedetails/?id=921617616&searchtext=
  * @license MIT licensed
  * @author Alice
- * @date 2017/06/09
+ * @date 2017/06/21
  */
 
 (function (global, factory) {
@@ -83,6 +83,7 @@
 
     /**
      * 获取字符串对应的索引
+     *
      *@param {Array<string>} array 字符串数组
      *@param {string}        str 字符串
      *@return 字符串对应索引
@@ -101,6 +102,7 @@
 
     /**
      * 随机数组索引
+     *
      * @param {int}            index 当前数组索引
      * @param {Array|<string>} array 字符串数组
      */
@@ -165,6 +167,7 @@
 
     /**
      *根据图片大小获取缩放
+	 *
      * @param  {Object} img image对象
      * @return {Object} 缩放对象
      */
@@ -1018,7 +1021,7 @@
      *@return {int} 停留时间
      */
     function getPauseTime(sliderStyle, effect, pauseTime, timeUnits) {
-        if (sliderStyle === 1 || effect === 'none') {
+        if (sliderStyle === 'css' || effect === 'none') {
             switch (timeUnits) {
                 case 'sec':
                     return pauseTime * 1000;
@@ -1059,17 +1062,17 @@
                 // 更新图片列表
                 oldIndex = imgIndex;
                 switch (readStyle) {
-                    case 1:
+                    case 'sequential':
                         imgIndex = upDateIndex(imgList, imgIndex, false);
                         break;
-                    case 2:
+                    case 'random':
                         imgIndex = upDateIndex(imgList, imgIndex, true);
                         break;
                     default:
                         imgIndex = upDateIndex(imgList, imgIndex, false);
                 }
                 // 选择特效
-                if (sliderStyle === 2) {
+                if (sliderStyle === 'image') {
                     switch (effect) {
                         case 'none':
                             stopEffectTimer();
@@ -1104,7 +1107,7 @@
                         default:
                             stopEffectTimer();
                     }
-                } else if (sliderStyle === 3) {
+                } else if (sliderStyle === 'canvas') {
                     switch (effect) {
                         case 'none':
                             stopEffectTimer();
@@ -1378,15 +1381,15 @@
             if (isRun) {
                 switch (sliderStyle) {
                     // css
-                    case 1:
+                    case 'css':
                         changeBackgroud();
                         break;
                     // img
-                    case 2:
+                    case 'image':
                         changeImage();
                         break;
                     // canvas
-                    case 3:
+                    case 'canvas':
                         drawBackgroud();
                         break;
                     default:
@@ -1414,13 +1417,13 @@
                 var time = getPauseTime(this.sliderStyle, this.effect, this.pauseTime, this.timeUnits);
                 switch (this.sliderStyle) {
                     // CSS
-                    case 1:
+                    case 'css':
                         stopEffectTimer();
                         this.clearCanvas();
                         runSliderTimer(this.readStyle, this.sliderStyle, 'none', changeBackgroud, time);
                         break;
                     // Img
-                    case 2:
+                    case 'image':
                         if (this.effect === 'none') {
                             runSliderTimer(this.readStyle, this.sliderStyle, this.effect, changeImage, time);
                         } else {
@@ -1428,7 +1431,7 @@
                         }
                         break;
                     // Canvas
-                    case 3:
+                    case 'canvas':
                         if (this.effect === 'none') {
                             runSliderTimer(this.readStyle, this.sliderStyle, this.effect, drawBackgroud, time);
                         } else {
@@ -1478,8 +1481,8 @@
 
     // 默认参数
     Slider.DEFAULTS = {
-        sliderStyle: 1,            // 背景切换模式
-        readStyle: 1,              // 读取模式
+        sliderStyle: 'css',        // 背景切换模式
+        readStyle: 'sequential',   // 读取模式
         timeUnits: 'sec',          // 时间单位
         pauseTime: 1,              // 背景停留时间
         effect: 'none',            // 切换特效

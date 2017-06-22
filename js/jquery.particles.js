@@ -206,6 +206,7 @@
 
     /**
      * 反弹粒子
+     *
      * @param {int}     index 粒子数组索引
      * @param {boolean} isBounce 粒子反弹开关
      */
@@ -469,9 +470,9 @@
 
     /**
      *  设置粒子数组粒子属性
+	 *
      * @param {Function} that     方法Particles
      * @param {string}   property 属性名
-     *
      */
     function setParticles(that, property) {
         for (var i = 0; i < particlesArray.length; i++) {

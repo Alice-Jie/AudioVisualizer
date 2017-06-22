@@ -1,10 +1,10 @@
 /**
- * jQuery date plugin v0.0.3
+ * jQuery date plugin v0.0.4
  * moment.js: http://momentjs.cn/
  * project: http://steamcommunity.com/sharedfiles/filedetails/?id=921617616&searchtext=
  * @license MIT licensed
  * @author Alice
- * @date 2017/06/09
+ * @date 2017/06/21
  */
 
 (function (global, factory) {
@@ -94,22 +94,15 @@
      */
     function getTime(timeStyle) {
         switch (timeStyle) {
-            case 1:
-                return moment().format('hh:mm:ss a');
-            case 2:
-                return moment().format('hh:mm:ss');
-            case 3:
-                return moment().format('HH:mm:ss a');
-            case 4:
-                return moment().format('HH:mm:ss');
-            case 5:
-                return moment().format('hh:mm a');
-            case 6:
-                return moment().format('hh:mm');
-            case 7:
-                return moment().format('HH:mm a');
-            case 8:
-                return moment().format('HH:mm');
+            case 'hh:mm:ss a':
+            case 'hh:mm:ss':
+            case 'HH:mm:ss a':
+            case 'HH:mm:ss':
+            case 'hh:mm a':
+            case 'hh:mm':
+            case 'HH:mm a':
+            case 'HH:mm':
+                return moment().format(timeStyle);
         }
     }
 
@@ -145,7 +138,7 @@
             },
             error: function (XMLHttpRequest) {
                 if (XMLHttpRequest.status === 401) {
-                    weatherStr = '错误' + XMLHttpRequest.status + '本日和风天气访问次数达到上限';
+                    weatherStr = '错误' + XMLHttpRequest.status + XMLHttpRequest.statusText;
                 } else if (XMLHttpRequest.status === 412) {
                     weatherStr = '错误' + XMLHttpRequest.status + '本日和风天气访问次数达到上限';
                 } else {
@@ -163,21 +156,15 @@
      */
     function getDate(dateStyle) {
         switch (dateStyle) {
-            case 1:
-                return moment().format('LL');
-            case 2:
-                return moment().format('LL dddd');
-            case 3:
-                return moment().format('MM - DD dddd');
-            case 4:
-                return moment().format('MM - DD');
-            case 5:
-                return moment().format('MMM Do dddd');
-            case 6:
-                return moment().format('MMM Do');
-            case 7:
-                return moment().format('[Days] DDDD');
-            case 8:
+            case 'LL':
+            case 'LL dddd':
+            case 'MM - DD dddd':
+            case 'MM - DD':
+            case 'MMM Do dddd':
+            case 'MMM Do':
+            case '[Days] DDDD':
+                return moment().format(dateStyle);
+            case 'weather':
                 return weatherStr || '读取天气数据中...';
         }
     }
@@ -444,8 +431,8 @@
         isClickOffset: false,        // 鼠标坐标偏移
         // 坐标参数
         isDate: true,                // 是否显示日期
-        timeStyle: 1,                // 时间显示风格
-        dateStyle: 2,                // 日期显示风格
+        timeStyle: 'hh:mm:ss a',     // 时间显示风格
+        dateStyle: 'LL dddd',        // 日期显示风格
         timeFontSize: 60,            // 时间字体大小
         dateFontSize: 30,            // 日期字体大小
         language: 'zh_cn'            // 日期语言

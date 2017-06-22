@@ -1,9 +1,9 @@
 /**
- * jQuery AudioVisualizer plugin v0.0.2
+ * jQuery AudioVisualizer plugin v0.0.3
  * project: http://steamcommunity.com/sharedfiles/filedetails/?id=921617616&searchtext=
  * @license MIT licensed
  * @author Alice
- * @date 2017/06/06
+ * @date 2017/06/21
  */
 
 (function (global, factory) {
@@ -303,13 +303,13 @@
     function getPointArray(num) {
         switch (num) {
             // 静态环
-            case 1:
+            case 'staticRing':
                 return staticPointsArray;
             // 内环
-            case 2:
+            case 'innerRing':
                 return pointArray1;
             // 外环
-            case 3:
+            case 'outerRing':
                 return pointArray2;
         }
     }
@@ -373,7 +373,7 @@
      * 绘制小球
      *
      *  @param {Array<Object>} pointArray 坐标数组
-     *  @param {int}   ballSize   小球大小
+     *  @param {int}           ballSize   小球大小
      */
     function drawBall(pointArray, ballSize) {
         for (var i = 0; i < pointArray.length; i++) {
@@ -663,8 +663,8 @@
         ringRotation: 0,             // 圆环旋转
         // 线条参数
         isLineTo: false,             // 是否连线
-        firstPoint: 2,               // 始点
-        secondPoint: 3,              // 末点
+        firstPoint: 'innerRing',     // 始点
+        secondPoint: 'outerRing',    // 末点
         pointNum: 120,               // 点的数量
         distance: 0,                 // 内外环距离
         lineWidth: 5,                // 线条粗细
