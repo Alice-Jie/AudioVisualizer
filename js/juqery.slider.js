@@ -14,6 +14,10 @@
         });
     } else if (typeof exports === "object" && exports) {
         module.exports = factory(require('jquery'), global, global.document, global.Math);
+    } else if (global.layui && layui.define) {
+        layui.define('jquery', function (exports) {
+            exports(factory(layui.jquery, global, global.document, global.Math));
+        });
     } else {
         factory(jQuery, global, global.document, global.Math);
     }
@@ -25,18 +29,18 @@
     //--------------------------------------------------------------------------------------------------------------
 
     (function () {
-        var lastTime = 0;
-        var vendors = ['ms', 'moz', 'webkit', 'o'];
-        for (var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+        let lastTime = 0;
+        let vendors = ['ms', 'moz', 'webkit', 'o'];
+        for (let x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
             window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
             window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] || window[vendors[x] + 'CancelRequestAnimationFrame'];
         }
 
         if (!window.requestAnimationFrame)
             window.requestAnimationFrame = function (callback, element) {
-                var currTime = new Date().getTime();
-                var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-                var id = window.setTimeout(function () {
+                let currTime = new Date().getTime();
+                let timeToCall = Math.max(0, 16 - (currTime - lastTime));
+                let id = window.setTimeout(function () {
                         callback(currTime + timeToCall);
                     },
                     timeToCall);
@@ -53,27 +57,27 @@
     //私有变量
     //--------------------------------------------------------------------------------------------------------------
 
-    var isRun = false;  // 状态锁
+    let isRun = false;  // 状态锁
 
-    var prevImg = new Image();      // 上张图片对象
-    var currantImg = new Image();   // 当前图片对象
-    var prevCanvas, currantCanvas;  // 离屏Canvas
-    var prevContext, currantContext;
+    let prevImg = new Image();      // 上张图片对象
+    let currantImg = new Image();   // 当前图片对象
+    let prevCanvas, currantCanvas;  // 离屏Canvas
+    let prevContext, currantContext;
 
-    var imgList = [];       // 图片绝对路径数组
-    var imgIndex = 0;       // 图片索引
-    var oldIndex = 0;       // 旧的索引
+    let imgList = [];       // 图片绝对路径数组
+    let imgIndex = 0;       // 图片索引
+    let oldIndex = 0;       // 旧的索引
 
-    var userImg = '';  // 用户自定义图片路径
+    let userImg = '';  // 用户自定义图片路径
 
-    var timer = null;        // 切换计时器
-    var effectTimer = null;  // 特效计时器
+    let timer = null;        // 切换计时器
+    let effectTimer = null;  // 特效计时器
 
-    var canvas;                     // canvas对象
-    var context;                    // context对象
-    var canvasWidth, canvasHeight;  // canvas宽度和高度
+    let canvas;                     // canvas对象
+    let context;                    // context对象
+    let canvasWidth, canvasHeight;  // canvas宽度和高度
 
-    var originX, originY;           // 原点位置
+    let originX, originY;           // 原点位置
 
     //私有方法
     //--------------------------------------------------------------------------------------------------------------
@@ -92,7 +96,7 @@
         if (array.length <= 0) {
             return -1;
         }
-        for (var i = 0; i < array.length; i++) {
+        for (let i = 0; i < array.length; i++) {
             if (array[i] === str) {
                 return i;
             }
@@ -107,7 +111,7 @@
      * @param {Array|<string>} array 字符串数组
      */
     function randomIndex(index, array) {
-        var old = index;
+        let old = index;
         index = Math.floor(Math.random() * (array.length));
         if (index === old) {
             index = randomIndex(index, array);
@@ -180,7 +184,7 @@
 
     /** 覆盖特效 */
     function canvasCover() {
-        var currantWidth = 0; // 当前图片宽度
+        let currantWidth = 0; // 当前图片宽度
         // 图片预加载
         prevImg.src = 'file:///' + imgList[oldIndex];
         currantImg.src = 'file:///' + imgList[imgIndex];
@@ -213,7 +217,7 @@
 
     /** 渐显特效 */
     function canvasFadeIn() {
-        var opacity = 100;  // 不透明值
+        let opacity = 100;  // 不透明值
         // 图片预加载
         prevImg.src = 'file:///' + imgList[oldIndex];
         currantImg.src = 'file:///' + imgList[imgIndex];
@@ -253,7 +257,7 @@
 
     /** 渐隐特效 */
     function canvasFadeOut() {
-        var opacity = 0;  // 不透明值
+        let opacity = 0;  // 不透明值
         // 图片预加载
         prevImg.src = 'file:///' + imgList[oldIndex];
         currantImg.src = 'file:///' + imgList[imgIndex];
@@ -293,7 +297,7 @@
 
     /** 洗牌特效 */
     function canvasShuffle() {
-        var prevWidth = 0, currantWidth = 0;  // 上张图片和当前图片宽度
+        let prevWidth = 0, currantWidth = 0;  // 上张图片和当前图片宽度
         // 图片预加载
         prevImg.src = 'file:///' + imgList[oldIndex];
         currantImg.src = 'file:///' + imgList[imgIndex];
@@ -336,7 +340,7 @@
 
     /** 滑动特效 */
     function canvasSlider() {
-        var prevWidth = 0, currantWidth = 0;  // 上张图片和当前图片宽度
+        let prevWidth = 0, currantWidth = 0;  // 上张图片和当前图片宽度
         // 图片预加载
         prevImg.src = 'file:///' + imgList[oldIndex];
         currantImg.src = 'file:///' + imgList[imgIndex];
@@ -369,8 +373,8 @@
 
     /** 拉伸特效 */
     function canvasVerticalIn() {
-        var currantWidth = 0;  // 当前图片宽度
-        var currantX = getXY(originX, originY, currantWidth, canvasHeight).x;  // 当前图片X坐标
+        let currantWidth = 0;  // 当前图片宽度
+        let currantX = getXY(originX, originY, currantWidth, canvasHeight).x;  // 当前图片X坐标
         // 图片预加载
         prevImg.src = 'file:///' + imgList[oldIndex];
         currantImg.src = 'file:///' + imgList[imgIndex];
@@ -399,8 +403,8 @@
 
     /** 收缩特效 */
     function canvasVerticalOut() {
-        var currantWidth = canvasWidth;  // 当前图片宽度
-        var currantX = getXY(originX, originY, currantWidth, canvasHeight).x;  // 当前图片X坐标
+        let currantWidth = canvasWidth;  // 当前图片宽度
+        let currantX = getXY(originX, originY, currantWidth, canvasHeight).x;  // 当前图片X坐标
         // 图片预加载
         prevImg.src = 'file:///' + imgList[oldIndex];
         currantImg.src = 'file:///' + imgList[imgIndex];
@@ -433,10 +437,10 @@
     /** 放大特效 */
     function canvasZoomIn() {
         // 当前图片宽度和高度
-        var currantWidth = 0, currantHeight = 0;
+        let currantWidth = 0, currantHeight = 0;
         // 当前图片XY坐标
-        var currantX = getXY(originX, originY, currantWidth, currantHeight).x;
-        var currantY = getXY(originX, originY, currantWidth, currantHeight).y;
+        let currantX = getXY(originX, originY, currantWidth, currantHeight).x;
+        let currantY = getXY(originX, originY, currantWidth, currantHeight).y;
         // 图片预加载
         prevImg.src = 'file:///' + imgList[oldIndex];
         currantImg.src = 'file:///' + imgList[imgIndex];
@@ -468,10 +472,10 @@
     /** 缩小特效 */
     function canvasZoomOut() {
         // 当前图片宽度和高度
-        var currantWidth = canvasWidth, currantHeight = canvasHeight;
+        let currantWidth = canvasWidth, currantHeight = canvasHeight;
         // 图片XY坐标
-        var currantX = 0;
-        var currantY = 0;
+        let currantX = 0;
+        let currantY = 0;
         // 图片预加载
         prevImg.src = 'file:///' + imgList[oldIndex];
         currantImg.src = 'file:///' + imgList[imgIndex];
@@ -505,7 +509,7 @@
 
     /** 覆盖特效 */
     function imgCover() {
-        var currantLeft = -100; // 当前图片left值百分比
+        let currantLeft = -100; // 当前图片left值百分比
         // 图片预加载
         prevImg.src = 'file:///' + imgList[oldIndex];
         currantImg.src = 'file:///' + imgList[imgIndex];
@@ -541,7 +545,7 @@
 
     /** 渐显特效 */
     function imgFadeIn() {
-        var opacity = 100;  // 不透明值
+        let opacity = 100;  // 不透明值
         // 图片预加载
         prevImg.src = 'file:///' + imgList[oldIndex];
         currantImg.src = 'file:///' + imgList[imgIndex];
@@ -577,7 +581,7 @@
 
     /** 渐隐特效 */
     function imgFadeOut() {
-        var opacity = 0;  // 不透明值
+        let opacity = 0;  // 不透明值
         // 图片预加载
         prevImg.src = 'file:///' + imgList[oldIndex];
         currantImg.src = 'file:///' + imgList[imgIndex];
@@ -614,8 +618,8 @@
     /** 洗牌特效 */
     function imgShuffle() {
         // 上张图片和当前图片left值百分比
-        var prevLeft = 0, currantLeft = 0;
-        var animationStage = 1; // 动画状态
+        let prevLeft = 0, currantLeft = 0;
+        let animationStage = 1; // 动画状态
         // 图片预加载
         prevImg.src = 'file:///' + imgList[oldIndex];
         currantImg.src = 'file:///' + imgList[imgIndex];
@@ -673,7 +677,7 @@
     /** 滑动特效 */
     function imgSlider() {
         // 上张图片和当前图片left值百分比
-        var prevLeft = 0, currantLeft = -100;
+        let prevLeft = 0, currantLeft = -100;
         prevImg.src = 'file:///' + imgList[oldIndex];
         currantImg.src = 'file:///' + imgList[imgIndex];
         prevImg.onload = function () {
@@ -712,8 +716,8 @@
 
     /** 拉伸特效 */
     function imgVerticalIn() {
-        var currantWidth = 0;  // 当前图片宽度
-        var currantLeft = getXY(originX, originY, currantWidth, canvasHeight).x;  // 当前图片left值
+        let currantWidth = 0;  // 当前图片宽度
+        let currantLeft = getXY(originX, originY, currantWidth, canvasHeight).x;  // 当前图片left值
         // 图片预加载
         prevImg.src = 'file:///' + imgList[oldIndex];
         currantImg.src = 'file:///' + imgList[imgIndex];
@@ -758,8 +762,8 @@
 
     /** 收缩特效 */
     function imgVerticalOut() {
-        var prevWidth = canvasWidth;  // 上张图片宽度
-        var prevLeft = getXY(originX, originY, prevWidth, canvasHeight).x;  // 上张图片left值
+        let prevWidth = canvasWidth;  // 上张图片宽度
+        let prevLeft = getXY(originX, originY, prevWidth, canvasHeight).x;  // 上张图片left值
         // 图片预加载
         prevImg.src = 'file:///' + imgList[oldIndex];
         currantImg.src = 'file:///' + imgList[imgIndex];
@@ -807,10 +811,10 @@
     /** 放大特效 */
     function imgZoomIn() {
         // 当前图片宽度和高度
-        var currantWidth = 0, currantHeight = 0;
+        let currantWidth = 0, currantHeight = 0;
         // 当前图片left值和top值
-        var currantLeft = getXY(originX, originY, currantWidth, currantHeight).x;
-        var currantTop = getXY(originX, originY, currantWidth, currantHeight).y;
+        let currantLeft = getXY(originX, originY, currantWidth, currantHeight).x;
+        let currantTop = getXY(originX, originY, currantWidth, currantHeight).y;
         // 图片预加载
         prevImg.src = 'file:///' + imgList[oldIndex];
         currantImg.src = 'file:///' + imgList[imgIndex];
@@ -862,10 +866,10 @@
     /** 缩小特效 */
     function imgZoomOut() {
         // 上张图片宽度和高度
-        var prevWidth = canvasWidth, prevHeight = canvasHeight;
+        let prevWidth = canvasWidth, prevHeight = canvasHeight;
         // 上张图片left值和top值
-        var prevLeft = 0;
-        var prevTop = 0;
+        let prevLeft = 0;
+        let prevTop = 0;
         // 图片预加载
         prevImg.src = 'file:///' + imgList[oldIndex];
         currantImg.src = 'file:///' + imgList[imgIndex];
@@ -1173,7 +1177,7 @@
      * @param {!Object} el      被选中的节点
      * @param {Object}  options 参数对象
      */
-    var Slider = function (el, options) {
+    let Slider = function (el, options) {
         this.$el = $(el);
 
         this.sliderStyle = options.sliderStyle;  // 背景切换模式
@@ -1414,7 +1418,7 @@
         startSlider: function () {
             stopSliderTimer();
             if (isRun) {
-                var time = getPauseTime(this.sliderStyle, this.effect, this.pauseTime, this.timeUnits);
+                let time = getPauseTime(this.sliderStyle, this.effect, this.pauseTime, this.timeUnits);
                 switch (this.sliderStyle) {
                     // CSS
                     case 'css':
@@ -1494,15 +1498,15 @@
     //定义Slider插件
     //--------------------------------------------------------------------------------------------------------------
 
-    var old = $.fn.slider;
+    let old = $.fn.slider;
 
     $.fn.slider = function (option) {
-        var args = (arguments.length > 1) ? Array.prototype.slice.call(arguments, 1) : undefined;
+        let args = (arguments.length > 1) ? Array.prototype.slice.call(arguments, 1) : undefined;
 
         return this.each(function () {
-            var $this = $(this);
-            var data = $this.data('slider');
-            var options = $.extend({}, Slider.DEFAULTS, $this.data(), typeof option === 'object' && option);
+            let $this = $(this);
+            let data = $this.data('slider');
+            let options = $.extend({}, Slider.DEFAULTS, $this.data(), typeof option === 'object' && option);
 
             if (!data && typeof option === 'string') {
                 return;

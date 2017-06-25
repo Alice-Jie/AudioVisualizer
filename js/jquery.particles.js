@@ -15,6 +15,10 @@
         });
     } else if (typeof exports === "object" && exports) {
         module.exports = factory(require('jquery'), global, global.document, global.Math);
+    } else if (global.layui && layui.define) {
+        layui.define('jquery', function (exports) {
+            exports(factory(layui.jquery, global, global.document, global.Math));
+        });
     } else {
         factory(jQuery, global, global.document, global.Math);
     }
@@ -26,18 +30,18 @@
     //--------------------------------------------------------------------------------------------------------------
 
     (function () {
-        var lastTime = 0;
-        var vendors = ['ms', 'moz', 'webkit', 'o'];
-        for (var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+        let lastTime = 0;
+        let vendors = ['ms', 'moz', 'webkit', 'o'];
+        for (let x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
             window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
             window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] || window[vendors[x] + 'CancelRequestAnimationFrame'];
         }
 
         if (!window.requestAnimationFrame)
             window.requestAnimationFrame = function (callback, element) {
-                var currTime = new Date().getTime();
-                var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-                var id = window.setTimeout(function () {
+                let currTime = new Date().getTime();
+                let timeToCall = Math.max(0, 16 - (currTime - lastTime));
+                let id = window.setTimeout(function () {
                         callback(currTime + timeToCall);
                     },
                     timeToCall);
@@ -54,18 +58,18 @@
     //私有变量
     //--------------------------------------------------------------------------------------------------------------
 
-    var canvas;                     // canvas对象
-    var context;                    // context对象
-    var canvasWidth, canvasHeight;  // canvas宽度和高度
+    let canvas;                     // canvas对象
+    let context;                    // context对象
+    let canvasWidth, canvasHeight;  // canvas宽度和高度
 
-    var img = new Image();    // 图片对象
-    var imgWidth, imgHeight;  // 图片宽度和高度
-    var currantCanvas;        // 离屏Canvas
-    var currantContext;
+    let img = new Image();    // 图片对象
+    let imgWidth, imgHeight;  // 图片宽度和高度
+    let currantCanvas;        // 离屏Canvas
+    let currantContext;
 
-    var particlesArray = [];  // 粒子数组
+    let particlesArray = [];  // 粒子数组
 
-    var timer = null;  // 粒子计时器
+    let timer = null;  // 粒子计时器
 
     //私有方法
     //--------------------------------------------------------------------------------------------------------------
@@ -83,7 +87,7 @@
      * @return {float} 两点之间距离
      */
     function getDist(x1, y1, x2, y2) {
-        var dx = x1 - x2,
+        let dx = x1 - x2,
             dy = y1 - y2;
         return Math.sqrt(dx * dx + dy * dy);
     }
@@ -94,15 +98,15 @@
      * @param {int} index 粒子数组索引
      */
     function checkOverlap(index) {
-        var particles1 = particlesArray[index];
-        for (var i = 0; i < particlesArray.length; i++) {
+        let particles1 = particlesArray[index];
+        for (let i = 0; i < particlesArray.length; i++) {
             // 跳过索引相同的粒子
             if (i === index) {
                 continue;
             }
-            var particles2 = particlesArray[i];
+            let particles2 = particlesArray[i];
             // 获取对象粒子和当前粒子之间距离
-            var dist = getDist(particles1.x, particles1.y, particles2.x, particles2.y);
+            let dist = getDist(particles1.x, particles1.y, particles2.x, particles2.y);
             // 如果距离小于两者半径之和
             if (dist <= particles1.radius + particles2.radius) {
                 // 随机在画布上设置粒子对象坐标
@@ -185,11 +189,11 @@
      */
     function getImgSize(particles) {
         // 图片宽度和高度
-        var width = currantCanvas.width,
+        let width = currantCanvas.width,
             height = currantCanvas.height;
         // 如果图片超过粒子的尺寸限制
         if (currantCanvas.width > particles.radius * 10 || currantCanvas.height > particles.radius * 10) {
-            var scaling = 0.5;  // 缩放值
+            let scaling = 0.5;  // 缩放值
             if (currantCanvas.width > currantCanvas.height) {
                 scaling = particles.radius * 10 / currantCanvas.width;
             } else {
@@ -212,28 +216,28 @@
      */
     function bounceParticles(index, isBounce) {
         if (isBounce) {
-            var particles1 = particlesArray[index];
-            var particles1_dist = 0;
+            let particles1 = particlesArray[index];
+            let particles1_dist = 0;
             if (particles1.shapeType === 'image') {
                 particles1_dist = Math.min(getImgSize(particles1).width, getImgSize(particles1).height) / 2;
             } else {
                 particles1_dist = particles1.radius;
             }
-            for (var i = 0; i < particlesArray.length; i++) {
+            for (let i = 0; i < particlesArray.length; i++) {
                 // 跳过索引相同的粒子
                 if (i === index) {
                     continue;
                 }
-                var particles2 = particlesArray[i];
-                var particles2_dist = 0;
+                let particles2 = particlesArray[i];
+                let particles2_dist = 0;
                 if (particles2.shapeType === 'image') {
                     particles2_dist = Math.min(getImgSize(particles2).width, getImgSize(particles2).height) / 2;
                 } else {
                     particles2_dist = particles2.radius;
                 }
                 // 获取对象粒子和当前粒子之间距离
-                var dist = getDist(particles1.x + particles1_dist, particles1.y + particles1_dist, particles2.x + particles2_dist, particles2.y + particles2_dist);
-                var dist_p = particles1_dist + particles2_dist;
+                let dist = getDist(particles1.x + particles1_dist, particles1.y + particles1_dist, particles2.x + particles2_dist, particles2.y + particles2_dist);
+                let dist_p = particles1_dist + particles2_dist;
                 // 如果粒子距离小于等于两者半径之和
                 if (dist <= dist_p) {
                     particles1.vx = -particles1.vx;
@@ -253,20 +257,19 @@
      * @param {string}  moveOutMode 离开模式
      */
     function marginalCheck(particles, moveOutMode) {
+        let new_pos = {
+            x_left: -particles.radius,
+            x_right: canvasWidth + particles.radius,
+            y_top: -particles.radius,
+            y_bottom: canvasHeight + particles.radius
+        };
         // 如果离开模式是反弹
         if (moveOutMode === 'bounce') {
-            var new_pos = {
+            new_pos = {
                 x_left: particles.radius,
                 x_right: canvasWidth,
                 y_top: particles.radius,
                 y_bottom: canvasHeight
-            }
-        } else {
-            var new_pos = {
-                x_left: -particles.radius,
-                x_right: canvasWidth + particles.radius,
-                y_top: -particles.radius,
-                y_bottom: canvasHeight + particles.radius
             }
         }
 
@@ -338,10 +341,10 @@
      */
     function initParticlesArray(that) {
         // 向粒子数组添加粒子
-        for (var i = 0; i < that.number; i++) {
+        for (let i = 0; i < that.number; i++) {
             // 随机XY坐标
-            var x = ~~(0.5 + Math.random() * canvasWidth);
-            var y = ~~(0.5 + Math.random() * canvasHeight);
+            let x = ~~(0.5 + Math.random() * canvasWidth);
+            let y = ~~(0.5 + Math.random() * canvasHeight);
             // 向粒子数组添加粒子
             particlesArray.push({
                 // 粒子全局属性
@@ -363,7 +366,7 @@
                 vy: 0                            // Y轴方向向量
             });
         }
-        for (var i = 0; i < particlesArray.length; i++) {
+        for (let i = 0; i < particlesArray.length; i++) {
             // 粒子属性随机化
             particlesArray[i].opacity = that.opacityRandom ? Math.min(Math.random(), that.opacity) : that.opacity;
             if (that.rotationAngle !== 0) {
@@ -397,14 +400,14 @@
      * - that.number        {int}     粒子数量
      */
     function addParticles(that, num) {
-        var old = that.number;
+        let old = that.number;
         if (num > old) {
-            var n = num - old;
-            var tempArray = [];
+            let n = num - old;
+            let tempArray = [];
             // 多余的粒子初始化
-            for (var i = 0; i < n; i++) {
-                var x = ~~(0.5 + Math.random() * canvasWidth);
-                var y = ~~(0.5 + Math.random() * canvasHeight);
+            for (let i = 0; i < n; i++) {
+                let x = ~~(0.5 + Math.random() * canvasWidth);
+                let y = ~~(0.5 + Math.random() * canvasHeight);
                 tempArray.push({
                     // 粒子全局属性
                     opacity: that.opacity,          // 不透明度
@@ -426,7 +429,7 @@
                 });
             }
             // 多余的粒子属性随机化
-            for (var i = 0; i < tempArray.length; i++) {
+            for (let i = 0; i < tempArray.length; i++) {
                 tempArray[i].opacity = (that.opacityRandom ? Math.random() : that.opacity);
                 tempArray[i].radius = (that.sizeRandom ? Math.random() : 1) * that.sizeValue;
                 if (that.rotationAngle !== 0) {
@@ -436,13 +439,13 @@
                 moveStraight(tempArray[i], that.isStraight, that.direction);
             }
             particlesArray = particlesArray.concat(tempArray);
-            for (var i = 0; i < particlesArray.length; i++) {
+            for (let i = 0; i < particlesArray.length; i++) {
                 checkOverlap(i);
             }
         } else if (num >= 0 && num < old) {
-            var n = old - num;
+            let n = old - num;
             // 删除多余的粒子
-            for (var i = 0; i < n; i++) {
+            for (let i = 0; i < n; i++) {
                 particlesArray.pop();
             }
         }
@@ -456,10 +459,10 @@
      */
     function densityAutoParticles(that) {
         if (that.isDensity) {
-            var area = canvasWidth * canvasHeight / 1000;  // 计算密度
-            var particlesNum = area * that.number / that.densityArea;  // 基于密度区域的粒子个数
+            let area = canvasWidth * canvasHeight / 1000;  // 计算密度
+            let particlesNum = area * that.number / that.densityArea;  // 基于密度区域的粒子个数
             // 添加或则移除X个粒子
-            var missingParticles = particlesArray.length - particlesNum;
+            let missingParticles = particlesArray.length - particlesNum;
             if (missingParticles < 0) {
                 addParticles(that, that.number + Math.abs(missingParticles));
             } else {
@@ -470,12 +473,12 @@
 
     /**
      *  设置粒子数组粒子属性
-	 *
+     *
      * @param {Function} that     方法Particles
      * @param {string}   property 属性名
      */
     function setParticles(that, property) {
-        for (var i = 0; i < particlesArray.length; i++) {
+        for (let i = 0; i < particlesArray.length; i++) {
             switch (property) {
                 case 'opacity':
                 case 'opacityRandom':
@@ -535,13 +538,12 @@
     /**
      * 更新粒子数组
      *
-     * @param {float}   rotationAngle 旋转角度
      * @param {boolean} isMove        粒子移动开关
      * @param {boolean} isBounce      粒子反弹开关
      * @param {string}  moveOutMode   离屏模式
      */
     function updateParticlesArray(isMove, isBounce, moveOutMode) {
-        for (var i = 0; i < particlesArray.length; i++) {
+        for (let i = 0; i < particlesArray.length; i++) {
             particlesArray[i].currantAngle = rotation(particlesArray[i].currantAngle, particlesArray[i].rotationAngle);
             moveParticles(particlesArray[i], isMove, particlesArray[i].speed);
             bounceParticles(i, isBounce);
@@ -564,13 +566,13 @@
      */
     function drawShape(context, startX, startY, sideLength, sideCountNumerator, sideCountDenominator) {
         // By Programming Thomas - https://programmingthomas.wordpress.com/2013/04/03/n-sided-shapes/
-        var sideCount = sideCountNumerator * sideCountDenominator;
-        var decimalSides = sideCountNumerator / sideCountDenominator;
-        var interiorAngleDegrees = (180 * (decimalSides - 2)) / decimalSides;
-        var interiorAngle = Math.PI - Math.PI * interiorAngleDegrees / 180; // convert to radians
+        let sideCount = sideCountNumerator * sideCountDenominator;
+        let decimalSides = sideCountNumerator / sideCountDenominator;
+        let interiorAngleDegrees = (180 * (decimalSides - 2)) / decimalSides;
+        let interiorAngle = Math.PI - Math.PI * interiorAngleDegrees / 180; // convert to radians
         context.translate(startX, startY);
         context.moveTo(0, 0);
-        for (var i = 0; i < sideCount; i++) {
+        for (let i = 0; i < sideCount; i++) {
             context.lineTo(sideLength, 0);
             context.translate(sideLength, 0);
             context.rotate(interiorAngle);
@@ -624,7 +626,7 @@
             // 绘制图片
             case 'image':
                 // 获取图片粒子的宽和高
-                var width = getImgSize(particles).width,
+                let width = getImgSize(particles).width,
                     height = getImgSize(particles).height;
                 context.translate(particles.x + width / 2, particles.y + height / 2);
                 context.rotate(particles.currantAngle);
@@ -647,18 +649,18 @@
      *  - that.linkOpacity  {float}   连线不透明度
      */
     function drawLine(index, that) {
-        for (var i = 0; i < particlesArray.length; i++) {
+        for (let i = 0; i < particlesArray.length; i++) {
             // 跳过索引相同的粒子
             if (i === index) {
                 continue;
             }
-            var particles1 = particlesArray[index];
-            var particles2 = particlesArray[i];
+            let particles1 = particlesArray[index];
+            let particles2 = particlesArray[i];
             // 获取对象粒子和当前粒子之间距离
-            var dist = getDist(particles1.x, particles1.y, particles2.x, particles2.y);
+            let dist = getDist(particles1.x, particles1.y, particles2.x, particles2.y);
             if (dist <= that.linkDistance) {
-                var d = (that.linkDistance - dist) / that.linkDistance;
-                var width = 0, height = 0;  // 粒子高度和宽度
+                let d = (that.linkDistance - dist) / that.linkDistance;
+                let width = 0, height = 0;  // 粒子高度和宽度
                 context.save();
                 context.lineWidth = d * that.linkWidth;
                 context.strokeStyle = "rgba(" + that.linkColor + "," + Math.min(d, that.linkOpacity) + ")";
@@ -721,7 +723,7 @@
         timer = requestAnimationFrame(function animal() {
             updateParticlesArray(that.isMove, that.isBounce, that.moveOutMode);
             context.clearRect(0, 0, canvasWidth, canvasHeight);
-            for (var i = 0; i < particlesArray.length; i++) {
+            for (let i = 0; i < particlesArray.length; i++) {
                 drawParticles(particlesArray[i]);
                 if (that.linkEnable) {
                     drawLine(i, that);
@@ -747,7 +749,7 @@
      * @param {!Object} el      被选中的节点
      * @param {Object}  options 参数对象
      */
-    var Particles = function (el, options) {
+    let Particles = function (el, options) {
         this.$el = $(el);
 
         // 全局属性
@@ -867,7 +869,7 @@
             // 绘制离屏Canvas
             img.onload = function () {
                 if (img.width > imgWidth || img.height > imgHeight) {
-                    var scaling = 0.5;  // 缩放值
+                    let scaling = 0.5;  // 缩放值
                     if (img.width > img.height) {
                         scaling = imgWidth / img.width;
                     } else {
@@ -979,15 +981,15 @@
     //定义Particles插件
     //--------------------------------------------------------------------------------------------------------------
 
-    var old = $.fn.particles;
+    let old = $.fn.particles;
 
     $.fn.particles = function (option) {
-        var args = (arguments.length > 1) ? Array.prototype.slice.call(arguments, 1) : undefined;
+        let args = (arguments.length > 1) ? Array.prototype.slice.call(arguments, 1) : undefined;
 
         return this.each(function () {
-            var $this = $(this);
-            var data = $this.data('particles');
-            var options = $.extend({}, Particles.DEFAULTS, $this.data(), typeof option === 'object' && option);
+            let $this = $(this);
+            let data = $this.data('particles');
+            let options = $.extend({}, Particles.DEFAULTS, $this.data(), typeof option === 'object' && option);
 
             if (!data && typeof option === 'string') {
                 return;

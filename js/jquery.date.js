@@ -15,6 +15,10 @@
         });
     } else if (typeof exports === "object" && exports) {
         module.exports = factory(require('jquery'), global, global.document, global.Math);
+    } else if (global.layui && layui.define) {
+        layui.define('jquery', function (exports) {
+            exports(factory(layui.jquery, global, global.document, global.Math));
+        });
     } else {
         factory(jQuery, global, global.document, global.Math);
     }
@@ -26,18 +30,18 @@
     //--------------------------------------------------------------------------------------------------------------
 
     (function () {
-        var lastTime = 0;
-        var vendors = ['ms', 'moz', 'webkit', 'o'];
-        for (var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+        let lastTime = 0;
+        let vendors = ['ms', 'moz', 'webkit', 'o'];
+        for (let x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
             window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
             window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] || window[vendors[x] + 'CancelRequestAnimationFrame'];
         }
 
         if (!window.requestAnimationFrame)
             window.requestAnimationFrame = function (callback, element) {
-                var currTime = new Date().getTime();
-                var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-                var id = window.setTimeout(function () {
+                let currTime = new Date().getTime();
+                let timeToCall = Math.max(0, 16 - (currTime - lastTime));
+                let id = window.setTimeout(function () {
                         callback(currTime + timeToCall);
                     },
                     timeToCall);
@@ -54,14 +58,14 @@
     //私有变量
     //--------------------------------------------------------------------------------------------------------------
 
-    var canvas;                     // canvas对象
-    var context;                    // context对象
-    var canvasWidth, canvasHeight;  // canvas宽度和高度
-    var originX, originY;           // 原点位置
-    var minLength = 300;            // 最小长度
+    let canvas;                     // canvas对象
+    let context;                    // context对象
+    let canvasWidth, canvasHeight;  // canvas宽度和高度
+    let originX, originY;           // 原点位置
+    let minLength = 300;            // 最小长度
 
     // 和风天气信息
-    var heweather = {
+    let heweather = {
         basic: {
             cnty: '中国',                       // 国家
             city: '北京'                        // 城市
@@ -78,7 +82,7 @@
         }
     };
     // 百度天气信息
-    var baiduWeather = {
+    let baiduWeather = {
         basic: {
             city: '北京',                       // 城市
             pm25: '144'                         // PM25
@@ -91,7 +95,7 @@
         }
     };
     // 新浪天气信息
-    var sinaWeather = {
+    let sinaWeather = {
         basic: {
             city: '桂林'                        // 城市
         },
@@ -101,10 +105,10 @@
             wind: "南风≤3级"                    // 风向风力
         }
     };
-    var weatherStr = '读取天气数据中...';  // 天气信息
+    let weatherStr = '读取天气数据中...';  // 天气信息
 
-    var timer = null;         // 时间计时器
-    var weatherTimer = null;  // 天气计时器
+    let timer = null;         // 时间计时器
+    let weatherTimer = null;  // 天气计时器
 
     //私有方法
     //--------------------------------------------------------------------------------------------------------------
@@ -132,7 +136,7 @@
             case 'hh:mm':
             case 'HH:mm a':
             case 'HH:mm':
-                return moment().format(timeStyle);
+                return moment().format(timeStyle).toUpperCase();
         }
     }
 
@@ -276,7 +280,7 @@
                     scriptCharset: "gbk",
                     url: "http://php.weather.sina.com.cn/iframe/index/w_cl.php?code=js&city=" + city + "&day=0&dfc=3",
                     success: function () {
-                        var weather = window.SWther.w[city][0];
+                        let weather = window.SWther.w[city][0];
                         sinaWeather.basic.city = city;
                         sinaWeather.weather_data.weather = weather.s1;
                         sinaWeather.weather_data.temperature = weather.t1 + "℃～" + weather.t2 + "℃";
@@ -301,7 +305,7 @@
     function updataWeather(that) {
         if (!that.currentCity) {
             // 根据IP获取城市
-            var cityUrl = 'http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js';  // 获取IP
+            let cityUrl = 'http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js';  // 获取IP
             $.getScript(cityUrl, function () {
                 that.currentCity = remote_ip_info.city;  // 获取城市
                 getWeather(that.weatherProvider, that.currentCity);
@@ -373,7 +377,7 @@
      * @param {!Object} el      被选中的节点
      * @param {Object}  options 参数对象
      */
-    var Date = function (el, options) {
+    let Date = function (el, options) {
         this.$el = $(el);
 
         // 全局参数
@@ -444,11 +448,11 @@
         setupPointerEvents: function () {
 
             // 点击事件
-            var that = this;
+            let that = this;
             $(this.$el).on('click', function (e) {
                 if (that.isClickOffset) {
-                    var x = e.clientX || canvasWidth * that.offsetX;
-                    var y = e.clientY || canvasHeight * that.offsetY;
+                    let x = e.clientX || canvasWidth * that.offsetX;
+                    let y = e.clientY || canvasHeight * that.offsetY;
                     that.offsetX = x / canvasWidth;
                     that.offsetY = y / canvasHeight;
                     this.drawDate();
@@ -597,15 +601,15 @@
     //定义Date插件
     //--------------------------------------------------------------------------------------------------------------
 
-    var old = $.fn.date;
+    let old = $.fn.date;
 
     $.fn.date = function (option) {
-        var args = (arguments.length > 1) ? Array.prototype.slice.call(arguments, 1) : undefined;
+        let args = (arguments.length > 1) ? Array.prototype.slice.call(arguments, 1) : undefined;
 
         return this.each(function () {
-            var $this = $(this);
-            var data = $this.data('date');
-            var options = $.extend({}, Date.DEFAULTS, $this.data(), typeof option === 'object' && option);
+            let $this = $(this);
+            let data = $this.data('date');
+            let options = $.extend({}, Date.DEFAULTS, $this.data(), typeof option === 'object' && option);
 
             if (!data && typeof option === 'string') {
                 return;

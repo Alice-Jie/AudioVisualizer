@@ -4,24 +4,23 @@
  * @author Alice
  */
 
-;(function ($, window, document, undefined) {
+;(function ($, window, document, Math, undefined) {
 
     'use strict';
 
     // AudioVisualizer插件调试区域
     //--------------------------------------------------------------------------------------------------------------
 
-    /*
+
     // 模拟音频数据
-    var audioSamples = new Array(128);
-    for (var i = 0; i < 128; i++) {
+    let audioSamples = new Array(128);
+    for (let i = 0; i < 128; i++) {
         audioSamples[i] = i * 0.01;
     }
-    */
+
 
     //$('body').audiovisualizer({});
     //$('body').audiovisualizer('drawCanvas', audioSamples);
-    //$('body').audiovisualizer('destroy');
 
     // Date插件调试区域
     //--------------------------------------------------------------------------------------------------------------
@@ -41,4 +40,4 @@
     //$('body').particles({});
     //$('body').particles('startParticles');
 
-})(jQuery, window, document);
+})(jQuery, window, document, Math);

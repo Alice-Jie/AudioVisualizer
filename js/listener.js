@@ -4,19 +4,19 @@
  * @author Alice
  */
 
-;(function ($, window, document, undefined) {
+;(function ($, window, document, Math, undefined) {
 
     'use strict';
 
     // 定义变量
     //--------------------------------------------------------------------------------------------------------------
 
-    var sliderStyle = 1;           // 滑动样式
-    var timeUnits = 'sec';         // 时间单位
-    var files = {};                // 文件路径对象
+    let sliderStyle = 1;           // 滑动样式
+    let timeUnits = 'sec';         // 时间单位
+    let files = {};                // 文件路径对象
 
-    var isGlobalSettings = true;     // 全局设置开关
-    var globalSettings = {
+    let isGlobalSettings = true;     // 全局设置开关
+    let globalSettings = {
         // 全局参数
         opacity: 0.90,               // 不透明度
         color: '255,255,255',        // 颜色
@@ -27,7 +27,7 @@
         offsetY: 0.5,                // Y坐标偏移
         isClickOffset: false         // 鼠标坐标偏移
     };
-    var audio = {
+    let audio = {
         // 全局参数
         opacity: 0.90,               // 不透明度
         color: '255,255,255',        // 颜色
@@ -38,7 +38,7 @@
         offsetY: 0.5,                // Y坐标偏移
         isClickOffset: false         // 鼠标坐标偏移
     };
-    var date = {
+    let date = {
         // 全局参数
         opacity: 0.90,               // 不透明度
         color: '255,255,255',        // 颜色
@@ -399,7 +399,7 @@
     // 启用插件
     //--------------------------------------------------------------------------------------------------------------
 
-    var wallpaper = $('body').audiovisualizer({}).date({}).particles({}).slider({});
+    let wallpaper = $('body').audiovisualizer({}).date({}).particles({}).slider({});
 
     // 音频监视器
     //--------------------------------------------------------------------------------------------------------------
@@ -432,7 +432,7 @@
 
             // 背景颜色
             if (properties.image_BGColor) {
-                var color = properties.image_BGColor.value.split(' ').map(function (c) {
+                let color = properties.image_BGColor.value.split(' ').map(function (c) {
                     return Math.ceil(c * 255);
                 });
                 wallpaper.css({
@@ -531,7 +531,7 @@
             }
             // IMG背景颜色
             if (properties.IMG_BGColor) {
-                var color = properties.IMG_BGColor.value.split(' ').map(function (c) {
+                let color = properties.IMG_BGColor.value.split(' ').map(function (c) {
                     return Math.ceil(c * 255);
                 });
                 wallpaper.slider('set', 'imgBGColor', color);
@@ -551,8 +551,9 @@
             }
             // 背景填充样式
             if (properties.image_fillStyle) {
-                var size = '100% 100%';
-                var repeat = 'no-repeat';
+                let position = '0% 0%';
+                let size = '100% 100%';
+                let repeat = 'no-repeat';
                 switch (properties.image_fillStyle.value) {
                     // 填充
                     case 1:
@@ -560,6 +561,7 @@
                         break;
                     // 适应
                     case 2:
+                        position = '50% 50%';
                         size = 'contain';
                         break;
                     // 拉伸
@@ -573,6 +575,7 @@
                         break;
                     // 居中
                     case 5:
+                        position = '50% 50%';
                         size = 'initial';
                         break;
                     // 默认适应
@@ -580,8 +583,11 @@
                         size = 'contain';
                 }
                 wallpaper.css({
+                    'background-position': position,
                     'background-size': size,
                     'background-repeat': repeat
+
+
                 });
             }
 
@@ -972,14 +978,14 @@
             }
             // 粒子颜色
             if (properties.particles_color) {
-                var color = properties.particles_color.value.split(' ').map(function (c) {
+                let color = properties.particles_color.value.split(' ').map(function (c) {
                     return Math.ceil(c * 255);
                 });
                 wallpaper.particles('set', 'color', color);
             }
             // 粒子模糊颜色
             if (properties.particles_shadowColor) {
-                var color = properties.particles_shadowColor.value.split(' ').map(function (c) {
+                let color = properties.particles_shadowColor.value.split(' ').map(function (c) {
                     return Math.ceil(c * 255);
                 });
                 wallpaper.particles('set', 'shadowColor', color);
@@ -1026,7 +1032,7 @@
             }
             // 连线颜色
             if (properties.particles_linkColor) {
-                var color = properties.particles_linkColor.value.split(' ').map(function (c) {
+                let color = properties.particles_linkColor.value.split(' ').map(function (c) {
                     return Math.ceil(c * 255);
                 });
                 wallpaper.particles('set', 'linkColor', color);
@@ -1098,8 +1104,8 @@
          */
         userDirectoryFilesRemoved: function (propertyName, removedFiles) {
             // 剔除删除或则被修改的图片路径
-            for (var i = 0; i < removedFiles.length; ++i) {
-                var index = files[propertyName].indexOf(removedFiles[i]);
+            for (let i = 0; i < removedFiles.length; ++i) {
+                let index = files[propertyName].indexOf(removedFiles[i]);
                 if (index >= 0) {
                     files[propertyName].splice(index, 1);
                 }
@@ -1109,4 +1115,4 @@
 
     };
 
-})(jQuery, window, document);
+})(jQuery, window, document, Math);

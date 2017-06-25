@@ -14,6 +14,10 @@
         });
     } else if (typeof exports === "object" && exports) {
         module.exports = factory(require('jquery'), global, global.document, global.Math);
+    } else if (global.layui && layui.define) {
+        layui.define('jquery', function (exports) {
+            exports(factory(layui.jquery, global, global.document, global.Math));
+        });
     } else {
         factory(jQuery, global, global.document, global.Math);
     }
@@ -25,18 +29,18 @@
     //--------------------------------------------------------------------------------------------------------------
 
     (function () {
-        var lastTime = 0;
-        var vendors = ['ms', 'moz', 'webkit', 'o'];
-        for (var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+        let lastTime = 0;
+        let vendors = ['ms', 'moz', 'webkit', 'o'];
+        for (let x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
             window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
             window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] || window[vendors[x] + 'CancelRequestAnimationFrame'];
         }
 
         if (!window.requestAnimationFrame)
             window.requestAnimationFrame = function (callback, element) {
-                var currTime = new Date().getTime();
-                var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-                var id = window.setTimeout(function () {
+                let currTime = new Date().getTime();
+                let timeToCall = Math.max(0, 16 - (currTime - lastTime));
+                let id = window.setTimeout(function () {
                         callback(currTime + timeToCall);
                     },
                     timeToCall);
@@ -53,30 +57,30 @@
     //私有变量
     //--------------------------------------------------------------------------------------------------------------
 
-    var canvas;                     // canvas对象
-    var context;                    // context对象
-    var canvasWidth, canvasHeight;  // canvas宽度和高度
-    var originX, originY;           // 原点位置
-    var minLength = 300;            // 最小长度
+    let canvas;                     // canvas对象
+    let context;                    // context对象
+    let canvasWidth, canvasHeight;  // canvas宽度和高度
+    let originX, originY;           // 原点位置
+    let minLength = 300;            // 最小长度
 
     // 坐标数组
-    var pointArray1 = [],
+    let pointArray1 = [],
         pointArray2 = [],
         staticPointsArray = [],
         ballPointArray = [];
 
 
-    var lastAudioSamples = [];  // 上次音频数组记录
+    let lastAudioSamples = [];  // 上次音频数组记录
 
-    for (var i = 0; i < 128; i++) {
+    for (let i = 0; i < 128; i++) {
         lastAudioSamples[i] = 0;
     }
 
     // 旋转角度
-    var rotationAngle1 = 0,
+    let rotationAngle1 = 0,
         rotationAngle2 = 0;
 
-    var runCount = 1;  // 绘制次数
+    let runCount = 1;  // 绘制次数
 
     //私有方法
     //--------------------------------------------------------------------------------------------------------------
@@ -89,7 +93,7 @@
      */
     function notZero(audioSamples) {
         audioSamples = audioSamples || [];
-        for (var i = 0; i < audioSamples.length; i++) {
+        for (let i = 0; i < audioSamples.length; i++) {
             if (audioSamples[i] !== 0) {
                 return true;
             }
@@ -108,10 +112,10 @@
      * @return {Array<float>} AudioArray   抽取后的音频数组
      */
     function getRingArray(audioSamples, num) {
-        var AudioArray = [].concat(audioSamples || []);
-        var max = AudioArray.length - num;
-        var isfirst = true;
-        for (var i = 0; i < max; i++) {
+        let AudioArray = [].concat(audioSamples || []);
+        let max = AudioArray.length - num;
+        let isfirst = true;
+        for (let i = 0; i < max; i++) {
             if (isfirst) {
                 AudioArray.shift();
                 isfirst = false;
@@ -131,8 +135,8 @@
      * @return {Array<float>} AudioArray   抽取后的音频数组
      */
     function getBallArray(audioSamples, num) {
-        var AudioArray = [];
-        for (var i = 0; i < 120; i += num) {
+        let AudioArray = [];
+        for (let i = 0; i < 120; i += num) {
             AudioArray.push(audioSamples[i] || []);
         }
         return AudioArray;
@@ -150,7 +154,7 @@
      * @param {boolean<float>} isChange     更新lastAudioSamples[index]布尔值
      */
     function getAudioSamples(audioSamples, index, decline, isChange) {
-        var audioValue = audioSamples[index] ? audioSamples[index] : 0;
+        let audioValue = audioSamples[index] ? audioSamples[index] : 0;
         /**
          * 若小于上一个点的音频取样值，则取上一个值，
          * decline保证音频取样值减弱时，audioValue平缓下降而不是保持原状
@@ -226,18 +230,18 @@
      * @return {Array<Object>} 坐标数组
      */
     function setPoint(audioSamples, direction, that, isChange) {
-        var pointArray = [];
-        var ringArray = getRingArray(audioSamples, that.pointNum);
+        let pointArray = [];
+        let ringArray = getRingArray(audioSamples, that.pointNum);
         rotationAngle1 = rotation(rotationAngle1, that.ringRotation);
         // 将点数组转换成坐标数组
-        for (var i = 0; i < ringArray.length; i++) {
-            var deg = getDeg(ringArray.length, i, rotationAngle1);  // 该点的度数
-            var audioValue = getAudioSamples(audioSamples, i, that.decline, isChange);  // 获取当前audioSamples[i]的值
+        for (let i = 0; i < ringArray.length; i++) {
+            let deg = getDeg(ringArray.length, i, rotationAngle1);  // 该点的度数
+            let audioValue = getAudioSamples(audioSamples, i, that.decline, isChange);  // 获取当前audioSamples[i]的值
             // 设置当前点对应的半径
-            var radius = that.radius * (minLength / 2)
+            let radius = that.radius * (minLength / 2)
                 + direction * (that.distance
                 + audioValue * (that.amplitude * 15));
-            var point = getXY(radius, deg, originX, originY);  // 获取当前点对应的坐标
+            let point = getXY(radius, deg, originX, originY);  // 获取当前点对应的坐标
             pointArray.push({'x': point.x, 'y': point.y});  // 将点的坐标储存至坐标数组
         }
         return pointArray;
@@ -254,14 +258,14 @@
      * @return {Array<Object>} 坐标数组
      */
     function setStaticPoint(audioSamples, that) {
-        var pointArray = [];
-        var ringArray = getRingArray(audioSamples, that.pointNum);
+        let pointArray = [];
+        let ringArray = getRingArray(audioSamples, that.pointNum);
         rotationAngle1 = rotation(rotationAngle1, that.ringRotation);
         // 将点数组转换成坐标数组
-        for (var i = 0; i < ringArray.length; i++) {
-            var deg = getDeg(ringArray.length, i, rotationAngle1);  // 该点的度数
-            var radius = that.radius * (minLength / 2);  // 设置当前点对应的半径
-            var point = getXY(radius, deg, originX, originY);  // 获取当前点对应的坐标
+        for (let i = 0; i < ringArray.length; i++) {
+            let deg = getDeg(ringArray.length, i, rotationAngle1);  // 该点的度数
+            let radius = that.radius * (minLength / 2);  // 设置当前点对应的半径
+            let point = getXY(radius, deg, originX, originY);  // 获取当前点对应的坐标
             pointArray.push({'x': point.x, 'y': point.y});  // 将点的坐标储存至坐标数组
         }
         return pointArray;
@@ -277,18 +281,18 @@
      * @return {Array<Object>} 坐标数组
      */
     function setBall(audioSamples, that) {
-        var pointArray = [];
-        var ballArray = getBallArray(audioSamples, that.ballSpacer);
+        let pointArray = [];
+        let ballArray = getBallArray(audioSamples, that.ballSpacer);
         rotationAngle2 = rotation(rotationAngle2, that.ballRotation);
         // 将点数组转换成坐标数组
-        for (var i = 0; i < ballArray.length; i++) {
-            var deg = getDeg(ballArray.length, i, rotationAngle2);  // 该点的度数
-            var audioValue = Math.min(audioSamples[i] ? audioSamples[i] : 0, 1);  // 获取当前audioSamples[i]的值， 溢出部分按值1处理
+        for (let i = 0; i < ballArray.length; i++) {
+            let deg = getDeg(ballArray.length, i, rotationAngle2);  // 该点的度数
+            let audioValue = Math.min(audioSamples[i] ? audioSamples[i] : 0, 1);  // 获取当前audioSamples[i]的值， 溢出部分按值1处理
             // 设置当前点对应的半径
-            var radius = that.radius * (minLength / 2)
+            let radius = that.radius * (minLength / 2)
                 + (that.distance + 50)
                 + audioValue * 75;
-            var point = getXY(radius, deg, originX, originY);  // 获取点的坐标并储存至坐标数组
+            let point = getXY(radius, deg, originX, originY);  // 获取点的坐标并储存至坐标数组
             pointArray.push({'x': point.x, 'y': point.y});
         }
         return pointArray;
@@ -343,7 +347,7 @@
      * @reutrn {Object} 彩虹线性对象
      */
     function getRainbowGradient(x0, y0, x1, y1) {
-        var rainbow = context.createLinearGradient(x0, y0, x1, y1);
+        let rainbow = context.createLinearGradient(x0, y0, x1, y1);
         rainbow.addColorStop(0, "rgb(255, 0, 0)");
         rainbow.addColorStop(0.15, "rgb(255, 0, 255)");
         rainbow.addColorStop(0.33, "rgb(0, 0, 255)");
@@ -362,7 +366,7 @@
     function drawRing(pointArray) {
         context.beginPath();
         context.moveTo(pointArray[0].x, pointArray[0].y);
-        for (var i = 0; i < pointArray.length; i++) {
+        for (let i = 0; i < pointArray.length; i++) {
             context.lineTo(pointArray[i].x, pointArray[i].y);
         }
         context.closePath();
@@ -376,7 +380,7 @@
      *  @param {int}           ballSize   小球大小
      */
     function drawBall(pointArray, ballSize) {
-        for (var i = 0; i < pointArray.length; i++) {
+        for (let i = 0; i < pointArray.length; i++) {
             context.beginPath();
             context.arc(pointArray[i].x - 0.5, pointArray[i].y - 0.5, ballSize, 0, 360, false);
             context.closePath();
@@ -392,8 +396,8 @@
      */
     function drawLine(pointArray1, pointArray2) {
         context.beginPath();
-        var max = Math.min(pointArray1.length, pointArray2.length);
-        for (var i = 0; i < max; i++) {
+        let max = Math.min(pointArray1.length, pointArray2.length);
+        for (let i = 0; i < max; i++) {
             context.moveTo(pointArray1[i].x, pointArray1[i].y);
             context.lineTo(pointArray2[i].x, pointArray2[i].y);
         }
@@ -429,8 +433,8 @@
             }
         }
         // 绘制连线
-        var firstArray = getPointArray(that.firstPoint);
-        var secondArray = getPointArray(that.secondPoint);
+        let firstArray = getPointArray(that.firstPoint);
+        let secondArray = getPointArray(that.secondPoint);
         if (that.isLineTo && that.firstPoint !== that.secondPoint) {
             drawLine(firstArray, secondArray);
         }
@@ -449,7 +453,7 @@
      * @param {!Object} el      被选中的节点
      * @param {Object}  options 参数对象
      */
-    var AudioVisualizer = function (el, options) {
+    let AudioVisualizer = function (el, options) {
         this.$el = $(el);
 
         // 全局参数
@@ -525,11 +529,11 @@
         setupPointerEvents: function () {
 
             // 点击事件
-            var that = this;
+            let that = this;
             $(this.$el).on('click', function (e) {
                 if (that.isClickOffset) {
-                    var x = e.clientX || canvasWidth * that.offsetX;
-                    var y = e.clientY || canvasHeight * that.offsetY;
+                    let x = e.clientX || canvasWidth * that.offsetX;
+                    let y = e.clientY || canvasHeight * that.offsetY;
                     that.offsetX = x / canvasWidth;
                     that.offsetY = y / canvasHeight;
                     drawAudioVisualizer(that);
@@ -678,15 +682,15 @@
     //定义AudioVisualizer插件
     //--------------------------------------------------------------------------------------------------------------
 
-    var old = $.fn.audiovisualizer;
+    let old = $.fn.audiovisualizer;
 
     $.fn.audiovisualizer = function (option) {
-        var args = (arguments.length > 1) ? Array.prototype.slice.call(arguments, 1) : undefined;
+        let args = (arguments.length > 1) ? Array.prototype.slice.call(arguments, 1) : undefined;
 
         return this.each(function () {
-            var $this = $(this);
-            var data = $this.data('audiovisualizer');
-            var options = $.extend({}, AudioVisualizer.DEFAULTS, $this.data(), typeof option === 'object' && option);
+            let $this = $(this);
+            let data = $this.data('audiovisualizer');
+            let options = $.extend({}, AudioVisualizer.DEFAULTS, $this.data(), typeof option === 'object' && option);
 
             if (!data && typeof option === 'string') {
                 return;
