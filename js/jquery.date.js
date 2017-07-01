@@ -1,10 +1,10 @@
 /**
- * jQuery date plugin v0.0.5
+ * jQuery date plugin v0.0.6
  * moment.js: http://momentjs.cn/
  * project: http://steamcommunity.com/sharedfiles/filedetails/?id=921617616&searchtext=
  * @license MIT licensed
  * @author Alice
- * @date 2017/06/22
+ * @date 2017/07/01
  */
 
 (function (global, factory) {
@@ -297,77 +297,6 @@
         }
     }
 
-    /**
-     * 更新天气
-     *
-     * @param  {Function} that 方法Date
-     */
-    function updataWeather(that) {
-        if (!that.currentCity) {
-            // 根据IP获取城市
-            let cityUrl = 'http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js';  // 获取IP
-            $.getScript(cityUrl, function () {
-                that.currentCity = remote_ip_info.city;  // 获取城市
-                getWeather(that.weatherProvider, that.currentCity);
-            });
-        } else {
-            getWeather(that.weatherProvider, that.currentCity);
-        }
-    }
-
-    // 计时器方法
-    //-----------------------------------------------------------
-
-    /**
-     * 开始时间计时器
-     *
-     * @param {Function} that 方法Date
-     * - that.offsetX      {float}   X坐标偏移
-     * - that.offsetY      {float}   Y坐标偏移
-     * - that.isDate       {boolean} 是否显示日期
-     * - that.timeFontSize {int}     时间字体大小
-     * - that.timeStyle    {int}     时间显示风格
-     * - that.dateFontSize {int}     日期字体大小
-     * - that.dateStyle    {int}     日期显示风格
-     */
-    function runDateTimer(that) {
-        timer = setInterval(
-            function () {
-                context.clearRect(0, 0, canvasWidth, canvasHeight);
-                originX = canvasWidth * that.offsetX;
-                originY = canvasHeight * that.offsetY;
-                if (that.isDate) {
-                    context.font = that.timeFontSize + 'px 微软雅黑';
-                    context.fillText(getTime(that.timeStyle), originX, originY - that.timeFontSize / 2);
-                    context.font = that.dateFontSize + 'px 微软雅黑';
-                    context.fillText(getDate(that.dateStyle), originX, originY + that.dateFontSize / 2);
-                }
-            }, 1000);
-    }
-
-    /** 停止时间计时器 */
-    function stopDateTimer() {
-        setInterval(timer);
-    }
-
-    /**
-     *  开始天气计时器
-     *
-     * @param {Function} that 方法Date
-     */
-    function runWeatherTimer(that) {
-        // updataWeather(that);  立即更新天气
-        weatherTimer = setInterval(
-            function () {
-                updataWeather(that);
-            }, 21600000);  // 每隔6个小时更新一次天气
-    }
-
-    /** 停止天气计时器 */
-    function stopWeatherTimer() {
-        setInterval(weatherTimer);
-    }
-
     //构造函数和公共方法
     //--------------------------------------------------------------------------------------------------------------
 
@@ -436,13 +365,77 @@
 
         moment.lang('zh-cn');  // 默认日期语言为中文
 
-        // 默认开启
-        this.setupPointerEvents();
-        this.startDate();
+
+        this.setupPointerEvents();  // 添加交互事件
+
+        this.startDateTimer();  // 开始日期计时器
+    };
+
+    // 默认参数
+    Date.DEFAULTS = {
+        // 全局参数
+        opacity: 0.90,                 // 不透明度
+        color: '255,255,255',          // 颜色
+        shadowColor: '255,255,255',    // 阴影颜色
+        shadowBlur: 15,                // 发光程度
+        // 坐标参数
+        offsetX: 0.5,                  // X坐标偏移
+        offsetY: 0.5,                  // Y坐标偏移
+        isClickOffset: false,          // 鼠标坐标偏移
+        // 日期参数
+        isDate: true,                  // 是否显示日期
+        timeStyle: 'hh:mm:ss a',       // 时间显示风格
+        dateStyle: 'LL dddd',          // 日期显示风格
+        timeFontSize: 60,              // 时间字体大小
+        dateFontSize: 30,              // 日期字体大小
+        language: 'zh_cn',             // 日期语言
+        // 天气参数
+        weatherProvider: 'sina',       // 天气API提供者
+        currentCity: ''                // 当前城市
     };
 
     // 公共方法
     Date.prototype = {
+
+        // 面向内部方法
+        //-----------------------------------------------------------
+
+        /** 更新天气 */
+        updataWeather: function () {
+            if (!this.currentCity) {
+                // 根据IP获取城市
+                let cityUrl = 'http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js';  // 获取IP
+                $.getScript(cityUrl, ()=> {
+                    this.currentCity = remote_ip_info.city;  // 获取城市
+                    getWeather(this.weatherProvider, this.currentCity);
+                });
+            } else {
+                getWeather(this.weatherProvider, this.currentCity);
+            }
+        },
+
+        // 计时器方法
+        //----------------------------
+
+        /** 开始时间计时器 */
+        runDateTimer: function () {
+            timer = setInterval(
+                ()=> {
+                    this.drawDate();
+                }, 1000);
+        },
+
+        /** 开始天气计时器 */
+        runWeatherTimer: function () {
+            // this.updataWeather();  立即更新天气
+            weatherTimer = setInterval(
+                ()=> {
+                    this.updataWeather();
+                }, 21600000);  // 每隔6个小时更新一次天气
+        },
+
+        // Events
+        //----------------------------
 
         /** 设置交互事件 */
         setupPointerEvents: function () {
@@ -451,11 +444,11 @@
             let that = this;
             $(this.$el).on('click', function (e) {
                 if (that.isClickOffset) {
-                    let x = e.clientX || canvasWidth * that.offsetX;
-                    let y = e.clientY || canvasHeight * that.offsetY;
+                    let x = originX = e.clientX || originX;
+                    let y = originY = e.clientY || originY;
                     that.offsetX = x / canvasWidth;
                     that.offsetY = y / canvasHeight;
-                    this.drawDate();
+                    that.drawDate();
                 }
             });
 
@@ -472,6 +465,9 @@
 
         },
 
+        // 面向外部方法
+        //-----------------------------------------------------------
+
         /** 清除Canvas内容 */
         clearCanvas: function () {
             context.clearRect(0, 0, canvasWidth, canvasHeight);
@@ -479,9 +475,7 @@
 
         /** 绘制时间 */
         drawDate: function () {
-            this.clearCanvas();
-            originX = canvasWidth * this.offsetX;
-            originY = canvasHeight * this.offsetY;
+            context.clearRect(0, 0, canvasWidth, canvasHeight);
             if (this.isDate) {
                 context.font = this.timeFontSize + 'px 微软雅黑';
                 context.fillText(getTime(this.timeStyle), originX, originY - this.timeFontSize / 2);
@@ -490,31 +484,26 @@
             }
         },
 
-        /** 开始绘制时间 */
-        startDate: function () {
-            stopDateTimer();
-            runDateTimer(this);
+        /** 停止时间计时器 */
+        stopDateTimer: function () {
+            clearInterval(timer);
         },
 
-        /** 停止绘制时间 */
-        stopDate: function () {
-            stopDateTimer();
-        },
-
-        /** 更新天气信息 */
-        setWeather: function () {
-            updataWeather(this);
-        },
-
-        /** 开始天气计时器 */
-        startWeather: function () {
-            stopWeatherTimer();
-            runWeatherTimer(this);
+        /** 开始时间计时器 */
+        startDateTimer: function () {
+            this.stopDateTimer();
+            this.runDateTimer();
         },
 
         /** 停止天气计时器 */
-        stopWeather: function () {
-            stopWeatherTimer();
+        stopWeatherTimer: function () {
+            clearInterval(weatherTimer);
+        },
+
+        /** 开始天气计时器 */
+        startWeatherTimer: function () {
+            this.stopWeatherTimer();
+            this.runWeatherTimer();
         },
 
         /** 移除canvas */
@@ -554,16 +543,24 @@
                 case 'weatherProvider':
                 case 'currentCity':
                     this[property] = value;
-                    this.setWeather();
+                    this.updataWeather();
                     break;
                 case 'isDate':
                 case 'timeStyle':
                 case 'dateStyle':
                 case 'timeFontSize':
                 case 'dateFontSize':
+                    this[property] = value;
+                    this.drawDate();
+                    break;
                 case 'offsetX':
+                    this[property] = value;
+                    originX = canvasWidth * this.offsetX;
+                    this.drawDate();
+                    break;
                 case 'offsetY':
                     this[property] = value;
+                    originY = canvasHeight * this.offsetY;
                     this.drawDate();
                     break;
                 case 'language':
@@ -573,29 +570,6 @@
             }
         }
 
-    };
-
-    // 默认参数
-    Date.DEFAULTS = {
-        // 全局参数
-        opacity: 0.90,                 // 不透明度
-        color: '255,255,255',          // 颜色
-        shadowColor: '255,255,255',    // 阴影颜色
-        shadowBlur: 15,                // 发光程度
-        // 坐标参数
-        offsetX: 0.5,                  // X坐标偏移
-        offsetY: 0.5,                  // Y坐标偏移
-        isClickOffset: false,          // 鼠标坐标偏移
-        // 日期参数
-        isDate: true,                  // 是否显示日期
-        timeStyle: 'hh:mm:ss a',       // 时间显示风格
-        dateStyle: 'LL dddd',          // 日期显示风格
-        timeFontSize: 60,              // 时间字体大小
-        dateFontSize: 30,              // 日期字体大小
-        language: 'zh_cn',             // 日期语言
-        // 天气参数
-        weatherProvider: 'sina',       // 天气API提供者
-        currentCity: ''                // 当前城市
     };
 
     //定义Date插件

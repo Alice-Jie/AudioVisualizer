@@ -18,7 +18,6 @@
         audioSamples[i] = i * 0.01;
     }
 
-
     //$('body').audiovisualizer({});
     //$('body').audiovisualizer('drawCanvas', audioSamples);
 

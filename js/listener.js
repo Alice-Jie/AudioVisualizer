@@ -11,11 +11,13 @@
     // 定义变量
     //--------------------------------------------------------------------------------------------------------------
 
+    // 临时储存变量
     let sliderStyle = 1;           // 滑动样式
     let timeUnits = 'sec';         // 时间单位
     let files = {};                // 文件路径对象
 
-    let isGlobalSettings = true;     // 全局设置开关
+    // 全局/局部配置
+    let isGlobalSettings = true;
     let globalSettings = {
         // 全局参数
         opacity: 0.90,               // 不透明度
@@ -50,11 +52,59 @@
         isClickOffset: false         // 鼠标坐标偏移
     };
 
+    // 插件列表
+    let wallpaper = $('body').audiovisualizer({}).date({}).particles({}).slider({});
+
     // 定义方法
     //--------------------------------------------------------------------------------------------------------------
 
     // 数字转换成标识字符串
     //-----------------------------------------------------------
+
+    /**
+     *  设置背景填充样式
+     *
+     *  @param  {int} n 背景填充样式对应值
+     *  @return {string} 背景填充样式标识串
+     */
+    function setFillStyle(n) {
+        let position = '0% 0%';
+        let size = '100% 100%';
+        let repeat = 'no-repeat';
+        switch (n) {
+            // 填充
+            case 1:
+                size = 'cover';
+                break;
+            // 适应
+            case 2:
+                position = '50% 50%';
+                size = 'contain';
+                break;
+            // 拉伸
+            case 3:
+                size = '100% 100%';
+                break;
+            // 平铺
+            case 4:
+                size = 'initial';
+                repeat = 'repeat';
+                break;
+            // 居中
+            case 5:
+                position = '50% 50%';
+                size = 'initial';
+                break;
+            // 默认适应
+            default:
+                size = 'contain';
+        }
+        wallpaper.css({
+            'background-position': position,
+            'background-size': size,
+            'background-repeat': repeat
+        });
+    }
 
     /**
      *  设置背景切换模式
@@ -396,11 +446,6 @@
         }
     }
 
-    // 启用插件
-    //--------------------------------------------------------------------------------------------------------------
-
-    let wallpaper = $('body').audiovisualizer({}).date({}).particles({}).slider({});
-
     // 音频监视器
     //--------------------------------------------------------------------------------------------------------------
 
@@ -411,6 +456,7 @@
      */
     function wallpaperAudioListener(audioArray) {
         wallpaper.audiovisualizer('drawCanvas', audioArray);
+        // wallpaper.audiovisualizer('updateAudioVisualizer', audioArray);
     }
 
     window.wallpaperRegisterAudioListener && window.wallpaperRegisterAudioListener(wallpaperAudioListener);
@@ -551,44 +597,7 @@
             }
             // 背景填充样式
             if (properties.image_fillStyle) {
-                let position = '0% 0%';
-                let size = '100% 100%';
-                let repeat = 'no-repeat';
-                switch (properties.image_fillStyle.value) {
-                    // 填充
-                    case 1:
-                        size = 'cover';
-                        break;
-                    // 适应
-                    case 2:
-                        position = '50% 50%';
-                        size = 'contain';
-                        break;
-                    // 拉伸
-                    case 3:
-                        size = '100% 100%';
-                        break;
-                    // 平铺
-                    case 4:
-                        size = 'initial';
-                        repeat = 'repeat';
-                        break;
-                    // 居中
-                    case 5:
-                        position = '50% 50%';
-                        size = 'initial';
-                        break;
-                    // 默认适应
-                    default:
-                        size = 'contain';
-                }
-                wallpaper.css({
-                    'background-position': position,
-                    'background-size': size,
-                    'background-repeat': repeat
-
-
-                });
+                setFillStyle(properties.image_fillStyle.value);
             }
 
             //全局参数
@@ -857,7 +866,7 @@
             // 显示日期
             if (properties.date_isDate) {
                 wallpaper.date('set', 'isDate', properties.date_isDate.value);
-                properties.date_isDate.value ? wallpaper.date('startDate') : wallpaper.date('stopDate');
+                properties.date_isDate.value ? wallpaper.date('startDateTimer') : wallpaper.date('stopDateTimer');
             }
             // 设置语言
             if (properties.date_language) {
@@ -872,9 +881,9 @@
                 wallpaper.date('set', 'dateStyle', setDateStyle(properties.date_dateStyle.value));
                 // 天气计时器开关
                 if (properties.date_dateStyle === 8) {
-                    wallpaper.date('startWeather');
+                    wallpaper.date('startWeatherTimer');
                 } else {
-                    wallpaper.date('stopWeather');
+                    wallpaper.date('stopWeatherTimer');
                 }
             }
             // 天气接口提供者
