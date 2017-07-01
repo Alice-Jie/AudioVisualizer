@@ -323,7 +323,7 @@
         this.ballSize = options.ballSize;            // 小球大小
         this.ballRotation = options.ballRotation;    // 小球旋转
         // 计时器参数
-        this.milliSec = options.milliSec;             // 绘制间隔(ms);
+        this.milliSec = options.milliSec;            // 绘制间隔(ms);
 
         // 创建并初始化canvas
         canvas = document.createElement('canvas');
@@ -394,9 +394,9 @@
         isBall: true,                // 显示小球
         ballSpacer: 3,               // 小球间隔
         ballSize: 3,                 // 小球大小
-        ballRotation: 0,            // 小球旋转
+        ballRotation: 0,             // 小球旋转
         // 计时器参数
-        milliSec: 30                // 重绘间隔（ms）
+        milliSec: 30                 // 重绘间隔（ms）
     };
 
     // 公共方法
@@ -531,6 +531,18 @@
             context.restore();
         },
 
+        // 计时器方法
+        //----------------------------
+
+        /** 运行音频圆环计时器 */
+        runAudioVisualizerTimer: function () {
+            timer = setTimeout(
+                ()=> {
+                    this.drawAudioVisualizer();
+                    this.runAudioVisualizerTimer();
+                }, this.milliSec);
+        },
+
         // Events
         //----------------------------
 
@@ -634,21 +646,12 @@
 
         },
 
-        /** 运行绘制计时器 */
-        runAudioVisualizerTimer: function () {
-            timer = setTimeout(
-                ()=> {
-                    this.drawAudioVisualizer();
-                    this.runAudioVisualizerTimer();
-                }, this.milliSec);
-        },
-
-        /** 停止绘制计时器 */
+        /** 停止音频圆环计时器 */
         stopAudioVisualizerTimer: function () {
             clearTimeout(timer);
         },
 
-        /** 开始绘制计时器 */
+        /** 开始音频圆环计时器 */
         startAudioVisualizerTimer: function () {
             this.stopAudioVisualizerTimer();
             this.runAudioVisualizerTimer();

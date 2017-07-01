@@ -65,12 +65,24 @@ isBall | boolean | true | 显示音频小球开关
 ballSpacer | int | 3 | 音频小球疏密程度
 ballSize | int | 3 | 音频小球的半径
 ballRotation | int | 0 | 旋转音频小球，负数为逆时针旋转，正数为顺时针旋转
+milliSec | int | 30 | 重绘音频圆环间隔（ms）
 
 #### 方法列表：
 
 **clearCanvas：**
 
 调用`$(selector).audiovisualizer('clearCanvas');`清除canvas内容。
+
+**updateAudioVisualizer：**
+调用`$(selector).audiovisualizer('updateAudioVisualizer', audioArray);`更新坐标数组
+
+参数类型 | 参数名 | 参数描述 
+---------|--------|----------
+Array<float> | audioSamples | 音频数组
+
+**drawAudioVisualizer：**
+
+调用`$(selector).audiovisualizer('drawAudioVisualizer');`绘制音频圆环和小球
 
 **drawCanvas：**
 
@@ -80,9 +92,13 @@ ballRotation | int | 0 | 旋转音频小球，负数为逆时针旋转，正数�
 ---------|--------|----------
 Array<float> | audioSamples | 音频数组
 
-**destroy：**
+**stopAudioVisualizerTimer：**
 
-调用`$(selector).audiovisualizer('destroy');`销毁音频圆环所在canvas
+调用`$(selector).audiovisualizer('stopAudioVisualizerTimer');`停止音频圆环计时器
+
+**startAudioVisualizerTimer：**
+
+调用`$(selector).audiovisualizer('startAudioVisualizerTimer');`开始音频圆环计时器
 
 **set：**
 
@@ -170,25 +186,25 @@ string | cityStr | 城市名（仅限中国）
 
 调用`$(selector).date('drawDate');`绘制时间和日期
 
-**startDate：**
+**stopDateTimer：**
 
-调用`$(selector).date('startDate');`开始日期计时器，间隔一秒重绘时间和日期
+调用`$(selector).date('stopDateTimer');`停止日期计时器
 
-**stopDate：**
+**startDateTimer：**
 
-调用`$(selector).date('stopDate');`停止日期计时器
+调用`$(selector).date('startDateTimer');`开始日期计时器，间隔一秒重绘时间和日期
 
-**setWeather：**
+**updataWeather：**
 
-调用`$(selector).date('setWeather');`更新天气信息
+调用`$(selector).date('updataWeather');`更新天气信息
 
-**startWeather：**
+**stopWeatherTimer：**
 
-调用`$(selector).date('startWeather');`开始天气计时器，间隔三个小时重绘天气信息
+调用`$(selector).date('stopWeatherTimer');`停止天气计时器
 
-**stopWeather：**
+**startWeatherTimer：**
 
-调用`$(selector).date('stopWeather');`停止天气计时器
+调用`$(selector).date('startWeatherTimer');`开始天气计时器，间隔三个小时重绘天气信息
 
 **destroy：**
 
