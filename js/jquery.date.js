@@ -400,20 +400,6 @@
         // 面向内部方法
         //-----------------------------------------------------------
 
-        /** 更新天气 */
-        updataWeather: function () {
-            if (!this.currentCity) {
-                // 根据IP获取城市
-                let cityUrl = 'http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js';  // 获取IP
-                $.getScript(cityUrl, ()=> {
-                    this.currentCity = remote_ip_info.city;  // 获取城市
-                    getWeather(this.weatherProvider, this.currentCity);
-                });
-            } else {
-                getWeather(this.weatherProvider, this.currentCity);
-            }
-        },
-
         // 计时器方法
         //----------------------------
 
@@ -493,6 +479,20 @@
         startDateTimer: function () {
             this.stopDateTimer();
             this.runDateTimer();
+        },
+
+        /** 更新天气 */
+        updataWeather: function () {
+            if (!this.currentCity) {
+                // 根据IP获取城市
+                let cityUrl = 'http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js';  // 获取IP
+                $.getScript(cityUrl, ()=> {
+                    this.currentCity = remote_ip_info.city;  // 获取城市
+                    getWeather(this.weatherProvider, this.currentCity);
+                });
+            } else {
+                getWeather(this.weatherProvider, this.currentCity);
+            }
         },
 
         /** 停止天气计时器 */
