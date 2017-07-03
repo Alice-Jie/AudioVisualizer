@@ -37,6 +37,6 @@
     //--------------------------------------------------------------------------------------------------------------
 
     //$('body').particles({});
-    //$('body').particles('startParticles');
+    //$('body').particles('runParticlesTimer');
 
 })(jQuery, window, document, Math);

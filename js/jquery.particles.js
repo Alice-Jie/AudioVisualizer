@@ -74,9 +74,6 @@
     //私有方法
     //--------------------------------------------------------------------------------------------------------------
 
-    // particles方法
-    //-----------------------------------------------------------
-
     /**
      * 获取粒子之间距离
      *
@@ -318,206 +315,6 @@
         }
     }
 
-    // particlesArray方法
-    //-----------------------------------------------------------
-
-    /**
-     *  初始化粒子数组
-     *
-     * @param {Function} that 方法Particles
-     * - that.number        {int}     粒子数量
-     * - that.opacity       {float}   不透明度
-     * - that.color         {string}  粒子颜色
-     * - that.shadowColor   {string}  阴影颜色
-     * - that.shadowBlur    {int}     阴影大小
-     * - that.sizeValue     {int}     粒子大小
-     * - that.shapeType     {string}  粒子形状
-     * - that.opacityRandom {boolean} 随机不透明度
-     * - that.sizeRandom    {boolean} 随机大小
-     * - that.speedRandom   {boolean} 随机速度
-     * - that.speed         {int}     粒子速度
-     * - that.isStraight    {boolean} 笔直移动
-     * - that.direction     {string}  粒子方向
-     */
-    function initParticlesArray(that) {
-        // 向粒子数组添加粒子
-        for (let i = 0; i < that.number; i++) {
-            // 随机XY坐标
-            let x = ~~(0.5 + Math.random() * canvasWidth);
-            let y = ~~(0.5 + Math.random() * canvasHeight);
-            // 向粒子数组添加粒子
-            particlesArray.push({
-                // 粒子全局属性
-                opacity: that.opacity,           // 不透明度
-                color: that.color,               // 粒子颜色
-                shadowColor: that.shadowColor,   // 阴影颜色
-                shadowBlur: that.shadowBlur,     // 模糊大小
-                // 尺寸属性
-                shapeType: that.shapeType,       // 粒子形状
-                rotationAngle: 0,                // 旋转角度
-                currantAngle: 0,                 // 当前角度
-                // 大小属性
-                radius: that.sizeValue,          // 粒子大小
-                // 坐标属性
-                x: x,                            // X轴坐标
-                y: y,                            // Y轴坐标
-                speed: 0,                        // 移动速度
-                vx: 0,                           // X轴方向向量
-                vy: 0                            // Y轴方向向量
-            });
-        }
-        for (let i = 0; i < particlesArray.length; i++) {
-            // 粒子属性随机化
-            particlesArray[i].opacity = that.opacityRandom ? Math.min(Math.random(), that.opacity) : that.opacity;
-            if (that.rotationAngle !== 0) {
-                particlesArray[i].rotationAngle = (that.angleRandom ? Math.random() : 1) * that.rotationAngle * (Math.PI / 180);
-            }
-            particlesArray[i].radius = (that.sizeRandom ? Math.random() : 1) * that.sizeValue;
-            particlesArray[i].speed = (that.speedRandom ? Math.random() : 1) * that.speed;
-            moveStraight(particlesArray[i], that.isStraight, that.direction);  // 设置粒子方向向量
-            checkOverlap(i);  // 检查粒子之间是否重叠
-        }
-    }
-
-    /**
-     * 添加粒子
-     *
-     * @param {Function} that 方法Particles
-     * @param {int}      num  粒子数量
-     * that - 方法Particles
-     * - that.opacity       {float}   不透明度
-     * - that.color         {string}  粒子颜色
-     * - that.shadowColor   {string}  阴影颜色
-     * - that.shadowBlur    {int}     阴影大小
-     * - that.sizeValue     {int}     粒子大小
-     * - that.shapeType     {string}  粒子形状
-     * - that.opacityRandom {boolean} 随机不透明度
-     * - that.sizeRandom    {boolean} 随机大小
-     * - that.speedRandom   {boolean} 随机速度
-     * - that.speed         {int}     粒子速度
-     * - that.isStraight    {boolean} 笔直移动
-     * - that.direction     {string}  粒子方向
-     * - that.number        {int}     粒子数量
-     */
-    function addParticles(that, num) {
-        let old = that.number;
-        if (num > old) {
-            let n = num - old;
-            let tempArray = [];
-            // 多余的粒子初始化
-            for (let i = 0; i < n; i++) {
-                let x = ~~(0.5 + Math.random() * canvasWidth);
-                let y = ~~(0.5 + Math.random() * canvasHeight);
-                tempArray.push({
-                    // 粒子全局属性
-                    opacity: that.opacity,          // 不透明度
-                    color: that.color,              // 粒子颜色
-                    shadowColor: that.shadowColor,  // 阴影颜色
-                    shadowBlur: that.shadowBlur,    // 模糊大小
-                    // 尺寸属性
-                    shapeType: that.shapeType,      // 粒子形状
-                    rotationAngle: 0,               // 旋转角度
-                    currantAngle: 0,                // 当前角度
-                    // 大小属性
-                    radius: that.sizeValue,         // 粒子大小
-                    // 坐标属性
-                    x: x,                           // X轴坐标
-                    y: y,                           // Y轴坐标
-                    speed: 0,                       // 移动速度
-                    vx: 0,                          // X轴方向向量
-                    vy: 0                           // Y轴方向向量
-                });
-            }
-            // 多余的粒子属性随机化
-            for (let i = 0; i < tempArray.length; i++) {
-                tempArray[i].opacity = (that.opacityRandom ? Math.random() : that.opacity);
-                tempArray[i].radius = (that.sizeRandom ? Math.random() : 1) * that.sizeValue;
-                if (that.rotationAngle !== 0) {
-                    tempArray[i].rotationAngle = (that.angleRandom ? Math.random() : 1) * that.rotationAngle * (Math.PI / 180);
-                }
-                tempArray[i].speed = (that.speedRandom ? Math.random() : 1) * that.speed;
-                moveStraight(tempArray[i], that.isStraight, that.direction);
-            }
-            particlesArray = particlesArray.concat(tempArray);
-            for (let i = 0; i < particlesArray.length; i++) {
-                checkOverlap(i);
-            }
-        } else if (num >= 0 && num < old) {
-            let n = old - num;
-            // 删除多余的粒子
-            for (let i = 0; i < n; i++) {
-                particlesArray.pop();
-            }
-        }
-        that.number = particlesArray.length;  // 更新粒子数目
-    }
-
-    /**
-     * 根据粒子密度确定粒子数量
-     *
-     * @param {Function} that 方法Particles
-     */
-    function densityAutoParticles(that) {
-        if (that.isDensity) {
-            let area = canvasWidth * canvasHeight / 1000;  // 计算密度
-            let particlesNum = area * that.number / that.densityArea;  // 基于密度区域的粒子个数
-            // 添加或则移除X个粒子
-            let missingParticles = particlesArray.length - particlesNum;
-            if (missingParticles < 0) {
-                addParticles(that, that.number + Math.abs(missingParticles));
-            } else {
-                addParticles(that, that.number - missingParticles);
-            }
-        }
-    }
-
-    /**
-     *  设置粒子数组粒子属性
-     *
-     * @param {Function} that     方法Particles
-     * @param {string}   property 属性名
-     */
-    function setParticles(that, property) {
-        for (let i = 0; i < particlesArray.length; i++) {
-            switch (property) {
-                case 'opacity':
-                case 'opacityRandom':
-                    particlesArray[i].opacity = that.opacityRandom ? Math.min(Math.random(), that.opacity) : that.opacity;
-                    break;
-                case 'color':
-                    particlesArray[i].color = that.color;
-                    break;
-                case 'shadowColor':
-                    particlesArray[i].shadowColor = that.shadowColor;
-                    break;
-                case 'shadowBlur':
-                    particlesArray[i].shadowBlur = that.shadowBlur;
-                    break;
-                case 'shapeType':
-                    particlesArray[i].shapeType = that.shapeType;
-                    break;
-                case 'sizeValue':
-                case 'sizeRandom':
-                    particlesArray[i].radius = (that.sizeRandom ? Math.random() : 1) * that.sizeValue;
-                    break;
-                case 'rotationAngle':
-                case 'angleRandom':
-                    if (that.rotationAngle !== 0) {
-                        particlesArray[i].rotationAngle = (that.angleRandom ? Math.random() : 1) * that.rotationAngle * (Math.PI / 180);
-                    }
-                    break;
-                case 'speed':
-                case 'speedRandom':
-                    particlesArray[i].speed = (that.speedRandom ? Math.random() : 1) * that.speed;
-                    break;
-                case 'isStraight':
-                case 'direction':
-                    moveStraight(particlesArray[i], that.isStraight, that.direction);
-                    break;
-            }
-        }
-    }
-
     /**
      * 角度偏移
      *
@@ -533,211 +330,6 @@
             rotationAngle = rotationAngle - Math.PI * -2;
         }
         return rotationAngle;
-    }
-
-    /**
-     * 更新粒子数组
-     *
-     * @param {boolean} isMove        粒子移动开关
-     * @param {boolean} isBounce      粒子反弹开关
-     * @param {string}  moveOutMode   离屏模式
-     */
-    function updateParticlesArray(isMove, isBounce, moveOutMode) {
-        for (let i = 0; i < particlesArray.length; i++) {
-            particlesArray[i].currantAngle = rotation(particlesArray[i].currantAngle, particlesArray[i].rotationAngle);
-            moveParticles(particlesArray[i], isMove, particlesArray[i].speed);
-            bounceParticles(i, isBounce);
-            marginalCheck(particlesArray[i], moveOutMode);
-        }
-    }
-
-    // Canvas绘制方法
-    //-----------------------------------------------------------
-
-    /**
-     * 绘制多边形
-     *
-     * @param {!Object} context context      对象
-     * @param {float}   startX               开始X坐标
-     * @param {float}   startY               开始Y坐标
-     * @param {float}   sideLength           边长
-     * @param {int}     sideCountNumerator   边数分子
-     * @param {int}     sideCountDenominator 边数分母
-     */
-    function drawShape(context, startX, startY, sideLength, sideCountNumerator, sideCountDenominator) {
-        // By Programming Thomas - https://programmingthomas.wordpress.com/2013/04/03/n-sided-shapes/
-        let sideCount = sideCountNumerator * sideCountDenominator;
-        let decimalSides = sideCountNumerator / sideCountDenominator;
-        let interiorAngleDegrees = (180 * (decimalSides - 2)) / decimalSides;
-        let interiorAngle = Math.PI - Math.PI * interiorAngleDegrees / 180; // convert to radians
-        context.translate(startX, startY);
-        context.moveTo(0, 0);
-        for (let i = 0; i < sideCount; i++) {
-            context.lineTo(sideLength, 0);
-            context.translate(sideLength, 0);
-            context.rotate(interiorAngle);
-        }
-    }
-
-    /**
-     *  绘制粒子
-     *
-     * @param {!Object} particles 粒子对象
-     */
-    function drawParticles(particles) {
-        // 设置context属性
-        context.save();
-        context.fillStyle = 'rgb(' + particles.color + ')';
-        context.shadowColor = 'rgb(' + particles.shadowColor + ')';
-        context.shadowBlur = particles.shadowBlur;
-        context.globalAlpha = particles.opacity;
-        // 粒子路径
-        context.beginPath();
-        switch (particles.shapeType) {
-            // 绘制圆形
-            case 'circle':
-                context.arc(particles.x, particles.y, particles.radius, 0, Math.PI * 2, false);
-                break;
-            // 绘制正方形
-            case 'edge':
-                context.translate(particles.x + particles.radius / 2, particles.y + particles.radius / 2);
-                context.rotate(particles.currantAngle);
-                context.rect(-particles.radius, -particles.radius, particles.radius * 2, particles.radius * 2);
-                break;
-            // 绘制三角形
-            case 'triangle':
-                context.translate(particles.x + particles.radius / 2, particles.y + particles.radius / 2);
-                context.rotate(particles.currantAngle);
-                drawShape(context, -particles.radius, particles.radius / 1.66, particles.radius * 2, 3, 2);
-                break;
-            // 绘制星形
-            case 'star':
-                context.translate(particles.x + particles.radius / 2, particles.y + particles.radius / 2);
-                context.rotate(particles.currantAngle);
-                drawShape(
-                    context,
-                    -particles.radius * 2 / (5 / 4),        // startX
-                    -particles.radius / (2 * 2.66 / 3.5),   // startY
-                    particles.radius * 2 * 2.66 / (5 / 3),  // sideLength
-                    5,                                      // sideCountNumerator
-                    2                                       // sideCountDenominator
-                );
-                break;
-            // 绘制图片
-            case 'image':
-                // 获取图片粒子的宽和高
-                let width = getImgSize(particles).width,
-                    height = getImgSize(particles).height;
-                context.translate(particles.x + width / 2, particles.y + height / 2);
-                context.rotate(particles.currantAngle);
-                context.drawImage(currantCanvas, -width / 2, -height / 2, width, height);
-                break;
-        }
-        context.closePath();
-        context.fill();  // 绘制粒子
-        context.restore();
-    }
-
-    /**
-     * 绘制粒子间连线
-     *
-     * @param {int}     index 粒子数组索引
-     * @param {Function} that  方法Particles
-     *  - that.linkDistance {boolean} 连接距离
-     *  - that.linkWidth    {int}     连线宽度
-     *  - that.linkColor    {string}  连线颜色
-     *  - that.linkOpacity  {float}   连线不透明度
-     */
-    function drawLine(index, that) {
-        for (let i = 0; i < particlesArray.length; i++) {
-            // 跳过索引相同的粒子
-            if (i === index) {
-                continue;
-            }
-            let particles1 = particlesArray[index];
-            let particles2 = particlesArray[i];
-            // 获取对象粒子和当前粒子之间距离
-            let dist = getDist(particles1.x, particles1.y, particles2.x, particles2.y);
-            if (dist <= that.linkDistance) {
-                let d = (that.linkDistance - dist) / that.linkDistance;
-                let width = 0, height = 0;  // 粒子高度和宽度
-                context.save();
-                context.lineWidth = d * that.linkWidth;
-                context.strokeStyle = "rgba(" + that.linkColor + "," + Math.min(d, that.linkOpacity) + ")";
-                context.beginPath();
-                // 设置宽度和高度
-                switch (particles1.shapeType) {
-                    case 'circle':
-                        width = height = 0;
-                        break;
-                    case 'edge':
-                    case 'triangle':
-                    case 'star':
-                        width = height = particles1.radius / 2;
-                        break;
-                    // 绘制图片
-                    case 'image':
-                        width = getImgSize(particles1).width / 2;
-                        height = getImgSize(particles1).height / 2;
-                        break;
-                }
-                context.moveTo(particles1.x + width, particles1.y + height);
-                // 设置宽度和高度
-                switch (particles2.shapeType) {
-                    case 'circle':
-                        width = height = 0;
-                        break;
-                    case 'edge':
-                    case 'triangle':
-                    case 'star':
-                        width = height = particles2.radius / 2;
-                        break;
-                    // 绘制图片
-                    case 'image':
-                        width = getImgSize(particles2).width / 2;
-                        height = getImgSize(particles2).height / 2;
-                        break;
-                }
-                context.lineTo(particles2.x + width, particles2.y + height);
-                context.closePath();
-                context.stroke();
-                context.restore();
-            }
-        }
-    }
-
-    // 计时器方法
-    //-----------------------------------------------------------
-
-    /**
-     * 开始粒子计时器
-     *
-     * @param {Function} that 方法Particles
-     * - that.isMove      {boolean} 粒子移动开关
-     * - that.isBounce    {boolean} 粒子反弹开关
-     * - that.moveOutMode {string}  粒子离屏模式
-     * - that.linkEnable  {boolean} 粒子连线开关
-     */
-    function runParticlesTimer(that) {
-        // 开始绘制动画
-        timer = requestAnimationFrame(function animal() {
-            updateParticlesArray(that.isMove, that.isBounce, that.moveOutMode);
-            context.clearRect(0, 0, canvasWidth, canvasHeight);
-            for (let i = 0; i < particlesArray.length; i++) {
-                drawParticles(particlesArray[i]);
-                if (that.linkEnable) {
-                    drawLine(i, that);
-                }
-            }
-            timer = requestAnimationFrame(animal);
-        });
-    }
-
-    /** 停止粒子计时器 */
-    function stopParticlesTimer() {
-        if (timer) {
-            cancelAnimationFrame(timer);
-        }
     }
 
     //构造函数和公共方法
@@ -821,123 +413,10 @@
 
         $(this.$el).append(canvas);  // 添加canvas
 
-        initParticlesArray(this);  // 初始化粒子列表
-        densityAutoParticles(this);  // 基于粒子密度调节粒子数量
+        // 默认开启
         this.setupPointerEvents();
-    };
-
-    // 公共方法
-    Particles.prototype = {
-
-        /** 设置交互事件 */
-        setupPointerEvents: function () {
-
-            // 窗体改变事件
-            $(window).on('resize', function () {
-                // 改变宽度和高度
-                canvasWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-                canvasHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-            });
-
-        },
-
-        /** 清除Canvas内容 */
-        clearCanvas: function () {
-            context.clearRect(0, 0, canvasWidth, canvasHeight);
-        },
-
-        /**
-         *  添加粒子
-         *
-         *  @param {int} num 添加/删除粒子的数量
-         */
-        addParticles: function (num) {
-            addParticles(this, num);
-        },
-
-        /**
-         *  改变当前图片
-         *
-         *  @param {string} imgSrc 图片粒子路径
-         */
-        particlesImage: function (imgSrc) {
-            if (imgSrc) {
-                img.src = 'file:///' + imgSrc;
-            } else {
-                img.src = 'img/funny_01.png';
-            }
-            // 绘制离屏Canvas
-            img.onload = function () {
-                if (img.width > imgWidth || img.height > imgHeight) {
-                    let scaling = 0.5;  // 缩放值
-                    if (img.width > img.height) {
-                        scaling = imgWidth / img.width;
-                    } else {
-                        scaling = imgHeight / img.height;
-                    }
-                    currantCanvas.width = img.width * scaling;
-                    currantCanvas.height = img.height * scaling;
-                    currantContext.drawImage(img, 0, 0, currantCanvas.width, currantCanvas.height);
-                } else {
-                    currantCanvas.width = img.width;
-                    currantCanvas.height = img.height;
-                    currantContext.drawImage(img, 0, 0);
-                }
-            }
-        },
-
-        /** 开始粒子计时器 */
-        startParticles: function () {
-            stopParticlesTimer();
-            runParticlesTimer(this);
-        },
-
-        /** 停止粒子计时器 */
-        stopParticles: function () {
-            stopParticlesTimer();
-        },
-
-        /**
-         * 修改参数
-         * @param {string} property 属性名
-         * @param {*}      value    属性对应值
-         */
-        set: function (property, value) {
-            switch (property) {
-                case 'isDensity':
-                case 'linkEnable':
-                case 'linkDistance':
-                case 'linkWidth':
-                case 'linkColor':
-                case 'linkOpacity':
-                case 'isMove':
-                case 'isBounce':
-                case 'moveOutMode':
-                    this[property] = value;
-                    break;
-                case 'densityArea':
-                    this[property] = value;
-                    densityAutoParticles(this);
-                    break;
-                case 'color':
-                case 'opacity':
-                case 'opacityRandom':
-                case 'shadowColor':
-                case 'shadowBlur':
-                case 'shapeType':
-                case 'rotationAngle':
-                case 'angleRandom':
-                case 'sizeValue':
-                case 'sizeRandom':
-                case 'speed':
-                case 'speedRandom':
-                case 'direction':
-                case 'isStraight':
-                    this[property] = value;
-                    setParticles(this, property);
-                    break;
-            }
-        }
+        this.initParticlesArray();  // 初始化粒子列表
+        // this.densityAutoParticles();  // 基于粒子密度调节粒子数量
 
     };
 
@@ -976,6 +455,470 @@
         // 交互事件（概念阶段）
         event: 'none',               // 触发事件
         interactivity: 'none'        // 交互事件
+    };
+
+    // 公共方法
+    Particles.prototype = {
+
+        // 面向内部方法
+        //-----------------------------------------------------------
+
+        /** 初始化粒子数组 */
+        initParticlesArray: function () {
+            // 向粒子数组添加粒子
+            for (let i = 0; i < this.number; i++) {
+                // 随机XY坐标
+                let x = ~~(0.5 + Math.random() * canvasWidth);
+                let y = ~~(0.5 + Math.random() * canvasHeight);
+                // 向粒子数组添加粒子
+                particlesArray.push({
+                    // 粒子全局属性
+                    opacity: this.opacity,           // 不透明度
+                    color: this.color,               // 粒子颜色
+                    shadowColor: this.shadowColor,   // 阴影颜色
+                    shadowBlur: this.shadowBlur,     // 模糊大小
+                    // 尺寸属性
+                    shapeType: this.shapeType,       // 粒子形状
+                    rotationAngle: 0,                // 旋转角度
+                    currantAngle: 0,                 // 当前角度
+                    // 大小属性
+                    radius: this.sizeValue,          // 粒子大小
+                    // 坐标属性
+                    x: x,                            // X轴坐标
+                    y: y,                            // Y轴坐标
+                    speed: 0,                        // 移动速度
+                    vx: 0,                           // X轴方向向量
+                    vy: 0                            // Y轴方向向量
+                });
+            }
+            for (let i = 0; i < particlesArray.length; i++) {
+                // 粒子属性随机化
+                particlesArray[i].opacity = this.opacityRandom ? Math.min(Math.random(), this.opacity) : this.opacity;
+                if (this.rotationAngle !== 0) {
+                    particlesArray[i].rotationAngle = (this.angleRandom ? Math.random() : 1) * this.rotationAngle * (Math.PI / 180);
+                }
+                particlesArray[i].radius = (this.sizeRandom ? Math.random() : 1) * this.sizeValue;
+                particlesArray[i].speed = (this.speedRandom ? Math.random() : 1) * this.speed;
+                moveStraight(particlesArray[i], this.isStraight, this.direction);  // 设置粒子方向向量
+                checkOverlap(i);  // 检查粒子之间是否重叠
+            }
+        },
+
+        /**
+         * 绘制多边形
+         *
+         * @param {!Object} context context      对象
+         * @param {float}   startX               开始X坐标
+         * @param {float}   startY               开始Y坐标
+         * @param {float}   sideLength           边长
+         * @param {int}     sideCountNumerator   边数分子
+         * @param {int}     sideCountDenominator 边数分母
+         */
+        drawShape: function (context, startX, startY, sideLength, sideCountNumerator, sideCountDenominator) {
+            // By Programming Thomas - https://programmingthomas.wordpress.com/2013/04/03/n-sided-shapes/
+            let sideCount = sideCountNumerator * sideCountDenominator;
+            let decimalSides = sideCountNumerator / sideCountDenominator;
+            let interiorAngleDegrees = (180 * (decimalSides - 2)) / decimalSides;
+            let interiorAngle = Math.PI - Math.PI * interiorAngleDegrees / 180; // convert to radians
+            context.translate(startX, startY);
+            context.moveTo(0, 0);
+            for (let i = 0; i < sideCount; i++) {
+                context.lineTo(sideLength, 0);
+                context.translate(sideLength, 0);
+                context.rotate(interiorAngle);
+            }
+        },
+
+        // Events
+        //----------------------------
+
+        /** 设置交互事件 */
+        setupPointerEvents: function () {
+
+            // 窗体改变事件
+            $(window).on('resize', function () {
+                // 改变宽度和高度
+                canvasWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+                canvasHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+            });
+
+        },
+
+        // 面向外部方法
+        //-----------------------------------------------------------
+
+        // 粒子属性方法
+        //----------------------------
+
+        /**
+         * 添加粒子
+         *
+         * @param {int}      num  粒子数量
+         */
+        addParticles: function (num) {
+            let old = this.number;
+            if (num > old) {
+                let n = num - old;
+                let tempArray = [];
+                // 多余的粒子初始化
+                for (let i = 0; i < n; i++) {
+                    let x = ~~(0.5 + Math.random() * canvasWidth);
+                    let y = ~~(0.5 + Math.random() * canvasHeight);
+                    tempArray.push({
+                        // 粒子全局属性
+                        opacity: this.opacity,          // 不透明度
+                        color: this.color,              // 粒子颜色
+                        shadowColor: this.shadowColor,  // 阴影颜色
+                        shadowBlur: this.shadowBlur,    // 模糊大小
+                        // 尺寸属性
+                        shapeType: this.shapeType,      // 粒子形状
+                        rotationAngle: 0,               // 旋转角度
+                        currantAngle: 0,                // 当前角度
+                        // 大小属性
+                        radius: this.sizeValue,         // 粒子大小
+                        // 坐标属性
+                        x: x,                           // X轴坐标
+                        y: y,                           // Y轴坐标
+                        speed: 0,                       // 移动速度
+                        vx: 0,                          // X轴方向向量
+                        vy: 0                           // Y轴方向向量
+                    });
+                }
+                // 多余的粒子属性随机化
+                for (let i = 0; i < tempArray.length; i++) {
+                    tempArray[i].opacity = (this.opacityRandom ? Math.random() : this.opacity);
+                    tempArray[i].radius = (this.sizeRandom ? Math.random() : 1) * this.sizeValue;
+                    if (this.rotationAngle !== 0) {
+                        tempArray[i].rotationAngle = (this.angleRandom ? Math.random() : 1) * this.rotationAngle * (Math.PI / 180);
+                    }
+                    tempArray[i].speed = (this.speedRandom ? Math.random() : 1) * this.speed;
+                    moveStraight(tempArray[i], this.isStraight, this.direction);
+                }
+                particlesArray = particlesArray.concat(tempArray);
+                for (let i = 0; i < particlesArray.length; i++) {
+                    checkOverlap(i);
+                }
+            } else if (num >= 0 && num < old) {
+                let n = old - num;
+                // 删除多余的粒子
+                for (let i = 0; i < n; i++) {
+                    particlesArray.pop();
+                }
+            }
+            this.number = particlesArray.length;  // 更新粒子数目
+        },
+
+        /** 根据粒子密度确定粒子数量 */
+        densityAutoParticles: function () {
+            if (this.isDensity) {
+                let area = canvasWidth * canvasHeight / 1000;  // 计算密度
+                let particlesNum = area * this.number / this.densityArea;  // 基于密度区域的粒子个数
+                // 添加或则移除X个粒子
+                let missingParticles = particlesArray.length - particlesNum;
+                if (missingParticles < 0) {
+                    this.addParticles(this.number + Math.abs(missingParticles));
+                } else {
+                    this.addParticles(this.number - missingParticles);
+                }
+            }
+        },
+
+        /**
+         * 更新粒子数组
+         *
+         * @param {boolean} isMove        粒子移动开关
+         * @param {boolean} isBounce      粒子反弹开关
+         * @param {string}  moveOutMode   离屏模式
+         */
+        updateParticlesArray: function () {
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].currantAngle = rotation(particlesArray[i].currantAngle, particlesArray[i].rotationAngle);
+                moveParticles(particlesArray[i], this.isMove, particlesArray[i].speed);
+                bounceParticles(i, this.isBounce);
+                marginalCheck(particlesArray[i], this.moveOutMode);
+            }
+        },
+
+        // 绘制粒子方法
+        //----------------------------
+
+        /** 清除Canvas内容 */
+        clearCanvas: function () {
+            context.clearRect(0, 0, canvasWidth, canvasHeight);
+        },
+
+        /**
+         *  改变当前图片
+         *
+         *  @param {string} imgSrc 图片粒子路径
+         */
+        particlesImage: function (imgSrc) {
+            if (imgSrc) {
+                img.src = 'file:///' + imgSrc;
+            } else {
+                img.src = 'img/funny_01.png';
+            }
+            // 绘制离屏Canvas
+            img.onload = function () {
+                if (img.width > imgWidth || img.height > imgHeight) {
+                    let scaling = 0.5;  // 缩放值
+                    if (img.width > img.height) {
+                        scaling = imgWidth / img.width;
+                    } else {
+                        scaling = imgHeight / img.height;
+                    }
+                    currantCanvas.width = img.width * scaling;
+                    currantCanvas.height = img.height * scaling;
+                    currantContext.drawImage(img, 0, 0, currantCanvas.width, currantCanvas.height);
+                } else {
+                    currantCanvas.width = img.width;
+                    currantCanvas.height = img.height;
+                    currantContext.drawImage(img, 0, 0);
+                }
+            }
+        },
+
+        /**
+         *  绘制粒子
+         *
+         * @param {!Object} particles 粒子对象
+         */
+        drawParticles: function (particles) {
+            // 设置context属性
+            context.save();
+            context.fillStyle = 'rgb(' + particles.color + ')';
+            context.shadowColor = 'rgb(' + particles.shadowColor + ')';
+            context.shadowBlur = particles.shadowBlur;
+            context.globalAlpha = particles.opacity;
+            // 粒子路径
+            context.beginPath();
+            switch (particles.shapeType) {
+                // 绘制圆形
+                case 'circle':
+                    context.arc(particles.x, particles.y, particles.radius, 0, Math.PI * 2, false);
+                    break;
+                // 绘制正方形
+                case 'edge':
+                    context.translate(particles.x + particles.radius / 2, particles.y + particles.radius / 2);
+                    context.rotate(particles.currantAngle);
+                    context.rect(-particles.radius, -particles.radius, particles.radius * 2, particles.radius * 2);
+                    break;
+                // 绘制三角形
+                case 'triangle':
+                    context.translate(particles.x + particles.radius / 2, particles.y + particles.radius / 2);
+                    context.rotate(particles.currantAngle);
+                    this.drawShape(context, -particles.radius, particles.radius / 1.66, particles.radius * 2, 3, 2);
+                    break;
+                // 绘制星形
+                case 'star':
+                    context.translate(particles.x + particles.radius / 2, particles.y + particles.radius / 2);
+                    context.rotate(particles.currantAngle);
+                    this.drawShape(
+                        context,
+                        -particles.radius * 2 / (5 / 4),        // startX
+                        -particles.radius / (2 * 2.66 / 3.5),   // startY
+                        particles.radius * 2 * 2.66 / (5 / 3),  // sideLength
+                        5,                                      // sideCountNumerator
+                        2                                       // sideCountDenominator
+                    );
+                    break;
+                // 绘制图片
+                case 'image':
+                    // 获取图片粒子的宽和高
+                    let width = getImgSize(particles).width,
+                        height = getImgSize(particles).height;
+                    context.translate(particles.x + width / 2, particles.y + height / 2);
+                    context.rotate(particles.currantAngle);
+                    context.drawImage(currantCanvas, -width / 2, -height / 2, width, height);
+                    break;
+            }
+            context.closePath();
+            context.fill();  // 绘制粒子
+            context.restore();
+        },
+
+        /**
+         * 绘制粒子间连线
+         *
+         * @param {int}     index 粒子数组索引
+         */
+        drawLine: function (index) {
+            for (let i = 0; i < particlesArray.length; i++) {
+                // 跳过索引相同的粒子
+                if (i === index) {
+                    continue;
+                }
+                let particles1 = particlesArray[index];
+                let particles2 = particlesArray[i];
+                // 获取对象粒子和当前粒子之间距离
+                let dist = getDist(particles1.x, particles1.y, particles2.x, particles2.y);
+                if (dist <= this.linkDistance) {
+                    let d = (this.linkDistance - dist) / this.linkDistance;
+                    let width = 0, height = 0;  // 粒子高度和宽度
+                    context.save();
+                    context.lineWidth = d * this.linkWidth;
+                    context.strokeStyle = "rgba(" + this.linkColor + "," + Math.min(d, this.linkOpacity) + ")";
+                    context.beginPath();
+                    // 设置宽度和高度
+                    switch (particles1.shapeType) {
+                        case 'circle':
+                            width = height = 0;
+                            break;
+                        case 'edge':
+                        case 'triangle':
+                        case 'star':
+                            width = height = particles1.radius / 2;
+                            break;
+                        // 绘制图片
+                        case 'image':
+                            width = getImgSize(particles1).width / 2;
+                            height = getImgSize(particles1).height / 2;
+                            break;
+                    }
+                    context.moveTo(particles1.x + width, particles1.y + height);
+                    // 设置宽度和高度
+                    switch (particles2.shapeType) {
+                        case 'circle':
+                            width = height = 0;
+                            break;
+                        case 'edge':
+                        case 'triangle':
+                        case 'star':
+                            width = height = particles2.radius / 2;
+                            break;
+                        // 绘制图片
+                        case 'image':
+                            width = getImgSize(particles2).width / 2;
+                            height = getImgSize(particles2).height / 2;
+                            break;
+                    }
+                    context.lineTo(particles2.x + width, particles2.y + height);
+                    context.closePath();
+                    context.stroke();
+                    context.restore();
+                }
+            }
+        },
+
+        // 计时器方法
+        //----------------------------
+
+        /** 停止粒子计时器 */
+        stopParticlesTimer: function () {
+            if (timer) {
+                cancelAnimationFrame(timer);
+            }
+        },
+
+        /** 开始粒子计时器 */
+        runParticlesTimer: function () {
+            this.stopParticlesTimer();
+            let that = this;
+            // 开始绘制动画
+            timer = requestAnimationFrame(function animal() {
+                that.updateParticlesArray();
+                context.clearRect(0, 0, canvasWidth, canvasHeight);
+                for (let i = 0; i < particlesArray.length; i++) {
+                    that.drawParticles(particlesArray[i]);
+                    if (that.linkEnable) {
+                        that.drawLine(i);
+                    }
+                }
+                timer = requestAnimationFrame(animal);
+            });
+        },
+
+        // 参数相关方法
+        //----------------------------
+
+        /**
+         * 设置粒子数组粒子属性
+         *
+         * @param {string}   property 属性名
+         */
+        setParticles: function (property) {
+            for (let i = 0; i < particlesArray.length; i++) {
+                switch (property) {
+                    case 'opacity':
+                    case 'opacityRandom':
+                        particlesArray[i].opacity = this.opacityRandom ? Math.min(Math.random(), this.opacity) : this.opacity;
+                        break;
+                    case 'color':
+                        particlesArray[i].color = this.color;
+                        break;
+                    case 'shadowColor':
+                        particlesArray[i].shadowColor = this.shadowColor;
+                        break;
+                    case 'shadowBlur':
+                        particlesArray[i].shadowBlur = this.shadowBlur;
+                        break;
+                    case 'shapeType':
+                        particlesArray[i].shapeType = this.shapeType;
+                        break;
+                    case 'sizeValue':
+                    case 'sizeRandom':
+                        particlesArray[i].radius = (this.sizeRandom ? Math.random() : 1) * this.sizeValue;
+                        break;
+                    case 'rotationAngle':
+                    case 'angleRandom':
+                        if (this.rotationAngle !== 0) {
+                            particlesArray[i].rotationAngle = (this.angleRandom ? Math.random() : 1) * this.rotationAngle * (Math.PI / 180);
+                        }
+                        break;
+                    case 'speed':
+                    case 'speedRandom':
+                        particlesArray[i].speed = (this.speedRandom ? Math.random() : 1) * this.speed;
+                        break;
+                    case 'isStraight':
+                    case 'direction':
+                        moveStraight(particlesArray[i], this.isStraight, this.direction);
+                        break;
+                }
+            }
+        },
+
+        /**
+         * 修改参数
+         * @param {string} property 属性名
+         * @param {*}      value    属性对应值
+         */
+        set: function (property, value) {
+            switch (property) {
+                case 'isDensity':
+                case 'linkEnable':
+                case 'linkDistance':
+                case 'linkWidth':
+                case 'linkColor':
+                case 'linkOpacity':
+                case 'isMove':
+                case 'isBounce':
+                case 'moveOutMode':
+                    this[property] = value;
+                    break;
+                case 'densityArea':
+                    this[property] = value;
+                    this.densityAutoParticles();
+                    break;
+                case 'color':
+                case 'opacity':
+                case 'opacityRandom':
+                case 'shadowColor':
+                case 'shadowBlur':
+                case 'shapeType':
+                case 'rotationAngle':
+                case 'angleRandom':
+                case 'sizeValue':
+                case 'sizeRandom':
+                case 'speed':
+                case 'speedRandom':
+                case 'direction':
+                case 'isStraight':
+                    this[property] = value;
+                    this.setParticles(property);
+                    break;
+            }
+        }
+
     };
 
     //定义Particles插件

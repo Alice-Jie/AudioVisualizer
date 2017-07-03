@@ -315,67 +315,216 @@
      */
     function setDateLang(n) {
         switch (n) {
-            // 阿拉伯语
+            // 南非语
             case 1:
-                return 'ar';
-            // 荷兰语
+                return 'af';
+            // 阿尔巴尼亚语
             case 2:
-                return 'nl';
-            // 英语
+                return 'sq';
+            // 阿拉伯语
             case 3:
-                return 'en';
-            // 波斯语
+                return 'ar';
+            // 亚美尼亚语
             case 4:
+                return 'hy-am';
+            // 阿塞拜疆语
+            case 5:
+                return 'az';
+            // 巴斯克语
+            case 6:
+                return 'eu';
+            // 白俄罗斯语
+            case 7:
+                return 'be';
+            // 孟加拉语
+            case 8:
+                return 'bn';
+            // 波斯尼亚语
+            case 9:
+                return 'bs';
+            // 布列塔尼语
+            case 10:
+                return 'br';
+            // 保加利亚语
+            case 11:
+                return 'bg';
+            // 缅甸语
+            case 12:
+                return 'my';
+            // 加泰罗尼亚语
+            case 13:
+                return 'ca';
+            // 楚瓦什语
+            case 14:
+                return 'cv';
+            // 克罗地亚语
+            case 15:
+                return 'hr';
+            // 捷克语
+            case 16:
+                return 'cs';
+            // 丹麦语
+            case 17:
+                return 'da';
+            // 荷兰语
+            case 18:
+                return 'nl';
+            // 英语（美国）
+            case 19:
+                return 'en';
+            // 世界语
+            case 20:
+                return 'eo';
+            // 爱沙尼亚语
+            case 21:
+                return 'et';
+            // 波斯语
+            case 22:
                 return 'fa';
             // 芬兰语
-            case 5:
+            case 23:
                 return 'fi';
             // 法语
-            case 6:
+            case 24:
                 return 'fr';
+            // 西弗里西亚语
+            case 25:
+                return 'fy';
+            // 加利西亚语
+            case 26:
+                return 'gl';
+            // 格鲁吉亚语
+            case 27:
+                return 'ka';
+            // 希腊语
+            case 28:
+                return 'el';
             // 德语
-            case 7:
+            case 29:
                 return 'de';
+            // 希伯来语
+            case 30:
+                return 'he';
+            // 印地语
+            case 31:
+                return 'hi';
+            // 匈牙利语
+            case 32:
+                return 'hu';
+            // 法罗群
+            case 33:
+                return 'fo';
+            // 冰岛语
+            case 34:
+                return 'is';
+            // 印尼语
+            case 35:
+                return 'id';
             // 意大利语
-            case 8:
+            case 36:
                 return 'it';
             // 日语
-            case 9:
+            case 37:
                 return 'ja';
             // 韩语
-            case 10:
+            case 38:
                 return 'ko';
+            // 高棉语
+            case 39:
+                return 'km';
+            // 拉脱维亚语
+            case 40:
+                return 'lv';
+            // 立陶宛语
+            case 41:
+                return 'lt';
+            // 卢森堡语
+            case 42:
+                return 'lb';
+            // 马其顿语
+            case 43:
+                return 'mk';
+            // 马来语
+            case 44:
+                return 'ms-my';
+            // 马拉雅拉姆语
+            case 45:
+                return 'ml';
+            // 黑山语
+            case 46:
+                return 'me';
+            // 马拉地语
+            case 47:
+                return 'mr';
+            // 尼泊尔语
+            case 48:
+                return 'ne';
+            // 挪威语
+            case 49:
+                return 'nb';
             // 波兰语
-            case 11:
+            case 50:
                 return 'pl';
             // 葡萄牙语
-            case 12:
+            case 51:
                 return 'pt';
-            // 挪威语
-            case 13:
-                return 'nb';
             // 罗马尼亚语
-            case 14:
+            case 52:
                 return 'ro';
             // 俄语
-            case 15:
+            case 53:
                 return 'ru';
+            // 塞尔维亚语
+            case 54:
+                return 'sr';
             // 简体中文
-            case 16:
+            case 55:
                 return 'zh-cn';
             // 西班牙语
-            case 17:
+            case 56:
                 return 'es';
+            // 斯洛伐克语
+            case 57:
+                return 'sk';
+            // 斯洛维尼亚语
+            case 58:
+                return 'sl';
             // 瑞典语
-            case 18:
+            case 59:
                 return 'sv';
-            // 繁体中文
-            case 19:
+            // 塔马塞特语
+            case 60:
+                return 'tzm';
+            // 泰米尔语
+            case 61:
+                return 'ta';
+            // 他加禄语
+            case 62:
+                return 'tl-ph';
+            // 泰语
+            case 63:
+                return 'th';
+            // 藏语
+            case 64:
+                return 'bo';
+            // 繁體中文
+            case 65:
                 return 'zh-tw';
             // 土耳其语
-            case 20:
+            case 66:
                 return 'tr';
-            // 默认汉语
+            // 乌克兰语
+            case 67:
+                return 'uk';
+            // 乌兹别克语
+            case 68:
+                return 'uz';
+            // 威尔士语
+            case 69:
+                return 'cy';
+            // 越南语
+            case 70:
+                return 'vi';
             default:
                 return 'zh_cn';
         }
@@ -967,10 +1116,10 @@
             // 显示粒子
             if (properties.particles_isParticles) {
                 if (properties.particles_isParticles.value) {
-                    wallpaper.particles('startParticles');
+                    wallpaper.particles('runParticlesTimer');
                 } else {
-                    wallpaper.particles('clearCanvas')
-                        .particles('stopParticles');
+                    wallpaper.particles('stopParticlesTimer')
+                        .particles('clearCanvas');
                 }
             }
             // 粒子数量

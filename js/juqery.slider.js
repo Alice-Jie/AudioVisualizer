@@ -1,9 +1,9 @@
 /**
- * jQuery Slider plugin v0.0.8
+ * jQuery Slider plugin v0.0.9
  * project: http://steamcommunity.com/sharedfiles/filedetails/?id=921617616&searchtext=
  * @license MIT licensed
  * @author Alice
- * @date 2017/06/21
+ * @date 2017/07/02
  */
 
 (function (global, factory) {
@@ -150,7 +150,7 @@
         }
     }
 
-    // Canvas方法
+    // 切换特效方法
     //-----------------------------------------------------------
 
     /**
@@ -181,6 +181,17 @@
             'heightScaling': img.height / canvasHeight
         };
     }
+
+    /** 停止切换特效计时器 */
+    function stopEffectTimer() {
+        context.globalAlpha = 1;
+        if (effectTimer) {
+            cancelAnimationFrame(effectTimer);
+        }
+    }
+
+    // Canvas
+    //----------------------------
 
     /** 覆盖特效 */
     function canvasCover() {
@@ -504,8 +515,8 @@
         };
     }
 
-    // img方法
-    //-----------------------------------------------------------
+    // Image
+    //----------------------------
 
     /** 覆盖特效 */
     function imgCover() {
@@ -920,7 +931,7 @@
         };
     }
 
-    // 计时器方法
+    // 改变背景方法
     //-----------------------------------------------------------
 
     /** 改变背景图片 */
@@ -1015,159 +1026,6 @@
         }
     }
 
-    /**
-     * 获取停留时间
-     *
-     *@param  {int}    sliderStyle 切换样式
-     *@param  {string} effect      切换特效
-     *@param  {int}    pauseTime   持续时间
-     *@param  {string} timeUnits   时间单位
-     *@return {int} 停留时间
-     */
-    function getPauseTime(sliderStyle, effect, pauseTime, timeUnits) {
-        if (sliderStyle === 'css' || effect === 'none') {
-            switch (timeUnits) {
-                case 'sec':
-                    return pauseTime * 1000;
-                case 'min':
-                    return pauseTime * 1000 * 60;
-                case 'hour':
-                    return pauseTime * 1000 * 60 * 60;
-                default:
-                    return pauseTime * 1000;
-            }
-        } else {
-            switch (timeUnits) {
-                case 'sec':
-                    return 5000 + pauseTime * 1000;
-                case 'min':
-                    return 5000 + pauseTime * 1000 * 60;
-                case 'hour':
-                    return 5000 + pauseTime * 1000 * 60 * 60;
-                default:
-                    return 5000 + pauseTime * 1000;
-            }
-        }
-    }
-
-    /**
-     * 开始背景切换计时器
-     *
-     * @param {int}      readStyle   读取样式
-     * @param {int}      sliderStyle 滑动样式
-     * @param {string}   effect      特效选项
-     * @param {Function} func        调用方法
-     * @param {int}      millisec    间隔时间（毫秒为单位）
-     */
-    function runSliderTimer(readStyle, sliderStyle, effect, func, millisec) {
-        clearTimeout(timer);
-        timer = setTimeout(function () {
-            if (imgList.length > 1) {
-                // 更新图片列表
-                oldIndex = imgIndex;
-                switch (readStyle) {
-                    case 'sequential':
-                        imgIndex = upDateIndex(imgList, imgIndex, false);
-                        break;
-                    case 'random':
-                        imgIndex = upDateIndex(imgList, imgIndex, true);
-                        break;
-                    default:
-                        imgIndex = upDateIndex(imgList, imgIndex, false);
-                }
-                // 选择特效
-                if (sliderStyle === 'image') {
-                    switch (effect) {
-                        case 'none':
-                            stopEffectTimer();
-                            break;
-                        case 'cover':
-                            imgCover();
-                            break;
-                        case 'fadeIn':
-                            imgFadeIn();
-                            break;
-                        case 'fadeOut':
-                            imgFadeOut();
-                            break;
-                        case 'shuffle':
-                            imgShuffle();
-                            break;
-                        case 'slider':
-                            imgSlider();
-                            break;
-                        case 'vertIn':
-                            imgVerticalIn();
-                            break;
-                        case 'vertOut':
-                            imgVerticalOut();
-                            break;
-                        case 'zoomIn':
-                            imgZoomIn();
-                            break;
-                        case 'zoomOut':
-                            imgZoomOut();
-                            break;
-                        default:
-                            stopEffectTimer();
-                    }
-                } else if (sliderStyle === 'canvas') {
-                    switch (effect) {
-                        case 'none':
-                            stopEffectTimer();
-                            break;
-                        case 'cover':
-                            canvasCover();
-                            break;
-                        case 'fadeIn':
-                            canvasFadeIn();
-                            break;
-                        case 'fadeOut':
-                            canvasFadeOut();
-                            break;
-                        case 'shuffle':
-                            canvasShuffle();
-                            break;
-                        case 'slider':
-                            canvasSlider();
-                            break;
-                        case 'vertIn':
-                            canvasVerticalIn();
-                            break;
-                        case 'vertOut':
-                            canvasVerticalOut();
-                            break;
-                        case 'zoomIn':
-                            canvasZoomIn();
-                            break;
-                        case 'zoomOut':
-                            canvasZoomOut();
-                            break;
-                        default:
-                            stopEffectTimer();
-                    }
-                }
-            }
-            func(); // 改变或则绘制背景
-            runSliderTimer(readStyle, sliderStyle, effect, func, millisec);
-        }, millisec);
-    }
-
-    /** 停止背景切换计时器 */
-    function stopSliderTimer() {
-        if (timer) {
-            clearTimeout(timer);
-        }
-    }
-
-    /** 停止切换特效计时器 */
-    function stopEffectTimer() {
-        context.globalAlpha = 1;
-        if (effectTimer) {
-            cancelAnimationFrame(effectTimer);
-        }
-    }
-
     //构造函数和公共方法
     //--------------------------------------------------------------------------------------------------------------
 
@@ -1194,7 +1052,7 @@
 
         // 创建并初始化canvas
         canvas = document.createElement('canvas');
-        canvas.id = 'canvas-background'; // canvas ID
+        canvas.id = 'canvas-slider'; // canvas ID
         $(canvas).css({
             'position': 'absolute',
             'top': 0,
@@ -1244,12 +1102,157 @@
             'z-index': -1
         });  // currantImg CSS
 
-        // 添加交互事件
+        // 默认开启
         this.setupPointerEvents();
+    };
+
+    // 默认参数
+    Slider.DEFAULTS = {
+        sliderStyle: 'css',        // 背景切换模式
+        readStyle: 'sequential',   // 读取模式
+        timeUnits: 'sec',          // 时间单位
+        pauseTime: 1,              // 背景停留时间
+        effect: 'none',            // 切换特效
+        imgFit: 'fill',            // IMG适应方式
+        imgBGColor: '255,255,255'  // IMG背景颜色
     };
 
     // 公共方法
     Slider.prototype = {
+
+        // 面向内部方法
+        //-----------------------------------------------------------
+
+        /** 获取停留时间 */
+        getPauseTime: function () {
+        if (this.sliderStyle === 'css' || this.effect === 'none') {
+            switch (this.timeUnits) {
+                case 'sec':
+                    return this.pauseTime * 1000;
+                case 'min':
+                    return this.pauseTime * 1000 * 60;
+                case 'hour':
+                    return this.pauseTime * 1000 * 60 * 60;
+                default:
+                    return this.pauseTime * 1000;
+            }
+        } else {
+            switch (this.timeUnits) {
+                case 'sec':
+                    return 5000 + this.pauseTime * 1000;
+                case 'min':
+                    return 5000 + this.pauseTime * 1000 * 60;
+                case 'hour':
+                    return 5000 + this.pauseTime * 1000 * 60 * 60;
+                default:
+                    return 5000 + this.pauseTime * 1000;
+            }
+        }
+    },
+
+        /**
+         * 开始背景切换计时器
+         *
+         * @param {Function} func        调用方法
+         * @param {int}      millisec    间隔时间（毫秒为单位）
+         */
+        runSliderTimer: function (func, millisec) {
+            clearTimeout(timer);
+            timer = setTimeout(
+                ()=> {
+                    if (imgList.length > 1) {
+                        // 更新图片列表
+                        oldIndex = imgIndex;
+                        switch (this.readStyle) {
+                            case 'sequential':
+                                imgIndex = upDateIndex(imgList, imgIndex, false);
+                                break;
+                            case 'random':
+                                imgIndex = upDateIndex(imgList, imgIndex, true);
+                                break;
+                            default:
+                                imgIndex = upDateIndex(imgList, imgIndex, false);
+                        }
+                        // 选择特效
+                        if (this.sliderStyle === 'image') {
+                            switch (this.effect) {
+                                case 'none':
+                                    stopEffectTimer();
+                                    break;
+                                case 'cover':
+                                    imgCover();
+                                    break;
+                                case 'fadeIn':
+                                    imgFadeIn();
+                                    break;
+                                case 'fadeOut':
+                                    imgFadeOut();
+                                    break;
+                                case 'shuffle':
+                                    imgShuffle();
+                                    break;
+                                case 'slider':
+                                    imgSlider();
+                                    break;
+                                case 'vertIn':
+                                    imgVerticalIn();
+                                    break;
+                                case 'vertOut':
+                                    imgVerticalOut();
+                                    break;
+                                case 'zoomIn':
+                                    imgZoomIn();
+                                    break;
+                                case 'zoomOut':
+                                    imgZoomOut();
+                                    break;
+                                default:
+                                    stopEffectTimer();
+                            }
+                        } else if (this.sliderStyle === 'canvas') {
+                            switch (this.effect) {
+                                case 'none':
+                                    stopEffectTimer();
+                                    break;
+                                case 'cover':
+                                    canvasCover();
+                                    break;
+                                case 'fadeIn':
+                                    canvasFadeIn();
+                                    break;
+                                case 'fadeOut':
+                                    canvasFadeOut();
+                                    break;
+                                case 'shuffle':
+                                    canvasShuffle();
+                                    break;
+                                case 'slider':
+                                    canvasSlider();
+                                    break;
+                                case 'vertIn':
+                                    canvasVerticalIn();
+                                    break;
+                                case 'vertOut':
+                                    canvasVerticalOut();
+                                    break;
+                                case 'zoomIn':
+                                    canvasZoomIn();
+                                    break;
+                                case 'zoomOut':
+                                    canvasZoomOut();
+                                    break;
+                                default:
+                                    stopEffectTimer();
+                            }
+                        }
+                    }
+                    func(); // 改变或则绘制背景
+                    this.runSliderTimer(func, millisec);
+                }, millisec);
+        },
+
+        // Events
+        //----------------------------
 
         /** 设置交互事件 */
         setupPointerEvents: function () {
@@ -1273,32 +1276,11 @@
 
         },
 
-        /**
-         * 更新imgList
-         * - 载入/删除/添加/修改（删除 - 添加）都会初始化状态
-         * - 文件夹为空时使用用户自定义的图片路径
-         * - 用户为自定义的图片时使用原始图片路径
-         *
-         *@param {Array<string>} currentFiles 当前文件路径数组
-         */
-        updateImgList: function (currentFiles) {
-            currentFiles.length <= 0 ? imgList = [] : imgList = currentFiles;
-            imgIndex = 0;  // 初始化图片索引
-        },
+        // 面向外部方法
+        //-----------------------------------------------------------
 
-        /**
-         * 获取用户自定义的图片地址
-         * 如果路径不存在默认为空字符串
-         *
-         * @param {string} img 用户图片路径
-         */
-        setUserImg: function (img) {
-            if (img) {
-                userImg = img;
-            } else {
-                userImg = '';
-            }
-        },
+        // CSS
+        //----------------------------
 
         /** 设置background-image为用户图片 */
         cssSrcUserImg: function () {
@@ -1313,6 +1295,9 @@
         cssSrcDefaultImg: function () {
             this.$el.css('background-image', 'url(img/bg.png)');
         },
+
+        // Image
+        //----------------------------
 
         /** 添加上张图片和当前图片 */
         addImg: function () {
@@ -1343,6 +1328,9 @@
         imgSrcDefaultImg: function () {
             currantImg.src = 'img/bg.png';
         },
+
+        // Canvas
+        //----------------------------
 
         /** 绘制用户图片 */
         drawUserImg: function () {
@@ -1376,6 +1364,36 @@
             context.clearRect(0, 0, canvasWidth, canvasHeight);
         },
 
+        // imgList
+        //----------------------------
+
+        /**
+         * 更新imgList
+         * - 载入/删除/添加/修改（删除 - 添加）都会初始化状态
+         * - 文件夹为空时使用用户自定义的图片路径
+         * - 用户为自定义的图片时使用原始图片路径
+         *
+         *@param {Array<string>} currentFiles 当前文件路径数组
+         */
+        updateImgList: function (currentFiles) {
+            currentFiles.length <= 0 ? imgList = [] : imgList = currentFiles;
+            imgIndex = 0;  // 初始化图片索引
+        },
+
+        /**
+         * 获取用户自定义的图片地址
+         * 如果路径不存在默认为空字符串
+         *
+         * @param {string} img 用户图片路径
+         */
+        setUserImg: function (img) {
+            if (img) {
+                userImg = img;
+            } else {
+                userImg = '';
+            }
+        },
+
         /**
          * 使用imgList当前图片
          *
@@ -1402,6 +1420,9 @@
             }
         },
 
+        // 计时器方法
+        //----------------------------
+
         /**
          * 更新状态锁
          *
@@ -1416,43 +1437,59 @@
          * 只有状态锁开启情况下才开切换
          */
         startSlider: function () {
-            stopSliderTimer();
+            this.stopSlider();
             if (isRun) {
-                let time = getPauseTime(this.sliderStyle, this.effect, this.pauseTime, this.timeUnits);
+                let time = this.getPauseTime();
                 switch (this.sliderStyle) {
                     // CSS
                     case 'css':
                         stopEffectTimer();
                         this.clearCanvas();
-                        runSliderTimer(this.readStyle, this.sliderStyle, 'none', changeBackgroud, time);
+                        this.runSliderTimer(changeBackgroud, time);
                         break;
                     // Img
                     case 'image':
                         if (this.effect === 'none') {
-                            runSliderTimer(this.readStyle, this.sliderStyle, this.effect, changeImage, time);
+                            this.runSliderTimer(changeImage, time);
                         } else {
-                            runSliderTimer(this.readStyle, this.sliderStyle, this.effect, $.noop, time);
+                            this.runSliderTimer($.noop, time);
                         }
                         break;
                     // Canvas
                     case 'canvas':
                         if (this.effect === 'none') {
-                            runSliderTimer(this.readStyle, this.sliderStyle, this.effect, drawBackgroud, time);
+                            this.runSliderTimer(drawBackgroud, time);
                         } else {
-                            runSliderTimer(this.readStyle, this.sliderStyle, this.effect, $.noop, time);
+                            this.runSliderTimer($.noop, time);
                         }
                         break;
                     default:
                         stopEffectTimer();
                         this.clearCanvas();
-                        runSliderTimer(this.readStyle, 'none', changeBackgroud, time);
+                        this.runSliderTimer(changeBackgroud, time);
                 }
             }
         },
 
-        /** 停止背景切换 */
+        /** 停止背景切换计时器 */
         stopSlider: function () {
-            stopSliderTimer();
+            if (timer) {
+                clearTimeout(timer);
+            }
+        },
+
+        // 参数相关方法
+        //----------------------------
+
+        /** 移除canvas */
+        destroy: function () {
+            this.$el
+                .off('#canvas-slider')
+                .removeData('date');
+
+            this.cssSrcDefaultImg();
+            this.delImg();
+            $('#canvas-date').remove();
         },
 
         /**
@@ -1482,18 +1519,6 @@
         }
 
     };
-
-    // 默认参数
-    Slider.DEFAULTS = {
-        sliderStyle: 'css',        // 背景切换模式
-        readStyle: 'sequential',   // 读取模式
-        timeUnits: 'sec',          // 时间单位
-        pauseTime: 1,              // 背景停留时间
-        effect: 'none',            // 切换特效
-        imgFit: 'fill',            // IMG适应方式
-        imgBGColor: '255,255,255'  // IMG背景颜色
-    };
-
 
     //定义Slider插件
     //--------------------------------------------------------------------------------------------------------------

@@ -553,87 +553,287 @@
         "type": "combo",
         "options": [
           {
-            "label": "عربية‎ لغة ",
+            "label": "Afrikaans",
             "value": 1
           },
           {
-            "label": "Nederlands",
+            "label": "Shqip",
             "value": 2
           },
           {
-            "label": "English",
+            "label": "العربية",
             "value": 3
           },
           {
-            "label": "فارسی‎",
+            "label": "Հայերեն",
             "value": 4
           },
           {
-            "label": "Suomi",
+            "label": "Azərbaycan dili",
             "value": 5
           },
           {
-            "label": "Français",
+            "label": "Euskara",
             "value": 6
           },
           {
-            "label": "Deutsch",
+            "label": "Беларуская",
             "value": 7
           },
           {
-            "label": "Italiano",
+            "label": "বাংলা",
             "value": 8
           },
           {
-            "label": "日本語",
+            "label": "Bosanski",
             "value": 9
           },
           {
-            "label": "한국어",
+            "label": "Brezhoneg",
             "value": 10
           },
           {
-            "label": "Norsk",
+            "label": "Български",
             "value": 11
           },
           {
-            "label": "Polski",
+            "label": "Myanmasa",
             "value": 12
           },
           {
-            "label": "Português",
+            "label": "Català",
             "value": 13
           },
           {
-            "label": "română",
+            "label": "Чӑваш",
             "value": 14
           },
           {
-            "label": "Русский язык",
+            "label": "Hrvatski",
             "value": 15
           },
           {
-            "label": "简体中文",
+            "label": "Čeština",
             "value": 16
           },
           {
-            "label": "Español",
+            "label": "Dansk",
             "value": 17
           },
           {
-            "label": "svenska",
+            "label": "Nederlands",
             "value": 18
           },
           {
-            "label": "繁體中文",
+            "label": "English",
             "value": 19
           },
           {
-            "label": "Türkçe",
+            "label": "Esperanto",
             "value": 20
+          },
+          {
+            "label": "Eesti",
+            "value": 21
+          },
+          {
+            "label": "پارسی",
+            "value": 22
+          },
+          {
+            "label": "Suomi",
+            "value": 23
+          },
+          {
+            "label": "Français",
+            "value": 24
+          },
+          {
+            "label": "Frysk",
+            "value": 25
+          },
+          {
+            "label": "Galego",
+            "value": 26
+          },
+          {
+            "label": "ქართული",
+            "value": 27
+          },
+          {
+            "label": "Ελληνικά",
+            "value": 28
+          },
+          {
+            "label": "Deutsch",
+            "value": 29
+          },
+          {
+            "label": "עברית",
+            "value": 30
+          },
+          {
+            "label": "हिन्दी",
+            "value": 31
+          },
+          {
+            "label": "Magyar",
+            "value": 32
+          },
+          {
+            "label": "Føroyar",
+            "value": 33
+          },
+          {
+            "label": "Íslenska",
+            "value": 34
+          },
+          {
+            "label": "Bahasa Indonesia",
+            "value": 35
+          },
+          {
+            "label": "Italiano",
+            "value": 36
+          },
+          {
+            "label": "日本語",
+            "value": 37
+          },
+          {
+            "label": "한국어",
+            "value": 38
+          },
+          {
+            "label": "Khmer",
+            "value": 39
+          },
+          {
+            "label": "Latviešu",
+            "value": 40
+          },
+          {
+            "label": "Lietuvių",
+            "value": 41
+          },
+          {
+            "label": "Lëtzebuergesch",
+            "value": 42
+          },
+          {
+            "label": "Македонски",
+            "value": 43
+          },
+          {
+            "label": "Bahasa Melayu",
+            "value": 44
+          },
+          {
+            "label": "മലയാളം",
+            "value": 45
+          },
+          {
+            "label": "Црна Гора",
+            "value": 46
+          },
+          {
+            "label": "मराठी",
+            "value": 47
+          },
+          {
+            "label": "नेपाली",
+            "value": 48
+          },
+          {
+            "label": "Norsk bokmål",
+            "value": 49
+          },
+          {
+            "label": "Polski",
+            "value": 50
+          },
+          {
+            "label": "Português",
+            "value": 51
+          },
+          {
+            "label": "Română",
+            "value": 52
+          },
+          {
+            "label": "Русский",
+            "value": 53
+          },
+          {
+            "label": "Srpski",
+            "value": 54
+          },
+          {
+            "label": "简体中文",
+            "value": 55
+          },
+          {
+            "label": "Español",
+            "value": 56
+          },
+          {
+            "label": "Slovenčina",
+            "value": 57
+          },
+          {
+            "label": "Slovenski jezik",
+            "value": 58
+          },
+          {
+            "label": "Svenska",
+            "value": 59
+          },
+          {
+            "label": "Tamazight",
+            "value": 60
+          },
+          {
+            "label": "தமிழ்",
+            "value": 61
+          },
+          {
+            "label": "Tagalog",
+            "value": 62
+          },
+          {
+            "label": "ไทย",
+            "value": 63
+          },
+          {
+            "label": "བོད་ཡིག",
+            "value": 64
+          },
+          {
+            "label": "繁體中文",
+            "value": 65
+          },
+          {
+            "label": "Türkçe",
+            "value": 66
+          },
+          {
+            "label": "Українська",
+            "value": 67
+          },
+          {
+            "label": "Oʻzbekche",
+            "value": 68
+          },
+          {
+            "label": "Cymraeg",
+            "value": 69
+          },
+          {
+            "label": "Tiếng Việt",
+            "value": 70
           }
         ],
-        "value": 16
+        "value": 55
       },
       "date_timeStyle": {
         "order": 55,
@@ -782,7 +982,7 @@
         "text": "<br/>日期字体大小<br/>Date Font Size<br/>",
         "type": "slider",
         "max": 200,
-        "min": 10,
+        "min": 5,
         "value": 30
       },
       "date_opacity": {

@@ -113,6 +113,9 @@
     //私有方法
     //--------------------------------------------------------------------------------------------------------------
 
+    // 时间相关方法
+    //-----------------------------------------------------------
+
     /**
      * 时间格式说明：
      * YYYY：年 MMM：月（非数字） MM：月（数字） Do：日（非数字） DD：日（数字）
@@ -160,6 +163,9 @@
                 return weatherStr;
         }
     }
+
+    // 天气相关方法
+    //-----------------------------------------------------------
 
     /**
      * 设置weatherStr
@@ -365,10 +371,9 @@
 
         moment.lang('zh-cn');  // 默认日期语言为中文
 
-
-        this.setupPointerEvents();  // 添加交互事件
-
-        this.startDateTimer();  // 开始日期计时器
+        // 默认开启
+        this.setupPointerEvents();
+        this.startDateTimer();
     };
 
     // 默认参数
@@ -459,6 +464,9 @@
             context.clearRect(0, 0, canvasWidth, canvasHeight);
         },
 
+        // 时间相关方法
+        //----------------------------
+
         /** 绘制时间 */
         drawDate: function () {
             context.clearRect(0, 0, canvasWidth, canvasHeight);
@@ -480,6 +488,9 @@
             this.stopDateTimer();
             this.runDateTimer();
         },
+
+        // 天气相关方法
+        //----------------------------
 
         /** 更新天气 */
         updataWeather: function () {
@@ -505,6 +516,9 @@
             this.stopWeatherTimer();
             this.runWeatherTimer();
         },
+
+        // 参数相关方法
+        //----------------------------
 
         /** 移除canvas */
         destroy: function () {

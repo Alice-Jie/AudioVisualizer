@@ -353,12 +353,10 @@
 
         $(this.$el).append(canvas);  // 添加canvas
 
-        this.setupPointerEvents();  // 添加交互事件
-        // 绘制音频圆环
+        // 默认开启
+        this.setupPointerEvents();
         this.updateAudioVisualizer(lastAudioSamples);
         this.drawAudioVisualizer();
-
-        // 开始音频圆环计时器
         // this.runAudioVisualizerTimer();
     };
 
@@ -578,6 +576,9 @@
         // 面向外部方法
         //-----------------------------------------------------------
 
+        // 音频圆环方法
+        //----------------------------
+
         /** 清除Canvas内容 */
         clearCanvas: function () {
             context.clearRect(0, 0, canvasWidth, canvasHeight);
@@ -656,6 +657,9 @@
             this.stopAudioVisualizerTimer();
             this.runAudioVisualizerTimer();
         },
+
+        // 参数相关方法
+        //----------------------------
 
         /** 移除canvas */
         destroy: function () {
