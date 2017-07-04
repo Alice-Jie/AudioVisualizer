@@ -1,7 +1,12 @@
-/**
+/*!
  * 静态调试区域
- * http://steamcommunity.com/sharedfiles/filedetails/?id=921617616&searchtext=
+ * project:
+ * - https://github.com/Alice-Jie/4K-Circle-Audio-Visualizer
+ * - https://git.oschina.net/Alice_Jie/circleaudiovisualizer
+ * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
+ * @license MIT licensed
  * @author Alice
+ * @date 2017/07/04
  */
 
 ;(function ($, window, document, Math, undefined) {

@@ -1,10 +1,13 @@
-/**
+/*!
  * jQuery Particles plugin v0.0.3
  * reference: http://github.com/VincentGarreau/particles.js
- * project: http://steamcommunity.com/sharedfiles/filedetails/?id=921617616&searchtext=
+ * project:
+ * - https://github.com/Alice-Jie/4K-Circle-Audio-Visualizer
+ * - https://git.oschina.net/Alice_Jie/circleaudiovisualizer
+ * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/06/21
+ * @date 2017/07/04
  */
 
 (function (global, factory) {
@@ -65,7 +68,7 @@
     let img = new Image();    // 图片对象
     let imgWidth, imgHeight;  // 图片宽度和高度
     let currantCanvas;        // 离屏Canvas
-    let currantContext;
+    let currantContext;       // 离屏Contest
 
     let particlesArray = [];  // 粒子数组
 
@@ -529,8 +532,6 @@
             }
         },
 
-        // Events
-        //----------------------------
 
         /** 设置交互事件 */
         setupPointerEvents: function () {
@@ -546,9 +547,6 @@
 
         // 面向外部方法
         //-----------------------------------------------------------
-
-        // 粒子属性方法
-        //----------------------------
 
         /**
          * 添加粒子
@@ -639,8 +637,6 @@
             }
         },
 
-        // 绘制粒子方法
-        //----------------------------
 
         /** 清除Canvas内容 */
         clearCanvas: function () {
@@ -800,8 +796,6 @@
             }
         },
 
-        // 计时器方法
-        //----------------------------
 
         /** 停止粒子计时器 */
         stopParticlesTimer: function () {
@@ -828,8 +822,6 @@
             });
         },
 
-        // 参数相关方法
-        //----------------------------
 
         /**
          * 设置粒子数组粒子属性

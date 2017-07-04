@@ -1,9 +1,12 @@
-/**
+/*!
  * jQuery Slider plugin v0.0.9
- * project: http://steamcommunity.com/sharedfiles/filedetails/?id=921617616&searchtext=
+ * project:
+ * - https://github.com/Alice-Jie/4K-Circle-Audio-Visualizer
+ * - https://git.oschina.net/Alice_Jie/circleaudiovisualizer
+ * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/07/02
+ * @date 2017/07/04
  */
 
 (function (global, factory) {
@@ -57,61 +60,38 @@
     //私有变量
     //--------------------------------------------------------------------------------------------------------------
 
-    let isRun = false;  // 状态锁
+    let canvas;                       // canvas对象
+    let context;                      // context对象
+    let canvasWidth, canvasHeight;    // canvas宽度和高度
+    let originX, originY;             // 原点位置
 
-    let prevImg = new Image();      // 上张图片对象
-    let currantImg = new Image();   // 当前图片对象
-    let prevCanvas, currantCanvas;  // 离屏Canvas
-    let prevContext, currantContext;
+    let prevImg = new Image(),        // 上张图片对象
+        currantImg = new Image();     // 当前图片对象
+    let prevCanvas, currantCanvas;    // 离屏Canvas
+    let prevContext, currantContext;  // 离屏Context
 
     let imgList = [];       // 图片绝对路径数组
-    let imgIndex = 0;       // 图片索引
-    let oldIndex = 0;       // 旧的索引
+    let imgIndex = 0,       // 图片索引
+        oldIndex = 0;       // 旧的索引
+    let userImg = '';       // 用户自定义图片路径
 
-    let userImg = '';  // 用户自定义图片路径
+    let isRun = false;       // 状态锁
+    let timer = null,        // 切换计时器
+        effectTimer = null;  // 特效计时器
 
-    let timer = null;        // 切换计时器
-    let effectTimer = null;  // 特效计时器
-
-    let canvas;                     // canvas对象
-    let context;                    // context对象
-    let canvasWidth, canvasHeight;  // canvas宽度和高度
-
-    let originX, originY;           // 原点位置
 
     //私有方法
     //--------------------------------------------------------------------------------------------------------------
 
-    // 数组操作方法
-    //-----------------------------------------------------------
-
-    /**
-     * 获取字符串对应的索引
-     *
-     *@param {Array<string>} array 字符串数组
-     *@param {string}        str 字符串
-     *@return 字符串对应索引
-     */
-    function getIndex(array, str) {
-        if (array.length <= 0) {
-            return -1;
-        }
-        for (let i = 0; i < array.length; i++) {
-            if (array[i] === str) {
-                return i;
-            }
-        }
-        return 0;
-    }
-
     /**
      * 随机数组索引
+     * 在0 ~ array.length之内随机生成索引
      *
      * @param {int}            index 当前数组索引
      * @param {Array|<string>} array 字符串数组
      */
     function randomIndex(index, array) {
-        let old = index;
+        let old = index ? index : 0;
         index = Math.floor(Math.random() * (array.length));
         if (index === old) {
             index = randomIndex(index, array);
@@ -120,10 +100,11 @@
     }
 
     /**
-     *  更新数组索引值
+     *  更新数组索引
+     *  根据顺序/随机读取模式更新数组索引
      *
      *  @param {Array<*>} array    数组
-     *  @param {int}      index    当前数组索引值
+     *  @param {int}      index    当前数组索引
      *  @param {boolean}  isRandom 是否随机读取
      *  @return 更新的索引值
      */
@@ -150,8 +131,6 @@
         }
     }
 
-    // 切换特效方法
-    //-----------------------------------------------------------
 
     /**
      * 根据中心点坐标获取左上角坐标
@@ -170,8 +149,8 @@
     }
 
     /**
-     *根据图片大小获取缩放
-	 *
+     * 根据图片大小获取缩放
+     *
      * @param  {Object} img image对象
      * @return {Object} 缩放对象
      */
@@ -184,14 +163,14 @@
 
     /** 停止切换特效计时器 */
     function stopEffectTimer() {
-        context.globalAlpha = 1;
         if (effectTimer) {
+            context.globalAlpha = 1;
             cancelAnimationFrame(effectTimer);
         }
     }
 
     // Canvas
-    //----------------------------
+    //-------
 
     /** 覆盖特效 */
     function canvasCover() {
@@ -516,7 +495,7 @@
     }
 
     // Image
-    //----------------------------
+    //------
 
     /** 覆盖特效 */
     function imgCover() {
@@ -931,8 +910,6 @@
         };
     }
 
-    // 改变背景方法
-    //-----------------------------------------------------------
 
     /** 改变背景图片 */
     function changeBackgroud() {
@@ -1125,30 +1102,30 @@
 
         /** 获取停留时间 */
         getPauseTime: function () {
-        if (this.sliderStyle === 'css' || this.effect === 'none') {
-            switch (this.timeUnits) {
-                case 'sec':
-                    return this.pauseTime * 1000;
-                case 'min':
-                    return this.pauseTime * 1000 * 60;
-                case 'hour':
-                    return this.pauseTime * 1000 * 60 * 60;
-                default:
-                    return this.pauseTime * 1000;
+            if (this.sliderStyle === 'css' || this.effect === 'none') {
+                switch (this.timeUnits) {
+                    case 'sec':
+                        return this.pauseTime * 1000;
+                    case 'min':
+                        return this.pauseTime * 1000 * 60;
+                    case 'hour':
+                        return this.pauseTime * 1000 * 60 * 60;
+                    default:
+                        return this.pauseTime * 1000;
+                }
+            } else {
+                switch (this.timeUnits) {
+                    case 'sec':
+                        return 5000 + this.pauseTime * 1000;
+                    case 'min':
+                        return 5000 + this.pauseTime * 1000 * 60;
+                    case 'hour':
+                        return 5000 + this.pauseTime * 1000 * 60 * 60;
+                    default:
+                        return 5000 + this.pauseTime * 1000;
+                }
             }
-        } else {
-            switch (this.timeUnits) {
-                case 'sec':
-                    return 5000 + this.pauseTime * 1000;
-                case 'min':
-                    return 5000 + this.pauseTime * 1000 * 60;
-                case 'hour':
-                    return 5000 + this.pauseTime * 1000 * 60 * 60;
-                default:
-                    return 5000 + this.pauseTime * 1000;
-            }
-        }
-    },
+        },
 
         /**
          * 开始背景切换计时器
@@ -1251,8 +1228,6 @@
                 }, millisec);
         },
 
-        // Events
-        //----------------------------
 
         /** 设置交互事件 */
         setupPointerEvents: function () {
@@ -1280,7 +1255,7 @@
         //-----------------------------------------------------------
 
         // CSS
-        //----------------------------
+        //----
 
         /** 设置background-image为用户图片 */
         cssSrcUserImg: function () {
@@ -1297,7 +1272,7 @@
         },
 
         // Image
-        //----------------------------
+        //------
 
         /** 添加上张图片和当前图片 */
         addImg: function () {
@@ -1330,7 +1305,7 @@
         },
 
         // Canvas
-        //----------------------------
+        //-------
 
         /** 绘制用户图片 */
         drawUserImg: function () {
@@ -1365,7 +1340,7 @@
         },
 
         // imgList
-        //----------------------------
+        //--------
 
         /**
          * 更新imgList
@@ -1420,16 +1395,21 @@
             }
         },
 
-        // 计时器方法
-        //----------------------------
 
         /**
-         * 更新状态锁
+         * 设置状态锁
          *
-         * @param {boolean} isDirectory 幻灯片模式布尔值
+         * @param {boolean} isDirectory 幻灯片模式开关
          */
         setIsRun: function (isDirectory) {
             isRun = isDirectory;
+        },
+
+        /** 停止背景切换计时器 */
+        stopSlider: function () {
+            if (timer) {
+                clearTimeout(timer);
+            }
         },
 
         /**
@@ -1471,15 +1451,6 @@
             }
         },
 
-        /** 停止背景切换计时器 */
-        stopSlider: function () {
-            if (timer) {
-                clearTimeout(timer);
-            }
-        },
-
-        // 参数相关方法
-        //----------------------------
 
         /** 移除canvas */
         destroy: function () {

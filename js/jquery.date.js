@@ -1,10 +1,13 @@
-/**
+/*!
  * jQuery date plugin v0.0.6
  * moment.js: http://momentjs.cn/
- * project: http://steamcommunity.com/sharedfiles/filedetails/?id=921617616&searchtext=
+ * project:
+ * - https://github.com/Alice-Jie/4K-Circle-Audio-Visualizer
+ * - https://git.oschina.net/Alice_Jie/circleaudiovisualizer
+ * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/07/01
+ * @date 2017/07/04
  */
 
 (function (global, factory) {
@@ -65,7 +68,7 @@
     let minLength = 300;            // 最小长度
 
     // 和风天气信息
-    let heweather = {
+    let heWeather = {
         basic: {
             cnty: '中国',                       // 国家
             city: '北京'                        // 城市
@@ -84,37 +87,34 @@
     // 百度天气信息
     let baiduWeather = {
         basic: {
-            city: '北京',                       // 城市
-            pm25: '144'                         // PM25
+            city: '北京',                        // 城市
+            pm25: '144'                          // PM25
         },
         weather_data: {
             date: "周六 03月05日 (实时：12℃)",  // 星期-日期-温度
-            weather: "浮尘转晴",                // 天气情况
-            temperature: "12-1℃",              // 温度情况
-            wind: "北风4-5级"                   // 风向风力
+            weather: "浮尘转晴",                 // 天气情况
+            temperature: "12-1℃",               // 温度情况
+            wind: "北风4-5级"                    // 风向风力
         }
     };
     // 新浪天气信息
     let sinaWeather = {
         basic: {
-            city: '桂林'                        // 城市
+            city: '桂林'                         // 城市
         },
         weather_data: {
-            weather: "阵风",                    // 天气情况
+            weather: "阵风",                     // 天气情况
             temperature: "30℃～25℃",           // 温度情况
-            wind: "南风≤3级"                    // 风向风力
+            wind: "南风≤3级"                     // 风向风力
         }
     };
     let weatherStr = '读取天气数据中...';  // 天气信息
 
-    let timer = null;         // 时间计时器
-    let weatherTimer = null;  // 天气计时器
+    let timer = null,         // 时间计时器
+        weatherTimer = null;  // 天气计时器
 
     //私有方法
     //--------------------------------------------------------------------------------------------------------------
-
-    // 时间相关方法
-    //-----------------------------------------------------------
 
     /**
      * 时间格式说明：
@@ -124,9 +124,10 @@
      */
 
     /**
-     * 获取时间
+     * 获取当前时间信息
+     * 格式化效果详见：http://momentjs.cn/docs/#/displaying/
      *
-     * @param  {int} timeStyle 时间风格选择
+     * @param  {string} timeStyle 时间格式字符串
      * @return {string} 时间字符串
      */
     function getTime(timeStyle) {
@@ -144,10 +145,11 @@
     }
 
     /**
-     * 获取日期
+     * 获取当前日期信息
+     * 格式化效果详见：http://momentjs.cn/docs/#/displaying/
      *
-     * @param  {int} dateStyle  日期风格选择
-     * @return {string} 时间字符串
+     * @param  {int} dateStyle  日期格式字符串
+     * @return {string} 日期字符串
      */
     function getDate(dateStyle) {
         switch (dateStyle) {
@@ -164,11 +166,10 @@
         }
     }
 
-    // 天气相关方法
-    //-----------------------------------------------------------
 
     /**
-     * 设置weatherStr
+     * 生成weatherStr信息
+     * 根据天气API提供者设置weatherStr信息
      *
      * @param {string} provider API提供者
      */
@@ -176,12 +177,12 @@
         // 写入weatherStr
         switch (provider) {
             // 和风天气
-            case 'heweather':
-                weatherStr = heweather.basic.city
-                    + ' ' + heweather.weather_data.weather
-                    + ' ' + heweather.weather_data.temperature
-                    + ' ' + heweather.weather_data.wind.dir
-                    + ' ' + heweather.weather_data.wind.sc;
+            case 'heWeather':
+                weatherStr = heWeather.basic.city
+                    + ' ' + heWeather.weather_data.weather
+                    + ' ' + heWeather.weather_data.temperature
+                    + ' ' + heWeather.weather_data.wind.dir
+                    + ' ' + heWeather.weather_data.wind.sc;
                 break;
             // 百度天气
             case 'baidu':
@@ -205,8 +206,8 @@
 
     /**
      * 获取天气信息
-     * - 请勿盗取使用本人key，请到和风天气申请key使用（https://www.heweather.com/）
-     * - 访问次数限制：4000
+     * - 目前支持访问和风天气、百度天气、新浪天气
+     * - 访问成功后将天气信息写入对应天气对象
      *
      * @param {string} provider API提供者
      * @param {string} city     城市（China）
@@ -214,7 +215,7 @@
     function getWeather(provider, city) {
         switch (provider) {
             // 和风天气接口
-            case 'heweather':
+            case 'heWeather':
                 $.ajax({
                     dataType: "json",
                     type: "GET",
@@ -223,14 +224,14 @@
                         // 获取接口状态
                         if (result.HeWeather5[0].status === 'ok') {
                             // 获取天气信息
-                            heweather.basic.cnty = result.HeWeather5[0].basic.cnty;
-                            heweather.basic.city = result.HeWeather5[0].basic.city;
-                            heweather.weather_data.weather = result.HeWeather5[0].now.cond.txt;
-                            heweather.weather_data.temperature = result.HeWeather5[0].now.tmp + "℃";
-                            heweather.weather_data.wind.deg = result.HeWeather5[0].now.wind.deg;
-                            heweather.weather_data.wind.dir = result.HeWeather5[0].now.wind.dir;
-                            heweather.weather_data.wind.sc = result.HeWeather5[0].now.wind.sc + '级';
-                            heweather.weather_data.wind.spd = result.HeWeather5[0].now.wind.spd;
+                            heWeather.basic.cnty = result.HeWeather5[0].basic.cnty;
+                            heWeather.basic.city = result.HeWeather5[0].basic.city;
+                            heWeather.weather_data.weather = result.HeWeather5[0].now.cond.txt;
+                            heWeather.weather_data.temperature = result.HeWeather5[0].now.tmp + "℃";
+                            heWeather.weather_data.wind.deg = result.HeWeather5[0].now.wind.deg;
+                            heWeather.weather_data.wind.dir = result.HeWeather5[0].now.wind.dir;
+                            heWeather.weather_data.wind.sc = result.HeWeather5[0].now.wind.sc + '级';
+                            heWeather.weather_data.wind.spd = result.HeWeather5[0].now.wind.spd;
                             setWeatherStr(provider);  // 写入weatherStr
                         } else {
                             weatherStr = '天气接口异常 ' + result.HeWeather5[0].status;
@@ -331,7 +332,7 @@
         this.timeFontSize = options.timeFontSize;        // 字体大小
         this.dateFontSize = options.dateFontSize;        // 字体大小
         this.language = options.language;                // 日期语言
-		// 天气参数
+        // 天气参数
         this.weatherProvider = options.weatherProvider;  // 天气API提供者
         this.currentCity = options.currentCity;          // 天气信息
 
@@ -373,7 +374,7 @@
 
         // 默认开启
         this.setupPointerEvents();
-        this.startDateTimer();
+        this.runDateTimer();
     };
 
     // 默认参数
@@ -405,38 +406,14 @@
         // 面向内部方法
         //-----------------------------------------------------------
 
-        // 计时器方法
-        //----------------------------
-
-        /** 开始时间计时器 */
-        runDateTimer: function () {
-            timer = setInterval(
-                ()=> {
-                    this.drawDate();
-                }, 1000);
-        },
-
-        /** 开始天气计时器 */
-        runWeatherTimer: function () {
-            // this.updataWeather();  立即更新天气
-            weatherTimer = setInterval(
-                ()=> {
-                    this.updataWeather();
-                }, 21600000);  // 每隔6个小时更新一次天气
-        },
-
-        // Events
-        //----------------------------
-
         /** 设置交互事件 */
         setupPointerEvents: function () {
-
             // 点击事件
             let that = this;
             $(this.$el).on('click', function (e) {
                 if (that.isClickOffset) {
-                    let x = originX = e.clientX || originX;
-                    let y = originY = e.clientY || originY;
+                    let x = e.clientX || originX;
+                    let y = e.clientY || originY;
                     that.offsetX = x / canvasWidth;
                     that.offsetY = y / canvasHeight;
                     that.drawDate();
@@ -464,12 +441,12 @@
             context.clearRect(0, 0, canvasWidth, canvasHeight);
         },
 
-        // 时间相关方法
-        //----------------------------
-
         /** 绘制时间 */
         drawDate: function () {
             context.clearRect(0, 0, canvasWidth, canvasHeight);
+            // 更新原点坐标
+            originX = canvasWidth * this.offsetX;
+            originY = canvasHeight * this.offsetY;
             if (this.isDate) {
                 context.font = this.timeFontSize + 'px 微软雅黑';
                 context.fillText(getTime(this.timeStyle), originX, originY - this.timeFontSize / 2);
@@ -480,17 +457,20 @@
 
         /** 停止时间计时器 */
         stopDateTimer: function () {
-            clearInterval(timer);
+            if (timer) {
+                clearInterval(timer);
+            }
         },
 
         /** 开始时间计时器 */
-        startDateTimer: function () {
+        runDateTimer: function () {
             this.stopDateTimer();
-            this.runDateTimer();
+            timer = setInterval(
+                ()=> {
+                    this.drawDate();
+                }, 1000);
         },
 
-        // 天气相关方法
-        //----------------------------
 
         /** 更新天气 */
         updataWeather: function () {
@@ -508,17 +488,21 @@
 
         /** 停止天气计时器 */
         stopWeatherTimer: function () {
-            clearInterval(weatherTimer);
+            if (weatherTimer) {
+                clearInterval(weatherTimer);
+            }
         },
 
         /** 开始天气计时器 */
-        startWeatherTimer: function () {
+        runWeatherTimer: function () {
             this.stopWeatherTimer();
-            this.runWeatherTimer();
+            // this.updataWeather();  立即更新天气
+            weatherTimer = setInterval(
+                ()=> {
+                    this.updataWeather();
+                }, 21600000);  // 每隔6个小时更新一次天气
         },
 
-        // 参数相关方法
-        //----------------------------
 
         /** 移除canvas */
         destroy: function () {
@@ -559,26 +543,14 @@
                     this[property] = value;
                     this.updataWeather();
                     break;
+                case 'offsetX':
+                case 'offsetY':
                 case 'isDate':
                 case 'timeStyle':
                 case 'dateStyle':
                 case 'timeFontSize':
                 case 'dateFontSize':
                     this[property] = value;
-                    this.drawDate();
-                    break;
-                case 'offsetX':
-                    this[property] = value;
-                    originX = canvasWidth * this.offsetX;
-                    this.drawDate();
-                    break;
-                case 'offsetY':
-                    this[property] = value;
-                    originY = canvasHeight * this.offsetY;
-                    this.drawDate();
-                    break;
-                case 'language':
-                    moment.lang(value);
                     this.drawDate();
                     break;
             }

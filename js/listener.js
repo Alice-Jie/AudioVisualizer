@@ -1,7 +1,12 @@
-/**
+/*!
  * 监视器区域
- * http://steamcommunity.com/sharedfiles/filedetails/?id=921617616&searchtext=
+ * project:
+ * - https://github.com/Alice-Jie/4K-Circle-Audio-Visualizer
+ * - https://git.oschina.net/Alice_Jie/circleaudiovisualizer
+ * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
+ * @license MIT licensed
  * @author Alice
+ * @date 2017/07/04
  */
 
 ;(function ($, window, document, Math, undefined) {
@@ -299,7 +304,7 @@
     function setWeatherProvider(n) {
         switch (n) {
             case 1:
-                return 'heweather';
+                return 'heWeather';
             case 2:
                 return 'baidu';
             case 3:
@@ -1015,7 +1020,7 @@
             // 显示日期
             if (properties.date_isDate) {
                 wallpaper.date('set', 'isDate', properties.date_isDate.value);
-                properties.date_isDate.value ? wallpaper.date('startDateTimer') : wallpaper.date('stopDateTimer');
+                properties.date_isDate.value ? wallpaper.date('runDateTimer') : wallpaper.date('stopDateTimer');
             }
             // 设置语言
             if (properties.date_language) {
@@ -1030,7 +1035,7 @@
                 wallpaper.date('set', 'dateStyle', setDateStyle(properties.date_dateStyle.value));
                 // 天气计时器开关
                 if (properties.date_dateStyle === 8) {
-                    wallpaper.date('startWeatherTimer');
+                    wallpaper.date('runWeatherTimer');
                 } else {
                     wallpaper.date('stopWeatherTimer');
                 }
