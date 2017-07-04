@@ -621,13 +621,7 @@
             }
         },
 
-        /**
-         * 更新粒子数组
-         *
-         * @param {boolean} isMove        粒子移动开关
-         * @param {boolean} isBounce      粒子反弹开关
-         * @param {string}  moveOutMode   离屏模式
-         */
+        /** 更新粒子数组 */
         updateParticlesArray: function () {
             for (let i = 0; i < particlesArray.length; i++) {
                 particlesArray[i].currantAngle = rotation(particlesArray[i].currantAngle, particlesArray[i].rotationAngle);
@@ -735,6 +729,7 @@
 
         /**
          * 绘制粒子间连线
+         * 绘制索引对应的粒子与其它粒子的连线
          *
          * @param {int}     index 粒子数组索引
          */
@@ -822,6 +817,14 @@
             });
         },
 
+
+        /** 移除canvas */
+        destroy: function () {
+            this.$el
+                .off('#canvas-particles')
+                .removeData('particles');
+            $('#canvas-particles').remove();
+        },
 
         /**
          * 设置粒子数组粒子属性

@@ -74,7 +74,8 @@ milliSec | int | 30 | 重绘音频圆环间隔（ms）
 调用`$(selector).audiovisualizer('clearCanvas');`清除canvas内容。
 
 **updateAudioVisualizer：**
-调用`$(selector).audiovisualizer('updateAudioVisualizer', audioArray);`更新坐标数组
+
+调用`$(selector).audiovisualizer('updateAudioVisualizer', audioArray);`更新音频圆环参数。
 
 参数类型 | 参数名 | 参数描述 
 ---------|--------|----------
@@ -82,11 +83,11 @@ Array<float> | audioSamples | 音频数组
 
 **drawAudioVisualizer：**
 
-调用`$(selector).audiovisualizer('drawAudioVisualizer');`绘制音频圆环和小球
+调用`$(selector).audiovisualizer('drawAudioVisualizer');`绘制音频圆环和音频小球
 
 **drawCanvas：**
 
-调用`$(selector).audiovisualizer('drawCanvas', audioArray);`重绘音频圆环和小球。
+调用`$(selector).audiovisualizer('drawCanvas', audioArray);`根据音频数组绘制音频圆环和音频小球
 
 参数类型 | 参数名 | 参数描述 
 ---------|--------|----------
@@ -98,7 +99,11 @@ Array<float> | audioSamples | 音频数组
 
 **startAudioVisualizerTimer：**
 
-调用`$(selector).audiovisualizer('startAudioVisualizerTimer');`开始音频圆环计时器
+调用`$(selector).audiovisualizer('runAudioVisualizerTimer');`开始音频圆环计时器
+
+**destroy：**
+
+调用`$(selector).audiovisualizer('destroy');`销毁音频圆环所在canvas
 
 **set：**
 
@@ -192,7 +197,7 @@ string | cityStr | 城市名（仅限中国）
 
 **startDateTimer：**
 
-调用`$(selector).date('startDateTimer');`开始日期计时器，间隔一秒重绘时间和日期
+调用`$(selector).date('runDateTimer');`开始日期计时器，间隔一秒重绘时间和日期
 
 **updataWeather：**
 
@@ -204,7 +209,7 @@ string | cityStr | 城市名（仅限中国）
 
 **startWeatherTimer：**
 
-调用`$(selector).date('startWeatherTimer');`开始天气计时器，间隔三个小时重绘天气信息
+调用`$(selector).date('runWeatherTimer');`开始天气计时器，间隔三个小时重绘天气信息
 
 **destroy：**
 
@@ -359,6 +364,10 @@ boolean | isDirectory | 幻灯片模式布尔值
 
 调用`$(selector).slider('stopSlider');`停止背景切换。
 
+**destroy：**
+
+调用`$(selector).slider('destroy');`销毁slider所在canvas、img。
+
 **set：**
 
 调用`$(selector).slider('set', property, value);`设置slider插件相关参数，具体参数详见参数列表。
@@ -450,10 +459,6 @@ moveOutMode | string | 'out' | 粒子离开canvas所发生的行为
 
 #### 方法列表：
 
-**clearCanvas：**
-
-调用`$(selector).particles('clearCanvas');`清除canvas内容。
-
 **addParticles：**
 
 调用`$(selector).particles('addParticles', num);`向canvsa添加粒子。
@@ -461,6 +466,18 @@ moveOutMode | string | 'out' | 粒子离开canvas所发生的行为
 参数类型 | 参数名 | 参数描述 
 ---------|--------|----------
 int | num | 添加/删除粒子的数量
+
+**densityAutoParticles：**
+
+调用`$(selector).particles('densityAutoParticles');`根据粒子密度确定粒子数量。
+
+**updateParticlesArray：**
+
+调用`$(selector).particles('updateParticlesArray');`更新粒子数组。
+
+**clearCanvas：**
+
+调用`$(selector).particles('clearCanvas');`清除canvas内容。
 
 **particlesImage：**
 
@@ -470,14 +487,41 @@ int | num | 添加/删除粒子的数量
 ---------|--------|----------
 string | imgSrc | 图片粒子路径
 
-**startParticles：**
+**drawParticles：**
 
-调用`$(selector).particles('startParticles');`开始粒子计时器。
+调用`$(selector).particles('drawParticles', particles);`绘制粒子。
 
-**stopParticles：**
+参数类型 | 参数名 | 参数描述 
+---------|--------|----------
+Object | particles | 粒子对象
 
-调用`$(selector).particles('stopParticles');`停止粒子计时器。
+**drawLine：**
 
+调用`$(selector).particles('drawLine', index);`绘制索引对应的粒子与其它粒子的连线。
+
+参数类型 | 参数名 | 参数描述 
+---------|--------|----------
+index | particles | 粒子对象
+
+**stopParticlesTimer：**
+
+调用`$(selector).particles('stopParticlesTimer');`停止粒子计时器。
+
+**runParticlesTimer：**
+
+调用`$(selector).particles('runParticlesTimer');`开始粒子计时器。
+
+**destroy：**
+
+调用`$(selector).particles('destroy');`销毁粒子所在canvas
+
+**setParticles：**
+
+调用`$(selector).particles('setParticles', property);`设置粒子数组粒子属性。
+
+参数类型 | 参数名 | 参数描述 
+---------|--------|----------
+string | property | 属性名 
 
 **set：**
 

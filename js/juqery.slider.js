@@ -1460,7 +1460,7 @@
 
             this.cssSrcDefaultImg();
             this.delImg();
-            $('#canvas-date').remove();
+            $('#canvas-slider').remove();
         },
 
         /**
