@@ -414,8 +414,8 @@
             let that = this;
             $(this.$el).on('click', function (e) {
                 if (that.isClickOffset) {
-                    let x = e.clientX || originX;
-                    let y = e.clientY || originY;
+                    let x = e.clientX;
+                    let y = e.clientY;
                     that.offsetX = x / canvasWidth;
                     that.offsetY = y / canvasHeight;
                     that.drawDate();
@@ -431,6 +431,7 @@
                 minLength = Math.min(canvasWidth, canvasHeight);
                 originX = canvasWidth * this.offsetX;
                 originY = canvasHeight * this.offsetY;
+                that.drawDate();
             });
 
         },

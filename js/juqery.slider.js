@@ -73,10 +73,9 @@
     let imgList = [];                 // 图片绝对路径数组
     let imgIndex = 0,                 // 图片索引
         oldIndex = 0;                 // 旧的索引
-    let userColor = '255,255,255',  // 用户自定义颜色
-        userImg = '';                // 用户自定义图片路径
+    let userColor = '255,255,255',    // 用户自定义颜色
+        userImg = '';                 // 用户自定义图片路径
 
-    let isRun = false;       // 状态锁
     let timer = null,        // 切换计时器
         effectTimer = null;  // 特效计时器
 
@@ -911,99 +910,6 @@
         };
     }
 
-
-    /** 改变背景图片 */
-    function changeBackgroud() {
-        if (imgList.length <= 0) {
-            // 如果文件夹为空
-            if (userImg) {
-                $('body').css("background-image", "url('file:///" + userImg + "')");
-            } else {
-                $('body').css("background-image", "url(img/bg.png)");
-            }
-            imgIndex = 0;
-        }
-        else if (imgList.length === 1) {
-            // 如果文件只有一张图片
-            $('body').css("background-image", "url('file:///" + imgList[0] + "')");
-            imgIndex = 0;
-        } else {
-            $('body').css("background-image", "url('file:///" + imgList[imgIndex] + "')");
-        }
-    }
-
-    /** 改变当前图片 */
-    function changeImage() {
-        $(currantImg).css('z-index', -1);
-        $(prevImg).css('z-index', -2);
-        if (imgList.length <= 0) {
-            // 如果文件夹为空
-            if (userImg) {
-                $('body').css("background-image", "url('file:///" + userImg + "')");
-                prevImg.src = 'file:///' + userImg;
-                currantImg.src = 'file:///' + userImg;
-            } else {
-                $('body').css("background-image", "url(img/bg.png)");
-                prevImg.src = 'img/bg.png';
-                currantImg.src = 'img/bg.png';
-            }
-            imgIndex = 0;
-        }
-        else if (imgList.length === 1) {
-            // 如果文件只有一张图片
-            imgIndex = 0;
-            $('body').css("background-image", "url('file:///" + imgList[0] + "')");
-            prevImg.src = 'file:///' + imgList[imgIndex];
-            currantImg.src = 'file:///' + imgList[imgIndex];
-        } else {
-            // 读取下一张图片
-            $('body').css("background-image", "url('file:///" + imgList[imgIndex] + "')");
-            prevImg.src = 'file:///' + imgList[oldIndex];
-            currantImg.src = 'file:///' + imgList[imgIndex];
-        }
-    }
-
-    /** Canvas绘制背景图片 */
-    function drawBackgroud() {
-        if (imgList.length <= 0) {
-            // 如果文件夹为空
-            if (userImg) {
-                $('body').css("background-image", "url('file:///" + userImg + "')");
-                prevImg.src = 'file:///' + userImg;
-                currantImg.src = 'file:///' + userImg;
-                currantImg.onload = function () {
-                    context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
-                }
-            } else {
-                $('body').css("background-image", "url(img/bg.png)");
-                prevImg.src = 'img/bg.png';
-                currantImg.src = 'img/bg.png';
-                currantImg.onload = function () {
-                    context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
-                }
-            }
-            imgIndex = 0;
-        }
-        else if (imgList.length === 1) {
-            // 如果文件只有一张图片
-            imgIndex = 0;
-            $('body').css("background-image", "url('file:///" + imgList[0] + "')");
-            prevImg.src = 'file:///' + imgList[imgIndex];
-            currantImg.src = 'file:///' + imgList[imgIndex];
-            currantImg.onload = function () {
-                context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
-            }
-        } else {
-            // 读取下一张图片
-            $('body').css("background-image", "url('file:///" + imgList[imgIndex] + "')");
-            prevImg.src = 'file:///' + imgList[oldIndex];
-            currantImg.src = 'file:///' + imgList[imgIndex];
-            currantImg.onload = function () {
-                context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
-            }
-        }
-    }
-
     //构造函数和公共方法
     //--------------------------------------------------------------------------------------------------------------
 
@@ -1023,6 +929,7 @@
         this.pauseTime = options.pauseTime;      // 动画切换速度
         this.imgFit = options.imgFit;            // IMG适应方式
         this.imgBGColor = options.imgBGColor;    // IMG背景颜色
+        this.isRotate3D = options.isRotate3D;    // 是否3D旋转
 
         // 初始化图片源
         prevImg.src = 'img/bg.png';
@@ -1092,7 +999,8 @@
         pauseTime: 1,              // 背景停留时间
         effect: 'none',            // 切换特效
         imgFit: 'fill',            // IMG适应方式
-        imgBGColor: '255,255,255'  // IMG背景颜色
+        imgBGColor: '255,255,255', // IMG背景颜色
+        isRotate3D: false          // 是否3D旋转
     };
 
     // 公共方法
@@ -1128,13 +1036,331 @@
             }
         },
 
+        /** 改变背景图片 */
+        changeBackgroud: function () {
+        if (imgList.length <= 0) {
+            // 如果文件夹为空
+            if (userImg) {
+                $(this.$el).css("background-image", "url('file:///" + userImg + "')");
+            } else {
+                $(this.$el).css("background-image", "url(img/bg.png)");
+            }
+            imgIndex = 0;
+        }
+        else if (imgList.length === 1) {
+            // 如果文件只有一张图片
+            $(this.$el).css("background-image", "url('file:///" + imgList[0] + "')");
+            imgIndex = 0;
+        } else {
+            $(this.$el).css("background-image", "url('file:///" + imgList[imgIndex] + "')");
+        }
+    },
+
+        /** 改变当前图片 */
+        changeImage: function () {
+            $(currantImg).css('z-index', -1);
+            $(prevImg).css('z-index', -2);
+            if (imgList.length <= 0) {
+                // 如果文件夹为空
+                if (userImg) {
+                    $(this.$el).css("background-image", "url('file:///" + userImg + "')");
+                    prevImg.src = 'file:///' + userImg;
+                    currantImg.src = 'file:///' + userImg;
+                } else {
+                    $(this.$el).css("background-image", "url(img/bg.png)");
+                    prevImg.src = 'img/bg.png';
+                    currantImg.src = 'img/bg.png';
+                }
+                imgIndex = 0;
+            }
+            else if (imgList.length === 1) {
+                // 如果文件只有一张图片
+                imgIndex = 0;
+                $(this.$el).css("background-image", "url('file:///" + imgList[0] + "')");
+                prevImg.src = 'file:///' + imgList[imgIndex];
+                currantImg.src = 'file:///' + imgList[imgIndex];
+            } else {
+                // 读取下一张图片
+                $(this.$el).css("background-image", "url('file:///" + imgList[imgIndex] + "')");
+                prevImg.src = 'file:///' + imgList[oldIndex];
+                currantImg.src = 'file:///' + imgList[imgIndex];
+            }
+        },
+
+        /** Canvas绘制背景图片 */
+        drawBackgroud: function () {
+            if (imgList.length <= 0) {
+                // 如果文件夹为空
+                if (userImg) {
+                    $(this.$el).css("background-image", "url('file:///" + userImg + "')");
+                    prevImg.src = 'file:///' + userImg;
+                    currantImg.src = 'file:///' + userImg;
+                    currantImg.onload = function () {
+                        context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
+                    }
+                } else {
+                    $(this.$el).css("background-image", "url(img/bg.png)");
+                    prevImg.src = 'img/bg.png';
+                    currantImg.src = 'img/bg.png';
+                    currantImg.onload = function () {
+                        context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
+                    }
+                }
+                imgIndex = 0;
+            }
+            else if (imgList.length === 1) {
+                // 如果文件只有一张图片
+                imgIndex = 0;
+                $(this.$el).css("background-image", "url('file:///" + imgList[0] + "')");
+                prevImg.src = 'file:///' + imgList[imgIndex];
+                currantImg.src = 'file:///' + imgList[imgIndex];
+                currantImg.onload = function () {
+                    context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
+                }
+            } else {
+                // 读取下一张图片
+                $(this.$el).css("background-image", "url('file:///" + imgList[imgIndex] + "')");
+                prevImg.src = 'file:///' + imgList[oldIndex];
+                currantImg.src = 'file:///' + imgList[imgIndex];
+                currantImg.onload = function () {
+                    context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
+                }
+            }
+        },
+
+        /** 设置交互事件 */
+        setupPointerEvents: function () {
+
+            let that = this;
+
+            function addRotate3D() {
+                $(that.$el).css({
+                    'top': '-100px',
+                    'left': '-100px',
+                    'bottom': '-100px',
+                    'right': '-100px'
+                });
+            }
+
+            function removeRotate3D() {
+                $(that.$el).css('transform',
+                    'perspective(0)'
+                    + 'translate(0,0)'
+                    + 'rotate3d(0,0,0,0deg)'
+                );
+                $(that.$el).css({
+                    'top': '0',
+                    'left': '0',
+                    'bottom': '0',
+                    'right': '0'
+                });
+            }
+
+            $(this.$el).on('mousemove', function (e) {
+                if (that.isRotate3D) {
+                    let multiple = 0.01;
+
+                    let x = e.clientX;
+                    let y = e.clientY;
+                    let x_multiple = x / canvasWidth * 2 - 1,
+                        y_multiple = y / canvasHeight * 2 - 1;
+                    $(that.$el).css('transform',
+                        'perspective(' + (3 - Math.abs(x_multiple + y_multiple)) + 'em)'
+                        + 'translate(' + (-x_multiple * 100 * multiple) + '%,' + (-y_multiple * 100 * multiple) + '%)'
+                        + 'rotate3d(' + (-y_multiple * 45 * multiple) + ',' + x_multiple * 45 * multiple + ',0,' + 7 * multiple + 'deg)'
+                    );
+                }
+            });
+
+            // 窗体改变事件
+            $(window).on('resize', function () {
+                // 改变宽度和高度
+                canvasWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+                canvasHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+                // 获取最小宽度以及原点
+                originX = canvasWidth * this.offsetX;
+                originY = canvasHeight * this.offsetY;
+            });
+
+        },
+
+        // 面向外部方法
+        //-----------------------------------------------------------
+
         /**
-         * 开始背景切换计时器
+         * 获取用户自定义的背景颜色
+         * 如果颜色不存在默认为空字符串
          *
-         * @param {Function} func        调用方法
-         * @param {int}      millisec    间隔时间（毫秒为单位）
+         * @param {string} color 用户背景颜色
          */
-        runSliderTimer: function (func, millisec) {
+        setUserColor: function (color) {
+            if (color) {
+                userColor = color;
+            } else {
+                userColor = '255,255,255';
+            }
+        },
+
+        /**
+         * 获取用户自定义的图片地址
+         * 如果路径不存在默认为空字符串
+         *
+         * @param {string} img 用户图片路径
+         */
+        setUserImg: function (img) {
+            if (img) {
+                userImg = img;
+            } else {
+                userImg = '';
+            }
+        },
+
+        // CSS
+        //----
+
+        /** 设置background-color为用户颜色 */
+        cssUserColor: function () {
+            if (userColor) {
+                this.$el.css({
+                    'background-image': 'none',
+                    'background-color': 'rgb(' + userColor + ')'
+                });
+            } else {
+                this.$el.css({
+                    'background-image': 'url(img/bg.png)',
+                    'background-color': 'rgb(255, 255, 255)'
+                });
+            }
+        },
+
+        /** 设置background-image为用户图片 */
+        cssUserImg: function () {
+            if (userImg) {
+                this.$el.css({
+                    'background-image': "url('file:///" + userImg + "')",
+                    'background-color': 'rgb(255, 255, 255)'
+                });
+            } else {
+                this.$el.css({
+                    'background-image': 'url(img/bg.png)',
+                    'background-color': 'rgb(255, 255, 255)'
+                });
+            }
+        },
+
+        /** 设置background-image为默认图片 */
+        cssDefaultImg: function () {
+            this.$el.css({
+                'background-image': 'url(img/bg.png)',
+                'background-color': 'rgb(255, 255, 255)'
+            });
+        },
+
+        // Image
+        //------
+
+        /** 添加上张图片和当前图片 */
+        addImg: function () {
+            $(this.$el).append(prevImg);
+            $(this.$el).append(currantImg);
+        },
+
+        /** 删除上张图片和当前图片 */
+        delImg: function () {
+            $(prevImg).remove();
+            $(currantImg).remove();
+        },
+
+        /** 设置当前图片为用户图片 */
+        imgSrcUserImg: function () {
+            if (userImg) {
+                currantImg.src = 'file:///' + userImg;
+            } else {
+                currantImg.src = 'img/bg.png';
+            }
+        },
+
+        /** 设置当前图片为默认图片 */
+        imgSrcDefaultImg: function () {
+            currantImg.src = 'img/bg.png';
+        },
+
+        // Canvas
+        //-------
+
+        /** 绘制用户图片 */
+        drawUserImg: function () {
+            if (userImg) {
+                currantImg.src = 'file:///' + userImg;
+                currantImg.onload = function () {
+                    context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
+                };
+            } else {
+                currantImg.src = 'img/bg.png';
+                currantImg.onload = function () {
+                    context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
+                };
+            }
+        },
+
+        /** 绘制默认图片 */
+        drawDefaultImg: function () {
+            currantImg.src = 'img/bg.png';
+            currantImg.onload = function () {
+                context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
+            };
+        },
+
+        /** 清空Canvas内容 */
+        clearCanvas: function () {
+            context.clearRect(0, 0, canvasWidth, canvasHeight);
+        },
+
+        // imgList
+        //--------
+
+        /**
+         * 更新imgList
+         * - 载入/删除/添加/修改（删除 - 添加）都会初始化状态
+         * - 文件夹为空时使用用户自定义的图片路径
+         * - 用户为自定义的图片时使用原始图片路径
+         *
+         *@param {Array<string>} currentFiles 当前文件路径数组
+         */
+        updateImgList: function (currentFiles) {
+            currentFiles.length <= 0 ? imgList = [] : imgList = currentFiles;
+            imgIndex = 0;  // 初始化图片索引
+        },
+
+
+        /** 改变滑动模式 */
+        changeSliderStyle: function() {
+            switch (this.sliderStyle) {
+                case 'css':
+                    this.clearCanvas();
+                    this.delImg();
+                    break;
+                case 'image':
+                    this.clearCanvas();
+                    this.addImg();
+                    break;
+                case 'canvas':
+                    this.delImg();
+                    break;
+            }
+        },
+
+        /** 停止背景切换计时器 */
+        stopSliderTimer: function () {
+            if (timer) {
+                clearTimeout(timer);
+            }
+            this.clearCanvas();
+            this.delImg();
+        },
+
+        /** 开始背景切换计时器 */
+        runSliderTimer: function () {
             clearTimeout(timer);
             timer = setTimeout(
                 ()=> {
@@ -1224,258 +1450,30 @@
                             }
                         }
                     }
-                    func(); // 改变或则绘制背景
-                    this.runSliderTimer(func, millisec);
-                }, millisec);
+                    this.changeSlider();
+                    this.runSliderTimer();
+                }, this.getPauseTime());
         },
 
-
-        /** 设置交互事件 */
-        setupPointerEvents: function () {
-
-            // 窗体改变事件
-            $(this.$el).resize(function () {
-                // 重新设置宽度和高度
-                canvasWidth = canvas.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-                canvasHeight = canvas.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-            });
-
-            // 窗体改变事件
-            $(window).on('resize', function () {
-                // 改变宽度和高度
-                canvasWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-                canvasHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-                // 获取最小宽度以及原点
-                originX = canvasWidth * this.offsetX;
-                originY = canvasHeight * this.offsetY;
-            });
-
-        },
-
-        // 面向外部方法
-        //-----------------------------------------------------------
-
-        /**
-         * 获取用户自定义的背景颜色
-         * 如果颜色不存在默认为空字符串
-         *
-         * @param {string} color 用户背景颜色
-         */
-        setUserColor: function (color) {
-            if (color) {
-                userColor = color;
-            } else {
-                userColor = '255,255,255';
+        /** 使用imgList当前图片 */
+        changeSlider: function () {
+            switch (this.sliderStyle) {
+                case 'css':
+                    this.changeBackgroud();
+                    break;
+                case 'image':
+                    this.changeImage();
+                    break;
+                case 'canvas':
+                    this.drawBackgroud();
+                    break;
             }
         },
 
-        /**
-         * 获取用户自定义的图片地址
-         * 如果路径不存在默认为空字符串
-         *
-         * @param {string} img 用户图片路径
-         */
-        setUserImg: function (img) {
-            if (img) {
-                userImg = img;
-            } else {
-                userImg = '';
-            }
-        },
-
-        // CSS
-        //----
-
-        /** 设置background-color为用户颜色 */
-        cssUserColor: function () {
-            if (userColor) {
-                this.$el.css({
-                    'background-image': 'none',
-                    'background-color': 'rgb(' + userColor + ')'
-                });
-            } else {
-                this.$el.css('background-image', 'url(img/bg.png)');
-            }
-        },
-
-        /** 设置background-image为用户图片 */
-        cssUserImg: function () {
-            if (userImg) {
-                this.$el.css('background-image', "url('file:///" + userImg + "')");
-            } else {
-                this.$el.css('background-image', 'url(img/bg.png)');
-            }
-        },
-
-        /** 设置background-image为默认图片 */
-        cssDefaultImg: function () {
-            this.$el.css('background-image', 'url(img/bg.png)');
-        },
-
-        // Image
-        //------
-
-        /** 添加上张图片和当前图片 */
-        addImg: function () {
-            if (isRun) {
-                $(this.$el).append(prevImg);
-                $(this.$el).append(currantImg);
-            }
-        },
-
-        /** 删除上张图片和当前图片 */
-        delImg: function () {
-            $(prevImg).remove();
-            $(currantImg).remove();
-        },
-
-        /** 设置当前图片为用户图片 */
-        imgSrcUserImg: function () {
-            if (isRun) {
-                if (userImg) {
-                    currantImg.src = 'file:///' + userImg;
-                } else {
-                    currantImg.src = 'img/bg.png';
-                }
-            }
-        },
-
-        /** 设置当前图片为默认图片 */
-        imgSrcDefaultImg: function () {
-            currantImg.src = 'img/bg.png';
-        },
-
-        // Canvas
-        //-------
-
-        /** 绘制用户图片 */
-        drawUserImg: function () {
-            if (isRun) {
-                if (userImg) {
-                    currantImg.src = 'file:///' + userImg;
-                    currantImg.onload = function () {
-                        context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
-                    };
-                } else {
-                    currantImg.src = 'img/bg.png';
-                    currantImg.onload = function () {
-                        context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
-                    };
-                }
-            }
-        },
-
-        /** 绘制默认图片 */
-        drawDefaultImg: function () {
-            if (isRun) {
-                currantImg.src = 'img/bg.png';
-                currantImg.onload = function () {
-                    context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
-                };
-            }
-        },
-
-        /** 清空Canvas内容 */
-        clearCanvas: function () {
-            context.clearRect(0, 0, canvasWidth, canvasHeight);
-        },
-
-        // imgList
-        //--------
-
-        /**
-         * 更新imgList
-         * - 载入/删除/添加/修改（删除 - 添加）都会初始化状态
-         * - 文件夹为空时使用用户自定义的图片路径
-         * - 用户为自定义的图片时使用原始图片路径
-         *
-         *@param {Array<string>} currentFiles 当前文件路径数组
-         */
-        updateImgList: function (currentFiles) {
-            currentFiles.length <= 0 ? imgList = [] : imgList = currentFiles;
-            imgIndex = 0;  // 初始化图片索引
-        },
-
-        /**
-         * 使用imgList当前图片
-         *
-         * @pram {int} sliderStyle 背景切换模式
-         */
-        changeSlider: function (sliderStyle) {
-            if (isRun) {
-                switch (sliderStyle) {
-                    // css
-                    case 'css':
-                        changeBackgroud();
-                        break;
-                    // img
-                    case 'image':
-                        changeImage();
-                        break;
-                    // canvas
-                    case 'canvas':
-                        drawBackgroud();
-                        break;
-                    default:
-                        changeBackgroud();
-                }
-            }
-        },
-
-
-        /**
-         * 设置状态锁
-         *
-         * @param {boolean} isDirectory 幻灯片模式开关
-         */
-        setIsRun: function (isDirectory) {
-            isRun = isDirectory;
-        },
-
-        /** 停止背景切换计时器 */
-        stopSlider: function () {
-            if (timer) {
-                clearTimeout(timer);
-            }
-        },
-
-        /**
-         * 开始背景切换
-         * 只有状态锁开启情况下才开切换
-         */
+        /** 开始背景切换 */
         startSlider: function () {
-            this.stopSlider();
-            if (isRun) {
-                let time = this.getPauseTime();
-                switch (this.sliderStyle) {
-                    // CSS
-                    case 'css':
-                        stopEffectTimer();
-                        this.clearCanvas();
-                        this.runSliderTimer(changeBackgroud, time);
-                        break;
-                    // Img
-                    case 'image':
-                        if (this.effect === 'none') {
-                            this.runSliderTimer(changeImage, time);
-                        } else {
-                            this.runSliderTimer($.noop, time);
-                        }
-                        break;
-                    // Canvas
-                    case 'canvas':
-                        if (this.effect === 'none') {
-                            this.runSliderTimer(drawBackgroud, time);
-                        } else {
-                            this.runSliderTimer($.noop, time);
-                        }
-                        break;
-                    default:
-                        stopEffectTimer();
-                        this.clearCanvas();
-                        this.runSliderTimer(changeBackgroud, time);
-                }
-            }
+            this.changeSliderStyle();
+            this.runSliderTimer();
         },
 
 
@@ -1507,13 +1505,19 @@
                     $(prevImg).css('background-color', 'rgb(' + this[property] + ')');
                     $(currantImg).css('background-color', 'rgb(' + this[property] + ')');
                     break;
-                case'sliderStyle':
                 case 'readStyle':
+                case 'effect':
                 case 'pauseTime':
                 case 'timeUnits':
-                case 'effect':
                     this[property] = value;
-                    this.startSlider();
+                    break;
+                case'sliderStyle':
+                    this[property] = value;
+                    this.changeSliderStyle();
+                    break;
+                case 'isRotate3D':
+                    this[property] = value;
+                    this[property] ? this.setupPointerEvents.addRotate3D() : this.setupPointerEvents.removeRotate3D();
                     break;
             }
         }

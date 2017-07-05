@@ -17,8 +17,6 @@
     //--------------------------------------------------------------------------------------------------------------
 
     // 临时储存变量
-    let sliderStyle = 1;           // 滑动样式
-    let timeUnits = 'sec';         // 时间单位
     let redrawInterval = 30;        // 音频圆环重绘间隔(ms)
     let files = {};                // 文件路径对象
 
@@ -64,7 +62,7 @@
     };
 
     // 插件列表
-    let wallpaper = $('body').audiovisualizer({}).date({}).particles({}).slider({});
+    let wallpaper = $('#wallpaper').audiovisualizer({}).date({}).particles({}).slider({});
 
     // 定义方法
     //--------------------------------------------------------------------------------------------------------------
@@ -79,43 +77,6 @@
         return c.split(' ').map((c)=> {
             return Math.ceil(c * 255);
         });
-    }
-
-    /**
-     * 背景幻灯片开关
-     *
-     * @param enable 幻灯片开关
-     */
-    function sliderEnable(enable) {
-        if (enable) {
-            wallpaper.slider('setIsRun', true);
-            switch (sliderStyle) {
-                // css
-                case 1:
-                    wallpaper.slider('clearCanvas')
-                        .slider('delImg');
-                    break;
-                // img
-                case 2:
-                    wallpaper.slider('clearCanvas')
-                        .slider('addImg');
-                    break;
-                // canvas
-                case 3:
-                    wallpaper.slider('delImg');
-                    break;
-                default:
-                    wallpaper.slider('clearCanvas')
-                        .slider('delImg');
-            }
-            wallpaper.slider('startSlider')
-                .slider('changeSlider', setSliderStyle(sliderStyle));
-        } else {
-            wallpaper.slider('setIsRun', false)
-                .slider('stopSlider')
-                .slider('clearCanvas')
-                .slider('delImg');
-        }
     }
 
     // 数字转换成标识字符串
@@ -266,16 +227,11 @@
     function setTimeUnits(n) {
         switch (n) {
             case 1:
-                timeUnits = 'sec';
-                break;
+                return 'sec';
             case 2:
-                timeUnits = 'min';
-                break;
+                return 'min';
             case 3:
-                timeUnits = 'hour';
-                break;
-            default:
-                timeUnits = 'sec';
+                return 'hour';
         }
     }
 
@@ -698,14 +654,12 @@
                 switch (properties.BG_mode.value) {
                     case 1:
                         BGMode = 'Color';
-                        sliderEnable(false);
-                        wallpaper.slider('cssUserColor');
+                        wallpaper.slider('stopSliderTimer')
+                            .slider('cssUserColor');
                         break;
                     case 2:
                         BGMode = 'Wallpaper';
-                        wallpaper.slider('setUserColor', '255,255,255')
-                            .slider('cssUserColor');
-                        sliderEnable(false);
+                        wallpaper.slider('stopSliderTimer');
                         if (BGImage) {
                             wallpaper.slider('cssUserImg');
                         } else {
@@ -714,9 +668,7 @@
                         break;
                     case 3:
                         BGMode = 'Directory';
-                        wallpaper.slider('setUserColor', '255,255,255')
-                            .slider('cssUserColor');
-                        sliderEnable(true);
+                        wallpaper.slider('startSlider');
                         break;
                 }
             }
@@ -743,43 +695,9 @@
                     }
                 }
             }
-            // 图片文件夹
-            if (properties.directory) {
-                if (properties.directory.value) {
-                    wallpaper.slider('changeSlider', setSliderStyle(sliderStyle));
-                } else {
-                    wallpaper.slider('clearCanvas')
-                        .slider('cssUserImg')
-                        .slider('imgSrcUserImg');
-                }
-            }
             // 滑动样式
             if (properties.directory_sliderStyle) {
-                switch (properties.directory_sliderStyle.value) {
-                    // css
-                    case 1:
-                        sliderStyle = 1;
-                        wallpaper.slider('clearCanvas')
-                            .slider('delImg');
-                        break;
-                    // img
-                    case 2:
-                        sliderStyle = 2;
-                        wallpaper.slider('clearCanvas')
-                            .slider('addImg');
-                        break;
-                    // canvas
-                    case 3:
-                        sliderStyle = 3;
-                        wallpaper.slider('delImg');
-                        break;
-                    default:
-                        sliderStyle = 1;
-                        wallpaper.slider('clearCanvas')
-                            .slider('delImg');
-                }
-                wallpaper.slider('set', 'sliderStyle', setSliderStyle(sliderStyle))
-                    .slider('changeSlider', setSliderStyle(sliderStyle));
+                wallpaper.slider('set', 'sliderStyle', setSliderStyle(properties.directory_sliderStyle.value));
             }
             // 切换特效
             if (properties.directory_effect) {
@@ -791,10 +709,7 @@
             }
             // IMG背景颜色
             if (properties.IMG_BGColor) {
-                let color = properties.IMG_BGColor.value.split(' ').map(function (c) {
-                    return Math.ceil(c * 255);
-                });
-                wallpaper.slider('set', 'imgBGColor', color);
+                wallpaper.slider('set', 'imgBGColor', getColor(properties.IMG_BGColor.value));
             }
             // 读取模式
             if (properties.directory_readStyle) {
@@ -802,8 +717,7 @@
             }
             // 选择时间单位
             if (properties.directory_timeUnits) {
-                setTimeUnits(properties.directory_timeUnits.value);
-                wallpaper.slider('set', 'timeUnits', timeUnits);
+                wallpaper.slider('set', 'timeUnits', setTimeUnits(properties.directory_timeUnits.value));
             }
             // 停留时间
             if (properties.directory_pauseTime) {
@@ -866,9 +780,7 @@
             }
             // 颜色
             if (properties.global_color) {
-                globalSettings.color = properties.global_color.value.split(' ').map(function (c) {
-                    return Math.ceil(c * 255);
-                });
+                globalSettings.color = getColor(properties.global_color.value);
                 if (isGlobalSettings === true) {
                     wallpaper.audiovisualizer('set', 'color', globalSettings.color)
                         .date('set', 'color', globalSettings.color);
@@ -876,9 +788,7 @@
             }
             // 模糊颜色
             if (properties.global_shadowColor) {
-                globalSettings.shadowColor = properties.global_shadowColor.value.split(' ').map(function (c) {
-                    return Math.ceil(c * 255);
-                });
+                globalSettings.shadowColor = getColor(properties.global_shadowColor.value);
                 if (isGlobalSettings === true) {
                     wallpaper.audiovisualizer('set', 'shadowColor', globalSettings.shadowColor)
                         .date('set', 'shadowColor', globalSettings.shadowColor);
@@ -980,7 +890,7 @@
             if (properties.audio_milliSec) {
                 redrawInterval = properties.audio_milliSec.value;
                 wallpaper.audiovisualizer('set', 'milliSec', redrawInterval);
-                if(redrawInterval === 30) {
+                if (redrawInterval === 30) {
                     wallpaper.audiovisualizer('stopAudioVisualizerTimer');
                 } else {
                     wallpaper.audiovisualizer('runAudioVisualizerTimer');
@@ -995,18 +905,14 @@
             }
             // 圆环和小球颜色
             if (properties.audio_color) {
-                audio.color = properties.audio_color.value.split(' ').map(function (c) {
-                    return Math.ceil(c * 255);
-                });
+                audio.color = getColor(properties.audio_color.value);
                 if (isGlobalSettings === false) {
                     wallpaper.audiovisualizer('set', 'color', audio.color);
                 }
             }
             // 圆环和小球模糊颜色
             if (properties.audio_shadowColor) {
-                audio.shadowColor = properties.audio_shadowColor.value.split(' ').map(function (c) {
-                    return Math.ceil(c * 255);
-                });
+                audio.shadowColor = getColor(properties.audio_shadowColor.value);
                 if (isGlobalSettings === false) {
                     wallpaper.audiovisualizer('set', 'shadowColor', audio.shadowColor);
                 }
@@ -1102,7 +1008,11 @@
             // 显示日期
             if (properties.date_isDate) {
                 wallpaper.date('set', 'isDate', properties.date_isDate.value);
-                properties.date_isDate.value ? wallpaper.date('runDateTimer') : wallpaper.date('stopDateTimer');
+                if (properties.date_isDate.value) {
+                    wallpaper.date('runDateTimer')
+                } else {
+                    wallpaper.date('stopDateTimer');
+                }
             }
             // 设置语言
             if (properties.date_language) {
@@ -1156,18 +1066,14 @@
             }
             // 日期颜色
             if (properties.date_color) {
-                date.color = properties.date_color.value.split(' ').map(function (c) {
-                    return Math.ceil(c * 255);
-                });
+                date.color = getColor(properties.date_color.value);
                 if (isGlobalSettings === false) {
                     wallpaper.date('set', 'color', date.color);
                 }
             }
             // 日期模糊颜色
             if (properties.date_shadowColor) {
-                date.shadowColor = properties.date_shadowColor.value.split(' ').map(function (c) {
-                    return Math.ceil(c * 255);
-                });
+                date.shadowColor = getColor(properties.date_shadowColor.value);
                 if (isGlobalSettings === false) {
                     wallpaper.date('set', 'shadowColor', date.shadowColor);
                 }
@@ -1227,17 +1133,11 @@
             }
             // 粒子颜色
             if (properties.particles_color) {
-                let color = properties.particles_color.value.split(' ').map(function (c) {
-                    return Math.ceil(c * 255);
-                });
-                wallpaper.particles('set', 'color', color);
+                wallpaper.particles('set', 'color', getColor(properties.particles_color.value));
             }
             // 粒子模糊颜色
             if (properties.particles_shadowColor) {
-                let color = properties.particles_shadowColor.value.split(' ').map(function (c) {
-                    return Math.ceil(c * 255);
-                });
-                wallpaper.particles('set', 'shadowColor', color);
+                wallpaper.particles('set', 'shadowColor', getColor(properties.particles_shadowColor.value));
             }
             // 粒子模糊大小
             if (properties.particles_shadowBlur) {
@@ -1281,10 +1181,7 @@
             }
             // 连线颜色
             if (properties.particles_linkColor) {
-                let color = properties.particles_linkColor.value.split(' ').map(function (c) {
-                    return Math.ceil(c * 255);
-                });
-                wallpaper.particles('set', 'linkColor', color);
+                wallpaper.particles('set', 'linkColor', getColor(properties.particles_linkColor.value));
             }
             // 连线不透明度
             if (properties.particles_linkOpacity) {
