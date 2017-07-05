@@ -70,10 +70,11 @@
     let prevCanvas, currantCanvas;    // 离屏Canvas
     let prevContext, currantContext;  // 离屏Context
 
-    let imgList = [];       // 图片绝对路径数组
-    let imgIndex = 0,       // 图片索引
-        oldIndex = 0;       // 旧的索引
-    let userImg = '';       // 用户自定义图片路径
+    let imgList = [];                 // 图片绝对路径数组
+    let imgIndex = 0,                 // 图片索引
+        oldIndex = 0;                 // 旧的索引
+    let userColor = '255,255,255',  // 用户自定义颜色
+        userImg = '';                // 用户自定义图片路径
 
     let isRun = false;       // 状态锁
     let timer = null,        // 切换计时器
@@ -1254,11 +1255,51 @@
         // 面向外部方法
         //-----------------------------------------------------------
 
+        /**
+         * 获取用户自定义的背景颜色
+         * 如果颜色不存在默认为空字符串
+         *
+         * @param {string} color 用户背景颜色
+         */
+        setUserColor: function (color) {
+            if (color) {
+                userColor = color;
+            } else {
+                userColor = '255,255,255';
+            }
+        },
+
+        /**
+         * 获取用户自定义的图片地址
+         * 如果路径不存在默认为空字符串
+         *
+         * @param {string} img 用户图片路径
+         */
+        setUserImg: function (img) {
+            if (img) {
+                userImg = img;
+            } else {
+                userImg = '';
+            }
+        },
+
         // CSS
         //----
 
+        /** 设置background-color为用户颜色 */
+        cssUserColor: function () {
+            if (userColor) {
+                this.$el.css({
+                    'background-image': 'none',
+                    'background-color': 'rgb(' + userColor + ')'
+                });
+            } else {
+                this.$el.css('background-image', 'url(img/bg.png)');
+            }
+        },
+
         /** 设置background-image为用户图片 */
-        cssSrcUserImg: function () {
+        cssUserImg: function () {
             if (userImg) {
                 this.$el.css('background-image', "url('file:///" + userImg + "')");
             } else {
@@ -1267,7 +1308,7 @@
         },
 
         /** 设置background-image为默认图片 */
-        cssSrcDefaultImg: function () {
+        cssDefaultImg: function () {
             this.$el.css('background-image', 'url(img/bg.png)');
         },
 
@@ -1353,20 +1394,6 @@
         updateImgList: function (currentFiles) {
             currentFiles.length <= 0 ? imgList = [] : imgList = currentFiles;
             imgIndex = 0;  // 初始化图片索引
-        },
-
-        /**
-         * 获取用户自定义的图片地址
-         * 如果路径不存在默认为空字符串
-         *
-         * @param {string} img 用户图片路径
-         */
-        setUserImg: function (img) {
-            if (img) {
-                userImg = img;
-            } else {
-                userImg = '';
-            }
         },
 
         /**
@@ -1471,12 +1498,14 @@
         set: function (property, value) {
             switch (property) {
                 case 'imgFit':
-                    $(prevImg).css('object-fit', value);
-                    $(currantImg).css('object-fit', value);
+                    this[property] = value;
+                    $(prevImg).css('object-fit', this[property]);
+                    $(currantImg).css('object-fit', this[property]);
                     break;
                 case 'imgBGColor':
-                    $(prevImg).css('background-color', 'rgb(' + value + ')');
-                    $(currantImg).css('background-color', 'rgb(' + value + ')');
+                    this[property] = value;
+                    $(prevImg).css('background-color', 'rgb(' + this[property] + ')');
+                    $(currantImg).css('background-color', 'rgb(' + this[property] + ')');
                     break;
                 case'sliderStyle':
                 case 'readStyle':

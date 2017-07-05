@@ -19,7 +19,13 @@
     // 临时储存变量
     let sliderStyle = 1;           // 滑动样式
     let timeUnits = 'sec';         // 时间单位
+    let redrawInterval = 30;        // 音频圆环重绘间隔(ms)
     let files = {};                // 文件路径对象
+
+    // 背景模式变量
+    let BGMode = 'Color';          // 背景模式
+    let BGColor = '255,255,255';  // 背景颜色
+    let BGImage = '';              // 背景图片
 
     // 全局/局部配置
     let isGlobalSettings = true;
@@ -63,14 +69,63 @@
     // 定义方法
     //--------------------------------------------------------------------------------------------------------------
 
+    /**
+     * 获取颜色字符串
+     *
+     * @param c wallpaper颜色格式
+     * @return 颜色字符串
+     */
+    function getColor(c) {
+        return c.split(' ').map((c)=> {
+            return Math.ceil(c * 255);
+        });
+    }
+
+    /**
+     * 背景幻灯片开关
+     *
+     * @param enable 幻灯片开关
+     */
+    function sliderEnable(enable) {
+        if (enable) {
+            wallpaper.slider('setIsRun', true);
+            switch (sliderStyle) {
+                // css
+                case 1:
+                    wallpaper.slider('clearCanvas')
+                        .slider('delImg');
+                    break;
+                // img
+                case 2:
+                    wallpaper.slider('clearCanvas')
+                        .slider('addImg');
+                    break;
+                // canvas
+                case 3:
+                    wallpaper.slider('delImg');
+                    break;
+                default:
+                    wallpaper.slider('clearCanvas')
+                        .slider('delImg');
+            }
+            wallpaper.slider('startSlider')
+                .slider('changeSlider', setSliderStyle(sliderStyle));
+        } else {
+            wallpaper.slider('setIsRun', false)
+                .slider('stopSlider')
+                .slider('clearCanvas')
+                .slider('delImg');
+        }
+    }
+
     // 数字转换成标识字符串
     //-----------------------------------------------------------
 
     /**
-     *  设置背景填充样式
+     * 设置背景填充样式
      *
-     *  @param  {int} n 背景填充样式对应值
-     *  @return {string} 背景填充样式标识串
+     * @param  {int} n 背景填充样式对应值
+     * @return {string} 背景填充样式标识串
      */
     function setFillStyle(n) {
         let position = '0% 0%';
@@ -112,10 +167,10 @@
     }
 
     /**
-     *  设置背景切换模式
+     * 设置背景切换模式
      *
-     *  @param  {int} n 背景切换模式对应值
-     *  @return {string} 背景切换模式标识串
+     * @param  {int} n 背景切换模式对应值
+     * @return {string} 背景切换模式标识串
      */
     function setSliderStyle(n) {
         switch (n) {
@@ -129,10 +184,10 @@
     }
 
     /**
-     *  设置读取模式
+     * 设置读取模式
      *
-     *  @param  {int} n 背景切换模式对应值
-     *  @return {string} 背景切换模式标识串
+     * @param  {int} n 背景切换模式对应值
+     * @return {string} 背景切换模式标识串
      */
     function setReadStyle(n) {
         switch (n) {
@@ -225,10 +280,10 @@
     }
 
     /**
-     *  设置音频圆环
+     * 设置音频圆环
      *
-     *  @param  {int} n 音频圆环对应值
-     *  @return {string} 音频圆环标识串
+     * @param  {int} n 音频圆环对应值
+     * @return {string} 音频圆环标识串
      */
     function setPoint(n) {
         switch (n) {
@@ -242,10 +297,10 @@
     }
 
     /**
-     *  设置日期风格
+     * 设置日期风格
      *
-     *  @param  {int} n 日期风格对应值
-     *  @return {string} 日期风格标识串
+     * @param  {int} n 日期风格对应值
+     * @return {string} 日期风格标识串
      */
     function setTimeStyle(n) {
         switch (n) {
@@ -269,10 +324,10 @@
     }
 
     /**
-     *  设置日期风格
+     * 设置日期风格
      *
-     *  @param  {int} n 日期风格对应值
-     *  @return {string} 日期风格标识串
+     * @param  {int} n 日期风格对应值
+     * @return {string} 日期风格标识串
      */
     function setDateStyle(n) {
         switch (n) {
@@ -296,10 +351,10 @@
     }
 
     /**
-     *  设置设置天气接口提供者
+     * 设置设置天气接口提供者
      *
-     *  @param  {int} n 天气接口提供者对应值
-     *  @return {string} 天气接口提供者标识串
+     * @param  {int} n 天气接口提供者对应值
+     * @return {string} 天气接口提供者标识串
      */
     function setWeatherProvider(n) {
         switch (n) {
@@ -313,10 +368,10 @@
     }
 
     /**
-     *  设置日期语言
+     * 设置日期语言
      *
-     *  @param  {int} n 日期语言对应值
-     *  @return {string} 日期语言标识串
+     * @param  {int} n 日期语言对应值
+     * @return {string} 日期语言标识串
      */
     function setDateLang(n) {
         switch (n) {
@@ -536,10 +591,10 @@
     }
 
     /**
-     *  设置粒子类型
+     * 设置粒子类型
      *
-     *  @param  {int} n 粒子类型对应值
-     *  @return {string} 粒子类型标识串
+     * @param  {int} n 粒子类型对应值
+     * @return {string} 粒子类型标识串
      */
     function setShapeType(n) {
         switch (n) {
@@ -557,10 +612,10 @@
     }
 
     /**
-     *  设置粒子方向
+     * 设置粒子方向
      *
-     *  @param  {int} n 粒子方向对应值
-     *  @return {string} 粒子方向标识串
+     * @param  {int} n 粒子方向对应值
+     * @return {string} 粒子方向标识串
      */
     function setDirection(n) {
         switch (n) {
@@ -586,10 +641,10 @@
     }
 
     /**
-     *  设置离屏模式
+     * 设置离屏模式
      *
-     *  @param  {int} n 离屏模式对应值
-     *  @return {string} 离屏模式标识串
+     * @param  {int} n 离屏模式对应值
+     * @return {string} 离屏模式标识串
      */
     function setMoveOutMode(n) {
         switch (n) {
@@ -609,8 +664,11 @@
      * @param {Array<float>} audioArray 音频数组
      */
     function wallpaperAudioListener(audioArray) {
-        wallpaper.audiovisualizer('drawCanvas', audioArray);
-        // wallpaper.audiovisualizer('updateAudioVisualizer', audioArray);
+        if (redrawInterval === 30) {
+            wallpaper.audiovisualizer('drawCanvas', audioArray);
+        } else {
+            wallpaper.audiovisualizer('updateAudioVisualizer', audioArray);
+        }
     }
 
     window.wallpaperRegisterAudioListener && window.wallpaperRegisterAudioListener(wallpaperAudioListener);
@@ -627,60 +685,62 @@
          */
         applyUserProperties: function (properties) {
 
+            /**
+             * 壁纸初始化时wallpaper默认遍历运行参数一遍
+             * 参数属性：condition 满足后默认运行该参数一次
+             */
+
             // 背景参数
             //-----------------------------------------------------------
 
-            // 背景颜色
-            if (properties.image_BGColor) {
-                let color = properties.image_BGColor.value.split(' ').map(function (c) {
-                    return Math.ceil(c * 255);
-                });
-                wallpaper.css({
-                    'background-image': 'none',
-                    'background-color': 'rgb(' + color + ')'
-                });
-            }
-            // 更换背景
-            if (properties.image) {
-                if (properties.image.value) {
-                    wallpaper.slider('setUserImg', properties.image.value)
-                        .slider('cssSrcUserImg');
-                } else {
-                    wallpaper.slider('setUserImg', '')
-                        .slider('cssSrcDefaultImg');
+            // 背景模式
+            if (properties.BG_mode) {
+                switch (properties.BG_mode.value) {
+                    case 1:
+                        BGMode = 'Color';
+                        sliderEnable(false);
+                        wallpaper.slider('cssUserColor');
+                        break;
+                    case 2:
+                        BGMode = 'Wallpaper';
+                        wallpaper.slider('setUserColor', '255,255,255')
+                            .slider('cssUserColor');
+                        sliderEnable(false);
+                        if (BGImage) {
+                            wallpaper.slider('cssUserImg');
+                        } else {
+                            wallpaper.slider('cssDefaultImg');
+                        }
+                        break;
+                    case 3:
+                        BGMode = 'Directory';
+                        wallpaper.slider('setUserColor', '255,255,255')
+                            .slider('cssUserColor');
+                        sliderEnable(true);
+                        break;
                 }
             }
-            // 幻灯片模式
-            if (properties.directory_isDirectory) {
-                if (properties.directory_isDirectory.value) {
-                    wallpaper.slider('setIsRun', true);
-                    switch (sliderStyle) {
-                        // css
-                        case 1:
-                            wallpaper.slider('clearCanvas')
-                                .slider('delImg');
-                            break;
-                        // img
-                        case 2:
-                            wallpaper.slider('clearCanvas')
-                                .slider('addImg');
-                            break;
-                        // canvas
-                        case 3:
-                            wallpaper.slider('delImg');
-                            break;
-                        default:
-                            wallpaper.slider('clearCanvas')
-                                .slider('delImg');
+            // 背景颜色
+            if (properties.BG_Color) {
+                BGColor = getColor(properties.BG_Color.value);
+                wallpaper.slider('setUserColor', BGColor);
+                if (BGMode === 'Color') {
+                    wallpaper.slider('cssUserColor');
+                }
+            }
+            // 更换背景
+            if (properties.BG_image) {
+                if (properties.BG_image.value) {
+                    BGImage = properties.BG_image.value;
+                    wallpaper.slider('setUserImg', BGImage);
+                    if (BGMode === 'Wallpaper') {
+                        wallpaper.slider('cssUserImg');
                     }
-                    wallpaper.slider('startSlider')
-                        .slider('changeSlider', setSliderStyle(sliderStyle));
                 } else {
-                    wallpaper.slider('setIsRun', false)
-                        .slider('stopSlider')
-                        .slider('clearCanvas')
-                        .slider('delImg')
-                        .slider('cssSrcUserImg');
+                    wallpaper.slider('setUserImg', '');
+                    if (BGMode === 'Wallpaper') {
+                        wallpaper.slider('cssDefaultImg');
+                    }
                 }
             }
             // 图片文件夹
@@ -689,7 +749,7 @@
                     wallpaper.slider('changeSlider', setSliderStyle(sliderStyle));
                 } else {
                     wallpaper.slider('clearCanvas')
-                        .slider('cssSrcUserImg')
+                        .slider('cssUserImg')
                         .slider('imgSrcUserImg');
                 }
             }
@@ -868,6 +928,10 @@
             if (properties.audio_decline) {
                 wallpaper.audiovisualizer('set', 'decline', properties.audio_decline.value / 100);
             }
+            // 音频峰值
+            if (properties.audio_peak) {
+                wallpaper.audiovisualizer('set', 'peak', properties.audio_peak.value / 10);
+            }
 
             // 圆环参数
             //-----------------------------------------------------------
@@ -911,6 +975,16 @@
             // 圆环旋转
             if (properties.audio_ringRotation) {
                 wallpaper.audiovisualizer('set', 'ringRotation', properties.audio_ringRotation.value);
+            }
+            // 重绘间隔
+            if (properties.audio_milliSec) {
+                redrawInterval = properties.audio_milliSec.value;
+                wallpaper.audiovisualizer('set', 'milliSec', redrawInterval);
+                if(redrawInterval === 30) {
+                    wallpaper.audiovisualizer('stopAudioVisualizerTimer');
+                } else {
+                    wallpaper.audiovisualizer('runAudioVisualizerTimer');
+                }
             }
             // 圆环和小球不透明度
             if (properties.audio_opacity) {
@@ -985,9 +1059,13 @@
             if (properties.audio_pointNum) {
                 wallpaper.audiovisualizer('set', 'pointNum', properties.audio_pointNum.value);
             }
-            // 内外环距离
-            if (properties.audio_distance) {
-                wallpaper.audiovisualizer('set', 'distance', properties.audio_distance.value);
+            // 内环距离
+            if (properties.audio_innerDistance) {
+                wallpaper.audiovisualizer('set', 'innerDistance', properties.audio_innerDistance.value);
+            }
+            // 外环距离
+            if (properties.audio_outerDistance) {
+                wallpaper.audiovisualizer('set', 'outerDistance', properties.audio_outerDistance.value);
             }
             // 线条粗细
             if (properties.audio_lineWidth) {
@@ -1004,6 +1082,10 @@
             // 小球间隔
             if (properties.audio_ballSpacer) {
                 wallpaper.audiovisualizer('set', 'ballSpacer', properties.audio_ballSpacer.value);
+            }
+            // 内环距离
+            if (properties.audio_ballDistance) {
+                wallpaper.audiovisualizer('set', 'ballDistance', properties.audio_ballDistance.value);
             }
             // 小球大小
             if (properties.audio_ballSize) {
@@ -1060,6 +1142,10 @@
             // 日期字体大小
             if (properties.date_dateFontSize) {
                 wallpaper.date('set', 'dateFontSize', properties.date_dateFontSize.value);
+            }
+            // 时间和日期之间距离
+            if (properties.date_distance) {
+                wallpaper.date('set', 'distance', properties.date_distance.value);
             }
             // 日期不透明度
             if (properties.date_opacity) {

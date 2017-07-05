@@ -174,17 +174,18 @@
      * @param {Array<float>}   audioSamples 音频数组
      * @param {int}            index        音频数组索引
      * @param {float}          decline      衰退值
+     * @param {float}          peak         峰值
      * @param {boolean<float>} isUpdate     是否更新上次音频数组记录
      * @return 音频取样值
      */
-    function getAudioSamples(audioSamples, index, decline, isUpdate) {
+    function getAudioSamples(audioSamples, index, decline, peak, isUpdate) {
         if (!audioSamples) {
             return [];
         }
         decline = decline || 0.01;
         let audioValue = audioSamples[index] ? audioSamples[index] : 0;
         audioValue = Math.max(audioValue, lastAudioSamples[index] - decline);
-        audioValue = Math.min(audioValue, 1.5);  // 溢出部分按值1.5处理
+        audioValue = Math.min(audioValue, peak);  // 溢出部分按值1.5处理
         if (isUpdate) {
             lastAudioSamples[index] = audioValue;
         }
@@ -272,38 +273,41 @@
         this.$el = $(el);
 
         // 全局参数
-        this.opacity = options.opacity;              // 不透明度
-        this.color = options.color;                  // 颜色
-        this.shadowColor = options.shadowColor;      // 阴影颜色
-        this.shadowBlur = options.shadowBlur;        // 模糊大小
+        this.opacity = options.opacity;               // 不透明度
+        this.color = options.color;                   // 颜色
+        this.shadowColor = options.shadowColor;       // 阴影颜色
+        this.shadowBlur = options.shadowBlur;         // 模糊大小
         // 坐标参数
-        this.offsetX = options.offsetX;              // X坐标偏移
-        this.offsetY = options.offsetY;              // Y坐标偏移
-        this.isClickOffset = options.isClickOffset;  // 鼠标坐标偏移
+        this.offsetX = options.offsetX;               // X坐标偏移
+        this.offsetY = options.offsetY;               // Y坐标偏移
+        this.isClickOffset = options.isClickOffset;   // 鼠标坐标偏移
         // 音频参数
-        this.amplitude = options.amplitude;          // 振幅
-        this.decline = options.decline;              // 衰退值
+        this.amplitude = options.amplitude;           // 振幅
+        this.decline = options.decline;               // 衰退值
+        this.peak = options.peak;                     // 峰值
         // 圆环参数
-        this.isRing = options.isRing;                // 显示环
-        this.isStaticRing = options.isStaticRing;    // 显示静态环
-        this.isInnerRing = options.isInnerRing;      // 显示内环
-        this.isOuterRing = options.isOuterRing;      // 显示外环
-        this.radius = options.radius;                // 半径
-        this.ringRotation = options.ringRotation;    // 圆环旋转
+        this.isRing = options.isRing;                 // 显示环
+        this.isStaticRing = options.isStaticRing;     // 显示静态环
+        this.isInnerRing = options.isInnerRing;       // 显示内环
+        this.isOuterRing = options.isOuterRing;       // 显示外环
+        this.radius = options.radius;                 // 半径
+        this.ringRotation = options.ringRotation;     // 圆环旋转
+        this.milliSec = options.milliSec;             // 绘制间隔(ms);
         // 线条参数
-        this.isLineTo = options.isLineTo;            // 是否连线
-        this.firstPoint = options.firstPoint;        // 始点
-        this.secondPoint = options.secondPoint;      // 末点
-        this.pointNum = options.pointNum;            // 点的数量
-        this.distance = options.distance;            // 内外环距离
-        this.lineWidth = options.lineWidth;          // 线条粗细
+        this.isLineTo = options.isLineTo;             // 是否连线
+        this.firstPoint = options.firstPoint;         // 始点
+        this.secondPoint = options.secondPoint;       // 末点
+        this.pointNum = options.pointNum;             // 点的数量
+        this.innerDistance = options.innerDistance;   // 内环距离
+        this.outerDistance = options.outerDistance;   // 外环距离
+        this.lineWidth = options.lineWidth;           // 线条粗细
         // 小球参数
-        this.isBall = options.isBall;                // 显示小球
-        this.ballSpacer = options.ballSpacer;        // 小球间隔
-        this.ballSize = options.ballSize;            // 小球大小
-        this.ballRotation = options.ballRotation;    // 小球旋转
-        // 计时器参数
-        this.milliSec = options.milliSec;            // 绘制间隔(ms);
+        this.isBall = options.isBall;                 // 显示小球
+        this.ballSpacer = options.ballSpacer;         // 小球间隔
+        this.ballDistance = options.ballDistance;     // 小球距离
+        this.ballSize = options.ballSize;             // 小球大小
+        this.ballRotation = options.ballRotation;     // 小球旋转
+
 
         // 创建并初始化canvas
         canvas = document.createElement('canvas');
@@ -355,26 +359,28 @@
         radius: 0.5,                 // 半径
         amplitude: 5,                // 振幅
         decline: 0.2,                // 衰退值
+        peak: 1.5,                   // 峰值
         // 圆环参数
         isRing: true,                // 显示环
         isStaticRing: false,         // 显示静态环
         isInnerRing: true,           // 显示内环
         isOuterRing: true,           // 显示外环
         ringRotation: 0,             // 圆环旋转
+        milliSec: 30,                // 重绘间隔（ms）
         // 线条参数
         isLineTo: false,             // 是否连线
         firstPoint: 'innerRing',     // 始点
         secondPoint: 'outerRing',    // 末点
         pointNum: 120,               // 点的数量
-        distance: 0,                 // 内外环距离
+        innerDistance: 0,            // 内环距离
+        outerDistance: 0,            // 外环距离
         lineWidth: 5,                // 线条粗细
         // 小球参数
         isBall: true,                // 显示小球
         ballSpacer: 3,               // 小球间隔
+        ballDistance: 50,            // 小球距离
         ballSize: 3,                 // 小球大小
-        ballRotation: 0,             // 小球旋转
-        // 计时器参数
-        milliSec: 30                 // 重绘间隔（ms）
+        ballRotation: 0              // 小球旋转
     };
 
     // 公共方法
@@ -408,18 +414,19 @@
          *
          * @param  {Array<float>}   audioSamples 音频数组
          * @param  {int}            direction    方向（1或则-1）
+         * @param  {int}            distance     与静态环之间距离
          * @param  {boolean<float>} isChange     更新lastAudioSamples[index]布尔值
          * @return {Array<Object>} 坐标数组
          */
-        setPoint: function (audioSamples, direction, isChange) {
+        setPoint: function (audioSamples, direction, distance, isChange) {
             let pointArray = [];
             let ringArray = getRingArray(audioSamples, this.pointNum);
             // 将点数组转换成坐标数组
             for (let i = 0; i < ringArray.length; i++) {
                 let deg = getDeg(ringArray.length, i, rotationAngle1);
-                let audioValue = getAudioSamples(audioSamples, i, this.decline, isChange);
+                let audioValue = getAudioSamples(audioSamples, i, this.decline, this.peak, isChange);
                 let radius = this.radius * (minLength / 2)
-                    + direction * (this.distance + audioValue * (this.amplitude * 15));
+                    + direction * (distance + audioValue * (this.amplitude * 15));
                 // 根据半径、角度、原点坐标获得坐标数组
                 let point = getXY(radius, deg, originX, originY);
                 pointArray.push({'x': point.x, 'y': point.y});
@@ -441,7 +448,7 @@
                 let deg = getDeg(ballArray.length, i, rotationAngle2);
                 let audioValue = Math.min(audioSamples[i] ? audioSamples[i] : 0, 1);
                 let radius = this.radius * (minLength / 2)
-                    + (this.distance + 50)
+                    + (this.outerDistance + this.ballDistance)
                     + audioValue * 75;
                 // 根据半径、角度、原点坐标获得坐标数组
                 let point = getXY(radius, deg, originX, originY);
@@ -553,8 +560,8 @@
             originY = canvasHeight * this.offsetY;
             // 更新坐标数组
             staticPointsArray = this.setStaticPoint(audioSamples);
-            pointArray1 = this.setPoint(audioSamples, -1, true);
-            pointArray2 = this.setPoint(audioSamples, 1, false);
+            pointArray1 = this.setPoint(audioSamples, -1, this.innerDistance, true);
+            pointArray2 = this.setPoint(audioSamples, 1, this.outerDistance, false);
             ballPointArray = this.setBall(audioSamples);
             // 更新偏移角度
             rotationAngle1 = rotation(rotationAngle1, this.ringRotation);
@@ -665,6 +672,9 @@
                     this.drawAudioVisualizer();
                     break;
                 case 'isClickOffset':
+                case 'amplitude':
+                case 'decline':
+                case 'peak':
                 case 'milliSec':
                     this[property] = value;
                     break;
@@ -676,15 +686,15 @@
                 case 'isOuterRing':
                 case 'ringRotation':
                 case 'radius':
-                case 'amplitude':
-                case 'decline':
-                case 'distance':
+                case 'innerDistance':
+                case 'outerDistance':
                 case 'isLineTo':
                 case 'firstPoint':
                 case 'secondPoint':
                 case 'pointNum':
                 case 'isBall':
                 case 'ballSpacer':
+                case 'ballDistance':
                 case 'ballSize':
                 case 'ballRotation':
                     this[property] = value;

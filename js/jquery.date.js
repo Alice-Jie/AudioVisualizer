@@ -77,10 +77,10 @@
             weather: '阴',                      // 天气情况
             temperature: '15℃',                // 温度情况
             wind: {
-                deg: '40',                      //风向（360度）
-                dir: '东北风',                  //风向
-                sc: '4-5',                      //风力
-                spd: '24'                       //风速（kmph）
+                deg: '40',                      // 风向（360度）
+                dir: '东北风',                  // 风向
+                sc: '4-5',                      // 风力
+                spd: '24'                       // 风速（kmph）
             }
         }
     };
@@ -331,6 +331,7 @@
         this.dateStyle = options.dateStyle;              // 日期显示风格
         this.timeFontSize = options.timeFontSize;        // 字体大小
         this.dateFontSize = options.dateFontSize;        // 字体大小
+        this.distance = options.distance;                // 时间和日期之间距离
         this.language = options.language;                // 日期语言
         // 天气参数
         this.weatherProvider = options.weatherProvider;  // 天气API提供者
@@ -394,6 +395,7 @@
         dateStyle: 'LL dddd',          // 日期显示风格
         timeFontSize: 60,              // 时间字体大小
         dateFontSize: 30,              // 日期字体大小
+        distance: 0,                   // 时间与日期之间距离
         language: 'zh_cn',             // 日期语言
         // 天气参数
         weatherProvider: 'sina',       // 天气API提供者
@@ -449,9 +451,9 @@
             originY = canvasHeight * this.offsetY;
             if (this.isDate) {
                 context.font = this.timeFontSize + 'px 微软雅黑';
-                context.fillText(getTime(this.timeStyle), originX, originY - this.timeFontSize / 2);
+                context.fillText(getTime(this.timeStyle), originX, originY - this.timeFontSize / 2 - this.distance);
                 context.font = this.dateFontSize + 'px 微软雅黑';
-                context.fillText(getDate(this.dateStyle), originX, originY + this.dateFontSize / 2);
+                context.fillText(getDate(this.dateStyle), originX, originY + this.dateFontSize / 2 + this.distance);
             }
         },
 
@@ -550,7 +552,12 @@
                 case 'dateStyle':
                 case 'timeFontSize':
                 case 'dateFontSize':
+                case 'distance':
                     this[property] = value;
+                    this.drawDate();
+                    break;
+                case 'language':
+                    moment.lang(value);
                     this.drawDate();
                     break;
             }
