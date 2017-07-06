@@ -1147,7 +1147,7 @@
 
         /** 停止背景3D转换 */
         stopSliderRotate3D: function () {
-            $(this.$el).css('transform', '');
+            $(this.$el).css('transform', 'none');
         },
 
         /** 设置交互事件 */
@@ -1504,7 +1504,7 @@
                     break;
                 case 'isRotate3D':
                     this[property] = value;
-                    this.isRotate3D ? this.startSliderRotate3D(0.5, 0.5) : this.stopSliderRotate3D();
+                    this.isRotate3D || this.stopSliderRotate3D();
                     break;
             }
         }
