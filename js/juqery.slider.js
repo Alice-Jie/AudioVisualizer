@@ -76,9 +76,13 @@
     let userColor = '255,255,255',    // 用户自定义颜色
         userImg = '';                 // 用户自定义图片路径
 
+    let video = document.createElement('video');  // 视频对象
+    let videoList = [];                            // 视频数组
+    let videoIndex = 0;                            // 视频索引
+
+
     let timer = null,        // 切换计时器
         effectTimer = null;  // 特效计时器
-
 
     //私有方法
     //--------------------------------------------------------------------------------------------------------------
@@ -131,6 +135,29 @@
         }
     }
 
+    /**
+     * 获取视频索引
+     *
+     *  @param {Array<*>} array    数组
+     *  @param {int}      index    当前数组索引
+     *  @return 索引对象
+     */
+    function getVideoIndex(array, index) {
+        if (array.length <= 0) {
+            return -1;
+        } else if (array.length === 1) {
+            return 0;
+        } else {
+            let prev = index, currant = index, next = index;
+            prev === 0 ? prev = array.length - 1 : prev--;
+            next === array.length - 1 ? next = 0 : next++;
+            return {
+                prevIndex: prev,
+                currantIndex: currant,
+                nextIndex: next
+            };
+        }
+    }
 
     /**
      * 根据中心点坐标获取左上角坐标
@@ -922,14 +949,18 @@
     let Slider = function (el, options) {
         this.$el = $(el);
 
-        this.sliderStyle = options.sliderStyle;  // 背景切换模式
-        this.readStyle = options.readStyle;      // 读取模式
-        this.effect = options.effect;            // 时间单位
-        this.timeUnits = options.timeUnits;      // 切换特效
-        this.pauseTime = options.pauseTime;      // 动画切换速度
-        this.imgFit = options.imgFit;            // IMG适应方式
-        this.imgBGColor = options.imgBGColor;    // IMG背景颜色
-        this.isRotate3D = options.isRotate3D;    // 是否3D旋转
+        this.sliderStyle = options.sliderStyle;    // 背景切换模式
+        this.readStyle = options.readStyle;        // 读取模式
+        this.effect = options.effect;              // 时间单位
+        this.timeUnits = options.timeUnits;        // 切换特效
+        this.pauseTime = options.pauseTime;        // 动画切换速度
+        this.imgFit = options.imgFit;              // IMG适应方式
+        this.imgBGColor = options.imgBGColor;      // IMG背景颜色
+        this.isPlay = options.isPlay;              // 是否播放Video
+        this.volume = options.volume;              // Video音量
+        this.videoFit = options.videoFit;          // Video适应方式
+        this.videoBGColor = options.videoBGColor;  // Video背景颜色
+        this.isRotate3D = options.isRotate3D;      // 是否3D旋转
 
         // 初始化图片源
         prevImg.src = 'img/bg.png';
@@ -987,20 +1018,38 @@
             'z-index': -1
         });  // currantImg CSS
 
+        // 初始化Video属性
+        video.width = canvasWidth;
+        video.height = canvasHeight;
+        video.autoplay = 'video';
+        video.loop = 'loop';
+        $(video).css({
+            'position': 'absolute',
+            'top': 0,
+            'left': 0,
+            'background-color': 'rgb(0, 0, 0)',
+            'object-fit': 'fill',
+            'z-index': 0
+        });  // Video CSS
+
         // 默认开启
         this.setupPointerEvents();
     };
 
     // 默认参数
     Slider.DEFAULTS = {
-        sliderStyle: 'css',        // 背景切换模式
-        readStyle: 'sequential',   // 读取模式
-        timeUnits: 'sec',          // 时间单位
-        pauseTime: 1,              // 背景停留时间
-        effect: 'none',            // 切换特效
-        imgFit: 'fill',            // IMG适应方式
-        imgBGColor: '255,255,255', // IMG背景颜色
-        isRotate3D: false          // 是否3D旋转
+        sliderStyle: 'css',           // 背景切换模式
+        readStyle: 'sequential',      // 读取模式
+        timeUnits: 'sec',             // 时间单位
+        pauseTime: 1,                 // 背景停留时间
+        effect: 'none',               // 切换特效
+        imgFit: 'fill',               // IMG适应方式
+        imgBGColor: '255,255,255',    // IMG背景颜色
+        isPlay: true,                 // 是否播放Video
+        volume: 0.75,                   // Video音量
+        videoFit: 'fill',             // Video适应方式
+        videoBGColor: '255,255,255',  // Video背景颜色
+        isRotate3D: false             // 是否3D旋转
     };
 
     // 公共方法
@@ -1336,6 +1385,21 @@
             }
         },
 
+        /** 使用imgList当前图片 */
+        changeSlider: function () {
+            switch (this.sliderStyle) {
+                case 'css':
+                    this.changeBackgroud();
+                    break;
+                case 'image':
+                    this.changeImage();
+                    break;
+                case 'canvas':
+                    this.drawBackgroud();
+                    break;
+            }
+        },
+
         /** 停止背景切换计时器 */
         stopSliderTimer: function () {
             if (timer) {
@@ -1441,26 +1505,71 @@
                 }, this.getPauseTime());
         },
 
-        /** 使用imgList当前图片 */
-        changeSlider: function () {
-            switch (this.sliderStyle) {
-                case 'css':
-                    this.changeBackgroud();
-                    break;
-                case 'image':
-                    this.changeImage();
-                    break;
-                case 'canvas':
-                    this.drawBackgroud();
-                    break;
-            }
-        },
-
         /** 开始背景切换 */
         startSlider: function () {
             this.changeSliderStyle();
             this.changeSlider();
             this.runSliderTimer();
+        },
+
+        // Video
+        //-------
+
+        /** 添加视频 */
+        addVideo: function () {
+            $(this.$el).append(video);
+            this.getVideoStr(videoIndex);
+        },
+
+        /** 删除视频 */
+        delVideo: function () {
+            $(video).remove();
+        },
+
+        /** 读取videoList */
+        getVideoList: function () {
+            videoList = myVideoList;
+        },
+
+        /** 读取视频源 */
+        getVideoStr: function (index) {
+            if (videoList) {
+                if (index >= 0 && index < videoList.length) {
+                    video.src = 'video/' + videoList[index];
+                } else {
+                    video.src = 'video/tset.webm';
+                }
+            }
+        },
+
+        /** 上一个视频 */
+        prevVideo: function () {
+            if (videoList.length > 1) {
+                videoIndex = getVideoIndex(videoList, videoIndex).prevIndex;
+                this.getVideoStr(videoIndex);
+            }
+        },
+
+        /** 下一个视频 */
+        nextVideo: function () {
+            if (videoList) {
+                videoIndex = getVideoIndex(videoList, videoIndex).nextIndex;
+                this.getVideoStr(videoIndex);
+            }
+        },
+
+        /** 播放视频 */
+        playVideo: function () {
+            if (video.src) {
+                video.play();
+            }
+        },
+
+        /** 暂停视频 */
+        pauseVideo: function () {
+            if (video.src) {
+                video.pause();
+            }
         },
 
 
@@ -1472,6 +1581,7 @@
 
             this.cssSrcDefaultImg();
             this.delImg();
+            this.delVideo();
             $('#canvas-slider').remove();
         },
 
@@ -1487,10 +1597,18 @@
                     $(prevImg).css('object-fit', this[property]);
                     $(currantImg).css('object-fit', this[property]);
                     break;
+                case 'videoFit':
+                    this[property] = value;
+                    $(video).css('object-fit', this[property]);
+                    break;
                 case 'imgBGColor':
                     this[property] = value;
                     $(prevImg).css('background-color', 'rgb(' + this[property] + ')');
                     $(currantImg).css('background-color', 'rgb(' + this[property] + ')');
+                    break;
+                case 'videoBGColor':
+                    this[property] = value;
+                    $(video).css('background-color', 'rgb(' + this[property] + ')');
                     break;
                 case 'readStyle':
                 case 'effect':
@@ -1498,9 +1616,17 @@
                 case 'timeUnits':
                     this[property] = value;
                     break;
-                case'sliderStyle':
+                case 'sliderStyle':
                     this[property] = value;
                     this.changeSliderStyle();
+                    break;
+                case 'isPlay':
+                    this[property] = value;
+                    this.isPlay ? this.playVideo() : this.pauseVideo();
+                    break;
+                case 'volume':
+                    this[property] = value;
+                    video.volume(this.volume);
                     break;
                 case 'isRotate3D':
                     this[property] = value;

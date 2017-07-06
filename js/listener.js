@@ -654,12 +654,14 @@
                 switch (properties.BG_mode.value) {
                     case 1:
                         BGMode = 'Color';
-                        wallpaper.slider('stopSliderTimer')
+                        wallpaper.slider('delVideo')
+                            .slider('stopSliderTimer')
                             .slider('cssUserColor');
                         break;
                     case 2:
                         BGMode = 'Wallpaper';
-                        wallpaper.slider('stopSliderTimer');
+                        wallpaper.slider('delVideo')
+                            .slider('stopSliderTimer');
                         if (BGImage) {
                             wallpaper.slider('cssUserImg');
                         } else {
@@ -668,7 +670,14 @@
                         break;
                     case 3:
                         BGMode = 'Directory';
-                        wallpaper.slider('startSlider');
+                        wallpaper.slider('delVideo')
+                            .slider('startSlider');
+                        break;
+                    case 4:
+                        BGMode = 'Video';
+                        wallpaper.slider('stopSliderTimer')
+                            .slider('getVideoList')
+                            .slider('addVideo');
                         break;
                 }
             }
@@ -700,7 +709,7 @@
                 setFillStyle(properties.image_fillStyle.value);
             }
             // 背景3D转换
-            if(properties.image_isRotate3D) {
+            if (properties.image_isRotate3D) {
                 wallpaper.slider('set', 'isRotate3D', properties.image_isRotate3D.value);
             }
             // 滑动样式
@@ -730,6 +739,33 @@
             // 停留时间
             if (properties.directory_pauseTime) {
                 wallpaper.slider('set', 'pauseTime', properties.directory_pauseTime.value);
+            }
+            // 视频切换
+            if (properties.video_func) {
+                switch (properties.video_func.value) {
+                    case -1:
+                        wallpaper.slider('prevVideo');
+                        break;
+                    case 1:
+                        wallpaper.slider('nextVideo');
+                        break;
+                }
+            }
+            // 视频切换播放/暂停
+            if (properties.video_isPlay) {
+                wallpaper.slider('set', 'isPlay', properties.video_isPlay.value);
+            }
+            // 视频音量
+            if (properties.video_volume) {
+                wallpaper.slider('set', 'video_volume', properties.video_volume.value / 100);
+            }
+            // video适应样式
+            if (properties.video_FitStyle) {
+                wallpaper.slider('set', 'videoFit', setIMGFitStyle(properties.video_FitStyle.value));
+            }
+            // video背景颜色
+            if (properties.video_BGColor) {
+                wallpaper.slider('set', 'videoBGColor', getColor(properties.video_BGColor.value));
             }
 
             //全局参数
