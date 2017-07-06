@@ -46,6 +46,12 @@
         "text": "<br/>背景图片<br/>Background Img<br/>",
         "type": "file"
       },
+      "image_isRotate3D": {
+        "order": 5,
+        "text": "<br/>3D转换<br/>Rotate 3D?<br/>",
+        "type": "bool",
+        "value": false
+      },
       "image_fillStyle": {
         "order": 5,
         "condition": "BG_mode.value == 2 || (BG_mode.value == 3 && directory_sliderStyle.value == 1)",

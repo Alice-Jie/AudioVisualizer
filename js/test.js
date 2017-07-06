@@ -23,25 +23,25 @@
         audioSamples[i] = i * 0.01;
     }
 
-    //$('#bg').audiovisualizer({});
-    //$('#bg').audiovisualizer('drawCanvas', audioSamples);
+    //$('#wallpaper').audiovisualizer({});
+    //$('#wallpaper').audiovisualizer('drawCanvas', audioSamples);
 
     // Date插件调试区域
     //--------------------------------------------------------------------------------------------------------------
 
-    //$('#bg').date({});
-    //$('#bg').date('set', 'dateStyle', 'weather');
+    //$('#wallpaper').date({});
+    //$('#wallpaper').date('set', 'dateStyle', 'weather');
 
     // Slider插件调试区域
     //--------------------------------------------------------------------------------------------------------------
 
-    //$('#bg').slider({});
-    //$('#bg').slider('addImg');
+    $('#wallpaper').slider({});
+    //$('#wallpaper').slider('addImg');
 
     // Particles插件调试区域
     //--------------------------------------------------------------------------------------------------------------
 
-    //$('#bg').particles({});
-    //$('#bg').particles('runParticlesTimer');
+    //$('#wallpaper').particles({});
+    //$('#wallpaper').particles('runParticlesTimer');
 
 })(jQuery, window, document, Math);

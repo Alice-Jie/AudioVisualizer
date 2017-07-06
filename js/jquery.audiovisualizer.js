@@ -341,7 +341,6 @@
         this.setupPointerEvents();
         this.updateAudioVisualizer(lastAudioSamples);
         this.drawAudioVisualizer();
-        // this.runAudioVisualizerTimer();
     };
 
     // 默认参数

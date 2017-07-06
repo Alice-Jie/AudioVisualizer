@@ -695,6 +695,14 @@
                     }
                 }
             }
+            // 背景填充样式
+            if (properties.image_fillStyle) {
+                setFillStyle(properties.image_fillStyle.value);
+            }
+            // 背景3D转换
+            if(properties.image_isRotate3D) {
+                wallpaper.slider('set', 'isRotate3D', properties.image_isRotate3D.value);
+            }
             // 滑动样式
             if (properties.directory_sliderStyle) {
                 wallpaper.slider('set', 'sliderStyle', setSliderStyle(properties.directory_sliderStyle.value));
@@ -722,10 +730,6 @@
             // 停留时间
             if (properties.directory_pauseTime) {
                 wallpaper.slider('set', 'pauseTime', properties.directory_pauseTime.value);
-            }
-            // 背景填充样式
-            if (properties.image_fillStyle) {
-                setFillStyle(properties.image_fillStyle.value);
             }
 
             //全局参数

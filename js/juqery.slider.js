@@ -1038,23 +1038,23 @@
 
         /** 改变背景图片 */
         changeBackgroud: function () {
-        if (imgList.length <= 0) {
-            // 如果文件夹为空
-            if (userImg) {
-                $(this.$el).css("background-image", "url('file:///" + userImg + "')");
-            } else {
-                $(this.$el).css("background-image", "url(img/bg.png)");
+            if (imgList.length <= 0) {
+                // 如果文件夹为空
+                if (userImg) {
+                    $(this.$el).css("background-image", "url('file:///" + userImg + "')");
+                } else {
+                    $(this.$el).css("background-image", "url(img/bg.png)");
+                }
+                imgIndex = 0;
             }
-            imgIndex = 0;
-        }
-        else if (imgList.length === 1) {
-            // 如果文件只有一张图片
-            $(this.$el).css("background-image", "url('file:///" + imgList[0] + "')");
-            imgIndex = 0;
-        } else {
-            $(this.$el).css("background-image", "url('file:///" + imgList[imgIndex] + "')");
-        }
-    },
+            else if (imgList.length === 1) {
+                // 如果文件只有一张图片
+                $(this.$el).css("background-image", "url('file:///" + imgList[0] + "')");
+                imgIndex = 0;
+            } else {
+                $(this.$el).css("background-image", "url('file:///" + imgList[imgIndex] + "')");
+            }
+        },
 
         /** 改变当前图片 */
         changeImage: function () {
@@ -1128,47 +1128,36 @@
             }
         },
 
+        /**
+         *  开始背景3D转换
+         *
+         *  @param {float} ex        鼠标X轴坐标
+         *  @param {float} ey        鼠标Y轴坐标
+         */
+        startSliderRotate3D: function (ex, ey) {
+            let x_multiple = (ex / canvasWidth) * 2 - 1;
+            let y_multiple = (ey / canvasHeight) * 2 - 1;
+            $(this.$el).css('transform',
+                'scale(1.06, 1.06)'
+                + 'perspective(' + (3 - Math.abs(x_multiple + y_multiple)) + 'em)'
+                + 'translate(' + x_multiple + '%,' + y_multiple + '%)'
+                + 'rotate3d(' + -y_multiple + ',' + x_multiple + ',0,' + 0.07 + 'deg)'
+            );
+        },
+
+        /** 停止背景3D转换 */
+        stopSliderRotate3D: function () {
+            $(this.$el).css('transform', '');
+        },
+
         /** 设置交互事件 */
         setupPointerEvents: function () {
-
             let that = this;
 
-            function addRotate3D() {
-                $(that.$el).css({
-                    'top': '-100px',
-                    'left': '-100px',
-                    'bottom': '-100px',
-                    'right': '-100px'
-                });
-            }
-
-            function removeRotate3D() {
-                $(that.$el).css('transform',
-                    'perspective(0)'
-                    + 'translate(0,0)'
-                    + 'rotate3d(0,0,0,0deg)'
-                );
-                $(that.$el).css({
-                    'top': '0',
-                    'left': '0',
-                    'bottom': '0',
-                    'right': '0'
-                });
-            }
-
+            /** 鼠标移动事件 */
             $(this.$el).on('mousemove', function (e) {
                 if (that.isRotate3D) {
-                    let multiple = 0.01;
-
-                    let x = e.clientX;
-                    let y = e.clientY;
-                    let x_multiple = x / canvasWidth * 2 - 1,
-                        y_multiple = y / canvasHeight * 2 - 1;
-                    $(that.$el).css('transform',
-                        'perspective(' + (3 - Math.abs(x_multiple + y_multiple)) + 'em)'
-                        + 'translate(' + (-x_multiple * 100 * multiple) + '%,' + (-y_multiple * 100 * multiple) + '%)'
-                        + 'rotate3d(' + (-y_multiple * 45 * multiple) + ',' + x_multiple * 45 * multiple + ',0,' + 7 * multiple + 'deg)'
-                    );
+                    that.startSliderRotate3D(e.clientX, e.clientY);
                 }
             });
 
@@ -1316,8 +1305,6 @@
             context.clearRect(0, 0, canvasWidth, canvasHeight);
         },
 
-        // imgList
-        //--------
 
         /**
          * 更新imgList
@@ -1332,9 +1319,8 @@
             imgIndex = 0;  // 初始化图片索引
         },
 
-
         /** 改变滑动模式 */
-        changeSliderStyle: function() {
+        changeSliderStyle: function () {
             switch (this.sliderStyle) {
                 case 'css':
                     this.clearCanvas();
@@ -1473,6 +1459,7 @@
         /** 开始背景切换 */
         startSlider: function () {
             this.changeSliderStyle();
+            this.changeSlider();
             this.runSliderTimer();
         },
 
@@ -1517,7 +1504,7 @@
                     break;
                 case 'isRotate3D':
                     this[property] = value;
-                    this[property] ? this.setupPointerEvents.addRotate3D() : this.setupPointerEvents.removeRotate3D();
+                    this.isRotate3D ? this.startSliderRotate3D(0.5, 0.5) : this.stopSliderRotate3D();
                     break;
             }
         }
