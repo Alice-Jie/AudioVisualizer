@@ -8,5 +8,5 @@ var myVideoList = [
 
     "livetune feat_1.webm",
     "Accel World 特報映像.webm",
-	"【花近 x shoko】IVY - acoustic ver.webm"
+    "【花近 x shoko】IVY - acoustic ver.webm"
 ];

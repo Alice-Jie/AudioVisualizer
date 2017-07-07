@@ -769,7 +769,7 @@
             }
             // video背景颜色
             if (properties.video_BGColor) {
-                wallpaper.slider('set', 'videoBGColor', getColor(properties.webm_BGColor.value));
+                wallpaper.slider('set', 'videoBGColor', getColor(properties.video_BGColor.value));
             }
 
             //全局参数

@@ -1530,6 +1530,7 @@
         /** 删除视频 */
         delVideo: function () {
             $(video).remove();
+            video.src = '';
         },
 
         /** 读取videoList */
