@@ -50,6 +50,8 @@ isClickOffset | boolean | false | 开启后，根据鼠标点击位置确定XY�
 radius | float | 0.5 | 音频圆环的半径大小
 amplitude | int | 5 | 音频圆环的振幅大小
 decline | float | 0.2 | 音频圆环变化灵敏度，最好在0.1~0.2之间
+peak | float | 1.5 | 音频数组所允许值上限
+milliSec | int | 30 | 重绘音频圆环间隔（ms）
 isRing | boolean | true | 显示音频圆环开关
 isStaticRing | boolean | false | 显示静态圆环开关
 isInnerRing | boolean | true | 显示内环开关
@@ -59,13 +61,14 @@ isLineTo | boolean | false | 显示内外环之间点与点连开关
 firstPoint | string | 'innerRing' | 连线的始点标识字符串
 secondPoint | string | 'outerRing' | 连线的末点标识字符串
 pointNum | int | 120 | 音频圆环上点的数量，范围在0~120之间
-distance | int | 0 | 内外环与静态环之间的距离
+innerDistance | int | 0 | 内环与静态环之间的距离
+outerDistance | int | 0 | 外环与静态环之间的距离
 lineWidth | int | 5 | 用于设置context.lineWidth
 isBall | boolean | true | 显示音频小球开关
 ballSpacer | int | 3 | 音频小球疏密程度
+ballDistance | int | 50 | 小球与静态环之间的最小距离
 ballSize | int | 3 | 音频小球的半径
 ballRotation | int | 0 | 旋转音频小球，负数为逆时针旋转，正数为顺时针旋转
-milliSec | int | 30 | 重绘音频圆环间隔（ms）
 
 #### 方法列表：
 
@@ -281,16 +284,14 @@ pauseTime | int | 1 | 当前背景停留时间
 effect | string | 'none' | 背景切换特效
 imgFit | string | 'fill' | IMG适应方式
 imgBGColor | string | '255,255,255' | RGB格式颜色，IMG背景颜色
+progress | float | 0 | 视频进度（0 - 1）
+isPlay | boolean | true | 视频播放状态
+volume | float | 0.75 | 视频音量（0 - 1）
+videoFit | string | 'fill' | video适应方式
+videoBGColor | string | '255,255,255' | RGB格式颜色，video背景颜色
+isRotate3D | boolean | flase | 背景3D转换开关
 
 #### 方法列表：
-
-**updateImgList：**
-
-调用`$(selector).slider('updateImgList', currentFiles);`更新图片列表。
-
-参数类型 | 参数名 | 参数描述 
----------|--------|----------
-{Array}<string> | currentFiles | 文件名数组
 
 **setUserImg：**
 
@@ -340,29 +341,82 @@ string | img | 用户图片路径
 
 调用`$(selector).slider('clearCanvas');`清空Canvas内容。
 
+
+**updateImgList：**
+
+调用`$(selector).slider('updateImgList', currentFiles);`更新图片列表。
+
+参数类型 | 参数名 | 参数描述 
+---------|--------|----------
+{Array}<string> | currentFiles | 文件名数组
+
+**changeSliderStyle：**
+
+调用`$(selector).slider('changeSliderStyle');` 改变背景滑动模式。
+
 **changeSlider：**
 
-调用`$(selector).slider('changeSlider', sliderStyle);`使用imgList当前图片。
+调用`$(selector).slider('changeSlider');`使用imgList当前图片。
 
-参数类型 | 参数名 | 参数描述 
----------|--------|----------
-int | sliderStyle | 背景切换模式
+**stopSliderTimer：**
 
-**setIsRun：**
-
-调用`$(selector).slider('setIsRun', isDirectory);`更新状态锁。
-
-参数类型 | 参数名 | 参数描述 
----------|--------|----------
-boolean | isDirectory | 幻灯片模式布尔值
+调用`$(selector).slider('stopSliderTimer');`停止背景切换。
 
 **startSlider：**
 
-调用`$(selector).slider('startSlider');`开始背景切换，只有状态锁开启情况下才开切换。
+调用`$(selector).slider('startSlider');`开始背景切换。
 
-**stopSlider：**
+**addVideo：**
 
-调用`$(selector).slider('stopSlider');`停止背景切换。
+调用`$(selector).slider('addVideo');`添加视频对象至节点。
+
+**delVideo：**
+
+调用`$(selector).slider('delVideo');`删除视频对象。
+
+**getVideoList：**
+
+调用`$(selector).slider('getVideoList');`从js/videoList.js中读取视频列表videoList。
+
+**getVideoStr：**
+
+调用`$(selector).slider('getVideoList', index);`从videoList读取索引对应值并转换成视频源。
+
+参数类型 | 参数名 | 参数描述 
+---------|--------|----------
+{int} | index | 视频列表索引
+
+**prevVideo：**
+
+调用`$(selector).slider('prevVideo');`读取上一个视频源。
+
+**nextVideo：**
+
+调用`$(selector).slider('nextVideo');`读取下一个视频源。
+
+**setVideoProgress：**
+
+调用`$(selector).slider('setVideoProgress', progress);`按进度百分比设置视频当前读取位置。
+
+参数类型 | 参数名 | 参数描述 
+---------|--------|----------
+{float} | progress | 视频进度（%）
+
+**playVideo：**
+
+调用`$(selector).slider('playVideo');`播放视频。
+
+**pauseVideo：**
+
+调用`$(selector).slider('pauseVideo');`暂停视频。
+
+**setVideoVolume：**
+
+调用`$(selector).slider('setVideoVolume', volume);`设置音量大小（%）。
+
+参数类型 | 参数名 | 参数描述 
+---------|--------|----------
+{float} | volume | 音量大小（%）
 
 **destroy：**
 

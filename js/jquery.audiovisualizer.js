@@ -1,12 +1,12 @@
 /*！
- * jQuery AudioVisualizer plugin v0.0.5
+ * jQuery AudioVisualizer plugin v0.0.6
  * project:
  * - https://github.com/Alice-Jie/4K-Circle-Audio-Visualizer
  * - https://git.oschina.net/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/07/04
+ * @date 2017/07/05
  */
 
 (function (global, factory) {

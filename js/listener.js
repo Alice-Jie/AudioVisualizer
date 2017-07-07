@@ -741,8 +741,8 @@
                 wallpaper.slider('set', 'pauseTime', properties.directory_pauseTime.value);
             }
             // 视频切换
-            if (properties.video_func) {
-                switch (properties.video_func.value) {
+            if (properties.webm_func) {
+                switch (properties.webm_func.value) {
                     case -1:
                         wallpaper.slider('prevVideo');
                         break;
@@ -752,22 +752,25 @@
                 }
             }
             // 视频切换播放/暂停
-            if (properties.video_isPlay) {
-                wallpaper.slider('set', 'isPlay', properties.video_isPlay.value);
+            if (properties.webm_isPlay) {
+                wallpaper.slider('set', 'isPlay', properties.webm_isPlay.value);
             }
             // 视频音量
-            if (properties.video_volume) {
-                wallpaper.slider('set', 'video_volume', properties.video_volume.value / 100);
+            if (properties.webm_volume) {
+                wallpaper.slider('set', 'volume', properties.webm_volume.value / 100);
             }
             // video适应样式
-            if (properties.video_FitStyle) {
-                wallpaper.slider('set', 'videoFit', setIMGFitStyle(properties.video_FitStyle.value));
+            if (properties.webm_FitStyle) {
+                wallpaper.slider('set', 'videoFit', setIMGFitStyle(properties.webm_FitStyle.value));
             }
             // video背景颜色
-            if (properties.video_BGColor) {
-                wallpaper.slider('set', 'videoBGColor', getColor(properties.video_BGColor.value));
+            if (properties.webm_BGColor) {
+                wallpaper.slider('set', 'videoBGColor', getColor(properties.webm_BGColor.value));
             }
-
+            // 视频进度
+            if (properties.webm_progress) {
+                wallpaper.slider('set', 'progress', properties.webm_progress.value / 100);
+            }
             //全局参数
             //-----------------------------------------------------------
 

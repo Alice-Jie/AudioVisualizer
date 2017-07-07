@@ -246,13 +246,13 @@
         "min": 1,
         "value": 5
       },
-      "video_Text": {
+      "webm_Text": {
         "order": 1015,
         "condition": "BG_mode.value == 4",
         "text": "<br/><h4>视频设置(Video Settings)</h4><span style='color:gray'>目前处于测试阶段的功能区域</span><br/>",
         "type": "text"
       },
-      "video_progressBar": {
+      "webm_progress": {
         "order": 1016,
         "condition": "BG_mode.value == 4",
         "text": "<br/>进度条<br/>Progress Bar<br/>",
@@ -262,13 +262,13 @@
         "min": 0,
         "value": 0
       },
-      "video_funcText": {
+      "webm_funcText": {
         "order": 1017,
         "condition": "BG_mode.value == 4",
         "text": "<br/><span style='color:gray'>-1：上一个视频</span><br/><span style='color:gray'>&nbsp1：下一个视频</span><br/>",
         "type": "text"
       },
-      "video_func": {
+      "webm_func": {
         "order": 1018,
         "condition": "BG_mode.value == 4",
         "text": "<br/>调试区域<br/>Debug Area<br/>",
@@ -277,14 +277,14 @@
         "min": -1,
         "value": 0
       },
-      "video_isPlay": {
+      "webm_isPlay": {
         "order": 1019,
         "condition": "BG_mode.value == 4",
         "text": "<br/>播放/暂停视频<br/>Play/Pause Video<br/>",
         "type": "bool",
         "value": true
       },
-      "video_volume": {
+      "webm_volume": {
         "order": 1020,
         "condition": "BG_mode.value == 4",
         "text": "<br/>视频音量<br/>Video Volume<br/>",
@@ -294,7 +294,7 @@
         "min": 0,
         "value": 75
       },
-      "video_FitStyle": {
+      "webm_FitStyle": {
         "order": 1021,
         "condition": "BG_mode.value == 4",
         "text": "<br/>视频填充方式<br/>Video Fill Style<br/>",
@@ -323,7 +323,7 @@
         ],
         "value": 1
       },
-      "video_BGColor": {
+      "webm_BGColor": {
         "order": 1022,
         "condition": "BG_mode.value == 4",
         "text": "<br/>视频背景颜色<br/>Video Background Color<br/>",

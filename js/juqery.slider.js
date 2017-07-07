@@ -1,12 +1,12 @@
 /*!
- * jQuery Slider plugin v0.0.9
+ * jQuery Slider plugin v0.1.0
  * project:
  * - https://github.com/Alice-Jie/4K-Circle-Audio-Visualizer
  * - https://git.oschina.net/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/07/04
+ * @date 2017/07/07
  */
 
 (function (global, factory) {
@@ -956,6 +956,7 @@
         this.pauseTime = options.pauseTime;        // 动画切换速度
         this.imgFit = options.imgFit;              // IMG适应方式
         this.imgBGColor = options.imgBGColor;      // IMG背景颜色
+        this.progress = options.progress;          // 视频进度
         this.isPlay = options.isPlay;              // 是否播放Video
         this.volume = options.volume;              // Video音量
         this.videoFit = options.videoFit;          // Video适应方式
@@ -1027,8 +1028,8 @@
             'position': 'absolute',
             'top': 0,
             'left': 0,
-            'background-color': 'rgb(0, 0, 0)',
-            'object-fit': 'fill',
+            'object-fit': this.videoFit,
+            'background-color': 'rgb(' + this.videoBGColor + ')',
             'z-index': 0
         });  // Video CSS
 
@@ -1045,6 +1046,7 @@
         effect: 'none',               // 切换特效
         imgFit: 'fill',               // IMG适应方式
         imgBGColor: '255,255,255',    // IMG背景颜色
+        progress: 0,                   // 视频进度
         isPlay: true,                 // 是否播放Video
         volume: 0.75,                   // Video音量
         videoFit: 'fill',             // Video适应方式
@@ -1519,6 +1521,10 @@
         addVideo: function () {
             $(this.$el).append(video);
             this.getVideoStr(videoIndex);
+            $(video).css({
+                'object-fit': this.videoFit,
+                'background-color': 'rgb(' + this.videoBGColor + ')'
+            });
         },
 
         /** 删除视频 */
@@ -1558,6 +1564,13 @@
             }
         },
 
+        /** 设置视频进度 */
+        setVideoProgress: function (progress) {
+            if (video.src) {
+                video.currentTime = video.duration * progress;
+            }
+        },
+
         /** 播放视频 */
         playVideo: function () {
             if (video.src) {
@@ -1572,6 +1585,14 @@
             }
         },
 
+        /**
+         *  设置视频音量
+         *
+         *  @param {float} volume 音量
+         */
+        setVideoVolume: function (volume) {
+            video.volume = volume;
+        },
 
         /** 移除canvas */
         destroy: function () {
@@ -1620,13 +1641,17 @@
                     this[property] = value;
                     this.changeSliderStyle();
                     break;
+                case 'progress':
+                    this[property] = value;
+                    this.setVideoProgress(this.progress);
+                    break;
                 case 'isPlay':
                     this[property] = value;
                     this.isPlay ? this.playVideo() : this.pauseVideo();
                     break;
                 case 'volume':
                     this[property] = value;
-                    video.volume(this.volume);
+                    this.setVideoVolume(this.volume);
                     break;
                 case 'isRotate3D':
                     this[property] = value;
