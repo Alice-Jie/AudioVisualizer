@@ -1566,7 +1566,7 @@
 
         /** 设置视频进度 */
         setVideoProgress: function (progress) {
-            if (video.src) {
+            if (video.src && video.duration) {
                 video.currentTime = video.duration * progress;
             }
         },
@@ -1591,7 +1591,9 @@
          *  @param {float} volume 音量
          */
         setVideoVolume: function (volume) {
-            video.volume = volume;
+            if (video.src) {
+                video.volume = volume;
+            }
         },
 
         /** 移除canvas */
@@ -1643,7 +1645,7 @@
                     break;
                 case 'progress':
                     this[property] = value;
-                    this.setVideoProgress(this.progress);
+                    this.setVideoProgress(this[property]);
                     break;
                 case 'isPlay':
                     this[property] = value;
