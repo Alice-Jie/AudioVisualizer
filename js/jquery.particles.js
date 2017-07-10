@@ -74,6 +74,8 @@
 
     let timer = null;  // 粒子计时器
 
+    let mouseX, mouseY;  // 鼠标XY坐标
+
     //私有方法
     //--------------------------------------------------------------------------------------------------------------
 
@@ -376,9 +378,9 @@
         this.isStraight = options.isStraight;         // 笔直移动
         this.isBounce = options.isBounce;             // 粒子反弹
         this.moveOutMode = options.moveOutMode;       // 离屏模式
-        // 交互事件（概念阶段）
-        this.event = options.event;                   // 触发事件
-        this.interactivity = options.interactivity;   // 交互事件
+        // 交互事件
+        this.interactivityLink = options.interactivityLink;  // 与鼠标连线
+
 
         // 创建并初始化canvas
         canvas = document.createElement('canvas');
@@ -415,6 +417,8 @@
         this.particlesImage('');
 
         $(this.$el).append(canvas);  // 添加canvas
+
+        mouseX = mouseY = 0;  // 初始化鼠标XY
 
         // 默认开启
         this.setupPointerEvents();
@@ -455,9 +459,8 @@
         isStraight: false,           // 笔直移动
         isBounce: false,             // 粒子反弹
         moveOutMode: 'out',          // 离屏模式
-        // 交互事件（概念阶段）
-        event: 'none',               // 触发事件
-        interactivity: 'none'        // 交互事件
+        // 交互事件
+        interactivityLink: false      // 与鼠标连线
     };
 
     // 公共方法
@@ -535,6 +538,11 @@
 
         /** 设置交互事件 */
         setupPointerEvents: function () {
+
+            $(this.$el).on('mousemove', function (e) {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
 
             // 窗体改变事件
             $(window).on('resize', function () {
@@ -728,12 +736,56 @@
         },
 
         /**
+         * 绘制两点之间连线
+         *
+         * @param {float} x            始点X坐标
+         * @param {float} y            始点Y坐标
+         * @param {float} linkDistance 两点之间最大距离
+         */
+        drawXYLine: function (x, y, linkDistance) {
+            for (let i = 0; i < particlesArray.length; i++) {
+                let particles = particlesArray[i];
+                // 获取对象粒子和当前粒子之间距离
+                let dist = getDist(x, y, particles.x, particles.y);
+                if (dist <= linkDistance) {
+                    let d = (linkDistance - dist) / linkDistance;
+                    let width = 0, height = 0;  // 粒子高度和宽度
+                    context.save();
+                    context.lineWidth = d * this.linkWidth;
+                    context.strokeStyle = "rgba(" + this.linkColor + "," + Math.min(d, this.linkOpacity) + ")";
+                    context.beginPath();
+                    context.moveTo(x, y);
+                    // 设置宽度和高度
+                    switch (particles.shapeType) {
+                        case 'circle':
+                            width = height = 0;
+                            break;
+                        case 'edge':
+                        case 'triangle':
+                        case 'star':
+                            width = height = particles.radius / 2;
+                            break;
+                        // 绘制图片
+                        case 'image':
+                            width = getImgSize(particles).width / 2;
+                            height = getImgSize(particles).height / 2;
+                            break;
+                    }
+                    context.lineTo(particles.x + width, particles.y + height);
+                    context.closePath();
+                    context.stroke();
+                    context.restore();
+                }
+            }
+        },
+
+        /**
          * 绘制粒子间连线
          * 绘制索引对应的粒子与其它粒子的连线
          *
          * @param {int}     index 粒子数组索引
          */
-        drawLine: function (index) {
+        drawParticlesLine: function (index) {
             for (let i = 0; i < particlesArray.length; i++) {
                 // 跳过索引相同的粒子
                 if (i === index) {
@@ -810,7 +862,10 @@
                 for (let i = 0; i < particlesArray.length; i++) {
                     that.drawParticles(particlesArray[i]);
                     if (that.linkEnable) {
-                        that.drawLine(i);
+                        that.drawParticlesLine(i);
+                        if (that.interactivityLink) {
+                            that.drawXYLine(mouseX, mouseY, that.linkDistance);
+                        }
                     }
                 }
                 timer = requestAnimationFrame(animal);
@@ -888,6 +943,7 @@
                 case 'isMove':
                 case 'isBounce':
                 case 'moveOutMode':
+                case 'interactivityLink':
                     this[property] = value;
                     break;
                 case 'densityArea':

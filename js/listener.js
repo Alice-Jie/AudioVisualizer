@@ -712,6 +712,18 @@
             if (properties.image_isRotate3D) {
                 wallpaper.slider('set', 'isRotate3D', properties.image_isRotate3D.value);
             }
+            // 幻灯片目录
+            if (properties.directory) {
+                if (properties.directory.value) {
+                    if (BGMode === 'Directory') {
+                        wallpaper.slider('changeSlider');
+                    }
+                } else {
+                    if (BGMode === 'Directory') {
+                        wallpaper.slider('changeSlider');
+                    }
+                }
+            }
             // 滑动样式
             if (properties.directory_sliderStyle) {
                 wallpaper.slider('set', 'sliderStyle', setSliderStyle(properties.directory_sliderStyle.value));
@@ -1214,6 +1226,10 @@
             // 显示连线
             if (properties.particles_linkEnable) {
                 wallpaper.particles('set', 'linkEnable', properties.particles_linkEnable.value);
+            }
+            // 鼠标交互
+            if (properties.particles_mouseInteraction) {
+                wallpaper.particles('set', 'interactivityLink', properties.particles_mouseInteraction.value);
             }
             // 连线距离
             if (properties.particles_linkDistance) {

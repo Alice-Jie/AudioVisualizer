@@ -249,7 +249,7 @@
       "video_Text": {
         "order": 1015,
         "condition": "BG_mode.value == 4",
-        "text": "<br/><h4>视频设置(Video Settings)</h4><span style='color:gray'>目前处于测试阶段的功能区域</span><br/>",
+        "text": "<br/><h4>视频设置(Video Settings)</h4><span style='color:gray'>目前处于测试状态的功能，有所欠缺请见谅，具体说明详见创意工坊。<br/>",
         "type": "text"
       },
       "video_progress": {
@@ -262,20 +262,20 @@
         "min": 0,
         "value": 0
       },
-      "video_funcText": {
+      "video_func": {
         "order": 1017,
         "condition": "BG_mode.value == 4",
-        "text": "<br/><span style='color:gray'>-1：上一个视频</span><br/><span style='color:gray'>&nbsp1：下一个视频</span><br/>",
-        "type": "text"
-      },
-      "video_func": {
-        "order": 1018,
-        "condition": "BG_mode.value == 4",
-        "text": "<br/>调试区域<br/>Debug Area<br/>",
+        "text": "<br/>上个/下个视频<br/>Prev/next Video<br/>",
         "type": "slider",
         "max": 1,
         "min": -1,
         "value": 0
+      },
+      "video_funcText": {
+        "order": 1018,
+        "condition": "BG_mode.value == 4",
+        "text": "<br/><span style='color:gray'>-1：上一个视频(prev video)</span><br/><span style='color:gray'>&nbsp1：下一个视频(next video)</span><br/>",
+        "type": "text"
       },
       "video_isPlay": {
         "order": 1019,
@@ -1362,8 +1362,15 @@
         "type": "bool",
         "value": false
       },
-      "particles_linkDistance": {
+      "particles_mouseInteraction": {
         "order": 5016,
+        "condition": "particles_isParticles.value == true && particles_linkEnable.value == true",
+        "text": "<br/>鼠标交互？<br/>Mouse interaction?<br/>",
+        "type": "bool",
+        "value": false
+      },
+      "particles_linkDistance": {
+        "order": 5017,
         "condition": "particles_isParticles.value == true && particles_linkEnable.value == true",
         "text": "<br/>连线距离<br/>Line Distance<br/>",
         "type": "slider",
@@ -1373,7 +1380,7 @@
         "value": 100
       },
       "particles_linkWidth": {
-        "order": 5017,
+        "order": 5018,
         "condition": "particles_isParticles.value == true && particles_linkEnable.value == true",
         "text": "<br/>连线宽度<br/>Line Width<br/>",
         "type": "slider",
@@ -1383,14 +1390,14 @@
         "value": 2
       },
       "particles_linkColor": {
-        "order": 5018,
+        "order": 5019,
         "condition": "particles_isParticles.value == true && particles_linkEnable.value == true",
         "text": "<br/>连线颜色<br/>Line Color<br/>",
         "type": "color",
         "value": "1 1 1"
       },
       "particles_linkOpacity": {
-        "order": 5019,
+        "order": 5020,
         "condition": "particles_isParticles.value == true && particles_linkEnable.value == true",
         "text": "<br/>连线不透明度<br/>Line Opacity<br/>",
         "type": "slider",
@@ -1400,14 +1407,14 @@
         "value": 75
       },
       "particles_isMove": {
-        "order": 5020,
+        "order": 5021,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>是否移动<br/>Particles Move?<br/>",
         "type": "bool",
         "value": true
       },
       "particles_speed": {
-        "order": 5021,
+        "order": 5022,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>粒子速度<br/>Particles Speed<br/>",
         "type": "slider",
@@ -1417,14 +1424,14 @@
         "value": 10
       },
       "particles_speedRandom": {
-        "order": 5022,
+        "order": 5023,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>随机速度<br/>Speed Random?<br/>",
         "type": "bool",
         "value": true
       },
       "particles_direction": {
-        "order": 5023,
+        "order": 5024,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>粒子方向<br/>Direction of Particles<br/>",
         "type": "combo",
@@ -1469,21 +1476,21 @@
         "value": 4
       },
       "particles_isStraight": {
-        "order": 5024,
+        "order": 5025,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>笔直移动<br/>Move Straight?<br/>",
         "type": "bool",
         "value": false
       },
       "particles_isBounce": {
-        "order": 5025,
+        "order": 5026,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>粒子反弹<br/>is Bounce?<br/>",
         "type": "bool",
         "value": false
       },
       "particles_moveOutMode": {
-        "order": 5026,
+        "order": 5027,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>离屏模式<br/>Move Out Mode<br/>",
         "type": "combo",
