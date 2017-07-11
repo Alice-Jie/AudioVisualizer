@@ -24,6 +24,7 @@
     let BGMode = 'Color';          // 背景模式
     let BGColor = '255,255,255';  // 背景颜色
     let BGImage = '';              // 背景图片
+    let BGVideo = '';              // 背景视频
 
     // 全局/局部配置
     let isGlobalSettings = true;
@@ -678,6 +679,11 @@
                         wallpaper.slider('stopSliderTimer')
                             .slider('getVideoList')
                             .slider('addVideo');
+                        if (BGVideo) {
+                            wallpaper.slider('videoSrcUserVideo');
+                        } else {
+                            wallpaper.slider('videoSrcDefaultVideo');
+                        }
                         break;
                 }
             }
@@ -751,6 +757,21 @@
             // 停留时间
             if (properties.directory_pauseTime) {
                 wallpaper.slider('set', 'pauseTime', properties.directory_pauseTime.value);
+            }
+            // 视频文件
+            if (properties.video_file) {
+                if (properties.video_file.value) {
+                    BGVideo = properties.video_file.value;
+                    wallpaper.slider('setUserVideo', BGVideo);
+                    if (BGMode === 'Video') {
+                        wallpaper.slider('videoSrcUserVideo');
+                    }
+                } else {
+                    wallpaper.slider('setUserVideo', '');
+                    if (BGMode === 'Video') {
+                        wallpaper.slider('videoSrcDefaultVideo');
+                    }
+                }
             }
             // 视频进度
             if (properties.video_progress) {

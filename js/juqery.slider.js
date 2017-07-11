@@ -79,6 +79,8 @@
     let video = document.createElement('video');  // 视频对象
     let videoList = [];                            // 视频数组
     let videoIndex = 0;                            // 视频索引
+    let userVideo = '';                            // 用户视频
+    let myVideoListLength;                          // 视频列表长度
 
 
     let timer = null,        // 切换计时器
@@ -1255,6 +1257,20 @@
             }
         },
 
+        /**
+         * 获取用户自定义的视频
+         * 如果路径不存在默认为空字符串
+         *
+         * @param {string} video 用户视频路径
+         */
+        setUserVideo: function (video) {
+            if (video) {
+                userVideo = video;
+            } else {
+                userVideo = '';
+            }
+        },
+
         // CSS
         //----
 
@@ -1536,17 +1552,42 @@
         /** 读取videoList */
         getVideoList: function () {
             videoList = myVideoList;
+            myVideoListLength = videoList.length;
+            for (let i = 0; i < videoList.length; i++) {
+                videoList[i] = 'video/' + videoList[i];
+            }
         },
 
         /** 读取视频源 */
         getVideoStr: function (index) {
             if (videoList) {
                 if (index >= 0 && index < videoList.length) {
-                    video.src = 'video/' + videoList[index];
+                    video.src = videoList[index];
                 } else {
-                    video.src = 'video/tset.webm';
+                    video.src = videoList[0] || 'video/test.webm';
                 }
             }
+        },
+
+        /** 设置当前视频为用户视频并添加至视频列表 */
+        videoSrcUserVideo: function () {
+            if (userVideo) {
+                video.src = 'file:///' + userVideo;
+                if (videoList.length === myVideoListLength + 1) {
+                    videoList[videoList.length - 1] = video.src;
+                } else if (videoList.length === myVideoListLength) {
+                    videoList.push(video.src);
+                    videoIndex = videoList.length - 1;
+                }
+
+            } else {
+                video.src = videoList[0] || 'video/test.webm';
+            }
+        },
+
+        /** 设置当前视频为默认视频 */
+        videoSrcDefaultVideo: function () {
+            video.src = videoList[0] || 'video/test.webm';
         },
 
         /** 上一个视频 */

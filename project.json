@@ -252,8 +252,15 @@
         "text": "<br/><h4>视频设置(Video Settings)</h4><span style='color:gray'>目前处于测试状态的功能，有所欠缺请见谅，具体说明详见创意工坊。<br/>",
         "type": "text"
       },
-      "video_progress": {
+      "video_file": {
         "order": 1016,
+        "condition": "BG_mode.value == 4",
+        "text": "<br/>视频文件<br/>Video File<br/>",
+        "type": "file",
+        "fileType" : "video"
+      },
+      "video_progress": {
+        "order": 1017,
         "condition": "BG_mode.value == 4",
         "text": "<br/>进度条<br/>Progress Bar<br/>",
         "type": "slider",
@@ -263,7 +270,7 @@
         "value": 0
       },
       "video_func": {
-        "order": 1017,
+        "order": 1018,
         "condition": "BG_mode.value == 4",
         "text": "<br/>上个/下个视频<br/>Prev/next Video<br/>",
         "type": "slider",
@@ -272,20 +279,20 @@
         "value": 0
       },
       "video_funcText": {
-        "order": 1018,
+        "order": 1019,
         "condition": "BG_mode.value == 4",
         "text": "<br/><span style='color:gray'>-1：上一个视频(prev video)</span><br/><span style='color:gray'>&nbsp1：下一个视频(next video)</span><br/>",
         "type": "text"
       },
       "video_isPlay": {
-        "order": 1019,
+        "order": 1020,
         "condition": "BG_mode.value == 4",
         "text": "<br/>播放/暂停视频<br/>Play/Pause Video<br/>",
         "type": "bool",
         "value": true
       },
       "video_volume": {
-        "order": 1020,
+        "order": 1021,
         "condition": "BG_mode.value == 4",
         "text": "<br/>视频音量<br/>Video Volume<br/>",
         "type": "slider",
@@ -295,7 +302,7 @@
         "value": 75
       },
       "video_FitStyle": {
-        "order": 1021,
+        "order": 1022,
         "condition": "BG_mode.value == 4",
         "text": "<br/>视频填充方式<br/>Video Fill Style<br/>",
         "type": "combo",
@@ -324,7 +331,7 @@
         "value": 1
       },
       "video_BGColor": {
-        "order": 1022,
+        "order": 1023,
         "condition": "BG_mode.value == 4",
         "text": "<br/>视频背景颜色<br/>Video Background Color<br/>",
         "type": "color",
