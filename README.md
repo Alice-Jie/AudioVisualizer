@@ -293,6 +293,14 @@ isRotate3D | boolean | flase | 背景3D转换开关
 
 #### 方法列表：
 
+**setUserColor：**
+
+调用`$(selector).slider('selector', color);`获取用户自定义的颜色地址，如果路径不存在默认为'255,255,255'。
+
+参数类型 | 参数名 | 参数描述 
+---------|--------|----------
+string | color | 用户颜色路径
+
 **setUserImg：**
 
 调用`$(selector).slider('setUserImg', img);`获取用户自定义的图片地址，如果路径不存在默认为空字符串。
@@ -300,6 +308,14 @@ isRotate3D | boolean | flase | 背景3D转换开关
 参数类型 | 参数名 | 参数描述 
 ---------|--------|----------
 string | img | 用户图片路径
+
+**setUserVideo：**
+
+调用`$(selector).slider('setUserVideo', video);`获取用户自定义的视频地址，如果路径不存在默认为空字符串。
+
+参数类型 | 参数名 | 参数描述 
+---------|--------|----------
+string | video | 用户视频路径
 
 **cssSrcUserImg：**
 
@@ -385,6 +401,14 @@ string | img | 用户图片路径
 参数类型 | 参数名 | 参数描述 
 ---------|--------|----------
 {int} | index | 视频列表索引
+
+**videoSrcUserVideo：**
+
+调用`$(selector).slider('videoSrcUserVideo');`设置当前视频为用户视频并添加至视频列表。
+
+**videoSrcDefaultVideo：**
+
+调用`$(selector).slider('videoSrcDefaultVideo');`设置当前视频为默认视频。
 
 **prevVideo：**
 

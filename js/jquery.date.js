@@ -104,7 +104,7 @@
         },
         weather_data: {
             weather: "阵风",                     // 天气情况
-            temperature: "30℃～25℃",           // 温度情况
+            temperature: "30℃～25℃",            // 温度情况
             wind: "南风≤3级"                     // 风向风力
         }
     };

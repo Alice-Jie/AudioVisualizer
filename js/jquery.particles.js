@@ -350,34 +350,34 @@
         this.$el = $(el);
 
         // 全局属性
-        this.number = options.number;                 // 粒子数量
-        this.isDensity = options.isDensity;           // 粒子密度开关
-        this.densityArea = options.densityArea;       // 粒子密度范围
-        this.opacity = options.opacity;               // 不透明度
-        this.color = options.color;                   // 粒子颜色
-        this.shadowColor = options.shadowColor;       // 模糊颜色
-        this.shadowBlur = options.shadowBlur;         // 模糊大小
+        this.number = options.number;                        // 粒子数量
+        this.isDensity = options.isDensity;                  // 粒子密度开关
+        this.densityArea = options.densityArea;              // 粒子密度范围
+        this.opacity = options.opacity;                      // 不透明度
+        this.color = options.color;                          // 粒子颜色
+        this.shadowColor = options.shadowColor;              // 模糊颜色
+        this.shadowBlur = options.shadowBlur;                // 模糊大小
         // 形状属性
-        this.shapeType = options.shapeType;           // 粒子形状
-        this.rotationAngle = options.rotationAngle;   // 旋转角度
-        this.angleRandom = options.angleRandom;       // 随机角度
+        this.shapeType = options.shapeType;                  // 粒子形状
+        this.rotationAngle = options.rotationAngle;          // 旋转角度
+        this.angleRandom = options.angleRandom;              // 随机角度
         // 大小属性
-        this.sizeValue = options.sizeValue;           // 粒子大小
-        this.sizeRandom = options.sizeRandom;         // 随机大小
+        this.sizeValue = options.sizeValue;                  // 粒子大小
+        this.sizeRandom = options.sizeRandom;                // 随机大小
         // 连接属性
-        this.linkEnable = options.linkEnable;         // 连接开关
-        this.linkDistance = options.linkDistance;     // 连接距离
-        this.linkWidth = options.linkWidth;           // 连线宽度
-        this.linkColor = options.linkColor;           // 连接颜色
-        this.linkOpacity = options.linkOpacity;       // 连线不透明度
+        this.linkEnable = options.linkEnable;                // 连接开关
+        this.linkDistance = options.linkDistance;            // 连接距离
+        this.linkWidth = options.linkWidth;                  // 连线宽度
+        this.linkColor = options.linkColor;                  // 连接颜色
+        this.linkOpacity = options.linkOpacity;              // 连线不透明度
         // 移动属性
-        this.isMove = options.isMove;                 // 移动开关
-        this.speed = options.speed;                   // 粒子速度
-        this.speedRandom = options.speedRandom;       // 随机速度
-        this.direction = options.direction;           // 粒子方向
-        this.isStraight = options.isStraight;         // 笔直移动
-        this.isBounce = options.isBounce;             // 粒子反弹
-        this.moveOutMode = options.moveOutMode;       // 离屏模式
+        this.isMove = options.isMove;                        // 移动开关
+        this.speed = options.speed;                          // 粒子速度
+        this.speedRandom = options.speedRandom;              // 随机速度
+        this.direction = options.direction;                  // 粒子方向
+        this.isStraight = options.isStraight;                // 笔直移动
+        this.isBounce = options.isBounce;                    // 粒子反弹
+        this.moveOutMode = options.moveOutMode;              // 离屏模式
         // 交互事件
         this.interactivityLink = options.interactivityLink;  // 与鼠标连线
 
@@ -460,7 +460,7 @@
         isBounce: false,             // 粒子反弹
         moveOutMode: 'out',          // 离屏模式
         // 交互事件
-        interactivityLink: false      // 与鼠标连线
+        interactivityLink: false     // 与鼠标连线
     };
 
     // 公共方法

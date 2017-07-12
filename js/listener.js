@@ -715,6 +715,10 @@
                 setFillStyle(properties.image_fillStyle.value);
             }
             // 背景3D转换
+
+            // 幻灯片参数
+            //-----------------------------------------------------------
+
             if (properties.image_isRotate3D) {
                 wallpaper.slider('set', 'isRotate3D', properties.image_isRotate3D.value);
             }
@@ -758,6 +762,10 @@
             if (properties.directory_pauseTime) {
                 wallpaper.slider('set', 'pauseTime', properties.directory_pauseTime.value);
             }
+
+            // 视频参数
+            //-----------------------------------------------------------
+
             // 视频文件
             if (properties.video_file) {
                 if (properties.video_file.value) {

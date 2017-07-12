@@ -76,11 +76,11 @@
     let userColor = '255,255,255',    // 用户自定义颜色
         userImg = '';                 // 用户自定义图片路径
 
-    let video = document.createElement('video');  // 视频对象
+    let video = document.createElement('video');   // 视频对象
     let videoList = [];                            // 视频数组
     let videoIndex = 0;                            // 视频索引
     let userVideo = '';                            // 用户视频
-    let myVideoListLength;                          // 视频列表长度
+    let myVideoListLength;                         // 视频列表长度
 
 
     let timer = null,        // 切换计时器
@@ -1048,9 +1048,9 @@
         effect: 'none',               // 切换特效
         imgFit: 'fill',               // IMG适应方式
         imgBGColor: '255,255,255',    // IMG背景颜色
-        progress: 0,                   // 视频进度
+        progress: 0,                  // 视频进度
         isPlay: true,                 // 是否播放Video
-        volume: 0.75,                   // Video音量
+        volume: 0.75,                 // Video音量
         videoFit: 'fill',             // Video适应方式
         videoBGColor: '255,255,255',  // Video背景颜色
         isRotate3D: false             // 是否3D旋转
@@ -1184,8 +1184,8 @@
         /**
          *  开始背景3D转换
          *
-         *  @param {float} ex        鼠标X轴坐标
-         *  @param {float} ey        鼠标Y轴坐标
+         *  @param {float} ex 鼠标X轴坐标
+         *  @param {float} ey 鼠标Y轴坐标
          */
         startSliderRotate3D: function (ex, ey) {
             let x_multiple = (ex / canvasWidth) * 2 - 1;
@@ -1638,6 +1638,7 @@
             }
         },
 
+        
         /** 移除canvas */
         destroy: function () {
             this.$el
