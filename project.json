@@ -257,7 +257,7 @@
         "condition": "BG_mode.value == 4",
         "text": "<br/>视频文件<br/>Video File<br/>",
         "type": "file",
-        "fileType" : "video"
+        "fileType": "video"
       },
       "video_progress": {
         "order": 1202,
@@ -360,14 +360,14 @@
       },
       "global_color": {
         "order": 2003,
-        "condition": "global_GlobalSettings.value == true",
+        "condition": "global_GlobalSettings.value == true && global_isChangeColor.value == false",
         "text": "<br/>颜色<br/>Color<br/>",
         "type": "color",
         "value": "1 1 1"
       },
       "global_shadowColor": {
         "order": 2004,
-        "condition": "global_GlobalSettings.value == true",
+        "condition": "global_GlobalSettings.value == true && global_isChangeBlur.value == false",
         "text": "<br/>模糊颜色<br/>Blur Color<br/>",
         "type": "color",
         "value": "1 1 1"
@@ -382,9 +382,44 @@
         "min": 0,
         "value": 0
       },
-      "global_offsetX": {
+      "global_isChangeColor": {
         "order": 2006,
         "condition": "global_GlobalSettings.value == true",
+        "text": "<br/>颜色变换<br/>Color Transformation?<br/>",
+        "type": "bool",
+        "value": false
+      },
+      "global_isRandomColor": {
+        "order": 2007,
+        "condition": "global_GlobalSettings.value == true && global_isChangeColor.value == true",
+        "text": "<br/>随机颜色<br/>Random Color?<br/>",
+        "type": "bool",
+        "value": true
+      },
+      "global_firstColor": {
+        "order": 2008,
+        "condition": "global_GlobalSettings.value == true && global_isChangeColor.value == true && global_isRandomColor.value == false",
+        "text": "<br/>初始颜色<br/>Initial Color<br/>",
+        "type": "color",
+        "value": "1 1 1"
+      },
+      "global_secondColor": {
+        "order": 2009,
+        "condition": "global_GlobalSettings.value == true && global_isChangeColor.value == true && global_isRandomColor.value == false",
+        "text": "<br/>最终颜色<br/>Final Color<br/>",
+        "type": "color",
+        "value": "1 0 0"
+      },
+      "global_isChangeBlur": {
+        "order": 2010,
+        "condition": "global_GlobalSettings.value == true && global_isChangeColor.value == true",
+        "text": "<br/>绑定模糊颜色<br/>Bind Blurred Colors?<br/>",
+        "type": "bool",
+        "value": false
+      },
+      "global_offsetX": {
+        "order": 2011,
+        "condition": "global_GlobalSettings.value == true && global_isChangeColor.value == true",
         "text": "<br/>X轴偏移<br/>Center of Ring-X<br/>",
         "type": "slider",
         "editable": true,
@@ -393,7 +428,7 @@
         "value": 50
       },
       "global_offsetY": {
-        "order": 2007,
+        "order": 2012,
         "condition": "global_GlobalSettings.value == true",
         "text": "<br/>Y轴偏移<br/>Center of Ring-Y<br/>",
         "type": "slider",
@@ -403,7 +438,7 @@
         "value": 50
       },
       "global_isClickOffset": {
-        "order": 2008,
+        "order": 2013,
         "condition": "global_GlobalSettings.value == true",
         "text": "<br/>鼠标坐标偏移<br/>Mouse Coordinate Offset?<br/>",
         "type": "bool",
@@ -536,8 +571,43 @@
         "min": 0,
         "value": 0
       },
-      "audio_offsetX": {
+      "audio_isChangeColor": {
         "order": 3205,
+        "condition": "global_GlobalSettings.value == false && (audio_isRing.value == true || audio_isLineTo.value == true || audio_isBall.value == true)",
+        "text": "<br/>颜色变换<br/>Color Transformation?<br/>",
+        "type": "bool",
+        "value": false
+      },
+      "audio_isRandomColor": {
+        "order": 3206,
+        "condition": "global_GlobalSettings.value == false && (audio_isRing.value == true || audio_isLineTo.value == true || audio_isBall.value == true) && audio_isChangeColor.value == true",
+        "text": "<br/>随机颜色<br/>Random Color?<br/>",
+        "type": "bool",
+        "value": true
+      },
+      "audio_firstColor": {
+        "order": 3207,
+        "condition": "global_GlobalSettings.value == false && (audio_isRing.value == true || audio_isLineTo.value == true || audio_isBall.value == true) && audio_isChangeColor.value == true && audio_isRandomColor.value == false",
+        "text": "<br/>初始颜色<br/>Initial Color<br/>",
+        "type": "color",
+        "value": "1 1 1"
+      },
+      "audio_secondColor": {
+        "order": 3208,
+        "condition": "global_GlobalSettings.value == false && (audio_isRing.value == true || audio_isLineTo.value == true || audio_isBall.value == true) && audio_isChangeColor.value == true && audio_isRandomColor.value == false",
+        "text": "<br/>最终颜色<br/>Final Color<br/>",
+        "type": "color",
+        "value": "1 0 0"
+      },
+      "audio_isChangeBlur": {
+        "order": 3209,
+        "condition": "global_GlobalSettings.value == false && (audio_isRing.value == true || audio_isLineTo.value == true || audio_isBall.value == true) && audio_isChangeColor.value == true",
+        "text": "<br/>绑定模糊颜色<br/>Bind Blurred Colors?<br/>",
+        "type": "bool",
+        "value": false
+      },
+      "audio_offsetX": {
+        "order": 3210,
         "condition": "global_GlobalSettings.value == false && (audio_isRing.value == true || audio_isLineTo.value == true || audio_isBall.value == true)",
         "text": "<br/>X轴偏移<br/>Center of Ring-X<br/>",
         "type": "slider",
@@ -547,7 +617,7 @@
         "value": 50
       },
       "audio_offsetY": {
-        "order": 3206,
+        "order": 3211,
         "condition": "global_GlobalSettings.value == false && (audio_isRing.value == true || audio_isLineTo.value == true || audio_isBall.value == true)",
         "text": "<br/>Y轴偏移<br/>Center of Ring-Y<br/>",
         "type": "slider",
@@ -557,7 +627,7 @@
         "value": 50
       },
       "audio_isClickOffset": {
-        "order": 3207,
+        "order": 3212,
         "condition": "global_GlobalSettings.value == false && (audio_isRing.value == true || audio_isLineTo.value == true || audio_isBall.value == true)",
         "text": "<br/>鼠标坐标偏移<br/>Mouse Coordinate Offset?<br/>",
         "type": "bool",
@@ -1204,8 +1274,43 @@
         "min": 0,
         "value": 0
       },
-      "date_offsetX": {
+      "date_isChangeColor": {
         "order": 4104,
+        "condition": "global_GlobalSettings.value == false && date_isDate.value == true",
+        "text": "<br/>颜色变换<br/>Color Transformation?<br/>",
+        "type": "bool",
+        "value": false
+      },
+      "date_isRandomColor": {
+        "order": 4105,
+        "condition": "global_GlobalSettings.value == false && date_isDate.value == true && date_isChangeColor.value == true",
+        "text": "<br/>随机颜色<br/>Random Color?<br/>",
+        "type": "bool",
+        "value": true
+      },
+      "date_firstColor": {
+        "order": 4106,
+        "condition": "global_GlobalSettings.value == false && date_isDate.value == true && date_isChangeColor.value == true && date_isRandomColor.value == false",
+        "text": "<br/>初始颜色<br/>Initial Color<br/>",
+        "type": "color",
+        "value": "1 1 1"
+      },
+      "date_secondColor": {
+        "order": 4107,
+        "condition": "global_GlobalSettings.value == false && date_isDate.value == true && date_isChangeColor.value == true && date_isRandomColor.value == false",
+        "text": "<br/>最终颜色<br/>Final Color<br/>",
+        "type": "color",
+        "value": "1 0 0"
+      },
+      "date_isChangeBlur": {
+        "order": 4108,
+        "condition": "global_GlobalSettings.value == false && date_isDate.value == true && date_isChangeColor.value == true",
+        "text": "<br/>绑定模糊颜色<br/>Bind Blurred Colors?<br/>",
+        "type": "bool",
+        "value": false
+      },
+      "date_offsetX": {
+        "order": 4109,
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true",
         "text": "<br/>X轴偏移<br/>Center of Ring-X<br/>",
         "type": "slider",
@@ -1215,7 +1320,7 @@
         "value": 50
       },
       "date_offsetY": {
-        "order": 4105,
+        "order": 4110,
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true",
         "text": "<br/>Y轴偏移<br/>Center of Ring-Y<br/>",
         "type": "slider",
@@ -1225,7 +1330,7 @@
         "value": 50
       },
       "date_isClickOffset": {
-        "order": 4106,
+        "order": 4111,
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true",
         "text": "<br/>鼠标坐标偏移<br/>Mouse Coordinate Offset?<br/>",
         "type": "bool",

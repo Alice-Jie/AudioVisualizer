@@ -13,6 +13,21 @@
 
     'use strict';
 
+    // 定义方法
+    //--------------------------------------------------------------------------------------------------------------
+
+    /**
+     * 获取颜色字符串
+     *
+     * @param c wallpaper颜色格式
+     * @return 颜色字符串
+     */
+    function getColor(c) {
+        return c.split(' ').map((index)=> {
+            return Math.ceil(index * 255);
+        }).toString();
+    }
+
     // AudioVisualizer插件调试区域
     //--------------------------------------------------------------------------------------------------------------
 
@@ -24,8 +39,9 @@
     }
 
     //$('#wallpaper').audiovisualizer({});
-    //$('#wallpaper').audiovisualizer('drawCanvas', audioSamples);
-
+    //$('#wallpaper').audiovisualizer('updateAudioVisualizer', audioSamples);
+    //$('#wallpaper').audiovisualizer('set', 'isChangeColor', true);
+    //$('#wallpaper').audiovisualizer('runAudioVisualizerTimer');
     // Date插件调试区域
     //--------------------------------------------------------------------------------------------------------------
 

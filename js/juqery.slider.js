@@ -1638,7 +1638,7 @@
             }
         },
 
-        
+
         /** 移除canvas */
         destroy: function () {
             this.$el

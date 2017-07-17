@@ -1,5 +1,5 @@
 /*!
- * jQuery date plugin v0.0.6
+ * jQuery date plugin v0.0.7
  * moment.js: http://momentjs.cn/
  * project:
  * - https://github.com/Alice-Jie/4K-Circle-Audio-Visualizer
@@ -7,7 +7,7 @@
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/07/04
+ * @date 2017/07/17
  */
 
 (function (global, factory) {
@@ -67,6 +67,19 @@
     let originX, originY;           // 原点位置
     let minLength = 300;            // 最小长度
 
+    // 颜色变换
+    let color1 = {
+        R: 255,
+        G: 255,
+        B: 255
+    }, color2 = {
+        R: 255,
+        G: 0,
+        B: 0
+    };
+    let currantColor = '255,255,255';
+    let colorDirection = 'left';
+
     // 和风天气信息
     let heWeather = {
         basic: {
@@ -112,6 +125,8 @@
 
     let timer = null,         // 时间计时器
         weatherTimer = null;  // 天气计时器
+
+    let milliSec = 1000;  // 重绘间隔（ms）
 
     //私有方法
     //--------------------------------------------------------------------------------------------------------------
@@ -304,6 +319,30 @@
         }
     }
 
+
+    /**
+     * 通过RGB字符串更新RGB颜色对象
+     *
+     * @param {!Object} colorObj RGB颜色对象
+     * @param {string}  colorStr RGB颜色字符串
+     */
+    function setColorObj(colorObj, colorStr) {
+        colorObj.R = parseInt(colorStr.split(",")[0]);
+        colorObj.G = parseInt(colorStr.split(",")[1]);
+        colorObj.B = parseInt(colorStr.split(",")[2]);
+    }
+
+    /**
+     * 设置随机RGB颜色对象
+     *
+     * @param {!Object} colorObj RGB颜色对象
+     */
+    function setRandomColor(colorObj) {
+        colorObj.R = Math.floor(255 * Math.random());
+        colorObj.G = Math.floor(255 * Math.random());
+        colorObj.B = Math.floor(255 * Math.random());
+    }
+
     //构造函数和公共方法
     //--------------------------------------------------------------------------------------------------------------
 
@@ -320,7 +359,12 @@
         this.opacity = options.opacity;                  // 不透明度
         this.color = options.color;                      // 颜色
         this.shadowColor = options.shadowColor;          // 阴影颜色
-        this.shadowBlur = options.shadowBlur;            // 发光程度
+        this.shadowBlur = options.shadowBlur;            // 模糊大小
+        this.isChangeColor = options.isChangeColor;      // 颜色变换开关
+        this.isRandomColor = options.isRandomColor;      // 随机颜色开关
+        this.firstColor = options.firstColor;            // 第一颜色
+        this.secondColor = options.secondColor;          // 第二颜色
+        this.isChangeBlur = options.isChangeBlur;        // 模糊变换开关
         // 坐标参数
         this.offsetX = options.offsetX;                  // X坐标偏移
         this.offsetY = options.offsetY;                  // Y坐标偏移
@@ -368,6 +412,9 @@
         context.font = this.timeFontSize + 'px 微软雅黑';
         context.textAlign = 'center';
         context.textBaseline = 'middle';
+        // 颜色对象
+        setColorObj(color1, this.firstColor);
+        setColorObj(color2, this.secondColor);
 
         $(this.$el).append(canvas);  // 添加canvas
 
@@ -384,7 +431,12 @@
         opacity: 0.90,                 // 不透明度
         color: '255,255,255',          // 颜色
         shadowColor: '255,255,255',    // 阴影颜色
-        shadowBlur: 15,                // 发光程度
+        shadowBlur: 15,                // 模糊大小
+        isChangeColor: false,          // 颜色变换开关
+        isRandomColor: true,           // 随机颜色变换
+        firstColor: '255,255,255',     // 第一颜色
+        secondColor: '255,0,0',        // 第二颜色
+        isChangeBlur: false,           // 模糊颜色变换开关
         // 坐标参数
         offsetX: 0.5,                  // X坐标偏移
         offsetY: 0.5,                  // Y坐标偏移
@@ -407,6 +459,53 @@
 
         // 面向内部方法
         //-----------------------------------------------------------
+
+        /** 日期颜色变换 */
+        setColor: function () {
+            if (color1.R !== color2.R
+                || color1.G !== color2.G
+                || color1.B !== color2.B) {
+                // "R"值比较
+                if (color1.R > color2.R) {
+                    color1.R--;
+                } else if (color1.R < color2.R) {
+                    color1.R++;
+                }
+                // "G"值比较
+                if (color1.G > color2.G) {
+                    color1.G--;
+                } else if (color1.G < color2.G) {
+                    color1.G++;
+                }
+                // "B"值比较
+                if (color1.B > color2.B) {
+                    color1.B--;
+                } else if (color1.B < color2.B) {
+                    color1.B++;
+                }
+                // 改变context颜色属性
+                currantColor = color1.R + ',' + color1.G + ',' + color1.B;
+                context.fillStyle = 'rgb(' + currantColor + ')';
+                context.strokeStyle = 'rgb(' + currantColor + ')';
+                if (this.isChangeBlur) {
+                    context.shadowColor = 'rgb(' + currantColor + ')';
+                }
+            } else if (colorDirection === 'left' && this.isRandomColor === false) {
+                // 反方向改变颜色
+                setColorObj(color1, this.secondColor);
+                setColorObj(color2, this.firstColor);
+                colorDirection = 'right';
+            } else if (colorDirection === 'right' && this.isRandomColor === false) {
+                // 正方向改变颜色
+                setColorObj(color1, this.firstColor);
+                setColorObj(color2, this.secondColor);
+                colorDirection = 'left';
+            } else if (this.isRandomColor === true) {
+                setColorObj(color1, currantColor);
+                setRandomColor(color2);
+            }
+        },
+
 
         /** 设置交互事件 */
         setupPointerEvents: function () {
@@ -444,18 +543,33 @@
             context.clearRect(0, 0, canvasWidth, canvasHeight);
         },
 
-        /** 绘制时间 */
-        drawDate: function () {
-            context.clearRect(0, 0, canvasWidth, canvasHeight);
+        /** 更新时间日期信息 */
+        updateDate: function () {
             // 更新原点坐标
             originX = canvasWidth * this.offsetX;
             originY = canvasHeight * this.offsetY;
+            // 更新颜色
+            if (this.isChangeColor) {
+                this.setColor();
+            }
+        },
+
+        /** 绘制时间 */
+        drawDate: function () {
+            context.clearRect(0, 0, canvasWidth, canvasHeight);
+            // 更新时间和日期
             if (this.isDate) {
                 context.font = this.timeFontSize + 'px 微软雅黑';
                 context.fillText(getTime(this.timeStyle), originX, originY - this.timeFontSize / 2 - this.distance);
                 context.font = this.dateFontSize + 'px 微软雅黑';
                 context.fillText(getDate(this.dateStyle), originX, originY + this.dateFontSize / 2 + this.distance);
             }
+        },
+
+        /** 更新日期信息并绘制时间 */
+        drawCanvas: function () {
+            this.updateDate();
+            this.drawDate();
         },
 
         /** 停止时间计时器 */
@@ -471,7 +585,7 @@
             timer = setInterval(
                 ()=> {
                     this.drawDate();
-                }, 1000);
+                }, milliSec);
         },
 
 
@@ -538,8 +652,22 @@
                     context.shadowBlur = value;
                     this.drawDate();
                     break;
+                case 'isRandomColor':
+                case 'isChangeBlur':
                 case 'isClickOffset':
                     this[property] = value;
+                    break;
+                case 'isChangeColor':
+                    this[property] = value;
+                    this.isChangeColor ? milliSec = 30 : milliSec = 1000;
+                    break;
+                case 'firstColor':
+                    this[property] = value;
+                    setColorObj(color1, value);
+                    break;
+                case 'secondColor':
+                    this[property] = value;
+                    setColorObj(color2, value);
                     break;
                 case 'weatherProvider':
                 case 'currentCity':
