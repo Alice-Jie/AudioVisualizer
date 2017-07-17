@@ -81,6 +81,7 @@
 
     /**
      * 获取粒子之间距离
+     * XY坐标代入勾股函数计算出两点之间距离
      *
      * @param  {float} x1 始点X轴坐标
      * @param  {float} y1 始点Y轴坐标
@@ -96,6 +97,7 @@
 
     /**
      * 检查粒子位置是否重叠
+     * 和粒子数组中其他粒子比较坐标，直到任意两者不重复为止
      *
      * @param {int} index 粒子数组索引
      */
@@ -122,6 +124,7 @@
 
     /**
      * 方向向量
+     * 粒子移动距离 = 方向向量 X 粒子速度
      *
      * @param  {string} direction 方向字符串
      * @return {object} 方向向量对象
@@ -153,6 +156,7 @@
 
     /**
      * 设置粒子是否笔直移动
+     * 是否统一粒子的方向向量
      *
      * @param {!Object} particles  粒子对象
      * @param {boolean} isStraight 笔直移动开关
@@ -171,6 +175,7 @@
 
     /**
      * 移动粒子
+     * 粒子下一个坐标 = 粒子当前坐标 + 粒子移动距离
      *
      * @param {!Object} particles  粒子对象
      * @param {boolean} isMove     粒子移动开关
@@ -185,6 +190,7 @@
 
     /**
      * 获取粒子图片宽度和高度
+     * 粒子图片宽高受粒子尺寸约束
      *
      * @param {!Object} particles 粒子对象
      * @return {Object} 图片宽高对象
@@ -212,6 +218,7 @@
 
     /**
      * 反弹粒子
+     * 计算两者之间最短距离是否等于两者半径之和
      *
      * @param {int}     index 粒子数组索引
      * @param {boolean} isBounce 粒子反弹开关
@@ -254,6 +261,7 @@
 
     /**
      * 边缘检测
+     * 与窗口边缘值相比较，如离开则在窗口内随机生成坐标或则方向向量取反
      *
      * @param {!Object} particles   粒子对象
      * @param {string}  moveOutMode 离开模式
@@ -322,6 +330,7 @@
 
     /**
      * 角度偏移
+     * 粒子角度 = 粒子当前角度 + 偏移角度
      *
      * @param  {int} rotationAngle 当前角度
      * @param  {int} deg           偏移角度
@@ -512,6 +521,7 @@
 
         /**
          * 绘制多边形
+         * By Programming Thomas - https://programmingthomas.wordpress.com/2013/04/03/n-sided-shapes/
          *
          * @param {!Object} context context      对象
          * @param {float}   startX               开始X坐标
@@ -521,7 +531,6 @@
          * @param {int}     sideCountDenominator 边数分母
          */
         drawShape: function (context, startX, startY, sideLength, sideCountNumerator, sideCountDenominator) {
-            // By Programming Thomas - https://programmingthomas.wordpress.com/2013/04/03/n-sided-shapes/
             let sideCount = sideCountNumerator * sideCountDenominator;
             let decimalSides = sideCountNumerator / sideCountDenominator;
             let interiorAngleDegrees = (180 * (decimalSides - 2)) / decimalSides;
@@ -539,9 +548,12 @@
         /** 设置交互事件 */
         setupPointerEvents: function () {
 
+            let that = this;
             $(this.$el).on('mousemove', function (e) {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
+                if(that.interactivityLink) {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                }
             });
 
             // 窗体改变事件
@@ -558,6 +570,7 @@
 
         /**
          * 添加粒子
+         * 和旧的粒子数量进行比较，添加/删除粒子
          *
          * @param {int}      num  粒子数量
          */
@@ -647,6 +660,7 @@
 
         /**
          *  改变当前图片
+         *  通过离屏canvas绘制图片，图片宽高受粒子尺寸约束
          *
          *  @param {string} imgSrc 图片粒子路径
          */
@@ -678,6 +692,7 @@
 
         /**
          *  绘制粒子
+         *  根据当前粒子对象属性绘制粒子
          *
          * @param {!Object} particles 粒子对象
          */
@@ -737,6 +752,7 @@
 
         /**
          * 绘制两点之间连线
+         * 粒子之间透明度由两点之间距离决定，越近越清晰
          *
          * @param {float} x            始点X坐标
          * @param {float} y            始点Y坐标
@@ -883,6 +899,7 @@
 
         /**
          * 设置粒子数组粒子属性
+         * 粒子对象转换成粒子属性数组并修改对应属性值
          *
          * @param {string}   property 属性名
          */

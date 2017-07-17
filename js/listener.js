@@ -6,7 +6,7 @@
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/07/04
+ * @date 2017/07/17
  */
 
 ;(function ($, window, document, Math, undefined) {
@@ -217,7 +217,7 @@
      *  @param  {int} n IMG适应样式对应值
      *  @return {string} IMG适应样式标识串
      */
-    function setIMGFitStyle(n) {
+    function setFitStyle(n) {
         switch (n) {
             // Fill
             case 1:
@@ -763,7 +763,7 @@
             }
             // IMG适应样式
             if (properties.IMG_FitStyle) {
-                wallpaper.slider('set', 'imgFit', setIMGFitStyle(properties.IMG_FitStyle.value));
+                wallpaper.slider('set', 'imgFit', setFitStyle(properties.IMG_FitStyle.value));
             }
             // IMG背景颜色
             if (properties.IMG_BGColor) {
@@ -825,7 +825,7 @@
             }
             // video适应样式
             if (properties.video_FitStyle) {
-                wallpaper.slider('set', 'videoFit', setIMGFitStyle(properties.video_FitStyle.value));
+                wallpaper.slider('set', 'videoFit', setFitStyle(properties.video_FitStyle.value));
             }
             // video背景颜色
             if (properties.video_BGColor) {
@@ -939,7 +939,11 @@
                         .date('set', 'shadowColor', globalSettings.shadowColor);
                 }
             }
-            // 发光程度
+            // 模糊程度
+
+            // 颜色变换参数
+            //-----------------------------------------------------------
+
             if (properties.global_shadowBlur) {
                 globalSettings.shadowBlur = properties.global_shadowBlur.value * 5;
                 if (isGlobalSettings === true) {
@@ -997,6 +1001,10 @@
                     }
                 }
             }
+
+            // 坐标参数
+            //-----------------------------------------------------------
+
             // X轴偏移
             if (properties.global_offsetX) {
                 globalSettings.offsetX = properties.global_offsetX.value / 100;
@@ -1082,6 +1090,10 @@
                 wallpaper.audiovisualizer('set', 'ringRotation', properties.audio_ringRotation.value);
             }
             // 重绘间隔
+
+            // 全局参数
+            //-----------------------------------------------------------
+
             if (properties.audio_milliSec) {
                 redrawInterval = properties.audio_milliSec.value;
                 wallpaper.audiovisualizer('set', 'milliSec', redrawInterval);
@@ -1113,6 +1125,10 @@
                 }
             }
             // 圆环和小球模糊程度
+
+            // 颜色变换参数
+            //-----------------------------------------------------------
+
             if (properties.audio_shadowBlur) {
                 audio.shadowBlur = properties.audio_shadowBlur.value * 5;
                 if (isGlobalSettings === false) {
@@ -1153,6 +1169,10 @@
                 }
             }
             // 圆环和小球绑定模糊颜色
+
+            // 坐标参数
+            //-----------------------------------------------------------
+
             if (properties.audio_isChangeBlur) {
                 audio.isChangeBlur = properties.audio_isChangeBlur.value;
                 if (isGlobalSettings === false) {
@@ -1240,7 +1260,7 @@
                 wallpaper.audiovisualizer('set', 'ballRotation', properties.audio_ballRotation.value);
             }
 
-            // 日期参数
+            // 时间日期参数
             //-----------------------------------------------------------
 
             // 显示日期
@@ -1270,6 +1290,10 @@
                     wallpaper.date('stopWeatherTimer');
                 }
             }
+
+            // 天气参数
+            //-----------------------------------------------------------
+
             // 天气接口提供者
             if (properties.date_weatherProvider) {
                 wallpaper.date('set', 'weatherProvider', setWeatherProvider(properties.date_weatherProvider.value));
@@ -1278,6 +1302,10 @@
             if (properties.date_city) {
                 wallpaper.date('set', 'currentCity', properties.date_city.value);
             }
+
+            // 时间日期参数
+            //-----------------------------------------------------------
+
             // 字体大小
             if (properties.date_fontSize) {
                 wallpaper.date('set', 'timeFontSize', properties.date_fontSize.value)
@@ -1295,6 +1323,10 @@
             if (properties.date_distance) {
                 wallpaper.date('set', 'distance', properties.date_distance.value);
             }
+
+            // 全局参数
+            //-----------------------------------------------------------
+
             // 日期不透明度
             if (properties.date_opacity) {
                 date.opacity = properties.date_opacity.value / 100;
@@ -1323,6 +1355,10 @@
                     wallpaper.date('set', 'shadowBlur', date.shadowBlur);
                 }
             }
+
+            // 颜色变换参数
+            //-----------------------------------------------------------
+
             // 日期颜色变换
             if (properties.date_isChangeColor) {
                 date.isChangeColor = properties.date_isChangeColor.value;
@@ -1365,6 +1401,10 @@
                     }
                 }
             }
+
+            // 坐标参数
+            //-----------------------------------------------------------
+
             // 日期X轴偏移
             if (properties.date_offsetX) {
                 date.offsetX = properties.date_offsetX.value / 100;
@@ -1387,7 +1427,7 @@
                 }
             }
 
-            // 粒子参数
+            // 粒子属性参数
             //-----------------------------------------------------------
 
             // 显示粒子
@@ -1444,6 +1484,10 @@
                 wallpaper.particles('set', 'sizeValue', properties.particles_sizeValue.value);
             }
             // 粒子随机大小
+
+            // 粒子连线参数
+            //-----------------------------------------------------------
+
             if (properties.particles_sizeRandom) {
                 wallpaper.particles('set', 'sizeRandom', properties.particles_sizeRandom.value);
             }
@@ -1468,6 +1512,10 @@
                 wallpaper.particles('set', 'linkColor', getColor(properties.particles_linkColor.value));
             }
             // 连线不透明度
+
+            // 粒子移动参数
+            //-----------------------------------------------------------
+
             if (properties.particles_linkOpacity) {
                 wallpaper.particles('set', 'linkOpacity', properties.particles_linkOpacity.value / 100);
             }

@@ -6,12 +6,21 @@
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/07/04
+ * @date 2017/07/17
  */
 
 ;(function ($, window, document, Math, undefined) {
 
     'use strict';
+
+    // 定义变量
+    //--------------------------------------------------------------------------------------------------------------
+
+    // 模拟音频数据
+    let audioSamples = new Array(128);
+    for (let i = 0; i < 128; i++) {
+        audioSamples[i] = i * 0.01;
+    }
 
     // 定义方法
     //--------------------------------------------------------------------------------------------------------------
@@ -31,16 +40,9 @@
     // AudioVisualizer插件调试区域
     //--------------------------------------------------------------------------------------------------------------
 
-
-    // 模拟音频数据
-    let audioSamples = new Array(128);
-    for (let i = 0; i < 128; i++) {
-        audioSamples[i] = i * 0.01;
-    }
-
     //$('#wallpaper').audiovisualizer({});
-    //$('#wallpaper').audiovisualizer('updateAudioVisualizer', audioSamples);
     //$('#wallpaper').audiovisualizer('set', 'isChangeColor', true);
+    //$('#wallpaper').audiovisualizer('updateAudioVisualizer', audioSamples);
     //$('#wallpaper').audiovisualizer('runAudioVisualizerTimer');
     // Date插件调试区域
     //--------------------------------------------------------------------------------------------------------------

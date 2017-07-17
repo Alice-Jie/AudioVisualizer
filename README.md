@@ -44,6 +44,11 @@ opacity | float | 0.90 | canvas的不透明度
 color | string | '255,255,255' | RGB格式颜色，用于设置context.fillStyle、strokeStyle
 shadowColor | string | '255,255,255' | RGB格式颜色，用于设置context.shadowColor
 shadowBlur | int | 15 | 用于设置shadowBlur
+isChangeColor | boolean | false | 颜色变换开关
+isRandomColor | boolean | true | 随机颜色变换开关
+firstColor | string | '255,255,255' | 初始颜色
+secondColor | string | '255,0,0' | 最终颜色
+isChangeBlur | boolean | false | 颜色变换shadowBlur绑定
 offsetX | float | 0.5 | X坐标偏移系数，范围在0~1之间
 offsetY | float | 0.5 | Y坐标偏移系数，范围在0~1之间
 isClickOffset | boolean | false | 开启后，根据鼠标点击位置确定XY坐标偏移系数
@@ -80,7 +85,7 @@ ballRotation | int | 0 | 旋转音频小球，负数为逆时针旋转，正数�
 
 调用`$(selector).audiovisualizer('updateAudioVisualizer', audioArray);`更新音频圆环参数。
 
-参数类型 | 参数名 | 参数描述 
+参数类型 | 参数名 | 参数描述
 ---------|--------|----------
 Array<float> | audioSamples | 音频数组
 
@@ -92,7 +97,7 @@ Array<float> | audioSamples | 音频数组
 
 调用`$(selector).audiovisualizer('drawCanvas', audioArray);`根据音频数组绘制音频圆环和音频小球
 
-参数类型 | 参数名 | 参数描述 
+参数类型 | 参数名 | 参数描述
 ---------|--------|----------
 Array<float> | audioSamples | 音频数组
 
@@ -112,7 +117,7 @@ Array<float> | audioSamples | 音频数组
 
 调用`$(selector).audiovisualizer('set', property, value);`设置audiovisualizer插件相关参数，具体参数详见参数列表。
 
-参数类型 | 参数名 | 参数描述 
+参数类型 | 参数名 | 参数描述
 ---------|--------|----------
 string | property | 属性名
 任意 | value | 属性对应值
@@ -125,7 +130,7 @@ string | property | 属性名
     function wallpaperAudioListener(audioArray) {
         wallpaper.audiovisualizer('drawCanvas', audioArray);
     }
-    
+
     window.wallpaperRegisterAudioListener && window.wallpaperRegisterAudioListener(wallpaperAudioListener);
 ```
 
@@ -158,12 +163,17 @@ date插件用于创建一个canvas,创建一个canvas并绘制日期。
 #### 参数列表：
 
 
-| 名称 | 类型 | 默认| 描述 
+| 名称 | 类型 | 默认| 描述
 |------|------|-----|------
 opacity | float | 0.90 | canvas的不透明度
 color | string | '255,255,255' |  RGB格式颜色，用于设置context.fillStyle、strokeStyle
 shadowColor | string | '255,255,255' |  RGB格式颜色，用于设置context.shadowColor
 shadowBlur | int | 15 | 用于设置shadowBlur
+isChangeColor | boolean | false | 颜色变换开关
+isRandomColor | boolean | true | 随机颜色变换开关
+firstColor | string | '255,255,255' | 初始颜色
+secondColor | string | '255,0,0' | 最终颜色
+isChangeBlur | boolean | false | 颜色变换shadowBlur绑定
 offsetX | float | 0.5 | X坐标偏移系数，范围在0~1之间
 offsetY | float | 0.5 | Y坐标偏移系数，范围在0~1之间
 isClickOffset | boolean | false | 开启后，根据鼠标点击位置确定XY坐标偏移系数 |
@@ -182,7 +192,7 @@ currentCity | string | 'zh_cn' | 当前城市
 
 调用`$(selector).date('setCity', cityStr);`清除canvas内容。
 
-参数类型 | 参数名 | 参数描述 
+参数类型 | 参数名 | 参数描述
 ---------|--------|----------
 string | cityStr | 城市名（仅限中国）
 
@@ -190,9 +200,13 @@ string | cityStr | 城市名（仅限中国）
 
 调用`$(selector).date('clearCanvas');`清除canvas内容。
 
+**updateDate：**
+
+调用`$(selector).date('updateDate');`更新时间日期信息
+
 **drawDate：**
 
-调用`$(selector).date('drawDate');`绘制时间和日期
+调用`$(selector).date('drawDate');`绘制时间日期
 
 **stopDateTimer：**
 
@@ -202,7 +216,7 @@ string | cityStr | 城市名（仅限中国）
 
 调用`$(selector).date('runDateTimer');`开始日期计时器，间隔一秒重绘时间和日期
 
-**updataWeather：**
+**updateWeather：**
 
 调用`$(selector).date('updataWeather');`更新天气信息
 

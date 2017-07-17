@@ -322,6 +322,7 @@
 
     /**
      * 通过RGB字符串更新RGB颜色对象
+     * 字符串格式为"R,B,G"，例如："255,255,255"
      *
      * @param {!Object} colorObj RGB颜色对象
      * @param {string}  colorStr RGB颜色字符串
@@ -334,6 +335,7 @@
 
     /**
      * 设置随机RGB颜色对象
+     * 随机生成0-255范围内RGB颜色
      *
      * @param {!Object} colorObj RGB颜色对象
      */
@@ -362,8 +364,8 @@
         this.shadowBlur = options.shadowBlur;            // 模糊大小
         this.isChangeColor = options.isChangeColor;      // 颜色变换开关
         this.isRandomColor = options.isRandomColor;      // 随机颜色开关
-        this.firstColor = options.firstColor;            // 第一颜色
-        this.secondColor = options.secondColor;          // 第二颜色
+        this.firstColor = options.firstColor;            // 起始颜色
+        this.secondColor = options.secondColor;          // 最终颜色
         this.isChangeBlur = options.isChangeBlur;        // 模糊变换开关
         // 坐标参数
         this.offsetX = options.offsetX;                  // X坐标偏移
@@ -434,8 +436,8 @@
         shadowBlur: 15,                // 模糊大小
         isChangeColor: false,          // 颜色变换开关
         isRandomColor: true,           // 随机颜色变换
-        firstColor: '255,255,255',     // 第一颜色
-        secondColor: '255,0,0',        // 第二颜色
+        firstColor: '255,255,255',     // 起始颜色
+        secondColor: '255,0,0',        // 最终颜色
         isChangeBlur: false,           // 模糊颜色变换开关
         // 坐标参数
         offsetX: 0.5,                  // X坐标偏移
@@ -460,8 +462,8 @@
         // 面向内部方法
         //-----------------------------------------------------------
 
-        /** 日期颜色变换 */
-        setColor: function () {
+        /** 时间日期颜色变换 */
+        colorTransformation: function () {
             if (color1.R !== color2.R
                 || color1.G !== color2.G
                 || color1.B !== color2.B) {
@@ -548,9 +550,9 @@
             // 更新原点坐标
             originX = canvasWidth * this.offsetX;
             originY = canvasHeight * this.offsetY;
-            // 更新颜色
+            // 更新时间日期颜色
             if (this.isChangeColor) {
-                this.setColor();
+                this.colorTransformation();
             }
         },
 
@@ -572,6 +574,7 @@
             this.drawDate();
         },
 
+
         /** 停止时间计时器 */
         stopDateTimer: function () {
             if (timer) {
@@ -584,13 +587,14 @@
             this.stopDateTimer();
             timer = setInterval(
                 ()=> {
+                    //this.updateDate();
                     this.drawDate();
                 }, milliSec);
         },
 
 
         /** 更新天气 */
-        updataWeather: function () {
+        updateWeather: function () {
             if (!this.currentCity) {
                 // 根据IP获取城市
                 let cityUrl = 'http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js';  // 获取IP
@@ -613,10 +617,10 @@
         /** 开始天气计时器 */
         runWeatherTimer: function () {
             this.stopWeatherTimer();
-            // this.updataWeather();  立即更新天气
+            // this.updateWeather();  立即更新天气
             weatherTimer = setInterval(
                 ()=> {
-                    this.updataWeather();
+                    this.updateWeather();
                 }, 21600000);  // 每隔6个小时更新一次天气
         },
 
@@ -660,6 +664,7 @@
                 case 'isChangeColor':
                     this[property] = value;
                     this.isChangeColor ? milliSec = 30 : milliSec = 1000;
+                    this.runDateTimer();
                     break;
                 case 'firstColor':
                     this[property] = value;
@@ -672,7 +677,7 @@
                 case 'weatherProvider':
                 case 'currentCity':
                     this[property] = value;
-                    this.updataWeather();
+                    this.updateWeather();
                     break;
                 case 'offsetX':
                 case 'offsetY':

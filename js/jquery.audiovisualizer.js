@@ -276,6 +276,7 @@
 
     /**
      * 通过RGB字符串更新RGB颜色对象
+     * 字符串格式为"R,B,G"，例如："255,255,255"
      *
      * @param {!Object} colorObj RGB颜色对象
      * @param {string}  colorStr RGB颜色字符串
@@ -288,6 +289,7 @@
 
     /**
      * 设置随机RGB颜色对象
+     * 随机生成0-255范围内RGB颜色
      *
      * @param {!Object} colorObj RGB颜色对象
      */
@@ -316,8 +318,8 @@
         this.shadowBlur = options.shadowBlur;         // 模糊大小
         this.isChangeColor = options.isChangeColor;   // 颜色变换开关
         this.isRandomColor = options.isRandomColor;   // 随机颜色开关
-        this.firstColor = options.firstColor;         // 第一颜色
-        this.secondColor = options.secondColor;       // 第二颜色
+        this.firstColor = options.firstColor;         // 起始颜色
+        this.secondColor = options.secondColor;       // 最终颜色
         this.isChangeBlur = options.isChangeBlur;     // 模糊变换开关
         // 坐标参数
         this.offsetX = options.offsetX;               // X坐标偏移
@@ -397,8 +399,8 @@
         shadowBlur: 15,              // 模糊大小
         isChangeColor: false,        // 颜色变换开关
         isRandomColor: true,         // 随机颜色变换
-        firstColor: '255,255,255',   // 第一颜色
-        secondColor: '255,0,0',      // 第二颜色
+        firstColor: '255,255,255',   // 起始颜色
+        secondColor: '255,0,0',      // 最终颜色
         isChangeBlur: false,         // 模糊颜色变换开关
         // 坐标参数
         offsetX: 0.5,                // X坐标偏移
@@ -440,6 +442,7 @@
 
         /**
          * 生成静态点的坐标集合
+         * 生成静态音频圆环坐标数组
          *
          * @param  {Array<float>}   audioSamples 音频数组
          * @return {Array<Object>} 坐标数组
@@ -460,6 +463,7 @@
 
         /**
          * 生成音频圆环点的坐标集合
+         * 根据音频数组值生成对应点坐标，并储存在坐标数组中
          *
          * @param  {Array<float>}   audioSamples 音频数组
          * @param  {int}            direction    方向（1或则-1）
@@ -485,6 +489,7 @@
 
         /**
          * 生成音频小球坐标的集合
+         * 根据音频数组值生成对应小球坐标，并储存在坐标数组中
          *
          * @param  {Array<float>} audioSamples 音频数组
          * @return {Array<Object>} 坐标数组
@@ -509,6 +514,7 @@
 
         /**
          * 绘制音频圆环
+         * 根据坐标数组绘制音频圆环
          *
          *  @param {Array<Object>} pointArray 坐标数组
          */
@@ -526,6 +532,7 @@
 
         /**
          * 绘制环与环连线
+         * 根据坐标数组绘制内环、外环以及静态环之间连线
          *
          *  @param {Array<Object>} pointArray1 坐标数组1
          *  @param {Array<Object>} pointArray2 坐标数组2
@@ -545,6 +552,7 @@
 
         /**
          * 绘制音频小球
+         * 根据坐标数组绘制音频小球
          *
          *  @param {Array<Object>} pointArray 坐标数组
          *  @param {int}           ballSize   小球大小
@@ -561,8 +569,8 @@
         },
 
 
-        /** 音频圆环颜色变换 */
-        setColor: function () {
+        /** 音频圆环和小球颜色变换 */
+        colorTransformation: function () {
             if (color1.R !== color2.R
                 || color1.G !== color2.G
                 || color1.B !== color2.B) {
@@ -602,6 +610,7 @@
                 setColorObj(color2, this.secondColor);
                 colorDirection = 'left';
             } else if (this.isRandomColor === true) {
+                // 随机生成目标颜色
                 setColorObj(color1, currantColor);
                 setRandomColor(color2);
             }
@@ -649,7 +658,7 @@
 
         /**
          * 更新音频圆环参数
-         * 更新内外圆环、音频小球坐标数组、偏移角度和原点坐标
+         * 更新内外圆环、音频小球坐标数组、偏移角度、原点坐标和音频圆环小球颜色
          *
          * @param {Array<float>} audioSamples 音频数组
          */
@@ -665,9 +674,9 @@
             // 更新偏移角度
             rotationAngle1 = rotation(rotationAngle1, this.ringRotation);
             rotationAngle2 = rotation(rotationAngle2, this.ballRotation);
-            // 更新颜色
+            // 更新音频圆环小球颜色
             if (this.isChangeColor) {
-                this.setColor();
+                this.colorTransformation();
             }
         },
 
@@ -700,7 +709,7 @@
 
         /**
          * 根据音频数组绘制音频圆环和音频小球
-         * 当上次音频数组记录和当前音频数组不处于静默状态或旋转状态时，绘制音频圆环和音频小球
+         * 当上次音频数组记录和当前音频数组不处于静默状态、颜色变换状态、旋转状态时，绘制音频圆环和音频小球
          *
          * @param  {Array<float>} audioSamples 音频数组
          */

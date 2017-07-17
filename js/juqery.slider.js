@@ -139,6 +139,7 @@
 
     /**
      * 获取视频索引
+     * 根据数组长度、当前数组索引，（按顺序）返回包含上一个、当前、下一个索引对象
      *
      *  @param {Array<*>} array    数组
      *  @param {int}      index    当前数组索引
@@ -162,7 +163,8 @@
     }
 
     /**
-     * 根据中心点坐标获取左上角坐标
+     * 根据中心点坐标获取图片左上角坐标
+     * 返回图片的XY坐标对象
      *
      * @param  {float} centerX 中心点坐标X
      * @param  {float} centerY 中心点坐标Y
@@ -179,6 +181,7 @@
 
     /**
      * 根据图片大小获取缩放
+     * 获取图片与窗口尺寸之间的比例对象
      *
      * @param  {Object} img image对象
      * @return {Object} 缩放对象
@@ -1628,9 +1631,10 @@
         },
 
         /**
-         *  设置视频音量
+         * 设置视频音量
+         * 如果视频源存在，则调节视频音量
          *
-         *  @param {float} volume 音量
+         * @param {float} volume 音量
          */
         setVideoVolume: function (volume) {
             if (video.src) {
