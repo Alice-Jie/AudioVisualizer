@@ -10,7 +10,7 @@
       },
       "BG_Text": {
         "order": 1000,
-        "text": "<br/><h4>背景设置(Background Settings)</h4><span style='color:gray'>自定义背景，以及背景的填充方式</span><br/>",
+        "text": "<br/><h4><b>背景设置(Background Settings)</b></h4><span style='color:gray'>自定义背景，以及背景的填充方式</span><br/>",
         "type": "text"
       },
       "BG_mode": {
@@ -339,7 +339,7 @@
       },
       "global_Text": {
         "order": 2000,
-        "text": "<br/><h4>全局设置(Global Settings)</h4><span style='color:gray'>全局设置，影响音频圆环和时钟</span><br/>",
+        "text": "<br/><h4><b>全局设置(Global Settings)</b></h4><span style='color:gray'>全局设置，影响音频圆环和时钟</span><br/>",
         "type": "text"
       },
       "global_GlobalSettings": {
@@ -348,8 +348,14 @@
         "type": "bool",
         "value": true
       },
-      "global_opacity": {
+      "global_basicText": {
         "order": 2002,
+        "condition": "global_GlobalSettings.value == true",
+        "text": "<br/><b># 基本设置(Basic Settings)</b><br/>",
+        "type": "text"
+      },
+      "global_opacity": {
+        "order": 2003,
         "condition": "global_GlobalSettings.value == true",
         "text": "<br/>不透明度<br/>Opacity<br/>",
         "type": "slider",
@@ -359,21 +365,21 @@
         "value": 90
       },
       "global_color": {
-        "order": 2003,
+        "order": 2004,
         "condition": "global_GlobalSettings.value == true && global_isChangeColor.value == false",
         "text": "<br/>颜色<br/>Color<br/>",
         "type": "color",
         "value": "1 1 1"
       },
       "global_shadowColor": {
-        "order": 2004,
-        "condition": "global_GlobalSettings.value == true && global_isChangeBlur.value == false",
+        "order": 2005,
+        "condition": "global_GlobalSettings.value == true && (global_isChangeColor.value == false || global_isChangeBlur.value == false)",
         "text": "<br/>模糊颜色<br/>Blur Color<br/>",
         "type": "color",
         "value": "1 1 1"
       },
       "global_shadowBlur": {
-        "order": 2005,
+        "order": 2006,
         "condition": "global_GlobalSettings.value == true",
         "text": "<br/>模糊程度<br/>Blur Size<br/>",
         "type": "slider",
@@ -383,43 +389,49 @@
         "value": 0
       },
       "global_isChangeColor": {
-        "order": 2006,
+        "order": 2007,
         "condition": "global_GlobalSettings.value == true",
         "text": "<br/>颜色变换<br/>Color Transformation?<br/>",
         "type": "bool",
         "value": false
       },
       "global_isRandomColor": {
-        "order": 2007,
+        "order": 2008,
         "condition": "global_GlobalSettings.value == true && global_isChangeColor.value == true",
         "text": "<br/>随机颜色<br/>Random Color?<br/>",
         "type": "bool",
         "value": true
       },
       "global_firstColor": {
-        "order": 2008,
+        "order": 2009,
         "condition": "global_GlobalSettings.value == true && global_isChangeColor.value == true && global_isRandomColor.value == false",
         "text": "<br/>初始颜色<br/>Initial Color<br/>",
         "type": "color",
         "value": "1 1 1"
       },
       "global_secondColor": {
-        "order": 2009,
+        "order": 2010,
         "condition": "global_GlobalSettings.value == true && global_isChangeColor.value == true && global_isRandomColor.value == false",
         "text": "<br/>最终颜色<br/>Final Color<br/>",
         "type": "color",
         "value": "1 0 0"
       },
       "global_isChangeBlur": {
-        "order": 2010,
+        "order": 2011,
         "condition": "global_GlobalSettings.value == true && global_isChangeColor.value == true",
         "text": "<br/>绑定模糊颜色<br/>Bind Blurred Colors?<br/>",
         "type": "bool",
         "value": false
       },
+      "global_coordinateText": {
+        "order": 2012,
+        "condition": "global_GlobalSettings.value == true",
+        "text": "<br/><b># 坐标设置(Coordinate Settings)</b><br/>",
+        "type": "text"
+      },
       "global_offsetX": {
-        "order": 2011,
-        "condition": "global_GlobalSettings.value == true && global_isChangeColor.value == true",
+        "order": 2013,
+        "condition": "global_GlobalSettings.value == true",
         "text": "<br/>X轴偏移<br/>Center of Ring-X<br/>",
         "type": "slider",
         "editable": true,
@@ -428,7 +440,7 @@
         "value": 50
       },
       "global_offsetY": {
-        "order": 2012,
+        "order": 2014,
         "condition": "global_GlobalSettings.value == true",
         "text": "<br/>Y轴偏移<br/>Center of Ring-Y<br/>",
         "type": "slider",
@@ -438,18 +450,18 @@
         "value": 50
       },
       "global_isClickOffset": {
-        "order": 2013,
+        "order": 2015,
         "condition": "global_GlobalSettings.value == true",
         "text": "<br/>鼠标坐标偏移<br/>Mouse Coordinate Offset?<br/>",
         "type": "bool",
         "value": false
       },
-      "audio_AudioText": {
+      "circle_AudioText": {
         "order": 3000,
-        "text": "<br/><h4>音频设置(Audio Settings)</h4><span style='color:gray'>设置音频相关的参数</span><br/>",
+        "text": "<br/><h4><b>音频设置(Audio Settings)</b></h4><span style='color:gray'>设置音频相关的参数</span><br/>",
         "type": "text"
       },
-      "audio_amplitude": {
+      "circle_amplitude": {
         "order": 3001,
         "text": "<br/>音频振幅<br/>Audio Amplitude<br/>",
         "type": "slider",
@@ -458,7 +470,7 @@
         "min": 1,
         "value": 5
       },
-      "audio_decline": {
+      "circle_decline": {
         "order": 3002,
         "text": "<br/>音频衰弱<br/>Audio Decline<br/>",
         "type": "slider",
@@ -467,7 +479,7 @@
         "min": 0,
         "value": 20
       },
-      "audio_peak": {
+      "circle_peak": {
         "order": 3003,
         "text": "<br/>音频峰值<br/>Audio Peak<br/>",
         "type": "slider",
@@ -476,41 +488,41 @@
         "min": 1,
         "value": 15
       },
-      "audio_RingText": {
+      "circle_RingText": {
         "order": 3100,
-        "text": "<br/><h4>圆环设置(Ring Settings)</h4><span style='color:gray'>设置音频圆环相关的参数</span><br/>",
+        "text": "<br/><h4><b>圆环设置(Ring Settings)</b></h4><span style='color:gray'>设置音频圆环相关的参数</span><br/>",
         "type": "text"
       },
-      "audio_isRing": {
+      "circle_isRing": {
         "order": 3101,
         "text": "<br/>显示圆环<br/>Show Ring?<br/>",
         "type": "bool",
         "value": true
       },
-      "audio_isStaticRing": {
+      "circle_isStaticRing": {
         "order": 3102,
-        "condition": "audio_isRing.value == true",
+        "condition": "circle_isRing.value == true",
         "text": "<br/>显示静态圆环<br/>Show Static Ring?<br/>",
         "type": "bool",
         "value": false
       },
-      "audio_isInnerRing": {
+      "circle_isInnerRing": {
         "order": 3103,
-        "condition": "audio_isRing.value == true",
+        "condition": "circle_isRing.value == true",
         "text": "<br/>显示内圆环<br/>Show Inner Ring?<br/>",
         "type": "bool",
         "value": true
       },
-      "audio_isOuterRing": {
+      "circle_isOuterRing": {
         "order": 3104,
-        "condition": "audio_isRing.value == true",
+        "condition": "circle_isRing.value == true",
         "text": "<br/>显示外圆环<br/>Show Outer Ring?<br/>",
         "type": "bool",
         "value": true
       },
-      "audio_radius": {
+      "circle_radius": {
         "order": 3105,
-        "condition": "audio_isRing.value == true || audio_isLineTo.value == true",
+        "condition": "circle_isRing.value == true || circle_isLineTo.value == true",
         "text": "<br/>圆环半径<br/>Radius<br/>",
         "type": "slider",
         "editable": true,
@@ -518,9 +530,9 @@
         "min": 1,
         "value": 5
       },
-      "audio_ringRotation": {
+      "circle_ringRotation": {
         "order": 3106,
-        "condition": "audio_isRing.value == true || audio_isLineTo.value == true",
+        "condition": "circle_isRing.value == true || circle_isLineTo.value == true",
         "text": "<br/>旋转圆环<br/>Rotating Ring<br/>",
         "type": "slider",
         "editable": true,
@@ -528,7 +540,7 @@
         "min": -60,
         "value": 0
       },
-      "audio_milliSec": {
+      "circle_milliSec": {
         "order": 3107,
         "text": "<br/>重绘间隔<br/>Redraw Interval<br/>",
         "type": "slider",
@@ -537,9 +549,15 @@
         "min": 30,
         "value": 30
       },
-      "audio_opacity": {
+      "circle_basicText": {
         "order": 3200,
-        "condition": "global_GlobalSettings.value == false && (audio_isRing.value == true || audio_isLineTo.value == true || audio_isBall.value == true)",
+        "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true)",
+        "text": "<br/><b># 基本设置(Basic Settings)</b><br/>",
+        "type": "text"
+      },
+      "circle_opacity": {
+        "order": 3201,
+        "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true)",
         "text": "<br/>不透明度<br/>Opacity<br/>",
         "type": "slider",
         "editable": true,
@@ -547,23 +565,23 @@
         "min": 0,
         "value": 90
       },
-      "audio_color": {
-        "order": 3201,
-        "condition": "global_GlobalSettings.value == false && (audio_isRing.value == true || audio_isLineTo.value == true || audio_isBall.value == true)",
+      "circle_color": {
+        "order": 3202,
+        "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true)",
         "text": "<br/>颜色<br/>Color<br/>",
         "type": "color",
         "value": "1 1 1"
       },
-      "audio_shadowColor": {
+      "circle_shadowColor": {
         "order": 3203,
-        "condition": "global_GlobalSettings.value == false && (audio_isRing.value == true || audio_isLineTo.value == true || audio_isBall.value == true)",
+        "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true) && (circle_isChangeColor.value == false || circle_isChangeBlur.value == false)",
         "text": "<br/>模糊颜色<br/>Blur Color<br/>",
         "type": "color",
         "value": "1 1 1"
       },
-      "audio_shadowBlur": {
+      "circle_shadowBlur": {
         "order": 3204,
-        "condition": "global_GlobalSettings.value == false && (audio_isRing.value == true || audio_isLineTo.value == true || audio_isBall.value == true)",
+        "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true)",
         "text": "<br/>模糊程度<br/>Blur Size<br/>",
         "type": "slider",
         "editable": true,
@@ -571,44 +589,50 @@
         "min": 0,
         "value": 0
       },
-      "audio_isChangeColor": {
+      "circle_isChangeColor": {
         "order": 3205,
-        "condition": "global_GlobalSettings.value == false && (audio_isRing.value == true || audio_isLineTo.value == true || audio_isBall.value == true)",
+        "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true)",
         "text": "<br/>颜色变换<br/>Color Transformation?<br/>",
         "type": "bool",
         "value": false
       },
-      "audio_isRandomColor": {
+      "circle_isRandomColor": {
         "order": 3206,
-        "condition": "global_GlobalSettings.value == false && (audio_isRing.value == true || audio_isLineTo.value == true || audio_isBall.value == true) && audio_isChangeColor.value == true",
+        "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true) && circle_isChangeColor.value == true",
         "text": "<br/>随机颜色<br/>Random Color?<br/>",
         "type": "bool",
         "value": true
       },
-      "audio_firstColor": {
+      "circle_firstColor": {
         "order": 3207,
-        "condition": "global_GlobalSettings.value == false && (audio_isRing.value == true || audio_isLineTo.value == true || audio_isBall.value == true) && audio_isChangeColor.value == true && audio_isRandomColor.value == false",
+        "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true) && circle_isChangeColor.value == true && circle_isRandomColor.value == false",
         "text": "<br/>初始颜色<br/>Initial Color<br/>",
         "type": "color",
         "value": "1 1 1"
       },
-      "audio_secondColor": {
+      "circle_secondColor": {
         "order": 3208,
-        "condition": "global_GlobalSettings.value == false && (audio_isRing.value == true || audio_isLineTo.value == true || audio_isBall.value == true) && audio_isChangeColor.value == true && audio_isRandomColor.value == false",
+        "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true) && circle_isChangeColor.value == true && circle_isRandomColor.value == false",
         "text": "<br/>最终颜色<br/>Final Color<br/>",
         "type": "color",
         "value": "1 0 0"
       },
-      "audio_isChangeBlur": {
+      "circle_isChangeBlur": {
         "order": 3209,
-        "condition": "global_GlobalSettings.value == false && (audio_isRing.value == true || audio_isLineTo.value == true || audio_isBall.value == true) && audio_isChangeColor.value == true",
+        "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true) && circle_isChangeColor.value == true",
         "text": "<br/>绑定模糊颜色<br/>Bind Blurred Colors?<br/>",
         "type": "bool",
         "value": false
       },
-      "audio_offsetX": {
+      "circle_coordinateText": {
         "order": 3210,
-        "condition": "global_GlobalSettings.value == false && (audio_isRing.value == true || audio_isLineTo.value == true || audio_isBall.value == true)",
+        "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true)",
+        "text": "<br/><b># 坐标设置(Coordinate Settings)</b><br/>",
+        "type": "text"
+      },
+      "circle_offsetX": {
+        "order": 3211,
+        "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true)",
         "text": "<br/>X轴偏移<br/>Center of Ring-X<br/>",
         "type": "slider",
         "editable": true,
@@ -616,9 +640,9 @@
         "min": 0,
         "value": 50
       },
-      "audio_offsetY": {
-        "order": 3211,
-        "condition": "global_GlobalSettings.value == false && (audio_isRing.value == true || audio_isLineTo.value == true || audio_isBall.value == true)",
+      "circle_offsetY": {
+        "order": 3212,
+        "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true)",
         "text": "<br/>Y轴偏移<br/>Center of Ring-Y<br/>",
         "type": "slider",
         "editable": true,
@@ -626,27 +650,27 @@
         "min": 0,
         "value": 50
       },
-      "audio_isClickOffset": {
-        "order": 3212,
-        "condition": "global_GlobalSettings.value == false && (audio_isRing.value == true || audio_isLineTo.value == true || audio_isBall.value == true)",
+      "circle_isClickOffset": {
+        "order": 3213,
+        "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true)",
         "text": "<br/>鼠标坐标偏移<br/>Mouse Coordinate Offset?<br/>",
         "type": "bool",
         "value": false
       },
-      "audio_LineText": {
+      "circle_LineText": {
         "order": 3300,
-        "text": "<br/><h4>线条设置(Line Settings)</h4><span style='color:gray'>设置线条相关的参数</span><br/>",
+        "text": "<br/><b># 线条设置(Line Settings)</b><br/>",
         "type": "text"
       },
-      "audio_isLineTo": {
+      "circle_isLineTo": {
         "order": 3301,
         "text": "<br/>显示连线<br/>Show Line?<br/>",
         "type": "bool",
         "value": false
       },
-      "audio_firstPoint": {
+      "circle_firstPoint": {
         "order": 3302,
-        "condition": "audio_isLineTo.value == true",
+        "condition": "circle_isLineTo.value == true",
         "text": "<br/>第一点<br/>First Point<br/>",
         "type": "combo",
         "options": [
@@ -665,9 +689,9 @@
         ],
         "value": 2
       },
-      "audio_secondPoint": {
+      "circle_secondPoint": {
         "order": 3304,
-        "condition": "audio_isLineTo.value == true",
+        "condition": "circle_isLineTo.value == true",
         "text": "<br/>第二点<br/>Second Point<br/>",
         "type": "combo",
         "options": [
@@ -686,19 +710,19 @@
         ],
         "value": 3
       },
-      "audio_pointNum": {
+      "circle_pointNum": {
         "order": 3305,
-        "condition": "audio_isRing.value == true || audio_isLineTo.value == true",
-        "text": "<br/>点的数量<br/>Point Number<br/>",
+        "condition": "circle_isRing.value == true || circle_isLineTo.value == true",
+        "text": "<br/>点的数量<br/>Number of Points<br/>",
         "type": "slider",
         "editable": true,
         "max": 120,
         "min": 3,
         "value": 120
       },
-      "audio_innerDistance": {
+      "circle_innerDistance": {
         "order": 3306,
-        "condition": "audio_isRing.value == true || audio_isLineTo.value == true",
+        "condition": "circle_isRing.value == true || circle_isLineTo.value == true",
         "text": "<br/>内环距离<br/>Inner Distance<br/>",
         "type": "slider",
         "editable": true,
@@ -706,9 +730,9 @@
         "min": -250,
         "value": 0
       },
-      "audio_outerDistance": {
+      "circle_outerDistance": {
         "order": 3307,
-        "condition": "audio_isRing.value == true || audio_isLineTo.value == true",
+        "condition": "circle_isRing.value == true || circle_isLineTo.value == true",
         "text": "<br/>外环距离<br/>Outer Distance<br/>",
         "type": "slider",
         "editable": true,
@@ -716,9 +740,9 @@
         "min": -250,
         "value": 0
       },
-      "audio_lineWidth": {
+      "circle_lineWidth": {
         "order": 3308,
-        "condition": "audio_isRing.value == true || audio_isLineTo.value == true",
+        "condition": "circle_isRing.value == true || circle_isLineTo.value == true",
         "text": "<br/>线条粗细<br/>Line Width<br/>",
         "type": "slider",
         "editable": true,
@@ -726,20 +750,20 @@
         "min": 1,
         "value": 5
       },
-      "audio_BallText": {
+      "circle_BallText": {
         "order": 3309,
-        "text": "<br/><h4>小球设置(Ball Settings)</h4><span style='color:gray'>设置小球相关的参数</span><br/>",
+        "text": "<br/><b># 小球设置(Ball Settings)</b><br/>",
         "type": "text"
       },
-      "audio_isBall": {
+      "circle_isBall": {
         "order": 3400,
         "text": "<br/>显示小球<br/>Show Ball?<br/>",
         "type": "bool",
         "value": true
       },
-      "audio_ballSpacer": {
+      "circle_ballSpacer": {
         "order": 3401,
-        "condition": "audio_isBall.value == true",
+        "condition": "circle_isBall.value == true",
         "text": "<br/>小球间隔<br/>Ball Spacer<br/>",
         "type": "slider",
         "editable": true,
@@ -747,9 +771,9 @@
         "min": 1,
         "value": 4
       },
-      "audio_ballDistance": {
+      "circle_ballDistance": {
         "order": 3405,
-        "condition": "audio_isBall.value == true",
+        "condition": "circle_isBall.value == true",
         "text": "<br/>小球距离<br/>Ball Distance<br/>",
         "type": "slider",
         "editable": true,
@@ -757,9 +781,9 @@
         "min": -250,
         "value": 50
       },
-      "audio_ballSize": {
+      "circle_ballSize": {
         "order": 3406,
-        "condition": "audio_isBall.value == true",
+        "condition": "circle_isBall.value == true",
         "text": "<br/>小球大小<br/>Ball Size<br/>",
         "type": "slider",
         "editable": true,
@@ -767,9 +791,9 @@
         "min": 1,
         "value": 3
       },
-      "audio_ballRotation": {
+      "circle_ballRotation": {
         "order": 3407,
-        "condition": "audio_isBall.value == true",
+        "condition": "circle_isBall.value == true",
         "text": "<br/>旋转小球<br/>Rotating Ball<br/>",
         "type": "slider",
         "editable": true,
@@ -777,19 +801,225 @@
         "min": -60,
         "value": 0
       },
-      "date_Text": {
+      "bars_barsText": {
         "order": 4000,
-        "text": "<br/><h4>日期设置(Date Settings)</h4><span style='color:gray'>设置日期相关的参数</span><br/>",
+        "text": "<br/><h4><b>条形设置(Bars Settings)</b></h4><span style='color:gray'>设置音频条形相关的参数</span><br/>",
+        "type": "text"
+      },
+      "bars_isBars": {
+        "order": 4001,
+        "text": "<br/>显示条形<br/>Show Bars?<br/>",
+        "type": "bool",
+        "value": false
+      },
+      "bars_isLineTo": {
+        "order": 4002,
+        "text": "<br/>显示连线<br/>Show Line?<br/>",
+        "type": "bool",
+        "value": false
+      },
+      "bars_width": {
+        "order": 4003,
+        "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
+        "text": "<br/>宽度<br/>Width<br/>",
+        "type": "slider",
+        "editable": true,
+        "max": 10,
+        "min": 1,
+        "value": 5
+      },
+      "bars_height": {
+        "order": 4004,
+        "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
+        "text": "<br/>高度<br/>Height<br/>",
+        "type": "slider",
+        "editable": true,
+        "max": 10,
+        "min": 0,
+        "value": 2
+      },
+      "bars_pointNum": {
+        "order": 4005,
+        "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
+        "text": "<br/>点的数量<br/>Number of Points<br/>",
+        "type": "slider",
+        "editable": true,
+        "max": 120,
+        "min": 3,
+        "value": 120
+      },
+      "bars_barsRotation": {
+        "order": 4006,
+        "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
+        "text": "<br/>旋转条形<br/>Rotating Bars<br/>",
+        "type": "slider",
+        "editable": true,
+        "max": 180,
+        "min": -180,
+        "value": 0
+      },
+      "bars_barsDirection": {
+        "order": 4007,
+        "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
+        "text": "<br/>条形方向<br/>Bars Direction<br/>",
+        "type": "combo",
+        "options": [
+          {
+            "label": "向上条形/Upper Bars",
+            "value": 1
+          },
+          {
+            "label": "向下条形/Lower Bars",
+            "value": 2
+          },
+          {
+            "label": "双向条形/Two Bars",
+            "value": 3
+          }
+        ],
+        "value": 3
+      },
+      "bars_lineWidth": {
+        "order": 4008,
+        "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
+        "text": "<br/>线条粗细<br/>Line Width<br/>",
+        "type": "slider",
+        "editable": true,
+        "max": 10,
+        "min": 1,
+        "value": 5
+      },
+      "bars_milliSec": {
+        "order": 4009,
+        "text": "<br/>重绘间隔<br/>Redraw Interval<br/>",
+        "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
+        "type": "slider",
+        "editable": true,
+        "max": 150,
+        "min": 30,
+        "value": 30
+      },
+      "bars_basicText": {
+        "order": 4100,
+        "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
+        "text": "<br/><b># 基本设置(Basic Settings)</b><br/>",
+        "type": "text"
+      },
+      "bars_opacity": {
+        "order": 4101,
+        "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
+        "text": "<br/>不透明度<br/>Opacity<br/>",
+        "type": "slider",
+        "editable": true,
+        "max": 100,
+        "min": 0,
+        "value": 90
+      },
+      "bars_color": {
+        "order": 4102,
+        "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
+        "text": "<br/>颜色<br/>Color<br/>",
+        "type": "color",
+        "value": "1 1 1"
+      },
+      "bars_shadowColor": {
+        "order": 4105,
+        "condition": "(bars_isBars.value == true || bars_isLineTo.value == true) && (bars_isChangeColor.value == false || bars_isChangeBlur.value == false)",
+        "text": "<br/>模糊颜色<br/>Blur Color<br/>",
+        "type": "color",
+        "value": "1 1 1"
+      },
+      "bars_shadowBlur": {
+        "order": 4106,
+        "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
+        "text": "<br/>模糊程度<br/>Blur Size<br/>",
+        "type": "slider",
+        "editable": true,
+        "max": 10,
+        "min": 0,
+        "value": 0
+      },
+      "bars_isChangeColor": {
+        "order": 4107,
+        "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
+        "text": "<br/>颜色变换<br/>Color Transformation?<br/>",
+        "type": "bool",
+        "value": false
+      },
+      "bars_isRandomColor": {
+        "order": 4108,
+        "condition": "(bars_isBars.value == true || bars_isLineTo.value == true) && bars_isChangeColor.value == true",
+        "text": "<br/>随机颜色<br/>Random Color?<br/>",
+        "type": "bool",
+        "value": true
+      },
+      "bars_firstColor": {
+        "order": 4109,
+        "condition": "(bars_isBars.value == true || bars_isLineTo.value == true) && bars_isChangeColor.value == true && bars_isRandomColor.value == false",
+        "text": "<br/>初始颜色<br/>Initial Color<br/>",
+        "type": "color",
+        "value": "1 1 1"
+      },
+      "bars_secondColor": {
+        "order": 4110,
+        "condition": "(bars_isBars.value == true || bars_isLineTo.value == true) && bars_isChangeColor.value == true && bars_isRandomColor.value == false",
+        "text": "<br/>最终颜色<br/>Final Color<br/>",
+        "type": "color",
+        "value": "1 0 0"
+      },
+      "bars_isChangeBlur": {
+        "order": 4111,
+        "condition": "(bars_isBars.value == true || bars_isLineTo.value == true) && bars_isChangeColor.value == true",
+        "text": "<br/>绑定模糊颜色<br/>Bind Blurred Colors?<br/>",
+        "type": "bool",
+        "value": false
+      },
+      "bars_coordinateText": {
+        "order": 4112,
+        "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
+        "text": "<br/><b># 坐标设置(Coordinate Settings)</b><br/>",
+        "type": "text"
+      },
+      "bars_offsetX": {
+        "order": 4113,
+        "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
+        "text": "<br/>X轴偏移<br/>Center of Ring-X<br/>",
+        "type": "slider",
+        "editable": true,
+        "max": 100,
+        "min": 0,
+        "value": 50
+      },
+      "bars_offsetY": {
+        "order": 4114,
+        "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
+        "text": "<br/>Y轴偏移<br/>Center of Ring-Y<br/>",
+        "type": "slider",
+        "editable": true,
+        "max": 100,
+        "min": 0,
+        "value": 90
+      },
+      "bars_isClickOffset": {
+        "order": 4115,
+        "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
+        "text": "<br/>鼠标坐标偏移<br/>Mouse Coordinate Offset?<br/>",
+        "type": "bool",
+        "value": false
+      },
+      "date_Text": {
+        "order": 5000,
+        "text": "<br/><h4><b>日期设置(Date Settings)</b></h4><span style='color:gray'>设置日期相关的参数</span><br/>",
         "type": "text"
       },
       "date_isDate": {
-        "order": 4001,
+        "order": 5001,
         "text": "<br/>显示日期<br/>Show Date?<br/>",
         "type": "bool",
         "value": true
       },
       "date_language": {
-        "order": 4002,
+        "order": 5002,
         "condition": "date_isDate.value == true",
         "text": "<br/>日期语言<br/>Date Language<br/>",
         "type": "combo",
@@ -1078,7 +1308,7 @@
         "value": 55
       },
       "date_timeStyle": {
-        "order": 4003,
+        "order": 5003,
         "condition": "date_isDate.value == true",
         "text": "<br/>时间风格<br/>Time Style<br/>",
         "type": "combo",
@@ -1119,7 +1349,7 @@
         "value": 1
       },
       "date_dateStyle": {
-        "order": 4004,
+        "order": 5004,
         "condition": "date_isDate.value == true",
         "text": "<br/>日期风格<br/>Date Style<br/>",
         "type": "combo",
@@ -1160,13 +1390,13 @@
         "value": 2
       },
       "date_weatherText": {
-        "order": 4005,
+        "order": 5005,
         "condition": "date_isDate.value == true && date_dateStyle.value == 8",
-        "text": "<br/><h4>天气设置</h4><span style='color:gray'>显示你所在城市的天气信息</span><br/><span style='color:gray'>Be confined only to Chinese cities</span><br/>",
+        "text": "<br/><b># 天气设置(Weather Settings)</b><br/>",
         "type": "text"
       },
       "date_weatherProvider": {
-        "order": 4006,
+        "order": 5006,
         "condition": "date_isDate.value == true && date_dateStyle.value == 8",
         "text": "<br/>天气提供者：<br/><br/>",
         "type": "combo",
@@ -1187,21 +1417,21 @@
         "value": 3
       },
       "directory_isInputCity": {
-        "order": 4007,
+        "order": 5007,
         "condition": "date_isDate.value == true && date_dateStyle.value == 8",
         "text": "<br/>查询城市天气？<br/><br/>",
         "type": "bool",
         "value": false
       },
       "date_city": {
-        "order": 4008,
+        "order": 5008,
         "condition": "date_isDate.value == true && date_dateStyle.value == 8 && directory_isInputCity.value == true",
         "text": "中国城市名：",
         "type": "textinput",
         "value": ""
       },
       "date_fontSize": {
-        "order": 4009,
+        "order": 5009,
         "condition": "date_isDate.value == true",
         "text": "<br/>字体大小<br/>Font Size<br/>",
         "type": "slider",
@@ -1211,7 +1441,7 @@
         "value": 60
       },
       "date_timeFontSize": {
-        "order": 4010,
+        "order": 5010,
         "condition": "date_isDate.value == true",
         "text": "<br/>时间字体大小<br/>Time Font Size<br/>",
         "type": "slider",
@@ -1221,7 +1451,7 @@
         "value": 60
       },
       "date_dateFontSize": {
-        "order": 4011,
+        "order": 5011,
         "condition": "date_isDate.value == true",
         "text": "<br/>日期字体大小<br/>Date Font Size<br/>",
         "type": "slider",
@@ -1231,7 +1461,7 @@
         "value": 30
       },
       "date_distance": {
-        "order": 4012,
+        "order": 5012,
         "condition": "date_isDate.value == true",
         "text": "<br/>距离<br/>Distance<br/>",
         "type": "slider",
@@ -1240,8 +1470,14 @@
         "min": 0,
         "value": 0
       },
+      "date_basicText": {
+        "order": 5100,
+        "condition": "global_GlobalSettings.value == false && date_isDate.value == true",
+        "text": "<br/><b># 基本设置(Basic Settings)</b><br/>",
+        "type": "text"
+      },
       "date_opacity": {
-        "order": 4100,
+        "order": 5101,
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true",
         "text": "<br/>不透明度<br/>Opacity<br/>",
         "type": "slider",
@@ -1251,21 +1487,21 @@
         "value": 90
       },
       "date_color": {
-        "order": 4101,
+        "order": 5102,
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true",
         "text": "<br/>颜色<br/>Color<br/>",
         "type": "color",
         "value": "1 1 1"
       },
       "date_shadowColor": {
-        "order": 4102,
-        "condition": "global_GlobalSettings.value == false && date_isDate.value == true",
+        "order": 5103,
+        "condition": "global_GlobalSettings.value == false && date_isDate.value == true && (date_isChangeColor.value == false || date_isChangeBlur.value == false)",
         "text": "<br/>模糊颜色<br/>Blur Color<br/>",
         "type": "color",
         "value": "1 1 1"
       },
       "date_shadowBlur": {
-        "order": 4103,
+        "order": 5104,
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true",
         "text": "<br/>模糊程度<br/>Blur Size<br/>",
         "type": "slider",
@@ -1275,42 +1511,48 @@
         "value": 0
       },
       "date_isChangeColor": {
-        "order": 4104,
+        "order": 5105,
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true",
         "text": "<br/>颜色变换<br/>Color Transformation?<br/>",
         "type": "bool",
         "value": false
       },
       "date_isRandomColor": {
-        "order": 4105,
+        "order": 5106,
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true && date_isChangeColor.value == true",
         "text": "<br/>随机颜色<br/>Random Color?<br/>",
         "type": "bool",
         "value": true
       },
       "date_firstColor": {
-        "order": 4106,
+        "order": 5107,
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true && date_isChangeColor.value == true && date_isRandomColor.value == false",
         "text": "<br/>初始颜色<br/>Initial Color<br/>",
         "type": "color",
         "value": "1 1 1"
       },
       "date_secondColor": {
-        "order": 4107,
+        "order": 5108,
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true && date_isChangeColor.value == true && date_isRandomColor.value == false",
         "text": "<br/>最终颜色<br/>Final Color<br/>",
         "type": "color",
         "value": "1 0 0"
       },
       "date_isChangeBlur": {
-        "order": 4108,
+        "order": 5109,
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true && date_isChangeColor.value == true",
         "text": "<br/>绑定模糊颜色<br/>Bind Blurred Colors?<br/>",
         "type": "bool",
         "value": false
       },
+      "date_coordinateText": {
+        "order": 5110,
+        "condition": "global_GlobalSettings.value == false && date_isDate.value == true",
+        "text": "<br/><b># 坐标设置(Coordinate Settings)</b><br/>",
+        "type": "text"
+      },
       "date_offsetX": {
-        "order": 4109,
+        "order": 5111,
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true",
         "text": "<br/>X轴偏移<br/>Center of Ring-X<br/>",
         "type": "slider",
@@ -1320,7 +1562,7 @@
         "value": 50
       },
       "date_offsetY": {
-        "order": 4110,
+        "order": 5112,
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true",
         "text": "<br/>Y轴偏移<br/>Center of Ring-Y<br/>",
         "type": "slider",
@@ -1330,25 +1572,25 @@
         "value": 50
       },
       "date_isClickOffset": {
-        "order": 4111,
+        "order": 5113,
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true",
         "text": "<br/>鼠标坐标偏移<br/>Mouse Coordinate Offset?<br/>",
         "type": "bool",
         "value": false
       },
       "particles_Text": {
-        "order": 5000,
-        "text": "<br/><h4>粒子设置(Particles Settings)</h4><span style='color:gray'>设置粒子相关的参数</span><br/>",
+        "order": 6000,
+        "text": "<br/><h4><b>粒子设置(Particles Settings)</b></h4><span style='color:gray'>设置粒子相关的参数</span><br/>",
         "type": "text"
       },
       "particles_isParticles": {
-        "order": 5001,
+        "order": 6001,
         "text": "<br/>开启粒子效果<br/>Show Particles?<br/>",
         "type": "bool",
         "value": false
       },
       "particles_number": {
-        "order": 5004,
+        "order": 6004,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>粒子数量<br/>Particles Number<br/>",
         "type": "slider",
@@ -1358,7 +1600,7 @@
         "value": 100
       },
       "particles_opacity": {
-        "order": 5005,
+        "order": 6005,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>粒子不透明度<br/>Particles Opacity<br/>",
         "type": "slider",
@@ -1368,28 +1610,28 @@
         "value": 75
       },
       "particles_opacityRandom": {
-        "order": 5006,
+        "order": 6006,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>随机不透明度<br/>Opacity Random?<br/>",
         "type": "bool",
         "value": true
       },
       "particles_color": {
-        "order": 5007,
+        "order": 6007,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>粒子颜色<br/>Particles Color<br/>",
         "type": "color",
         "value": "1 1 1"
       },
       "particles_shadowColor": {
-        "order": 5008,
+        "order": 6008,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>粒子模糊颜色<br/>Particles Blur Color<br/>",
         "type": "color",
         "value": "1 1 1"
       },
       "particles_shadowBlur": {
-        "order": 5009,
+        "order": 6009,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>粒子模糊程度<br/>Particles Blur Size<br/>",
         "type": "slider",
@@ -1399,7 +1641,7 @@
         "value": 0
       },
       "particles_shapeType": {
-        "order": 5010,
+        "order": 6010,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>粒子形状<br/>Particles Shape Type<br/>",
         "type": "combo",
@@ -1428,13 +1670,13 @@
         "value": 1
       },
       "particles_image": {
-        "order": 5011,
+        "order": 6011,
         "condition": "particles_isParticles.value == true && particles_shapeType.value == 5",
         "text": "<br/>粒子图片<br/>Particles Img<br/>",
         "type": "file"
       },
       "particles_rotationAngle": {
-        "order": 5012,
+        "order": 6012,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>粒子旋转角度<br/>Rotation Angle<br/>",
         "type": "slider",
@@ -1444,14 +1686,14 @@
         "value": 0
       },
       "particles_angleRandom": {
-        "order": 5013,
+        "order": 6013,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>随机角度<br/>Angle Random?<br/>",
         "type": "bool",
         "value": true
       },
       "particles_sizeValue": {
-        "order": 5014,
+        "order": 6014,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>粒子大小<br/>Particles Size Value<br/>",
         "type": "slider",
@@ -1461,28 +1703,28 @@
         "value": 5
       },
       "particles_sizeRandom": {
-        "order": 5015,
+        "order": 6015,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>随机大小<br/>Size Random?<br/>",
         "type": "bool",
         "value": true
       },
       "particles_linkEnable": {
-        "order": 5016,
+        "order": 6016,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>显示连线<br/>Show Line?<br/>",
         "type": "bool",
         "value": false
       },
       "particles_mouseInteraction": {
-        "order": 5017,
+        "order": 6017,
         "condition": "particles_isParticles.value == true && particles_linkEnable.value == true",
         "text": "<br/>鼠标交互？<br/>Mouse interaction?<br/>",
         "type": "bool",
         "value": false
       },
       "particles_linkDistance": {
-        "order": 5018,
+        "order": 6018,
         "condition": "particles_isParticles.value == true && particles_linkEnable.value == true",
         "text": "<br/>连线距离<br/>Line Distance<br/>",
         "type": "slider",
@@ -1492,7 +1734,7 @@
         "value": 100
       },
       "particles_linkWidth": {
-        "order": 5019,
+        "order": 6019,
         "condition": "particles_isParticles.value == true && particles_linkEnable.value == true",
         "text": "<br/>连线宽度<br/>Line Width<br/>",
         "type": "slider",
@@ -1502,14 +1744,14 @@
         "value": 2
       },
       "particles_linkColor": {
-        "order": 5020,
+        "order": 6020,
         "condition": "particles_isParticles.value == true && particles_linkEnable.value == true",
         "text": "<br/>连线颜色<br/>Line Color<br/>",
         "type": "color",
         "value": "1 1 1"
       },
       "particles_linkOpacity": {
-        "order": 5021,
+        "order": 6021,
         "condition": "particles_isParticles.value == true && particles_linkEnable.value == true",
         "text": "<br/>连线不透明度<br/>Line Opacity<br/>",
         "type": "slider",
@@ -1519,14 +1761,14 @@
         "value": 75
       },
       "particles_isMove": {
-        "order": 5022,
+        "order": 6022,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>是否移动<br/>Particles Move?<br/>",
         "type": "bool",
         "value": true
       },
       "particles_speed": {
-        "order": 5023,
+        "order": 6023,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>粒子速度<br/>Particles Speed<br/>",
         "type": "slider",
@@ -1536,14 +1778,14 @@
         "value": 10
       },
       "particles_speedRandom": {
-        "order": 5024,
+        "order": 6024,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>随机速度<br/>Speed Random?<br/>",
         "type": "bool",
         "value": true
       },
       "particles_direction": {
-        "order": 5025,
+        "order": 6025,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>粒子方向<br/>Direction of Particles<br/>",
         "type": "combo",
@@ -1588,21 +1830,21 @@
         "value": 4
       },
       "particles_isStraight": {
-        "order": 5026,
+        "order": 6026,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>笔直移动<br/>Move Straight?<br/>",
         "type": "bool",
         "value": false
       },
       "particles_isBounce": {
-        "order": 5027,
+        "order": 6027,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>粒子反弹<br/>is Bounce?<br/>",
         "type": "bool",
         "value": false
       },
       "particles_moveOutMode": {
-        "order": 5028,
+        "order": 6028,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>离屏模式<br/>Move Out Mode<br/>",
         "type": "combo",

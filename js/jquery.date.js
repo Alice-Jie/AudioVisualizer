@@ -519,7 +519,7 @@
                     let y = e.clientY;
                     that.offsetX = x / canvasWidth;
                     that.offsetY = y / canvasHeight;
-                    that.drawDate();
+                    that.drawCanvas();
                 }
             });
 
@@ -641,7 +641,7 @@
         set: function (property, value) {
             switch (property) {
                 case 'opacity':
-                    $(canvas).css(property, value);
+                    $(canvas).css('opacity', value);
                     break;
                 case 'color':
                     context.fillStyle = 'rgb(' + value + ')';
@@ -662,16 +662,16 @@
                     this[property] = value;
                     break;
                 case 'isChangeColor':
-                    this[property] = value;
+                    this.isChangeColor = value;
                     this.isChangeColor ? milliSec = 30 : milliSec = 1000;
                     this.runDateTimer();
                     break;
                 case 'firstColor':
-                    this[property] = value;
+                    this.firstColor = value;
                     setColorObj(color1, value);
                     break;
                 case 'secondColor':
-                    this[property] = value;
+                    this.secondColor = value;
                     setColorObj(color2, value);
                     break;
                 case 'weatherProvider':
@@ -679,8 +679,6 @@
                     this[property] = value;
                     this.updateWeather();
                     break;
-                case 'offsetX':
-                case 'offsetY':
                 case 'isDate':
                 case 'timeStyle':
                 case 'dateStyle':
@@ -689,6 +687,11 @@
                 case 'distance':
                     this[property] = value;
                     this.drawDate();
+                    break;
+                case 'offsetX':
+                case 'offsetY':
+                    this[property] = value;
+                    this.drawCanvas();
                     break;
                 case 'language':
                     moment.lang(value);

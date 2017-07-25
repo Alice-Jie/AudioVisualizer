@@ -1569,6 +1569,7 @@
                 } else {
                     video.src = videoList[0] || 'video/test.webm';
                 }
+                video.load();
             }
         },
 
@@ -1687,23 +1688,23 @@
                     this[property] = value;
                     break;
                 case 'sliderStyle':
-                    this[property] = value;
+                    this.sliderStyle = value;
                     this.changeSliderStyle();
                     break;
                 case 'progress':
-                    this[property] = value;
+                    this.progress = value;
                     this.setVideoProgress(this[property]);
                     break;
                 case 'isPlay':
-                    this[property] = value;
+                    this.isPlay = value;
                     this.isPlay ? this.playVideo() : this.pauseVideo();
                     break;
                 case 'volume':
-                    this[property] = value;
+                    this.volume = value;
                     this.setVideoVolume(this.volume);
                     break;
                 case 'isRotate3D':
-                    this[property] = value;
+                    this.isRotate3D = value;
                     this.isRotate3D || this.stopSliderRotate3D();
                     break;
             }

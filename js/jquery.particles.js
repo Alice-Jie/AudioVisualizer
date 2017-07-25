@@ -964,7 +964,7 @@
                     this[property] = value;
                     break;
                 case 'densityArea':
-                    this[property] = value;
+                    this.densityArea = value;
                     this.densityAutoParticles();
                     break;
                 case 'color':

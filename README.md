@@ -4,31 +4,31 @@
 一个在Wallpaper Engine创意工坊上的开源项目:
 http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
 
-目前Circle Audio Visualizer使用了4个jquery插件，分别是`jquery.audiovisualizer`、`jquery.date`、`juqery.slider`和`jquery.particles`。
+目前Circle Audio Visualizer使用了4个jquery插件，分别是`jquery.audiovisualizer.bars`、`jquery.audiovisualizer.circle`、`jquery.date`、`juqery.slider`和`jquery.particles`。
 
-audiovisualizer插件
+visualizercircle插件
 ---
 
 #### 说明：
-audiovisualizer插件用于创建一个canvas,并绘制一个音频圆环。从`wallpaperAudioListener`接收音频数组`audioArray`，并根据`audioArray`绘制音频圆环。
+visualizercircle插件用于创建一个canvas,并绘制一个音频圆环。从`wallpaperAudioListener`接收音频数组`audioArray`，并根据`audioArray`绘制音频圆环。
 
 如果你不知道`wallpaperAudioListener`，请点击：[Advanced: Web audio visualizer](http://steamcommunity.com/sharedfiles/filedetails/?id=786006047)
 
 
 #### 使用：
 
-初始化audiovisualizer插件如下：
+初始化visualizercircle插件如下：
 
 
 ```javascript
-    $(selector).audiovisualizer();
+    $(selector).visualizercircle();
 ```
 
-你也可以传递一些参数初始化audiovisualizer插件(具体参数详见参数列表):
+你也可以传递一些参数初始化visualizercircle插件(具体参数详见参数列表):
 
 
 ```javascript
-    $(selector).audiovisualizer({
+    $(selector).visualizercircle({
         opacity: ...,
         color: ...,
         ...
@@ -79,11 +79,11 @@ ballRotation | int | 0 | 旋转音频小球，负数为逆时针旋转，正数�
 
 **clearCanvas：**
 
-调用`$(selector).audiovisualizer('clearCanvas');`清除canvas内容。
+调用`$(selector).visualizercircle('clearCanvas');`清除canvas内容。
 
 **updateAudioVisualizer：**
 
-调用`$(selector).audiovisualizer('updateAudioVisualizer', audioArray);`更新音频圆环参数。
+调用`$(selector).visualizercircle('updateAudioVisualizer', audioArray);`更新音频圆环参数。
 
 参数类型 | 参数名 | 参数描述
 ---------|--------|----------
@@ -91,11 +91,11 @@ Array<float> | audioSamples | 音频数组
 
 **drawAudioVisualizer：**
 
-调用`$(selector).audiovisualizer('drawAudioVisualizer');`绘制音频圆环和音频小球
+调用`$(selector).visualizercircle('drawAudioVisualizer');`绘制音频圆环和音频小球
 
 **drawCanvas：**
 
-调用`$(selector).audiovisualizer('drawCanvas', audioArray);`根据音频数组绘制音频圆环和音频小球
+调用`$(selector).visualizercircle('drawCanvas', audioArray);`根据音频数组绘制音频圆环和音频小球
 
 参数类型 | 参数名 | 参数描述
 ---------|--------|----------
@@ -103,19 +103,19 @@ Array<float> | audioSamples | 音频数组
 
 **stopAudioVisualizerTimer：**
 
-调用`$(selector).audiovisualizer('stopAudioVisualizerTimer');`停止音频圆环计时器
+调用`$(selector).visualizercircle('stopAudioVisualizerTimer');`停止音频圆环计时器
 
 **startAudioVisualizerTimer：**
 
-调用`$(selector).audiovisualizer('runAudioVisualizerTimer');`开始音频圆环计时器
+调用`$(selector).visualizercircle('runAudioVisualizerTimer');`开始音频圆环计时器
 
 **destroy：**
 
-调用`$(selector).audiovisualizer('destroy');`销毁音频圆环所在canvas
+调用`$(selector).visualizercircle('destroy');`销毁音频圆环所在canvas
 
 **set：**
 
-调用`$(selector).audiovisualizer('set', property, value);`设置audiovisualizer插件相关参数，具体参数详见参数列表。
+调用`$(selector).visualizercircle('set', property, value);`设置visualizercircle插件相关参数，具体参数详见参数列表。
 
 参数类型 | 参数名 | 参数描述
 ---------|--------|----------
@@ -125,10 +125,10 @@ string | property | 属性名
 #### 使用wallpaper音频监视器：
 
 ```javascript
-    $('body').audiovisualizer({});
+    $('body').visualizercircle({});
 
     function wallpaperAudioListener(audioArray) {
-        wallpaper.audiovisualizer('drawCanvas', audioArray);
+        wallpaper.visualizercircle('drawCanvas', audioArray);
     }
 
     window.wallpaperRegisterAudioListener && window.wallpaperRegisterAudioListener(wallpaperAudioListener);

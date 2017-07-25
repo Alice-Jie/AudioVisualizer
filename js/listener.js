@@ -2,7 +2,7 @@
  * 监视器区域
  * project:
  * - https://github.com/Alice-Jie/4K-Circle-Audio-Visualizer
- * - https://git.oschina.net/Alice_Jie/circleaudiovisualizer
+ * - https://git.oschina.net/Alice_Jie/circlevisualizercircle
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
@@ -17,7 +17,8 @@
     //--------------------------------------------------------------------------------------------------------------
 
     // 临时储存变量
-    let redrawInterval = 30;        // 音频圆环重绘间隔(ms)
+    let circleRedraw = 30;          // 音频圆环重绘间隔(ms)
+    let barsRedraw = 30;            // 音频条形重绘间隔(ms)
     let files = {};                 // 文件路径对象
 
     // 背景模式变量
@@ -62,6 +63,23 @@
         offsetY: 0.5,                // Y坐标偏移
         isClickOffset: false         // 鼠标坐标偏移
     };
+    let bars = {
+        // 全局参数
+        opacity: 0.90,               // 不透明度
+        color: '255,255,255',        // 颜色
+        shadowColor: '255,255,255',  // 阴影颜色
+        shadowBlur: 15,              // 模糊大小
+        // 颜色变换参数
+        isChangeColor: false,
+        isRandomColor: true,
+        firstColor: '255,255,255',
+        secondColor: '255,0,0',
+        isChangeBlur: false,
+        // 坐标参数
+        offsetX: 0.5,                // X坐标偏移
+        offsetY: 0.9,                // Y坐标偏移
+        isClickOffset: false         // 鼠标坐标偏移
+    };
     let date = {
         // 全局参数
         opacity: 0.90,               // 不透明度
@@ -81,7 +99,7 @@
     };
 
     // 插件列表
-    let wallpaper = $('#wallpaper').audiovisualizer({}).date({}).particles({}).slider({});
+    let wallpaper = $('#wallpaper').visualizercircle().visualizerbars().date().particles().slider();
 
     // 定义方法
     //--------------------------------------------------------------------------------------------------------------
@@ -268,6 +286,23 @@
                 return 'innerRing';
             case 3:
                 return 'outerRing';
+        }
+    }
+
+    /**
+     * 设置音频条形
+     *
+     * @param  {int} n 音频条形对应值
+     * @return {string} 音频圆环标识串
+     */
+    function setBarsDirection(n) {
+        switch (n) {
+            case 1:
+                return 'upper bars';
+            case 2:
+                return 'lower bars';
+            case 3:
+                return 'two bars';
         }
     }
 
@@ -639,12 +674,17 @@
      * @param {Array<float>} audioArray 音频数组
      */
     function wallpaperAudioListener(audioArray) {
-        if (redrawInterval === 30) {
-            wallpaper.audiovisualizer('drawCanvas', audioArray);
-        } else {
-            wallpaper.audiovisualizer('updateAudioVisualizer', audioArray);
-        }
         wallpaper.date('updateDate');
+        if (circleRedraw === 30) {
+            wallpaper.visualizercircle('drawCanvas', audioArray);
+        } else {
+            wallpaper.visualizercircle('updateVisualizerCircle', audioArray);
+        }
+        if (barsRedraw === 30) {
+            wallpaper.visualizerbars('drawCanvas', audioArray);
+        } else {
+            wallpaper.visualizerbars('updateVisualizerBars', audioArray);
+        }
     }
 
     window.wallpaperRegisterAudioListener && window.wallpaperRegisterAudioListener(wallpaperAudioListener);
@@ -735,9 +775,10 @@
             }
             // 背景3D转换
 
-            // 幻灯片参数
+            // # 幻灯片参数
             //-----------------------------------------------------------
 
+            // 3D转换
             if (properties.image_isRotate3D) {
                 wallpaper.slider('set', 'isRotate3D', properties.image_isRotate3D.value);
             }
@@ -782,7 +823,7 @@
                 wallpaper.slider('set', 'pauseTime', properties.directory_pauseTime.value);
             }
 
-            // 视频参数
+            // # 视频参数
             //-----------------------------------------------------------
 
             // 视频文件
@@ -832,7 +873,7 @@
                 wallpaper.slider('set', 'videoBGColor', getColor(properties.video_BGColor.value));
             }
 
-            //全局参数
+            // 全局参数
             //-----------------------------------------------------------
 
             // 全局设置
@@ -844,20 +885,20 @@
                     //----------------------
 
                     // 全局参数
-                    wallpaper.audiovisualizer('set', 'opacity', globalSettings.opacity)
-                        .audiovisualizer('set', 'color', globalSettings.color)
-                        .audiovisualizer('set', 'shadowColor', globalSettings.shadowColor)
-                        .audiovisualizer('set', 'shadowBlur', globalSettings.shadowBlur)
+                    wallpaper.visualizercircle('set', 'opacity', globalSettings.opacity)
+                        .visualizercircle('set', 'color', globalSettings.color)
+                        .visualizercircle('set', 'shadowColor', globalSettings.shadowColor)
+                        .visualizercircle('set', 'shadowBlur', globalSettings.shadowBlur)
                         // 颜色变换参数
-                        .audiovisualizer('set', 'isChangeColor', globalSettings.isChangeColor)
-                        .audiovisualizer('set', 'firstColor', globalSettings.firstColor)
-                        .audiovisualizer('set', 'secondColor', globalSettings.secondColor)
-                        .audiovisualizer('set', 'isRandomColor', globalSettings.isRandomColor)
-                        .audiovisualizer('set', 'isChangeBlur', globalSettings.isChangeBlur)
+                        .visualizercircle('set', 'isChangeColor', globalSettings.isChangeColor)
+                        .visualizercircle('set', 'firstColor', globalSettings.firstColor)
+                        .visualizercircle('set', 'secondColor', globalSettings.secondColor)
+                        .visualizercircle('set', 'isRandomColor', globalSettings.isRandomColor)
+                        .visualizercircle('set', 'isChangeBlur', globalSettings.isChangeBlur)
                         // 坐标参数
-                        .audiovisualizer('set', 'offsetX', globalSettings.offsetX)
-                        .audiovisualizer('set', 'offsetY', globalSettings.offsetY)
-                        .audiovisualizer('set', 'isClickOffset', globalSettings.isClickOffset)
+                        .visualizercircle('set', 'offsetX', globalSettings.offsetX)
+                        .visualizercircle('set', 'offsetY', globalSettings.offsetY)
+                        .visualizercircle('set', 'isClickOffset', globalSettings.isClickOffset)
                         // 全局参数
                         .date('set', 'opacity', globalSettings.opacity)
                         .date('set', 'color', globalSettings.color)
@@ -880,20 +921,20 @@
                     //-----------------
 
                     // 全局参数
-                    wallpaper.audiovisualizer('set', 'opacity', audio.opacity)
-                        .audiovisualizer('set', 'color', audio.color)
-                        .audiovisualizer('set', 'shadowColor', audio.shadowColor)
-                        .audiovisualizer('set', 'shadowBlur', audio.shadowBlur)
+                    wallpaper.visualizercircle('set', 'opacity', audio.opacity)
+                        .visualizercircle('set', 'color', audio.color)
+                        .visualizercircle('set', 'shadowColor', audio.shadowColor)
+                        .visualizercircle('set', 'shadowBlur', audio.shadowBlur)
                         // 颜色变换参数
-                        .audiovisualizer('set', 'isChangeColor', audio.isChangeColor)
-                        .audiovisualizer('set', 'firstColor', audio.firstColor)
-                        .audiovisualizer('set', 'secondColor', audio.secondColor)
-                        .audiovisualizer('set', 'isRandomColor', audio.isRandomColor)
-                        .audiovisualizer('set', 'isChangeBlur', audio.isChangeBlur)
+                        .visualizercircle('set', 'isChangeColor', audio.isChangeColor)
+                        .visualizercircle('set', 'firstColor', audio.firstColor)
+                        .visualizercircle('set', 'secondColor', audio.secondColor)
+                        .visualizercircle('set', 'isRandomColor', audio.isRandomColor)
+                        .visualizercircle('set', 'isChangeBlur', audio.isChangeBlur)
                         // 坐标参数
-                        .audiovisualizer('set', 'offsetX', audio.offsetX)
-                        .audiovisualizer('set', 'offsetY', audio.offsetY)
-                        .audiovisualizer('set', 'isClickOffset', audio.isClickOffset);
+                        .visualizercircle('set', 'offsetX', audio.offsetX)
+                        .visualizercircle('set', 'offsetY', audio.offsetY)
+                        .visualizercircle('set', 'isClickOffset', audio.isClickOffset);
 
                     // 日期参数设置
                     //-------------
@@ -919,7 +960,7 @@
             if (properties.global_opacity) {
                 globalSettings.opacity = properties.global_opacity.value / 100;
                 if (isGlobalSettings === true) {
-                    wallpaper.audiovisualizer('set', 'opacity', globalSettings.opacity)
+                    wallpaper.visualizercircle('set', 'opacity', globalSettings.opacity)
                         .date('set', 'opacity', globalSettings.opacity);
                 }
             }
@@ -927,7 +968,7 @@
             if (properties.global_color) {
                 globalSettings.color = getColor(properties.global_color.value);
                 if (isGlobalSettings === true) {
-                    wallpaper.audiovisualizer('set', 'color', globalSettings.color)
+                    wallpaper.visualizercircle('set', 'color', globalSettings.color)
                         .date('set', 'color', globalSettings.color);
                 }
             }
@@ -935,31 +976,31 @@
             if (properties.global_shadowColor) {
                 globalSettings.shadowColor = getColor(properties.global_shadowColor.value);
                 if (isGlobalSettings === true) {
-                    wallpaper.audiovisualizer('set', 'shadowColor', globalSettings.shadowColor)
+                    wallpaper.visualizercircle('set', 'shadowColor', globalSettings.shadowColor)
                         .date('set', 'shadowColor', globalSettings.shadowColor);
                 }
             }
             // 模糊程度
-
-            // 颜色变换参数
-            //-----------------------------------------------------------
-
             if (properties.global_shadowBlur) {
                 globalSettings.shadowBlur = properties.global_shadowBlur.value * 5;
                 if (isGlobalSettings === true) {
-                    wallpaper.audiovisualizer('set', 'shadowBlur', globalSettings.shadowBlur)
+                    wallpaper.visualizercircle('set', 'shadowBlur', globalSettings.shadowBlur)
                         .date('set', 'shadowBlur', globalSettings.shadowBlur);
                 }
             }
+
+            // # 颜色变换参数
+            //-----------------------------------------------------------
+
             // 颜色变换
             if (properties.global_isChangeColor) {
                 globalSettings.isChangeColor = properties.global_isChangeColor.value;
                 if (isGlobalSettings === true) {
-                    wallpaper.audiovisualizer('set', 'isChangeColor', globalSettings.isChangeColor)
+                    wallpaper.visualizercircle('set', 'isChangeColor', globalSettings.isChangeColor)
                         .date('set', 'isChangeColor', globalSettings.isChangeColor);
                     if (globalSettings.isChangeColor === false) {
-                        wallpaper.audiovisualizer('set', 'shadowColor', globalSettings.shadowColor)
-                            .audiovisualizer('set', 'color', globalSettings.color)
+                        wallpaper.visualizercircle('set', 'shadowColor', globalSettings.shadowColor)
+                            .visualizercircle('set', 'color', globalSettings.color)
                             .date('set', 'color', globalSettings.color)
                             .date('set', 'shadowColor', globalSettings.shadowColor);
                     }
@@ -969,7 +1010,7 @@
             if (properties.global_isRandomColor) {
                 globalSettings.isRandomColor = properties.global_isRandomColor.value;
                 if (isGlobalSettings === true) {
-                    wallpaper.audiovisualizer('set', 'isRandomColor', globalSettings.isRandomColor)
+                    wallpaper.visualizercircle('set', 'isRandomColor', globalSettings.isRandomColor)
                         .date('set', 'isRandomColor', globalSettings.isRandomColor);
                 }
             }
@@ -977,7 +1018,7 @@
             if (properties.global_firstColor) {
                 globalSettings.firstColor = getColor(properties.global_firstColor.value);
                 if (isGlobalSettings === true) {
-                    wallpaper.audiovisualizer('set', 'firstColor', globalSettings.firstColor)
+                    wallpaper.visualizercircle('set', 'firstColor', globalSettings.firstColor)
                         .date('set', 'firstColor', globalSettings.firstColor);
                 }
             }
@@ -985,7 +1026,7 @@
             if (properties.global_secondColor) {
                 globalSettings.secondColor = getColor(properties.global_secondColor.value);
                 if (isGlobalSettings === true) {
-                    wallpaper.audiovisualizer('set', 'secondColor', globalSettings.secondColor)
+                    wallpaper.visualizercircle('set', 'secondColor', globalSettings.secondColor)
                         .date('set', 'secondColor', globalSettings.secondColor);
                 }
             }
@@ -993,23 +1034,23 @@
             if (properties.global_isChangeBlur) {
                 globalSettings.isChangeBlur = properties.global_isChangeBlur.value;
                 if (isGlobalSettings === true) {
-                    wallpaper.audiovisualizer('set', 'isChangeBlur', globalSettings.isChangeBlur)
+                    wallpaper.visualizercircle('set', 'isChangeBlur', globalSettings.isChangeBlur)
                         .date('set', 'isChangeBlur', globalSettings.isChangeBlur);
                     if (globalSettings.isChangeBlur === false) {
-                        wallpaper.audiovisualizer('set', 'shadowColor', globalSettings.shadowColor)
+                        wallpaper.visualizercircle('set', 'shadowColor', globalSettings.shadowColor)
                             .date('set', 'shadowColor', globalSettings.shadowColor);
                     }
                 }
             }
 
-            // 坐标参数
+            // # 坐标参数
             //-----------------------------------------------------------
 
             // X轴偏移
             if (properties.global_offsetX) {
                 globalSettings.offsetX = properties.global_offsetX.value / 100;
                 if (isGlobalSettings === true) {
-                    wallpaper.audiovisualizer('set', 'offsetX', globalSettings.offsetX)
+                    wallpaper.visualizercircle('set', 'offsetX', globalSettings.offsetX)
                         .date('set', 'offsetX', globalSettings.offsetX);
                 }
             }
@@ -1017,7 +1058,7 @@
             if (properties.global_offsetY) {
                 globalSettings.offsetY = properties.global_offsetY.value / 100;
                 if (isGlobalSettings === true) {
-                    wallpaper.audiovisualizer('set', 'offsetY', globalSettings.offsetY)
+                    wallpaper.visualizercircle('set', 'offsetY', globalSettings.offsetY)
                         .date('set', 'offsetY', globalSettings.offsetY);
                 }
             }
@@ -1025,7 +1066,7 @@
             if (properties.global_isClickOffset) {
                 globalSettings.isClickOffset = properties.global_isClickOffset.value;
                 if (isGlobalSettings === true) {
-                    wallpaper.audiovisualizer('set', 'isClickOffset', globalSettings.isClickOffset)
+                    wallpaper.visualizercircle('set', 'isClickOffset', globalSettings.isClickOffset)
                         .date('set', 'isClickOffset', globalSettings.isClickOffset);
                 }
             }
@@ -1034,231 +1075,345 @@
             //-----------------------------------------------------------
 
             // 音频振幅
-            if (properties.audio_amplitude) {
-                wallpaper.audiovisualizer('set', 'amplitude', properties.audio_amplitude.value);
+            if (properties.circle_amplitude) {
+                wallpaper.visualizercircle('set', 'amplitude', properties.circle_amplitude.value)
+                    .visualizerbars('set', 'amplitude', properties.circle_amplitude.value);
             }
             // 音频衰弱
-            if (properties.audio_decline) {
-                wallpaper.audiovisualizer('set', 'decline', properties.audio_decline.value / 100);
+            if (properties.circle_decline) {
+                wallpaper.visualizercircle('set', 'decline', properties.circle_decline.value / 100)
+                    .visualizerbars('set', 'decline', properties.circle_decline.value / 100);
             }
             // 音频峰值
-            if (properties.audio_peak) {
-                wallpaper.audiovisualizer('set', 'peak', properties.audio_peak.value / 10);
+            if (properties.circle_peak) {
+                wallpaper.visualizercircle('set', 'peak', properties.circle_peak.value / 10)
+                    .visualizerbars('set', 'peak', properties.circle_peak.value / 10);
             }
 
             // 圆环参数
             //-----------------------------------------------------------
 
             // 显示圆环
-            if (properties.audio_isRing) {
-                if (properties.audio_isRing.value) {
-                    wallpaper.audiovisualizer('set', 'isRing', true);
-                } else {
-                    wallpaper.audiovisualizer('set', 'isRing', false);
-                }
+            if (properties.circle_isRing) {
+                wallpaper.visualizercircle('set', 'isRing', properties.circle_isRing.value);
             }
             // 显示静态环
-            if (properties.audio_isStaticRing) {
-                if (properties.audio_isStaticRing.value) {
-                    wallpaper.audiovisualizer('set', 'isStaticRing', true);
-                } else {
-                    wallpaper.audiovisualizer('set', 'isStaticRing', false);
-                }
+            if (properties.circle_isStaticRing) {
+                wallpaper.visualizercircle('set', 'isStaticRing', properties.circle_isStaticRing.value);
             }
             // 显示内环
-            if (properties.audio_isInnerRing) {
-                if (properties.audio_isInnerRing.value) {
-                    wallpaper.audiovisualizer('set', 'isInnerRing', true);
-                } else {
-                    wallpaper.audiovisualizer('set', 'isInnerRing', false);
-                }
+            if (properties.circle_isInnerRing) {
+                wallpaper.visualizercircle('set', 'isInnerRing', properties.circle_isInnerRing.value);
             }
             // 显示内环
-            if (properties.audio_isOuterRing) {
-                if (properties.audio_isOuterRing.value) {
-                    wallpaper.audiovisualizer('set', 'isOuterRing', true);
-                } else {
-                    wallpaper.audiovisualizer('set', 'isOuterRing', false);
-                }
+            if (properties.circle_isOuterRing) {
+                wallpaper.visualizercircle('set', 'isOuterRing', properties.circle_isOuterRing.value);
             }
             // 圆环半径
-            if (properties.audio_radius) {
-                wallpaper.audiovisualizer('set', 'radius', properties.audio_radius.value / 10);
+            if (properties.circle_radius) {
+                wallpaper.visualizercircle('set', 'radius', properties.circle_radius.value / 10);
             }
             // 圆环旋转
-            if (properties.audio_ringRotation) {
-                wallpaper.audiovisualizer('set', 'ringRotation', properties.audio_ringRotation.value);
+            if (properties.circle_ringRotation) {
+                wallpaper.visualizercircle('set', 'ringRotation', properties.circle_ringRotation.value);
             }
-            // 重绘间隔
 
-            // 全局参数
+            // # 全局参数
             //-----------------------------------------------------------
 
-            if (properties.audio_milliSec) {
-                redrawInterval = properties.audio_milliSec.value;
-                wallpaper.audiovisualizer('set', 'milliSec', redrawInterval);
-                if (redrawInterval === 30) {
-                    wallpaper.audiovisualizer('stopAudioVisualizerTimer');
+            // 重绘间隔
+            if (properties.circle_milliSec) {
+                circleRedraw = properties.circle_milliSec.value;
+                wallpaper.visualizercircle('set', 'milliSec', circleRedraw);
+                if (circleRedraw === 30) {
+                    wallpaper.visualizercircle('stopVisualizerCircleTimer');
                 } else {
-                    wallpaper.audiovisualizer('runAudioVisualizerTimer');
+                    wallpaper.visualizercircle('runVisualizerCircleTimer');
                 }
             }
             // 圆环和小球不透明度
-            if (properties.audio_opacity) {
-                audio.opacity = properties.audio_opacity.value / 100;
+            if (properties.circle_opacity) {
+                audio.opacity = properties.circle_opacity.value / 100;
                 if (isGlobalSettings === false) {
-                    wallpaper.audiovisualizer('set', 'opacity', audio.opacity);
+                    wallpaper.visualizercircle('set', 'opacity', audio.opacity);
                 }
             }
             // 圆环和小球颜色
-            if (properties.audio_color) {
-                audio.color = getColor(properties.audio_color.value);
+            if (properties.circle_color) {
+                audio.color = getColor(properties.circle_color.value);
                 if (isGlobalSettings === false) {
-                    wallpaper.audiovisualizer('set', 'color', audio.color);
+                    wallpaper.visualizercircle('set', 'color', audio.color);
                 }
             }
             // 圆环和小球模糊颜色
-            if (properties.audio_shadowColor) {
-                audio.shadowColor = getColor(properties.audio_shadowColor.value);
+            if (properties.circle_shadowColor) {
+                audio.shadowColor = getColor(properties.circle_shadowColor.value);
                 if (isGlobalSettings === false) {
-                    wallpaper.audiovisualizer('set', 'shadowColor', audio.shadowColor);
+                    wallpaper.visualizercircle('set', 'shadowColor', audio.shadowColor);
                 }
             }
             // 圆环和小球模糊程度
-
-            // 颜色变换参数
-            //-----------------------------------------------------------
-
-            if (properties.audio_shadowBlur) {
-                audio.shadowBlur = properties.audio_shadowBlur.value * 5;
+            if (properties.circle_shadowBlur) {
+                audio.shadowBlur = properties.circle_shadowBlur.value * 5;
                 if (isGlobalSettings === false) {
-                    wallpaper.audiovisualizer('set', 'shadowBlur', audio.shadowBlur);
+                    wallpaper.visualizercircle('set', 'shadowBlur', audio.shadowBlur);
                 }
             }
+
+            // # 颜色变换参数
+            //-----------------------------------------------------------
+
             // 圆环和小球颜色变换
-            if (properties.audio_isChangeColor) {
-                audio.isChangeColor = properties.audio_isChangeColor.value;
+            if (properties.circle_isChangeColor) {
+                audio.isChangeColor = properties.circle_isChangeColor.value;
                 if (isGlobalSettings === false) {
-                    wallpaper.audiovisualizer('set', 'isChangeColor', audio.isChangeColor);
+                    wallpaper.visualizercircle('set', 'isChangeColor', audio.isChangeColor);
                     if (audio.isChangeColor === false) {
-                        wallpaper.audiovisualizer('set', 'color', audio.color)
-                            .audiovisualizer('set', 'shadowColor', audio.shadowColor);
+                        wallpaper.visualizercircle('set', 'color', audio.color)
+                            .visualizercircle('set', 'shadowColor', audio.shadowColor);
 
                     }
                 }
             }
             // 圆环和小球随机颜色
-            if (properties.audio_isRandomColor) {
-                audio.isRandomColor = properties.audio_isRandomColor.value;
+            if (properties.circle_isRandomColor) {
+                audio.isRandomColor = properties.circle_isRandomColor.value;
                 if (isGlobalSettings === false) {
-                    wallpaper.audiovisualizer('set', 'isRandomColor', audio.isRandomColor);
+                    wallpaper.visualizercircle('set', 'isRandomColor', audio.isRandomColor);
                 }
             }
             // 圆环和小球开始颜色
-            if (properties.audio_firstColor) {
-                audio.firstColor = getColor(properties.audio_firstColor.value);
+            if (properties.circle_firstColor) {
+                audio.firstColor = getColor(properties.circle_firstColor.value);
                 if (isGlobalSettings === false) {
-                    wallpaper.audiovisualizer('set', 'firstColor', audio.firstColor);
+                    wallpaper.visualizercircle('set', 'firstColor', audio.firstColor);
                 }
             }
             // 圆环和小球结束颜色
-            if (properties.audio_secondColor) {
-                audio.secondColor = getColor(properties.audio_secondColor.value);
+            if (properties.circle_secondColor) {
+                audio.secondColor = getColor(properties.circle_secondColor.value);
                 if (isGlobalSettings === false) {
-                    wallpaper.audiovisualizer('set', 'secondColor', audio.secondColor);
+                    wallpaper.visualizercircle('set', 'secondColor', audio.secondColor);
                 }
             }
-            // 圆环和小球绑定模糊颜色
 
-            // 坐标参数
+            // # 坐标参数
             //-----------------------------------------------------------
 
-            if (properties.audio_isChangeBlur) {
-                audio.isChangeBlur = properties.audio_isChangeBlur.value;
+            // 圆环和小球绑定模糊颜色
+            if (properties.circle_isChangeBlur) {
+                audio.isChangeBlur = properties.circle_isChangeBlur.value;
                 if (isGlobalSettings === false) {
-                    wallpaper.audiovisualizer('set', 'isChangeBlur', audio.isChangeBlur);
+                    wallpaper.visualizercircle('set', 'isChangeBlur', audio.isChangeBlur);
                     if (audio.isChangeBlur === false) {
-                        wallpaper.audiovisualizer('set', 'shadowColor', audio.shadowColor);
+                        wallpaper.visualizercircle('set', 'shadowColor', audio.shadowColor);
                     }
                 }
             }
             // 圆环和小球X轴偏移
-            if (properties.audio_offsetX) {
-                audio.offsetX = properties.audio_offsetX.value / 100;
+            if (properties.circle_offsetX) {
+                audio.offsetX = properties.circle_offsetX.value / 100;
                 if (isGlobalSettings === false) {
-                    wallpaper.audiovisualizer('set', 'offsetX', audio.offsetX);
+                    wallpaper.visualizercircle('set', 'offsetX', audio.offsetX);
                 }
             }
             // 圆环和小球Y轴偏移
-            if (properties.audio_offsetY) {
-                audio.offsetY = properties.audio_offsetY.value / 100;
+            if (properties.circle_offsetY) {
+                audio.offsetY = properties.circle_offsetY.value / 100;
                 if (isGlobalSettings === false) {
-                    wallpaper.audiovisualizer('set', 'offsetY', audio.offsetY);
+                    wallpaper.visualizercircle('set', 'offsetY', audio.offsetY);
                 }
             }
             // 圆环和小球鼠标坐标偏移
-            if (properties.audio_isClickOffset) {
-                audio.isClickOffset = properties.audio_isClickOffset.value;
+            if (properties.circle_isClickOffset) {
+                audio.isClickOffset = properties.circle_isClickOffset.value;
                 if (isGlobalSettings === false) {
-                    wallpaper.audiovisualizer('set', 'isClickOffset', audio.isClickOffset);
+                    wallpaper.visualizercircle('set', 'isClickOffset', audio.isClickOffset);
                 }
             }
 
-            // 线条参数
+            // # 线条参数
             //-----------------------------------------------------------
 
             // 是否连线
-            if (properties.audio_isLineTo) {
-                wallpaper.audiovisualizer('set', 'isLineTo', properties.audio_isLineTo.value);
+            if (properties.circle_isLineTo) {
+                wallpaper.visualizercircle('set', 'isLineTo', properties.circle_isLineTo.value);
             }
             // 第一点
-            if (properties.audio_firstPoint) {
-                wallpaper.audiovisualizer('set', 'firstPoint', setPoint(properties.audio_firstPoint.value));
+            if (properties.circle_firstPoint) {
+                wallpaper.visualizercircle('set', 'firstPoint', setPoint(properties.circle_firstPoint.value));
             }
             // 第二点
-            if (properties.audio_secondPoint) {
-                wallpaper.audiovisualizer('set', 'secondPoint', setPoint(properties.audio_secondPoint.value));
+            if (properties.circle_secondPoint) {
+                wallpaper.visualizercircle('set', 'secondPoint', setPoint(properties.circle_secondPoint.value));
             }
             // 圆环点数
-            if (properties.audio_pointNum) {
-                wallpaper.audiovisualizer('set', 'pointNum', properties.audio_pointNum.value);
+            if (properties.circle_pointNum) {
+                wallpaper.visualizercircle('set', 'pointNum', properties.circle_pointNum.value);
             }
             // 内环距离
-            if (properties.audio_innerDistance) {
-                wallpaper.audiovisualizer('set', 'innerDistance', properties.audio_innerDistance.value);
+            if (properties.circle_innerDistance) {
+                wallpaper.visualizercircle('set', 'innerDistance', properties.circle_innerDistance.value);
             }
             // 外环距离
-            if (properties.audio_outerDistance) {
-                wallpaper.audiovisualizer('set', 'outerDistance', properties.audio_outerDistance.value);
+            if (properties.circle_outerDistance) {
+                wallpaper.visualizercircle('set', 'outerDistance', properties.circle_outerDistance.value);
             }
             // 线条粗细
-            if (properties.audio_lineWidth) {
-                wallpaper.audiovisualizer('set', 'lineWidth', properties.audio_lineWidth.value);
+            if (properties.circle_lineWidth) {
+                wallpaper.visualizercircle('set', 'lineWidth', properties.circle_lineWidth.value);
             }
 
-            // 小球参数
+            // # 小球参数
             //-----------------------------------------------------------
 
             // 显示小球
-            if (properties.audio_isBall) {
-                wallpaper.audiovisualizer('set', 'isBall', properties.audio_isBall.value);
+            if (properties.circle_isBall) {
+                wallpaper.visualizercircle('set', 'isBall', properties.circle_isBall.value);
             }
             // 小球间隔
-            if (properties.audio_ballSpacer) {
-                wallpaper.audiovisualizer('set', 'ballSpacer', properties.audio_ballSpacer.value);
+            if (properties.circle_ballSpacer) {
+                wallpaper.visualizercircle('set', 'ballSpacer', properties.circle_ballSpacer.value);
             }
             // 内环距离
-            if (properties.audio_ballDistance) {
-                wallpaper.audiovisualizer('set', 'ballDistance', properties.audio_ballDistance.value);
+            if (properties.circle_ballDistance) {
+                wallpaper.visualizercircle('set', 'ballDistance', properties.circle_ballDistance.value);
             }
             // 小球大小
-            if (properties.audio_ballSize) {
-                wallpaper.audiovisualizer('set', 'ballSize', properties.audio_ballSize.value);
+            if (properties.circle_ballSize) {
+                wallpaper.visualizercircle('set', 'ballSize', properties.circle_ballSize.value);
             }
             // 圆环旋转
-            if (properties.audio_ballRotation) {
-                wallpaper.audiovisualizer('set', 'ballRotation', properties.audio_ballRotation.value);
+            if (properties.circle_ballRotation) {
+                wallpaper.visualizercircle('set', 'ballRotation', properties.circle_ballRotation.value);
             }
+
+            // 条形参数
+            //-----------------------------------------------------------
+
+            // 显示条形
+            if (properties.bars_isBars) {
+                wallpaper.visualizerbars('set', 'isBars', properties.bars_isBars.value);
+            }
+            // 显示线条
+            if (properties.bars_isLineTo) {
+                wallpaper.visualizerbars('set', 'isLineTo', properties.bars_isLineTo.value);
+            }
+            // 基础宽度
+            if (properties.bars_width) {
+                wallpaper.visualizerbars('set', 'width', properties.bars_width.value / 10);
+            }
+            // 基础高度
+            if (properties.bars_height) {
+                wallpaper.visualizerbars('set', 'height', properties.bars_height.value);
+            }
+            // 点的数量
+            if (properties.bars_pointNum) {
+                wallpaper.visualizerbars('set', 'pointNum', properties.bars_pointNum.value);
+            }
+            // 旋转角度
+            if (properties.bars_barsRotation) {
+                wallpaper.visualizerbars('set', 'barsRotation', properties.bars_barsRotation.value);
+            }
+            // 条形方向
+            if (properties.bars_barsDirection) {
+                wallpaper.visualizerbars('set', 'barsDirection', setBarsDirection(properties.bars_barsDirection.value));
+            }
+            // 线条粗细
+            if (properties.bars_lineWidth) {
+                wallpaper.visualizerbars('set', 'lineWidth', properties.bars_lineWidth.value);
+            }
+            // 重绘间隔
+            if (properties.bars_milliSec) {
+                barsRedraw = properties.bars_milliSec.value;
+                wallpaper.visualizerbars('set', 'milliSec', barsRedraw);
+                if (barsRedraw === 30) {
+                    wallpaper.visualizerbars('stopVisualizerBarsTimer');
+                } else {
+                    wallpaper.visualizerbars('runVisualizerBarsTimer');
+                }
+            }
+
+            // # 全局参数
+            //-----------------------------------------------------------
+
+            // 条形不透明度
+            if (properties.bars_opacity) {
+                bars.opacity = properties.bars_opacity.value / 100;
+                wallpaper.visualizerbars('set', 'opacity', bars.opacity);
+            }
+            // 条形颜色
+            if (properties.bars_color) {
+                bars.color = getColor(properties.bars_color.value);
+                wallpaper.visualizerbars('set', 'color', bars.color);
+            }
+            // 条形模糊颜色
+            if (properties.bars_shadowColor) {
+                bars.shadowColor = getColor(properties.bars_shadowColor.value);
+                wallpaper.visualizerbars('set', 'shadowColor', bars.shadowColor);
+            }
+            // 条形模糊程度
+            if (properties.bars_shadowBlur) {
+                bars.shadowBlur = properties.bars_shadowBlur.value * 5;
+                wallpaper.visualizerbars('set', 'shadowBlur', bars.shadowBlur);
+            }
+
+            // # 颜色变换参数
+            //-----------------------------------------------------------
+
+            // 条形颜色变换
+            if (properties.bars_isChangeColor) {
+                bars.isChangeColor = properties.bars_isChangeColor.value;
+                wallpaper.visualizerbars('set', 'isChangeColor', bars.isChangeColor);
+                if (bars.isChangeColor === false) {
+                    wallpaper.visualizerbars('set', 'color', bars.color)
+                        .visualizerbars('set', 'shadowColor', bars.shadowColor);
+                }
+            }
+            // 条形随机颜色
+            if (properties.bars_isRandomColor) {
+                bars.isRandomColor = properties.bars_isRandomColor.value;
+                wallpaper.visualizerbars('set', 'isRandomColor', bars.isRandomColor);
+            }
+            // 条形开始颜色
+            if (properties.bars_firstColor) {
+                bars.firstColor = getColor(properties.bars_firstColor.value);
+                wallpaper.visualizerbars('set', 'firstColor', bars.firstColor);
+            }
+            // 条形结束颜色
+            if (properties.bars_secondColor) {
+                bars.secondColor = getColor(properties.bars_secondColor.value);
+                wallpaper.visualizerbars('set', 'secondColor', bars.secondColor);
+            }
+            // 条形绑定模糊颜色
+            if (properties.bars_isChangeBlur) {
+                bars.isChangeBlur = properties.bars_isChangeBlur.value;
+                wallpaper.visualizerbars('set', 'isChangeBlur', bars.isChangeBlur);
+                if (bars.isChangeBlur === false) {
+                    wallpaper.visualizerbars('set', 'shadowColor', bars.shadowColor);
+                }
+            }
+
+            // # 坐标参数
+            //-----------------------------------------------------------
+
+            // 条形X轴偏移
+            if (properties.bars_offsetX) {
+                bars.offsetX = properties.bars_offsetX.value / 100;
+                wallpaper.visualizerbars('set', 'offsetX', bars.offsetX);
+            }
+            // 条形Y轴偏移
+            if (properties.bars_offsetY) {
+                bars.offsetY = properties.bars_offsetY.value / 100;
+                wallpaper.visualizerbars('set', 'offsetY', bars.offsetY);
+
+            }
+            // 条形鼠标坐标偏移
+            if (properties.bars_isClickOffset) {
+                bars.isClickOffset = properties.bars_isClickOffset.value;
+                wallpaper.visualizerbars('set', 'isClickOffset', bars.isClickOffset);
+            }
+
 
             // 时间日期参数
             //-----------------------------------------------------------
@@ -1291,7 +1446,7 @@
                 }
             }
 
-            // 天气参数
+            // # 天气参数
             //-----------------------------------------------------------
 
             // 天气接口提供者
@@ -1303,7 +1458,7 @@
                 wallpaper.date('set', 'currentCity', properties.date_city.value);
             }
 
-            // 时间日期参数
+            // # 时间日期参数
             //-----------------------------------------------------------
 
             // 字体大小
@@ -1324,7 +1479,7 @@
                 wallpaper.date('set', 'distance', properties.date_distance.value);
             }
 
-            // 全局参数
+            // # 全局参数
             //-----------------------------------------------------------
 
             // 日期不透明度
@@ -1356,7 +1511,7 @@
                 }
             }
 
-            // 颜色变换参数
+            // # 颜色变换参数
             //-----------------------------------------------------------
 
             // 日期颜色变换
@@ -1402,7 +1557,7 @@
                 }
             }
 
-            // 坐标参数
+            // # 坐标参数
             //-----------------------------------------------------------
 
             // 日期X轴偏移
@@ -1484,13 +1639,13 @@
                 wallpaper.particles('set', 'sizeValue', properties.particles_sizeValue.value);
             }
             // 粒子随机大小
-
-            // 粒子连线参数
-            //-----------------------------------------------------------
-
             if (properties.particles_sizeRandom) {
                 wallpaper.particles('set', 'sizeRandom', properties.particles_sizeRandom.value);
             }
+
+            // # 粒子连线参数
+            //-----------------------------------------------------------
+
             // 显示连线
             if (properties.particles_linkEnable) {
                 wallpaper.particles('set', 'linkEnable', properties.particles_linkEnable.value);
@@ -1511,11 +1666,11 @@
             if (properties.particles_linkColor) {
                 wallpaper.particles('set', 'linkColor', getColor(properties.particles_linkColor.value));
             }
-            // 连线不透明度
 
-            // 粒子移动参数
+            // # 粒子移动参数
             //-----------------------------------------------------------
 
+            // 连线不透明度
             if (properties.particles_linkOpacity) {
                 wallpaper.particles('set', 'linkOpacity', properties.particles_linkOpacity.value / 100);
             }

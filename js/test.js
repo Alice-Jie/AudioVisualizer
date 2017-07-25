@@ -37,13 +37,21 @@
         }).toString();
     }
 
-    // AudioVisualizer插件调试区域
+    // VisualizerCircle插件调试区域
     //--------------------------------------------------------------------------------------------------------------
 
-    //$('#wallpaper').audiovisualizer({});
-    //$('#wallpaper').audiovisualizer('set', 'isChangeColor', true);
-    //$('#wallpaper').audiovisualizer('updateAudioVisualizer', audioSamples);
-    //$('#wallpaper').audiovisualizer('runAudioVisualizerTimer');
+    //$('#wallpaper').visualizercircle({});
+    //$('#wallpaper').visualizercircle('set', 'isChangeColor', true);
+    //$('#wallpaper').visualizercircle('updateVisualizerCircle', audioSamples);
+    //$('#wallpaper').visualizercircle('runVisualizerCircleTimer');
+
+    // VisualizerBars插件调试区域
+    //--------------------------------------------------------------------------------------------------------------
+
+    //$('#wallpaper').visualizerbars({});
+    //$('#wallpaper').visualizerbars('updateVisualizerBars', audioSamples);
+    //$('#wallpaper').visualizerbars('drawVisualizerBars');
+
     // Date插件调试区域
     //--------------------------------------------------------------------------------------------------------------
 
