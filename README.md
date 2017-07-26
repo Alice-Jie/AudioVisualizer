@@ -1,4 +1,4 @@
-![image](https://steamuserimages-a.akamaihd.net/ugc/816685937288288292/89720D1D71A87391C3C1668779883A311D6EF73B/?interpolation=lanczos-none&output-format=jpeg&output-quality=95&fit=inside|268:268&composite-to%3D%2A%2C%2A%7C268%3A268&background-color=black)
+![image](https://steamuserimages-a.akamaihd.net/ugc/842587364847342400/55201E5E7B04516568307E592F4EAD7BCC706638/)
 # [4K]Circle Audio Visualizer
 ---
 一个在Wallpaper Engine创意工坊上的开源项目:

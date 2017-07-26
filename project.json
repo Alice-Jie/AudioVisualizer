@@ -400,7 +400,7 @@
         "condition": "global_GlobalSettings.value == true && global_isChangeColor.value == true",
         "text": "<br/>随机颜色<br/>Random Color?<br/>",
         "type": "bool",
-        "value": true
+        "value": false
       },
       "global_firstColor": {
         "order": 2009,
@@ -601,7 +601,7 @@
         "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true) && circle_isChangeColor.value == true",
         "text": "<br/>随机颜色<br/>Random Color?<br/>",
         "type": "bool",
-        "value": true
+        "value": false
       },
       "circle_firstColor": {
         "order": 3207,
@@ -740,8 +740,50 @@
         "min": -250,
         "value": 0
       },
-      "circle_lineWidth": {
+      "circle_lineCap": {
         "order": 3308,
+        "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
+        "text": "<br/>线帽样式<br/>Line Cap<br/>",
+        "type": "combo",
+        "options": [
+          {
+            "label": "平直/Straight",
+            "value": 1
+          },
+          {
+            "label": "圆角/Round",
+            "value": 2
+          },
+          {
+            "label": "方形/Square",
+            "value": 3
+          }
+        ],
+        "value": 1
+      },
+      "circle_lineJoin": {
+        "order": 3309,
+        "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
+        "text": "<br/>线交互样式<br/>Line Join<br/>",
+        "type": "combo",
+        "options": [
+          {
+            "label": "尖角/Miter",
+            "value": 1
+          },
+          {
+            "label": "圆角/Round",
+            "value": 2
+          },
+          {
+            "label": "斜角/Bevel",
+            "value": 3
+          }
+        ],
+        "value": 1
+      },
+      "circle_lineWidth": {
+        "order": 3310,
         "condition": "circle_isRing.value == true || circle_isLineTo.value == true",
         "text": "<br/>线条粗细<br/>Line Width<br/>",
         "type": "slider",
@@ -751,18 +793,18 @@
         "value": 5
       },
       "circle_BallText": {
-        "order": 3309,
+        "order": 3400,
         "text": "<br/><b># 小球设置(Ball Settings)</b><br/>",
         "type": "text"
       },
       "circle_isBall": {
-        "order": 3400,
+        "order": 3401,
         "text": "<br/>显示小球<br/>Show Ball?<br/>",
         "type": "bool",
         "value": true
       },
       "circle_ballSpacer": {
-        "order": 3401,
+        "order": 3402,
         "condition": "circle_isBall.value == true",
         "text": "<br/>小球间隔<br/>Ball Spacer<br/>",
         "type": "slider",
@@ -772,7 +814,7 @@
         "value": 4
       },
       "circle_ballDistance": {
-        "order": 3405,
+        "order": 3403,
         "condition": "circle_isBall.value == true",
         "text": "<br/>小球距离<br/>Ball Distance<br/>",
         "type": "slider",
@@ -782,7 +824,7 @@
         "value": 50
       },
       "circle_ballSize": {
-        "order": 3406,
+        "order": 3404,
         "condition": "circle_isBall.value == true",
         "text": "<br/>小球大小<br/>Ball Size<br/>",
         "type": "slider",
@@ -792,7 +834,7 @@
         "value": 3
       },
       "circle_ballRotation": {
-        "order": 3407,
+        "order": 3405,
         "condition": "circle_isBall.value == true",
         "text": "<br/>旋转小球<br/>Rotating Ball<br/>",
         "type": "slider",
@@ -879,8 +921,50 @@
         ],
         "value": 3
       },
-      "bars_lineWidth": {
+      "bars_lineCap": {
         "order": 4008,
+        "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
+        "text": "<br/>线帽样式<br/>Line Cap<br/>",
+        "type": "combo",
+        "options": [
+          {
+            "label": "平直/Straight",
+            "value": 1
+          },
+          {
+            "label": "圆角/Round",
+            "value": 2
+          },
+          {
+            "label": "方形/Square",
+            "value": 3
+          }
+        ],
+        "value": 1
+      },
+      "bars_lineJoin": {
+        "order": 4009,
+        "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
+        "text": "<br/>线交互样式<br/>Line Join<br/>",
+        "type": "combo",
+        "options": [
+          {
+            "label": "尖角/Miter",
+            "value": 1
+          },
+          {
+            "label": "圆角/Round",
+            "value": 2
+          },
+          {
+            "label": "斜角/Bevel",
+            "value": 3
+          }
+        ],
+        "value": 1
+      },
+      "bars_lineWidth": {
+        "order": 4010,
         "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
         "text": "<br/>线条粗细<br/>Line Width<br/>",
         "type": "slider",
@@ -890,7 +974,7 @@
         "value": 5
       },
       "bars_milliSec": {
-        "order": 4009,
+        "order": 4011,
         "text": "<br/>重绘间隔<br/>Redraw Interval<br/>",
         "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
         "type": "slider",
@@ -1522,7 +1606,7 @@
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true && date_isChangeColor.value == true",
         "text": "<br/>随机颜色<br/>Random Color?<br/>",
         "type": "bool",
-        "value": true
+        "value": false
       },
       "date_firstColor": {
         "order": 5107,

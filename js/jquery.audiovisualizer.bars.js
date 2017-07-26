@@ -1,12 +1,12 @@
 /*！
- * jQuery AudioVisualizer Bars plugin v0.0.1
+ * jQuery AudioVisualizer Bars plugin v0.0.2
  * project:
  * - https://github.com/Alice-Jie/4K-Circle-Audio-Visualizer
  * - https://git.oschina.net/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/07/24
+ * @date 2017/07/26
  */
 
 (function (global, factory) {
@@ -89,8 +89,14 @@
         G: 0,
         B: 0
     };
-    let currantColor = '255,255,255';
-    let colorDirection = 'left';
+    let currantColor = '255,255,255';  // 当前颜色
+    let colorDirection = 'left';       // 变化方向
+    const incrementMAX = 255;          // 计数上限
+    let incrementCount = 0;            // 增量计数
+    // 颜色增量
+    let R_Increment = (color1.R - color2.R) / incrementMAX,
+        G_Increment = (color1.G - color2.G) / incrementMAX,
+        B_Increment = (color1.B - color2.B) / incrementMAX;
 
     let runCount = 1;  // 绘制次数
 
@@ -177,6 +183,13 @@
         return audioValue;
     }
 
+    /** 设置RGB增量 */
+    function setRGBIncrement() {
+        incrementCount = 0;
+        R_Increment = (color1.R - color2.R) / incrementMAX;
+        G_Increment = (color1.G - color2.G) / incrementMAX;
+        B_Increment = (color1.B - color2.B) / incrementMAX;
+    }
 
     /**
      * 通过RGB字符串更新RGB颜色对象
@@ -241,7 +254,9 @@
         this.pointNum = options.pointNum;                      // 点的数量
         this.barsRotation = options.barsRotation;              // 旋转角度
         this.barsDirection = options.barsDirection;            // 条形方向
-        this.lineWidth = options.lineWidth;                    // 条形宽度
+        this.lineCap = options.lineCap;                        // 线帽类型
+        this.lineJoin = options.lineJoin;                      // 交互类型
+        this.lineWidth = options.lineWidth;                    // 线条粗细
         this.milliSec = options.milliSec;                      // 重绘间隔
 
         // 创建并初始化canvas
@@ -269,6 +284,9 @@
         context.fillStyle = 'rgb(' + this.color + ')';
         // 线条属性
         context.lineWidth = this.lineWidth;
+        context.miterLimit = Math.max(10, this.lineWidth);
+        context.lineCap = this.lineCap;
+        context.lineJoin = this.lineJoin;
         context.strokeStyle = 'rgb(' + this.color + ')';
         // 阴影属性
         context.shadowColor = 'rgb(' + this.shadowColor + ')';
@@ -313,7 +331,8 @@
         pointNum: 120,               // 点的数量
         barsRotation: 0,             // 旋转角度
         barsDirection: "two bars",   // 条形方向
-        lineWidth: 5,                // 条形宽度
+        lineCap: 'butt',             // 线帽类型
+        lineJoin: 'miter',           // 交汇类型
         milliSec: 30                 // 重绘间隔
     };
 
@@ -404,31 +423,15 @@
         },
 
 
-        /** 音频圆环和小球颜色变换 */
+        /** 音频条形颜色变换 */
         colorTransformation: function () {
-            if (color1.R !== color2.R
-                || color1.G !== color2.G
-                || color1.B !== color2.B) {
-                // "R"值比较
-                if (color1.R > color2.R) {
-                    color1.R--;
-                } else if (color1.R < color2.R) {
-                    color1.R++;
-                }
-                // "G"值比较
-                if (color1.G > color2.G) {
-                    color1.G--;
-                } else if (color1.G < color2.G) {
-                    color1.G++;
-                }
-                // "B"值比较
-                if (color1.B > color2.B) {
-                    color1.B--;
-                } else if (color1.B < color2.B) {
-                    color1.B++;
-                }
+            if (incrementCount < incrementMAX) {
+                color1.R -= R_Increment;
+                color1.G -= G_Increment;
+                color1.B -= B_Increment;
+                incrementCount++;
                 // 改变context颜色属性
-                currantColor = color1.R + ',' + color1.G + ',' + color1.B;
+                currantColor = Math.floor(color1.R) + ',' + Math.floor(color1.G) + ',' + Math.floor(color1.B);
                 context.fillStyle = 'rgb(' + currantColor + ')';
                 context.strokeStyle = 'rgb(' + currantColor + ')';
                 if (this.isChangeBlur) {
@@ -438,16 +441,19 @@
                 // 反方向改变颜色
                 setColorObj(color1, this.secondColor);
                 setColorObj(color2, this.firstColor);
+                setRGBIncrement();
                 colorDirection = 'right';
             } else if (colorDirection === 'right' && this.isRandomColor === false) {
                 // 正方向改变颜色
                 setColorObj(color1, this.firstColor);
                 setColorObj(color2, this.secondColor);
+                setRGBIncrement();
                 colorDirection = 'left';
             } else if (this.isRandomColor === true) {
                 // 随机生成目标颜色
                 setColorObj(color1, currantColor);
                 setRandomColor(color2);
+                setRGBIncrement();
             }
         },
 
@@ -639,6 +645,14 @@
                     context.shadowBlur = value;
                     this.drawVisualizerBars();
                     break;
+                case 'lineCap':
+                    context.lineCap = value;
+                    this.drawVisualizerBars();
+                    break;
+                case 'lineJoin':
+                    context.lineJoin = value;
+                    this.drawVisualizerBars();
+                    break;
                 case 'lineWidth':
                     context.lineWidth = value;
                     this.drawVisualizerBars();
@@ -655,11 +669,15 @@
                     break;
                 case 'firstColor':
                     this.firstColor = value;
-                    setColorObj(color1, value);
+                    setColorObj(color1, this.firstColor);
+                    setColorObj(color2, this.secondColor);
+                    setRGBIncrement();
                     break;
                 case 'secondColor':
                     this.secondColor = value;
-                    setColorObj(color2, value);
+                    setColorObj(color1, this.firstColor);
+                    setColorObj(color2, this.secondColor);
+                    setRGBIncrement();
                     break;
                 case 'offsetX':
                 case 'offsetY':

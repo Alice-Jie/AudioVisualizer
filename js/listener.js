@@ -6,7 +6,7 @@
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/07/17
+ * @date 2017/07/26
  */
 
 ;(function ($, window, document, Math, undefined) {
@@ -286,6 +286,40 @@
                 return 'innerRing';
             case 3:
                 return 'outerRing';
+        }
+    }
+
+    /**
+     * 设置线帽样式
+     *
+     * @param  {int} n 线帽样式对应值
+     * @return {string} 线帽样式标识串
+     */
+    function setLineCap(n) {
+        switch (n) {
+            case 1:
+                return 'butt';
+            case 2:
+                return 'round';
+            case 3:
+                return 'square';
+        }
+    }
+
+    /**
+     * 设置线交互样式
+     *
+     * @param  {int} n 线交互样式对应值
+     * @return {string} 线交互样式标识串
+     */
+    function setLineJoin(n) {
+        switch (n) {
+            case 1:
+                return 'miter';
+            case 2:
+                return 'round';
+            case 3:
+                return 'bevel';
         }
     }
 
@@ -1117,10 +1151,6 @@
             if (properties.circle_ringRotation) {
                 wallpaper.visualizercircle('set', 'ringRotation', properties.circle_ringRotation.value);
             }
-
-            // # 全局参数
-            //-----------------------------------------------------------
-
             // 重绘间隔
             if (properties.circle_milliSec) {
                 circleRedraw = properties.circle_milliSec.value;
@@ -1131,6 +1161,10 @@
                     wallpaper.visualizercircle('runVisualizerCircleTimer');
                 }
             }
+
+            // # 基础参数
+            //-----------------------------------------------------------
+
             // 圆环和小球不透明度
             if (properties.circle_opacity) {
                 audio.opacity = properties.circle_opacity.value / 100;
@@ -1259,6 +1293,14 @@
             if (properties.circle_outerDistance) {
                 wallpaper.visualizercircle('set', 'outerDistance', properties.circle_outerDistance.value);
             }
+            // 线帽样式
+            if (properties.circle_lineCap) {
+                wallpaper.visualizercircle('set', 'lineCap', setLineCap(properties.circle_lineCap.value));
+            }
+            // 线交汇样式
+            if (properties.circle_lineJoin) {
+                wallpaper.visualizercircle('set', 'lineJoin', setLineJoin(properties.circle_lineJoin.value));
+            }
             // 线条粗细
             if (properties.circle_lineWidth) {
                 wallpaper.visualizercircle('set', 'lineWidth', properties.circle_lineWidth.value);
@@ -1319,6 +1361,14 @@
             if (properties.bars_barsDirection) {
                 wallpaper.visualizerbars('set', 'barsDirection', setBarsDirection(properties.bars_barsDirection.value));
             }
+            // 线帽样式
+            if (properties.bars_lineCap) {
+                wallpaper.visualizerbars('set', 'lineCap', setLineCap(properties.bars_lineCap.value));
+            }
+            // 线交汇样式
+            if (properties.bars_lineJoin) {
+                wallpaper.visualizerbars('set', 'lineJoin', setLineJoin(properties.bars_lineJoin.value));
+            }
             // 线条粗细
             if (properties.bars_lineWidth) {
                 wallpaper.visualizerbars('set', 'lineWidth', properties.bars_lineWidth.value);
@@ -1334,7 +1384,7 @@
                 }
             }
 
-            // # 全局参数
+            // # 基础参数
             //-----------------------------------------------------------
 
             // 条形不透明度

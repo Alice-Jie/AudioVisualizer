@@ -6,7 +6,7 @@
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/07/17
+ * @date 2017/07/25
  */
 
 ;(function ($, window, document, Math, undefined) {
