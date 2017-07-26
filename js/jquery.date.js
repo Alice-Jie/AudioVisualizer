@@ -373,10 +373,10 @@
 
         // 全局参数
         this.opacity = options.opacity;                  // 不透明度
+        this.colorMode = options.colorMode;             // 颜色模式
         this.color = options.color;                      // 颜色
         this.shadowColor = options.shadowColor;          // 阴影颜色
         this.shadowBlur = options.shadowBlur;            // 模糊大小
-        this.isChangeColor = options.isChangeColor;      // 颜色变换开关
         this.isRandomColor = options.isRandomColor;      // 随机颜色开关
         this.firstColor = options.firstColor;            // 起始颜色
         this.secondColor = options.secondColor;          // 最终颜色
@@ -446,9 +446,9 @@
         // 全局参数
         opacity: 0.90,                 // 不透明度
         color: '255,255,255',          // 颜色
+        colorMode: 'monochrome',     // 颜色模式
         shadowColor: '255,255,255',    // 阴影颜色
         shadowBlur: 15,                // 模糊大小
-        isChangeColor: false,          // 颜色变换开关
         isRandomColor: true,           // 随机颜色变换
         firstColor: '255,255,255',     // 起始颜色
         secondColor: '255,0,0',        // 最终颜色
@@ -553,7 +553,7 @@
             originX = canvasWidth * this.offsetX;
             originY = canvasHeight * this.offsetY;
             // 更新时间日期颜色
-            if (this.isChangeColor) {
+            if (this.colorMode === 'colorTransformation') {
                 this.colorTransformation();
             }
         },
@@ -663,9 +663,9 @@
                 case 'isClickOffset':
                     this[property] = value;
                     break;
-                case 'isChangeColor':
-                    this.isChangeColor = value;
-                    this.isChangeColor ? milliSec = 30 : milliSec = 1000;
+                case 'colorMode':
+                    this.colorMode = value;
+                    this.colorMode === 'colorTransformation' ? milliSec = 30 : milliSec = 1000;
                     this.runDateTimer();
                     break;
                 case 'firstColor':

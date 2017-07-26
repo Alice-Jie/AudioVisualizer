@@ -40,17 +40,20 @@
     // VisualizerCircle插件调试区域
     //--------------------------------------------------------------------------------------------------------------
 
-    //$('#wallpaper').visualizercircle({});
-    //$('#wallpaper').visualizercircle('set', 'isChangeColor', true);
-    //$('#wallpaper').visualizercircle('updateVisualizerCircle', audioSamples);
-    //$('#wallpaper').visualizercircle('runVisualizerCircleTimer');
+    $('#wallpaper').visualizercircle({
+        isLineTo: true
+    });
+    $('#wallpaper').visualizercircle('updateVisualizerCircle', audioSamples);
+    $('#wallpaper').visualizercircle('drawVisualizerCircle');
 
     // VisualizerBars插件调试区域
     //--------------------------------------------------------------------------------------------------------------
 
-    //$('#wallpaper').visualizerbars({});
-    //$('#wallpaper').visualizerbars('updateVisualizerBars', audioSamples);
-    //$('#wallpaper').visualizerbars('drawVisualizerBars');
+    $('#wallpaper').visualizerbars({
+        colorMode:'rainBow'
+    });
+    $('#wallpaper').visualizerbars('updateVisualizerBars', audioSamples);
+    $('#wallpaper').visualizerbars('drawVisualizerBars');
 
     // Date插件调试区域
     //--------------------------------------------------------------------------------------------------------------

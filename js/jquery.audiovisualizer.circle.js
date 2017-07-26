@@ -101,6 +101,9 @@
         G_Increment = (color1.G - color2.G) / incrementMAX,
         B_Increment = (color1.B - color2.B) / incrementMAX;
 
+    // 彩虹渐变数组
+    let rainBowArray = [];
+
     let runCount = 1;  // 绘制次数
 
     let timer = null;  // 音频圆环计时器
@@ -326,10 +329,10 @@
 
         // 全局参数
         this.opacity = options.opacity;               // 不透明度
+        this.colorMode = options.colorMode;          // 颜色模式
         this.color = options.color;                   // 颜色
         this.shadowColor = options.shadowColor;       // 阴影颜色
         this.shadowBlur = options.shadowBlur;         // 模糊大小
-        this.isChangeColor = options.isChangeColor;   // 颜色变换开关
         this.isRandomColor = options.isRandomColor;   // 随机颜色开关
         this.firstColor = options.firstColor;         // 起始颜色
         this.secondColor = options.secondColor;       // 最终颜色
@@ -401,6 +404,7 @@
         // 颜色对象
         setColorObj(color1, this.firstColor);
         setColorObj(color2, this.secondColor);
+        rainBowArray = this.setRainBow();
 
         $(this.$el).append(canvas);  // 添加canvas
 
@@ -414,10 +418,10 @@
     VisualizerCircle.DEFAULTS = {
         // 全局参数
         opacity: 0.90,               // 不透明度
+        colorMode: 'monochrome',     // 颜色模式
         color: '255,255,255',        // 颜色
         shadowColor: '255,255,255',  // 阴影颜色
-        shadowBlur: 15,              // 模糊大小
-        isChangeColor: false,        // 颜色变换开关
+        shadowBlur: 0,                // 模糊大小
         isRandomColor: true,         // 随机颜色变换
         firstColor: '255,255,255',   // 起始颜色
         secondColor: '255,0,0',      // 最终颜色
@@ -533,7 +537,6 @@
             return pointArray;
         },
 
-
         /**
          * 绘制音频圆环
          * 根据坐标数组绘制音频圆环
@@ -543,7 +546,11 @@
         drawRing: function (pointArray) {
             context.save();
             context.beginPath();
-            context.moveTo(pointArray[0].x, pointArray[0].y);
+            // 首尾之间的连线
+            let end = pointArray.length - 1;
+            context.beginPath();
+            context.moveTo(pointArray[end].x, pointArray[end].y);
+            context.lineTo(pointArray[0].x, pointArray[0].y);
             for (let i = 1; i < pointArray.length; i++) {
                 context.lineTo(pointArray[i].x, pointArray[i].y);
             }
@@ -602,6 +609,7 @@
                 currantColor = Math.floor(color1.R) + ',' + Math.floor(color1.G) + ',' + Math.floor(color1.B);
                 context.fillStyle = 'rgb(' + currantColor + ')';
                 context.strokeStyle = 'rgb(' + currantColor + ')';
+                // 如果绑定模糊颜色
                 if (this.isChangeBlur) {
                     context.shadowColor = 'rgb(' + currantColor + ')';
                 }
@@ -623,6 +631,106 @@
                 setRandomColor(color2);
                 setRGBIncrement();
             }
+        },
+
+        /** 生成彩虹颜色对象集合 */
+        setRainBow: function () {
+            let rainBowArray = [];
+            let H_Increment = 360 / (this.pointNum * 2);
+            let currantH = 0;
+            for (let i = 0; i < this.pointNum; i++) {
+                let startH = currantH;
+                currantH += H_Increment;
+                let endH = currantH;
+                currantH += H_Increment;
+                rainBowArray.push({startH: startH, endH: endH});
+            }
+            return rainBowArray;
+        },
+
+        /**
+         * 根据线的宽度获取坐标
+         *
+         * @param  {float} x         线的坐标x
+         * @param  {float} y         线的坐标y
+         * @param  {int}   lineWidth 线宽
+         * @return {!Object} 两侧坐标XY对象
+         */
+        getLineXY: function (x, y, lineWidth) {
+            return {
+                x1: x - (lineWidth / 2),
+                y1: y - (lineWidth / 2),
+                x2: x + (lineWidth / 2),
+                y2: y + (lineWidth / 2)
+            };
+        },
+
+        /**
+         * 生成彩虹线性渐变
+         *
+         * @param {int}   index rainBowArray数组索引
+         * @param {float} x1    渐变开始点的 x 坐标
+         * @param {float} y1    渐变开始点的 y 坐标
+         * @param {float} x2    渐变结束点的 x 坐标
+         * @param {float} y2    渐变结束点的 y 坐标
+         * @return {!Object} 彩虹渐变对象
+         */
+        getRainBowGradient: function (index, x1, y1, x2, y2) {
+            let rainBow = context.createLinearGradient(x1, y1, x2, y2);
+            rainBow.addColorStop(0, 'hsl(' + rainBowArray[index].startH + ',100%, 50%)');
+            rainBow.addColorStop(1, 'hsl(' + rainBowArray[index].endH + ',100%, 50%)');
+            return rainBow;
+        },
+
+        /**
+         * 绘制彩虹音频圆环
+         * 根据坐标数组绘制彩虹音频圆环
+         *
+         *  @param {Array<Object>} pointArray 坐标数组
+         */
+        drawRainBowRing: function (pointArray) {
+            context.save();
+            // 首尾之间的连线
+            let end = pointArray.length - 1;
+            context.beginPath();
+            context.moveTo(pointArray[end].x, pointArray[end].y);
+            context.lineTo(pointArray[0].x, pointArray[0].y);
+            context.closePath();
+            context.strokeStyle = 'red';
+            context.stroke();
+            // 点与点之间的连线
+            for (let i = 1; i < pointArray.length; i++) {
+                context.beginPath();
+                context.moveTo(pointArray[i - 1].x, pointArray[i - 1].y);
+                context.lineTo(pointArray[i].x, pointArray[i].y);
+                context.closePath();
+                context.strokeStyle = this.getRainBowGradient(i - 1, pointArray[i - 1].x, pointArray[i - 1].y, pointArray[i].x, pointArray[i].y);
+                context.stroke();
+            }
+            context.restore();
+        },
+
+        /**
+         * 绘制环与环彩虹连线
+         * 根据坐标数组绘制内环、外环以及静态环之间彩虹连线
+         *
+         *  @param {Array<Object>} pointArray1 坐标数组1
+         *  @param {Array<Object>} pointArray2 坐标数组2
+         */
+        drawRainBowLine: function (pointArray1, pointArray2) {
+            let XY = {};
+            context.save();
+            let max = Math.min(pointArray1.length, pointArray2.length);
+            for (let i = 0; i < max; i++) {
+                context.beginPath();
+                context.moveTo(pointArray1[i].x, pointArray1[i].y);
+                context.lineTo(pointArray2[i].x, pointArray2[i].y);
+                context.closePath();
+                XY = this.getLineXY(pointArray1[i].x, pointArray1[i].y, this.lineWidth);
+                context.strokeStyle = this.getRainBowGradient(i, XY.x1, XY.y1, XY.x2, XY.y2);
+                context.stroke();
+            }
+            context.restore();
         },
 
 
@@ -684,7 +792,7 @@
             rotationAngle1 = rotation(rotationAngle1, this.ringRotation);
             rotationAngle2 = rotation(rotationAngle2, this.ballRotation);
             // 更新音频圆环小球颜色
-            if (this.isChangeColor) {
+            if (this.colorMode === 'colorTransformation') {
                 this.colorTransformation();
             }
         },
@@ -693,7 +801,7 @@
         drawVisualizerCircle: function () {
             context.clearRect(0, 0, canvasWidth, canvasHeight);
             // 绘制圆环
-            if (this.isRing) {
+            if (this.isRing && this.colorMode !== 'rainBow') {
                 if (this.isStaticRing) {
                     this.drawRing(staticPointsArray);
                 }
@@ -708,7 +816,7 @@
             let firstArray = getPointArray(this.firstPoint);
             let secondArray = getPointArray(this.secondPoint);
             if (this.isLineTo && this.firstPoint !== this.secondPoint) {
-                this.drawLine(firstArray, secondArray);
+                this.colorMode === 'rainBow' ? this.drawRainBowLine(firstArray, secondArray) : this.drawLine(firstArray, secondArray);
             }
             // 绘制小球
             if (this.isBall) {
@@ -726,7 +834,7 @@
             this.updateVisualizerCircle(audioSamples);
             if (isSilence(audioSamples)
                 || isSilence(lastAudioSamples)
-                || this.isChangeColor
+                || this.colorMode === 'colorTransformation'
                 || (this.ringRotation && this.isLineTo)
                 || this.ballRotation) {
                 this.drawVisualizerCircle();
@@ -801,7 +909,7 @@
                     context.lineWidth = value;
                     this.drawVisualizerCircle();
                     break;
-                case 'isChangeColor':
+                case 'colorMode':
                 case 'isRandomColor':
                 case 'isChangeBlur':
                 case 'isClickOffset':
@@ -836,13 +944,18 @@
                 case 'isLineTo':
                 case 'firstPoint':
                 case 'secondPoint':
-                case 'pointNum':
                 case 'isBall':
                 case 'ballSpacer':
                 case 'ballDistance':
                 case 'ballSize':
                 case 'ballRotation':
                     this[property] = value;
+                    this.updateVisualizerCircle(lastAudioSamples);
+                    this.drawVisualizerCircle();
+                    break;
+                case 'pointNum':
+                    this.pointNum = value;
+                    rainBowArray = this.setRainBow();
                     this.updateVisualizerCircle(lastAudioSamples);
                     this.drawVisualizerCircle();
                     break;
