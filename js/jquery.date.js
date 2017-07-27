@@ -627,7 +627,7 @@
             weatherTimer = setInterval(
                 ()=> {
                     this.updateWeather();
-                }, 21600000);  // 每隔6个小时更新一次天气
+                }, 3600000);  // 每隔1个小时更新一次天气
         },
 
 
