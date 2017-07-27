@@ -1,12 +1,12 @@
 /*！
- * jQuery AudioVisualizer Circle plugin v0.0.8
+ * jQuery AudioVisualizer Circle plugin v0.0.9
  * project:
  * - https://github.com/Alice-Jie/4K-Circle-Audio-Visualizer
  * - https://git.oschina.net/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/07/26
+ * @date 2017/07/27
  */
 
 (function (global, factory) {
@@ -102,7 +102,8 @@
         B_Increment = (color1.B - color2.B) / incrementMAX;
 
     // 彩虹渐变数组
-    let rainBowArray = [];
+    let ringRainBowArray = [],
+        ballRainBowArray = [];
 
     let runCount = 1;  // 绘制次数
 
@@ -404,7 +405,8 @@
         // 颜色对象
         setColorObj(color1, this.firstColor);
         setColorObj(color2, this.secondColor);
-        rainBowArray = this.setRainBow();
+        ringRainBowArray = this.setRainBow(this.pointNum);
+        ballRainBowArray = this.setRainBow(120 / this.ballSpacer);
 
         $(this.$el).append(canvas);  // 添加canvas
 
@@ -634,11 +636,11 @@
         },
 
         /** 生成彩虹颜色对象集合 */
-        setRainBow: function () {
+        setRainBow: function (pointNum) {
             let rainBowArray = [];
-            let H_Increment = 360 / (this.pointNum * 2);
+            let H_Increment = 360 / (pointNum * 2);
             let currantH = 0;
-            for (let i = 0; i < this.pointNum; i++) {
+            for (let i = 0; i < pointNum; i++) {
                 let startH = currantH;
                 currantH += H_Increment;
                 let endH = currantH;
@@ -668,18 +670,18 @@
         /**
          * 生成彩虹线性渐变
          *
-         * @param {int}   index rainBowArray数组索引
-         * @param {float} x1    渐变开始点的 x 坐标
-         * @param {float} y1    渐变开始点的 y 坐标
-         * @param {float} x2    渐变结束点的 x 坐标
-         * @param {float} y2    渐变结束点的 y 坐标
+         * @param {int}   rainBow rainBow对象
+         * @param {float} x1      渐变开始点的 x 坐标
+         * @param {float} y1      渐变开始点的 y 坐标
+         * @param {float} x2      渐变结束点的 x 坐标
+         * @param {float} y2      渐变结束点的 y 坐标
          * @return {!Object} 彩虹渐变对象
          */
-        getRainBowGradient: function (index, x1, y1, x2, y2) {
-            let rainBow = context.createLinearGradient(x1, y1, x2, y2);
-            rainBow.addColorStop(0, 'hsl(' + rainBowArray[index].startH + ',100%, 50%)');
-            rainBow.addColorStop(1, 'hsl(' + rainBowArray[index].endH + ',100%, 50%)');
-            return rainBow;
+        getRainBowGradient: function (rainBow, x1, y1, x2, y2) {
+            let rainBowGradient = context.createLinearGradient(x1, y1, x2, y2);
+            rainBowGradient.addColorStop(0, 'hsl(' + rainBow.startH + ',100%, 50%)');
+            rainBowGradient.addColorStop(1, 'hsl(' + rainBow.endH + ',100%, 50%)');
+            return rainBowGradient;
         },
 
         /**
@@ -704,7 +706,7 @@
                 context.moveTo(pointArray[i - 1].x, pointArray[i - 1].y);
                 context.lineTo(pointArray[i].x, pointArray[i].y);
                 context.closePath();
-                context.strokeStyle = this.getRainBowGradient(i - 1, pointArray[i - 1].x, pointArray[i - 1].y, pointArray[i].x, pointArray[i].y);
+                context.strokeStyle = this.getRainBowGradient(ringRainBowArray[i - 1], pointArray[i - 1].x, pointArray[i - 1].y, pointArray[i].x, pointArray[i].y);
                 context.stroke();
             }
             context.restore();
@@ -727,12 +729,32 @@
                 context.lineTo(pointArray2[i].x, pointArray2[i].y);
                 context.closePath();
                 XY = this.getLineXY(pointArray1[i].x, pointArray1[i].y, this.lineWidth);
-                context.strokeStyle = this.getRainBowGradient(i, XY.x1, XY.y1, XY.x2, XY.y2);
+                context.strokeStyle = this.getRainBowGradient(ringRainBowArray[i], XY.x1, XY.y1, XY.x2, XY.y2);
                 context.stroke();
             }
             context.restore();
         },
 
+        /**
+         * 绘制音频小球
+         * 根据坐标数组绘制音频小球
+         *
+         *  @param {Array<Object>} pointArray 坐标数组
+         *  @param {int}           ballSize   小球大小
+         */
+        drawRainBowBall: function (pointArray, ballSize) {
+            let XY = {};
+            context.save();
+            for (let i = 0; i < pointArray.length; i++) {
+                context.beginPath();
+                context.arc(pointArray[i].x - 0.5, pointArray[i].y - 0.5, ballSize, 0, 360, false);
+                context.closePath();
+                XY = this.getLineXY(pointArray[i].x - 0.5, pointArray[i].y - 0.5, ballSize);
+                context.fillStyle = this.getRainBowGradient(ballRainBowArray[i], XY.x1, XY.y1, XY.x2, XY.y2);
+                context.fill();
+            }
+            context.restore();
+        },
 
         /** 设置交互事件 */
         setupPointerEvents: function () {
@@ -820,7 +842,7 @@
             }
             // 绘制小球
             if (this.isBall) {
-                this.drawBall(ballPointArray, this.ballSize);
+                this.colorMode === 'rainBow' ? this.drawRainBowBall(ballPointArray, this.ballSize) : this.drawBall(ballPointArray, this.ballSize);
             }
         },
 
@@ -945,7 +967,6 @@
                 case 'firstPoint':
                 case 'secondPoint':
                 case 'isBall':
-                case 'ballSpacer':
                 case 'ballDistance':
                 case 'ballSize':
                 case 'ballRotation':
@@ -955,7 +976,13 @@
                     break;
                 case 'pointNum':
                     this.pointNum = value;
-                    rainBowArray = this.setRainBow();
+                    ringRainBowArray = this.setRainBow(this.pointNum);
+                    this.updateVisualizerCircle(lastAudioSamples);
+                    this.drawVisualizerCircle();
+                    break;
+                case 'ballSpacer':
+                    this.ballSpacer = value;
+                    ballRainBowArray = this.setRainBow(120 / this.ballSpacer);
                     this.updateVisualizerCircle(lastAudioSamples);
                     this.drawVisualizerCircle();
                     break;

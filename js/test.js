@@ -41,6 +41,7 @@
     //--------------------------------------------------------------------------------------------------------------
 
     $('#wallpaper').visualizercircle({
+        colorMode:'rainBow',
         isLineTo: true
     });
     $('#wallpaper').visualizercircle('updateVisualizerCircle', audioSamples);

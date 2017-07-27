@@ -1,12 +1,12 @@
 /*！
- * jQuery AudioVisualizer Bars plugin v0.0.2
+ * jQuery AudioVisualizer Bars plugin v0.0.3
  * project:
  * - https://github.com/Alice-Jie/4K-Circle-Audio-Visualizer
  * - https://git.oschina.net/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/07/26
+ * @date 2017/07/27
  */
 
 (function (global, factory) {
@@ -519,8 +519,8 @@
         },
 
         /**
-         * 绘制音频连线
-         * 根据坐标数组绘制音频条形
+         * 绘制彩虹音频连线
+         * 根据坐标数组绘制彩虹音频条形
          *
          *  @param {Array<Object>} pointArray 坐标数组
          */
@@ -538,8 +538,8 @@
         },
 
         /**
-         * 绘制音频条形
-         * 根据坐标数组绘制上条形、下条形以及静态条形之间连线
+         * 绘制彩虹音频条形
+         * 根据坐标数组绘制上条形、下条形以及静态条形之间彩虹连线
          *
          *  @param {Array<Object>} pointArray1 坐标数组1
          *  @param {Array<Object>} pointArray2 坐标数组2
