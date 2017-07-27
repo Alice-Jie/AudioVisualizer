@@ -28,7 +28,7 @@
 
     'use strict';
 
-    //兼容requestAnimFrame、cancelAnimationFrame
+    // 兼容requestAnimFrame、cancelAnimationFrame
     //--------------------------------------------------------------------------------------------------------------
 
     (function () {
@@ -57,7 +57,7 @@
             };
     }());
 
-    //私有变量
+    // 私有变量
     //--------------------------------------------------------------------------------------------------------------
 
     let canvas;                     // canvas对象
@@ -98,14 +98,14 @@
         G_Increment = (color1.G - color2.G) / incrementMAX,
         B_Increment = (color1.B - color2.B) / incrementMAX;
 
-    // 彩虹渐变数组
+    // 彩虹渐变对象数组
     let rainBowArray = [];
 
     let runCount = 1;  // 绘制次数
 
     let timer = null;  // 音频圆环计时器
 
-    //私有方法
+    // 私有方法
     //--------------------------------------------------------------------------------------------------------------
 
     /**
@@ -219,7 +219,7 @@
         colorObj.B = Math.floor(255 * Math.random());
     }
 
-    //构造函数和公共方法
+    // 构造函数和公共方法
     //--------------------------------------------------------------------------------------------------------------
 
     /**
@@ -233,7 +233,7 @@
 
         // 全局参数
         this.opacity = options.opacity;                        // 不透明度
-        this.colorMode = options.colorMode;          // 颜色模式
+        this.colorMode = options.colorMode;                    // 颜色模式
         this.color = options.color;                            // 颜色
         this.shadowColor = options.shadowColor;                // 阴影颜色
         this.shadowBlur = options.shadowBlur;                  // 模糊大小
@@ -272,7 +272,7 @@
             'position': 'absolute',
             'top': 0,
             'left': 0,
-            'z-index': 2,
+            'z-index': 3,
             'opacity': this.opacity
         });  // canvas CSS
         canvasWidth = canvas.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
@@ -300,7 +300,8 @@
         // 颜色对象
         setColorObj(color1, this.firstColor);
         setColorObj(color2, this.secondColor);
-        rainBowArray = this.setRainBow();
+        // 彩虹渐变对象数组
+        rainBowArray = this.setRainBow(this.pointNum);
 
         $(this.$el).append(canvas);  // 添加canvas
 
@@ -437,6 +438,7 @@
         /** 音频圆环和小球颜色变换 */
         colorTransformation: function () {
             if (incrementCount < incrementMAX) {
+                // color1对象向color2对象变化
                 color1.R -= R_Increment;
                 color1.G -= G_Increment;
                 color1.B -= B_Increment;
@@ -470,11 +472,11 @@
         },
 
         /** 生成彩虹颜色对象集合 */
-        setRainBow: function () {
+        setRainBow: function (pointNum) {
             let rainBowArray = [];
-            let H_Increment = 360 / (this.pointNum * 2);
+            let H_Increment = 360 / (pointNum * 2);
             let currantH = 0;
-            for (let i = 0; i < this.pointNum; i++) {
+            for (let i = 0; i < pointNum; i++) {
                 let startH = currantH;
                 currantH += H_Increment;
                 let endH = currantH;
@@ -504,18 +506,18 @@
         /**
          * 生成彩虹线性渐变
          *
-         * @param {int}   index rainBowArray数组索引
-         * @param {float} x1    渐变开始点的 x 坐标
-         * @param {float} y1    渐变开始点的 y 坐标
-         * @param {float} x2    渐变结束点的 x 坐标
-         * @param {float} y2    渐变结束点的 y 坐标
+         * @param {int}   rainBow rainBow对象
+         * @param {float} x1      渐变开始点的 x 坐标
+         * @param {float} y1      渐变开始点的 y 坐标
+         * @param {float} x2      渐变结束点的 x 坐标
+         * @param {float} y2      渐变结束点的 y 坐标
          * @return {!Object} 彩虹渐变对象
          */
-        getRainBowGradient: function (index, x1, y1, x2, y2) {
-            let rainBow = context.createLinearGradient(x1, y1, x2, y2);
-            rainBow.addColorStop(0, 'hsl(' + rainBowArray[index].startH + ',100%, 50%)');
-            rainBow.addColorStop(1, 'hsl(' + rainBowArray[index].endH + ',100%, 50%)');
-            return rainBow;
+        getRainBowGradient: function (rainBow, x1, y1, x2, y2) {
+            let rainBowGradient = context.createLinearGradient(x1, y1, x2, y2);
+            rainBowGradient.addColorStop(0, 'hsl(' + rainBow.startH + ',100%, 50%)');
+            rainBowGradient.addColorStop(1, 'hsl(' + rainBow.endH + ',100%, 50%)');
+            return rainBowGradient;
         },
 
         /**
@@ -531,7 +533,7 @@
                 context.moveTo(pointArray[i - 1].x, pointArray[i - 1].y);
                 context.lineTo(pointArray[i].x, pointArray[i].y);
                 context.closePath();
-                context.strokeStyle = this.getRainBowGradient(i - 1, pointArray[i - 1].x, pointArray[i - 1].y, pointArray[i].x, pointArray[i].y);
+                context.strokeStyle = this.getRainBowGradient(rainBowArray[i] - 1, pointArray[i - 1].x, pointArray[i - 1].y, pointArray[i].x, pointArray[i].y);
                 context.stroke();
             }
             context.restore();
@@ -553,7 +555,7 @@
                 context.moveTo(pointArray1[i].x, pointArray1[i].y);
                 context.lineTo(pointArray2[i].x, pointArray2[i].y);
                 XY = this.getLineXY(pointArray1[i].x, pointArray1[i].y, this.lineWidth);
-                context.strokeStyle = this.getRainBowGradient(i, XY.x1, XY.y1, XY.x2, XY.y2);
+                context.strokeStyle = this.getRainBowGradient(rainBowArray[i], XY.x1, XY.y1, XY.x2, XY.y2);
                 context.closePath();
                 context.stroke();
             }
@@ -796,7 +798,7 @@
                     break;
                 case 'pointNum':
                     this.pointNum = value;
-                    rainBowArray = this.setRainBow();
+                    rainBowArray = this.setRainBow(this.pointNum);
                     this.updateVisualizerBars(lastAudioSamples);
                     this.drawVisualizerBars();
                     break;

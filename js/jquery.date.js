@@ -78,9 +78,9 @@
         B: 0
     };
     let currantColor = '255,255,255';  // 当前颜色
-    let colorDirection = 'left';        // 变化方向
-    const incrementMAX = 255;           // 计数上限
-    let incrementCount = 0;             // 增量计数
+    let colorDirection = 'left';       // 变化方向
+    const incrementMAX = 255;          // 计数上限
+    let incrementCount = 0;            // 增量计数
     // 颜色增量
     let R_Increment = (color1.R - color2.R) / incrementMAX,
         G_Increment = (color1.G - color2.G) / incrementMAX,
@@ -106,14 +106,14 @@
     // 百度天气信息
     let baiduWeather = {
         basic: {
-            city: '北京',                        // 城市
-            pm25: '144'                          // PM25
+            city: '北京',                       // 城市
+            pm25: '144'                         // PM25
         },
         weather_data: {
             date: "周六 03月05日 (实时：12℃)",  // 星期-日期-温度
-            weather: "浮尘转晴",                 // 天气情况
-            temperature: "12-1℃",               // 温度情况
-            wind: "北风4-5级"                    // 风向风力
+            weather: "浮尘转晴",                // 天气情况
+            temperature: "12-1℃",             // 温度情况
+            wind: "北风4-5级"                   // 风向风力
         }
     };
     // 新浪天气信息
@@ -123,7 +123,7 @@
         },
         weather_data: {
             weather: "阵风",                     // 天气情况
-            temperature: "30℃～25℃",            // 温度情况
+            temperature: "30℃～25℃",           // 温度情况
             wind: "南风≤3级"                     // 风向风力
         }
     };
@@ -162,6 +162,8 @@
             case 'HH:mm a':
             case 'HH:mm':
                 return moment().format(timeStyle).toUpperCase();
+            default:
+                return moment().format('hh:mm:ss a').toUpperCase();
         }
     }
 
@@ -184,6 +186,8 @@
                 return moment().format(dateStyle);
             case 'weather':
                 return weatherStr;
+            default:
+                return moment().format('LL dddd');
         }
     }
 
@@ -294,7 +298,7 @@
                         if (XMLHttpRequest.status === 401) {
                             weatherStr = '错误' + XMLHttpRequest.status + XMLHttpRequest.statusText;
                         } else if (XMLHttpRequest.status === 412) {
-                            weatherStr = '错误' + XMLHttpRequest.status + '本日和风天气访问次数达到上限';
+                            weatherStr = '错误' + XMLHttpRequest.status + '本日百度天气访问次数达到上限';
                         } else {
                             weatherStr = '错误' + XMLHttpRequest.status + " " + XMLHttpRequest.statusText;
                         }
@@ -373,7 +377,7 @@
 
         // 全局参数
         this.opacity = options.opacity;                  // 不透明度
-        this.colorMode = options.colorMode;             // 颜色模式
+        this.colorMode = options.colorMode;              // 颜色模式
         this.color = options.color;                      // 颜色
         this.shadowColor = options.shadowColor;          // 阴影颜色
         this.shadowBlur = options.shadowBlur;            // 模糊大小
@@ -404,7 +408,7 @@
             'position': 'absolute',
             'top': 0,
             'left': 0,
-            'z-index': 3,
+            'z-index': 4,
             'opacity': this.opacity
         });  // canvas CSS
         canvasWidth = canvas.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;

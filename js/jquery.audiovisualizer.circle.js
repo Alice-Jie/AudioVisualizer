@@ -28,7 +28,7 @@
 
     'use strict';
 
-    //兼容requestAnimFrame、cancelAnimationFrame
+    // 兼容requestAnimFrame、cancelAnimationFrame
     //--------------------------------------------------------------------------------------------------------------
 
     (function () {
@@ -57,7 +57,7 @@
             };
     }());
 
-    //私有变量
+    // 私有变量
     //--------------------------------------------------------------------------------------------------------------
 
     let canvas;                     // canvas对象
@@ -101,7 +101,7 @@
         G_Increment = (color1.G - color2.G) / incrementMAX,
         B_Increment = (color1.B - color2.B) / incrementMAX;
 
-    // 彩虹渐变数组
+    // 彩虹渐变对象数组
     let ringRainBowArray = [],
         ballRainBowArray = [];
 
@@ -109,7 +109,7 @@
 
     let timer = null;  // 音频圆环计时器
 
-    //私有方法
+    // 私有方法
     //--------------------------------------------------------------------------------------------------------------
 
     /**
@@ -316,7 +316,7 @@
         colorObj.B = Math.floor(255 * Math.random());
     }
 
-    //构造函数和公共方法
+    // 构造函数和公共方法
     //--------------------------------------------------------------------------------------------------------------
 
     /**
@@ -330,7 +330,7 @@
 
         // 全局参数
         this.opacity = options.opacity;               // 不透明度
-        this.colorMode = options.colorMode;          // 颜色模式
+        this.colorMode = options.colorMode;           // 颜色模式
         this.color = options.color;                   // 颜色
         this.shadowColor = options.shadowColor;       // 阴影颜色
         this.shadowBlur = options.shadowBlur;         // 模糊大小
@@ -405,6 +405,7 @@
         // 颜色对象
         setColorObj(color1, this.firstColor);
         setColorObj(color2, this.secondColor);
+        // 彩虹渐变对象数组
         ringRainBowArray = this.setRainBow(this.pointNum);
         ballRainBowArray = this.setRainBow(120 / this.ballSpacer);
 
@@ -423,7 +424,7 @@
         colorMode: 'monochrome',     // 颜色模式
         color: '255,255,255',        // 颜色
         shadowColor: '255,255,255',  // 阴影颜色
-        shadowBlur: 0,                // 模糊大小
+        shadowBlur: 0,               // 模糊大小
         isRandomColor: true,         // 随机颜色变换
         firstColor: '255,255,255',   // 起始颜色
         secondColor: '255,0,0',      // 最终颜色
@@ -603,6 +604,7 @@
         /** 音频圆环和小球颜色变换 */
         colorTransformation: function () {
             if (incrementCount < incrementMAX) {
+                // color1对象向color2对象变化
                 color1.R -= R_Increment;
                 color1.G -= G_Increment;
                 color1.B -= B_Increment;

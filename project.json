@@ -8,6 +8,11 @@
         "type": "color",
         "value": "0.7529411764705882 0.7529411764705882 0.7529411764705882"
       },
+
+
+
+
+
       "BG_Text": {
         "order": 1000,
         "text": "<br/><h4><b>背景设置(Background Settings)</b></h4><span style='color:gray'>自定义背景，以及背景的填充方式</span><br/>",
@@ -92,6 +97,9 @@
         "type": "directory",
         "mode": "fetchall"
       },
+
+
+
       "directory_sliderStyle": {
         "order": 1100,
         "condition": "BG_mode.value == 3",
@@ -246,6 +254,9 @@
         "min": 1,
         "value": 5
       },
+
+
+
       "video_Text": {
         "order": 1200,
         "condition": "BG_mode.value == 4",
@@ -337,6 +348,11 @@
         "type": "color",
         "value": "0 0 0"
       },
+
+
+
+
+
       "global_Text": {
         "order": 2000,
         "text": "<br/><h4><b>全局设置(Global Settings)</b></h4><span style='color:gray'>全局设置，影响音频圆环和时钟</span><br/>",
@@ -390,18 +406,18 @@
       },
       "global_shadowColor": {
         "order": 2006,
-        "condition": "global_GlobalSettings.value == true && (global_colorMode.value !== 3 || global_isChangeBlur.value == false)",
+        "condition": "global_GlobalSettings.value == true && (global_colorMode.value == 1 || (global_colorMode.value == 2 && global_isChangeBlur.value == false))",
         "text": "<br/>模糊颜色<br/>Blur Color<br/>",
         "type": "color",
         "value": "1 1 1"
       },
       "global_shadowBlur": {
         "order": 2007,
-        "condition": "global_GlobalSettings.value == true && global_colorMode.value !== 3",
+        "condition": "global_GlobalSettings.value == true && global_colorMode.value != 3",
         "text": "<br/>模糊程度<br/>Blur Size<br/>",
         "type": "slider",
         "editable": true,
-        "max": 10,
+        "max": 50,
         "min": 0,
         "value": 0
       },
@@ -466,6 +482,11 @@
         "type": "bool",
         "value": false
       },
+
+
+
+
+
       "circle_AudioText": {
         "order": 3000,
         "text": "<br/><h4><b>音频设置(Audio Settings)</b></h4><span style='color:gray'>设置音频相关的参数</span><br/>",
@@ -505,28 +526,28 @@
       },
       "circle_isRing": {
         "order": 3101,
-        "condition": "circle_colorMode.value !== 3",
+        "condition": "circle_colorMode.value != 3",
         "text": "<br/>显示圆环<br/>Show Ring?<br/>",
         "type": "bool",
         "value": true
       },
       "circle_isStaticRing": {
         "order": 3102,
-        "condition": "circle_colorMode.value !== 3 && circle_isRing.value == true",
+        "condition": "circle_colorMode.value != 3 && circle_isRing.value == true",
         "text": "<br/>显示静态圆环<br/>Show Static Ring?<br/>",
         "type": "bool",
         "value": false
       },
       "circle_isInnerRing": {
         "order": 3103,
-        "condition": "circle_colorMode.value !== 3 && circle_isRing.value == true",
+        "condition": "circle_colorMode.value != 3 && circle_isRing.value == true",
         "text": "<br/>显示内圆环<br/>Show Inner Ring?<br/>",
         "type": "bool",
         "value": true
       },
       "circle_isOuterRing": {
         "order": 3104,
-        "condition": "circle_colorMode.value !== 3 && circle_isRing.value == true",
+        "condition": "circle_colorMode.value != 3 && circle_isRing.value == true",
         "text": "<br/>显示外圆环<br/>Show Outer Ring?<br/>",
         "type": "bool",
         "value": true
@@ -560,6 +581,9 @@
         "min": 30,
         "value": 30
       },
+
+
+
       "circle_basicText": {
         "order": 3200,
         "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true)",
@@ -599,52 +623,52 @@
       },
       "circle_color": {
         "order": 3203,
-        "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true) && circle_colorMode.value === 1",
+        "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true) && circle_colorMode.value == 1",
         "text": "<br/>颜色<br/>Color<br/>",
         "type": "color",
         "value": "1 1 1"
       },
       "circle_shadowColor": {
         "order": 3204,
-        "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true) && (circle_colorMode.value !== 3 || circle_isChangeBlur.value == false)",
+        "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true) && (circle_colorMode.value == 1 || (circle_colorMode.value == 2 && circle_isChangeBlur.value == false))",
         "text": "<br/>模糊颜色<br/>Blur Color<br/>",
         "type": "color",
         "value": "1 1 1"
       },
       "circle_shadowBlur": {
         "order": 3205,
-        "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true) && circle_colorMode.value !== 3",
+        "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true) && circle_colorMode.value != 3",
         "text": "<br/>模糊程度<br/>Blur Size<br/>",
         "type": "slider",
         "editable": true,
-        "max": 10,
+        "max": 50,
         "min": 0,
         "value": 0
       },
       "circle_isRandomColor": {
         "order": 3206,
-        "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true) && circle_colorMode.value === 2",
+        "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true) && circle_colorMode.value == 2",
         "text": "<br/>随机颜色<br/>Random Color?<br/>",
         "type": "bool",
         "value": false
       },
       "circle_firstColor": {
         "order": 3207,
-        "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true) && circle_colorMode.value === 2 && circle_isRandomColor.value == false",
+        "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true) && circle_colorMode.value == 2 && circle_isRandomColor.value == false",
         "text": "<br/>初始颜色<br/>Initial Color<br/>",
         "type": "color",
         "value": "1 1 1"
       },
       "circle_secondColor": {
         "order": 3208,
-        "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true) && circle_colorMode.value === 2 && circle_isRandomColor.value == false",
+        "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true) && circle_colorMode.value == 2 && circle_isRandomColor.value == false",
         "text": "<br/>最终颜色<br/>Final Color<br/>",
         "type": "color",
         "value": "1 0 0"
       },
       "circle_isChangeBlur": {
         "order": 3209,
-        "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true) && circle_colorMode.value === 2",
+        "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true) && circle_colorMode.value == 2",
         "text": "<br/>绑定模糊颜色<br/>Bind Blurred Colors?<br/>",
         "type": "bool",
         "value": false
@@ -682,6 +706,9 @@
         "type": "bool",
         "value": false
       },
+
+
+
       "circle_LineText": {
         "order": 3300,
         "text": "<br/><b># 线条设置(Line Settings)</b><br/>",
@@ -817,6 +844,9 @@
         "min": 1,
         "value": 5
       },
+
+
+
       "circle_BallText": {
         "order": 3400,
         "text": "<br/><b># 小球设置(Ball Settings)</b><br/>",
@@ -868,6 +898,11 @@
         "min": -60,
         "value": 0
       },
+
+
+
+
+
       "bars_barsText": {
         "order": 4000,
         "text": "<br/><h4><b>条形设置(Bars Settings)</b></h4><span style='color:gray'>设置音频条形相关的参数</span><br/>",
@@ -1008,6 +1043,9 @@
         "min": 30,
         "value": 30
       },
+
+
+
       "bars_basicText": {
         "order": 4100,
         "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
@@ -1054,18 +1092,18 @@
       },
       "bars_shadowColor": {
         "order": 4104,
-        "condition": "(bars_isBars.value == true || bars_isLineTo.value == true) && (bars_colorMode.value !== 3 || bars_isChangeBlur.value == false)",
+        "condition": "(bars_isBars.value == true || bars_isLineTo.value == true) && (bars_colorMode.value == 1 || (bars_colorMode.value == 2 && bars_isChangeBlur.value == false))",
         "text": "<br/>模糊颜色<br/>Blur Color<br/>",
         "type": "color",
         "value": "1 1 1"
       },
       "bars_shadowBlur": {
         "order": 4105,
-        "condition": "(bars_isBars.value == true || bars_isLineTo.value == true) && bars_colorMode.value == 2",
+        "condition": "(bars_isBars.value == true || bars_isLineTo.value == true) && bars_colorMode.value != 3",
         "text": "<br/>模糊程度<br/>Blur Size<br/>",
         "type": "slider",
         "editable": true,
-        "max": 10,
+        "max": 50,
         "min": 0,
         "value": 0
       },
@@ -1130,6 +1168,11 @@
         "type": "bool",
         "value": false
       },
+
+
+
+
+
       "date_Text": {
         "order": 5000,
         "text": "<br/><h4><b>日期设置(Date Settings)</b></h4><span style='color:gray'>设置日期相关的参数</span><br/>",
@@ -1593,6 +1636,9 @@
         "min": 0,
         "value": 0
       },
+
+
+
       "date_basicText": {
         "order": 5100,
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true",
@@ -1628,52 +1674,52 @@
       },
       "date_color": {
         "order": 5103,
-        "condition": "global_GlobalSettings.value == false && date_isDate.value == true && date_colorMode.value === 1",
+        "condition": "global_GlobalSettings.value == false && date_isDate.value == true && date_colorMode.value == 1",
         "text": "<br/>颜色<br/>Color<br/>",
         "type": "color",
         "value": "1 1 1"
       },
       "date_shadowColor": {
         "order": 5104,
-        "condition": "global_GlobalSettings.value == false && date_isDate.value == true && (date_colorMode.value !== 3 || date_isChangeBlur.value == false)",
+        "condition": "global_GlobalSettings.value == false && date_isDate.value == true && (date_colorMode.value == 1 || (date_colorMode.value == 2 && date_isChangeBlur.value == false))",
         "text": "<br/>模糊颜色<br/>Blur Color<br/>",
         "type": "color",
         "value": "1 1 1"
       },
       "date_shadowBlur": {
         "order": 5105,
-        "condition": "global_GlobalSettings.value == false && date_isDate.value == true && date_colorMode.value !== 3",
+        "condition": "global_GlobalSettings.value == false && date_isDate.value == true && date_colorMode.value != 3",
         "text": "<br/>模糊程度<br/>Blur Size<br/>",
         "type": "slider",
         "editable": true,
-        "max": 10,
+        "max": 50,
         "min": 0,
         "value": 0
       },
       "date_isRandomColor": {
         "order": 5106,
-        "condition": "global_GlobalSettings.value == false && date_isDate.value == true && date_colorMode.value === 2",
+        "condition": "global_GlobalSettings.value == false && date_isDate.value == true && date_colorMode.value == 2",
         "text": "<br/>随机颜色<br/>Random Color?<br/>",
         "type": "bool",
         "value": false
       },
       "date_firstColor": {
         "order": 5107,
-        "condition": "global_GlobalSettings.value == false && date_isDate.value == true && date_colorMode.value === 2 && date_isRandomColor.value == false",
+        "condition": "global_GlobalSettings.value == false && date_isDate.value == true && date_colorMode.value == 2 && date_isRandomColor.value == false",
         "text": "<br/>初始颜色<br/>Initial Color<br/>",
         "type": "color",
         "value": "1 1 1"
       },
       "date_secondColor": {
         "order": 5108,
-        "condition": "global_GlobalSettings.value == false && date_isDate.value == true && date_colorMode.value === 2 && date_isRandomColor.value == false",
+        "condition": "global_GlobalSettings.value == false && date_isDate.value == true && date_colorMode.value == 2 && date_isRandomColor.value == false",
         "text": "<br/>最终颜色<br/>Final Color<br/>",
         "type": "color",
         "value": "1 0 0"
       },
       "date_isChangeBlur": {
         "order": 5109,
-        "condition": "global_GlobalSettings.value == false && date_isDate.value == true && date_colorMode.value === 2",
+        "condition": "global_GlobalSettings.value == false && date_isDate.value == true && date_colorMode.value == 2",
         "text": "<br/>绑定模糊颜色<br/>Bind Blurred Colors?<br/>",
         "type": "bool",
         "value": false
@@ -1711,6 +1757,11 @@
         "type": "bool",
         "value": false
       },
+
+
+
+
+
       "particles_Text": {
         "order": 6000,
         "text": "<br/><h4><b>粒子设置(Particles Settings)</b></h4><span style='color:gray'>设置粒子相关的参数</span><br/>",
@@ -2000,7 +2051,7 @@
   "tags": [
     "Relaxing"
   ],
-  "title": "[4K]Circle Audio Visualizer(自定义背景&圆形音频可视化&多语言日期&粒子系统)",
+  "title": "[4K]Audio Visualizer(自定义背景&音频可视化&70国日期语言&粒子特效系统)",
   "type": "web",
   "visibility": "public",
   "workshopid": 921617616
