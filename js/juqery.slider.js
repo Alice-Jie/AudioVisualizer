@@ -1,12 +1,12 @@
 /*!
- * jQuery Slider plugin v0.1.0
+ * jQuery Slider plugin v0.1.1
  * project:
  * - https://github.com/Alice-Jie/4K-Circle-Audio-Visualizer
  * - https://git.oschina.net/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/07/07
+ * @date 2017/07/28
  */
 
 (function (global, factory) {
@@ -73,8 +73,11 @@
     let imgList = [];                 // 图片绝对路径数组
     let imgIndex = 0,                 // 图片索引
         oldIndex = 0;                 // 旧的索引
-    let userColor = '255,255,255',    // 用户自定义颜色
-        userImg = '';                 // 用户自定义图片路径
+    let userColor = '255,255,255',           // 用户自定义颜色
+        userGradientDeg = '120',             // 用户自定义线性角度
+        userGradientColor1 = '189,253,0',    // 用户自定义线性颜色1
+        userGradientColor2 = '255,255,0';    // 用户自定义线性颜色2
+     let userImg = '';                       // 用户自定义图片路径
 
     let video = document.createElement('video');   // 视频对象
     let videoList = [];                            // 视频数组
@@ -954,19 +957,20 @@
     let Slider = function (el, options) {
         this.$el = $(el);
 
-        this.sliderStyle = options.sliderStyle;    // 背景切换模式
-        this.readStyle = options.readStyle;        // 读取模式
-        this.effect = options.effect;              // 时间单位
-        this.timeUnits = options.timeUnits;        // 切换特效
-        this.pauseTime = options.pauseTime;        // 动画切换速度
-        this.imgFit = options.imgFit;              // IMG适应方式
-        this.imgBGColor = options.imgBGColor;      // IMG背景颜色
-        this.progress = options.progress;          // 视频进度
-        this.isPlay = options.isPlay;              // 是否播放Video
-        this.volume = options.volume;              // Video音量
-        this.videoFit = options.videoFit;          // Video适应方式
-        this.videoBGColor = options.videoBGColor;  // Video背景颜色
-        this.isRotate3D = options.isRotate3D;      // 是否3D旋转
+        this.sliderStyle = options.sliderStyle;     // 背景切换模式
+        this.readStyle = options.readStyle;         // 读取模式
+        this.effect = options.effect;               // 时间单位
+        this.timeUnits = options.timeUnits;         // 切换特效
+        this.pauseTime = options.pauseTime;         // 动画切换速度
+        this.imgFit = options.imgFit;               // IMG适应方式
+        this.imgBGColor = options.imgBGColor;       // IMG背景颜色
+        this.progress = options.progress;           // 视频进度
+        this.isPlay = options.isPlay;               // 是否播放Video
+        this.volume = options.volume;               // Video音量
+        this.playbackRate = options.playbackRate;   // Video播放速度
+        this.videoFit = options.videoFit;           // Video适应方式
+        this.videoBGColor = options.videoBGColor;   // Video背景颜色
+        this.isRotate3D = options.isRotate3D;       // 是否3D旋转
 
         // 初始化图片源
         prevImg.src = 'img/bg.png';
@@ -1054,6 +1058,7 @@
         progress: 0,                  // 视频进度
         isPlay: true,                 // 是否播放Video
         volume: 0.75,                 // Video音量
+        playbackRate: 1.0,            // Video播放速度
         videoFit: 'fill',             // Video适应方式
         videoBGColor: '255,255,255',  // Video背景颜色
         isRotate3D: false             // 是否3D旋转
@@ -1247,6 +1252,31 @@
         },
 
         /**
+         * 获取用户自定义线性背景
+         *
+         * @param {int}    deg    角度
+         * @param {string} color1 颜色字符串1
+         * @param {string} color2 颜色字符串2
+         */
+        setUserLinearGradient: function (deg, color1, color2) {
+            if(deg) {
+                userGradientDeg = deg;
+            } else {
+                userGradientDeg = 0;
+            }
+            if(color1) {
+                userGradientColor1 = color1;
+            } else {
+                userGradientColor1 = '189,253,0';
+            }
+            if(color2) {
+                userGradientColor2 = color2;
+            } else {
+                userGradientColor2 = '255,255,0'
+            }
+         },
+
+        /**
          * 获取用户自定义的图片地址
          * 如果路径不存在默认为空字符串
          *
@@ -1289,6 +1319,19 @@
                     'background-image': 'url(img/bg.png)',
                     'background-color': 'rgb(255, 255, 255)'
                 });
+            }
+        },
+
+        /** 设置background-image为线性渐变 */
+        cssLinearGradient: function () {
+            if (userGradientColor1 && userGradientColor2) {
+                this.$el.css('background-image', 'linear-gradient(' + userGradientDeg + 'deg, '
+                    + 'rgb(' + userGradientColor1 + ')' +' , '
+                    + 'rgb(' + userGradientColor2 + ')' + ')');
+            } else {
+                this.$el.css('background-image', 'linear-gradient(' + userGradientDeg + 'deg, '
+                    + 'rgb(189, 253, 0)' +' , '
+                    + 'rgb(255, 255, 255)' + ')');
             }
         },
 
@@ -1617,6 +1660,13 @@
             }
         },
 
+        /** 设置视频播放速度 */
+        setVideoPlaybackRate: function (backRate) {
+            if (video.src) {
+                video.playbackRate = backRate;
+            }
+        },
+
         /** 播放视频 */
         playVideo: function () {
             if (video.src) {
@@ -1702,6 +1752,10 @@
                 case 'volume':
                     this.volume = value;
                     this.setVideoVolume(this.volume);
+                    break;
+                case 'playbackRate':
+                    this.playbackRate = value;
+                    this.setVideoPlaybackRate(this.playbackRate);
                     break;
                 case 'isRotate3D':
                     this.isRotate3D = value;

@@ -44,19 +44,50 @@
       },
       "BG_Color": {
         "order": 1002,
-        "condition": "BG_mode.value == 1",
+        "condition": "BG_mode.value == 1 && BG_isLinearGradient.value == false",
         "text": "<br/>背景颜色<br/>Background Color<br/>",
         "type": "color",
         "value": "0 0 0"
       },
-      "BG_image": {
+      "BG_isLinearGradient": {
         "order": 1003,
+        "condition": "BG_mode.value == 1",
+        "text": "<br/>线性背景？<br/>Linear Gradient?<br/>",
+        "type": "bool",
+        "value": false
+      },
+      "BG_linearGradientColor1": {
+        "order": 1004,
+        "condition": "BG_mode.value == 1 && BG_isLinearGradient.value == true",
+        "text": "<br/>颜色1<br/>Color1<br/>",
+        "type": "color",
+        "value": "0.7411764705882353 0.992156862745098 0"
+      },
+      "BG_linearGradientColor2": {
+        "order": 1005,
+        "condition": "BG_mode.value == 1 && BG_isLinearGradient.value == true",
+        "text": "<br/>颜色2<br/>Color2<br/>",
+        "type": "color",
+        "value": "1 1 0"
+      },
+      "BG_linearGradientDeg": {
+        "order": 1006,
+        "condition": "BG_mode.value == 1 && BG_isLinearGradient.value == true",
+        "text": "<br/>角度<br/>Deg<br/>",
+        "type": "slider",
+        "editable": true,
+        "max": 180,
+        "min": -180,
+        "value": 120
+      },
+      "BG_image": {
+        "order": 1007,
         "condition": "BG_mode.value == 2",
         "text": "<br/>背景图片<br/>Background Img<br/>",
         "type": "file"
       },
       "image_fillStyle": {
-        "order": 1004,
+        "order": 1008,
         "condition": "BG_mode.value == 2 || (BG_mode.value == 3 && directory_sliderStyle.value == 1)",
         "text": "<br/>背景填充方式<br/>Background Fill Style<br/>",
         "type": "combo",
@@ -85,13 +116,13 @@
         "value": 1
       },
       "image_isRotate3D": {
-        "order": 1005,
+        "order": 1009,
         "text": "<br/>3D转换<br/>Rotate 3D?<br/>",
         "type": "bool",
         "value": false
       },
       "directory": {
-        "order": 1006,
+        "order": 1010,
         "condition": "BG_mode.value == 3",
         "text": "<br/>背景文件夹<br/>Background Folder<br/>",
         "type": "directory",
@@ -312,8 +343,18 @@
         "min": 0,
         "value": 75
       },
-      "video_FitStyle": {
+      "video_playBackRate": {
         "order": 1207,
+        "condition": "BG_mode.value == 4",
+        "text": "<br/>视频播放速度<br/>Playback Rate<br/>",
+        "type": "slider",
+        "editable": true,
+        "max": 500,
+        "min": 0,
+        "value": 100
+      },
+      "video_FitStyle": {
+        "order": 1208,
         "condition": "BG_mode.value == 4",
         "text": "<br/>视频填充方式<br/>Video Fill Style<br/>",
         "type": "combo",
@@ -342,7 +383,7 @@
         "value": 1
       },
       "video_BGColor": {
-        "order": 1208,
+        "order": 1209,
         "condition": "BG_mode.value == 4",
         "text": "<br/>视频背景颜色<br/>Video Background Color<br/>",
         "type": "color",
@@ -1805,7 +1846,7 @@
         "value": false
       },
       "particles_number": {
-        "order": 6004,
+        "order": 6002,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>粒子数量<br/>Particles Number<br/>",
         "type": "slider",
@@ -1813,6 +1854,22 @@
         "max": 500,
         "min": 0,
         "value": 100
+      },
+      "particles_isDensity": {
+        "order": 6003,
+        "condition": "particles_isParticles.value == true",
+        "text": "<br/>启用粒子密度<br/>Particles Density?<br/>",
+        "type": "bool",
+        "value": false
+      },
+      "particles_densityArea": {
+        "order": 6004,
+        "condition": "particles_isParticles.value == true && particles_isDensity.value == true",
+        "text": "<br/>密度区域<br/>Density Area<br/>",
+        "type": "slider",
+        "max": 4000,
+        "min": 1000,
+        "value": 1000
       },
       "particles_opacity": {
         "order": 6005,
@@ -2080,21 +2137,53 @@
 
 
 
-      "about_Text": {
-        "order": 90000,
-        "text": "<br/><h4><b>关于</b>",
-        "type": "text"
-      },
       "about_isAbout": {
-        "order": 90001,
-        "text": "<br/>显示关于<br/>",
+        "order": 90000,
+        "text": "<br/><h4><b>关于作者</b></h4><span>Shoshin wasuru bekarazu</span><br/>",
         "type": "bool",
         "value": false
       },
-      "about_describeText": {
+      "about_authorText": {
+        "order": 90001,
+        "condition": "about_isAbout.value == true",
+        "text": "<br/><span>作者：Alice</span>",
+        "type": "text"
+      },
+      "about_qqText": {
         "order": 90002,
         "condition": "about_isAbout.value == true",
-        "text": "<br/><span>Hello World!</span><br/>",
+        "text": "<br/><span>QQ：909011298</span>",
+        "type": "text"
+      },
+      "about_emailText": {
+        "order": 90003,
+        "condition": "about_isAbout.value == true",
+        "text": "<br/><span>Email：909011298@qq.com</span>",
+        "type": "text"
+      },
+      "about_describeText": {
+        "order": 90004,
+        "condition": "about_isAbout.value == true",
+        "text": "<br/><span>相关说明：</span><br/><br/><span>感谢大家长期以来的支持，在第1000个好评之际进行一个大版本的更新，具体请移步创意工坊。因为是更新内容较多，难免会出现一些BUG。发现BUG请在BUG集中反馈区反馈。被发现的BUG将在后续的版本进行修复。</span><br/>",
+        "type": "text"
+      },
+      "about_isQRcode": {
+        "order": 90005,
+        "condition": "about_isAbout.value == true",
+        "text": "显示二维码<br/>",
+        "type": "bool",
+        "value": false
+      },
+      "about_kunxiText": {
+        "order": 90006,
+        "condition": "about_isAbout.value == true && about_isQRcode.value == false",
+        "text": "<br/><img src='https://steamuserimages-a.akamaihd.net/ugc/857225545735417247/BA8288EF5173C82DD37930E67DF58C6940C8E435/' alt='昆西昆西昆~Quincy 0v0' width='250' height='250' />",
+        "type": "text"
+      },
+      "about_QRcodeText": {
+        "order": 90007,
+        "condition": "about_isAbout.value == true && about_isQRcode.value == true",
+        "text": "<br/><img src='https://steamuserimages-a.akamaihd.net/ugc/857225545735498072/E89F55AEA9EA8B154821285E0C9418F68B0CC861/' alt='https://www.bilibili.com/video/av484787/' width='250' height='250' />",
         "type": "text"
       }
     },

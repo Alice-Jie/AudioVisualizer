@@ -432,7 +432,7 @@
         // 默认开启
         this.setupPointerEvents();
         this.initParticlesArray();  // 初始化粒子列表
-        // this.densityAutoParticles();  // 基于粒子密度调节粒子数量
+        this.densityAutoParticles();  // 基于粒子密度调节粒子数量
 
     };
 
@@ -951,7 +951,6 @@
          */
         set: function (property, value) {
             switch (property) {
-                case 'isDensity':
                 case 'linkEnable':
                 case 'linkDistance':
                 case 'linkWidth':
@@ -962,6 +961,10 @@
                 case 'moveOutMode':
                 case 'interactivityLink':
                     this[property] = value;
+                    break;
+                case 'isDensity':
+                    this.isDensity = value;
+                    this.densityAutoParticles();
                     break;
                 case 'densityArea':
                     this.densityArea = value;

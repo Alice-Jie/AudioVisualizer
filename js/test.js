@@ -67,7 +67,7 @@
 
     //$('#wallpaper').slider({});
     //$('#wallpaper').slider('addVideo');
-    //('#wallpaper').slider('delVideo');
+    //$('#wallpaper').slider('delVideo');
 
     // Particles插件调试区域
     //--------------------------------------------------------------------------------------------------------------
