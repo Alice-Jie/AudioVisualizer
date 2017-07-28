@@ -6,7 +6,7 @@
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/07/27
+ * @date 2017/07/28
  */
 
 ;(function ($, window, document, Math, undefined) {
@@ -59,20 +59,19 @@
     // Date插件调试区域
     //--------------------------------------------------------------------------------------------------------------
 
-    //$('#wallpaper').date({});
-    //$('#wallpaper').date('set', 'dateStyle', 'weather');
+    $('#wallpaper').date({});
+    $('#wallpaper').date('set', 'dateStyle', 'weather');
 
     // Slider插件调试区域
     //--------------------------------------------------------------------------------------------------------------
 
-    //$('#wallpaper').slider({});
-    //$('#wallpaper').slider('addVideo');
-    //$('#wallpaper').slider('delVideo');
+    $('#wallpaper').slider({});
+    $('#wallpaper').slider('addVideo');
 
     // Particles插件调试区域
     //--------------------------------------------------------------------------------------------------------------
 
-    //$('#wallpaper').particles({});
-    //$('#wallpaper').particles('runParticlesTimer');
+    $('#wallpaper').particles({});
+    $('#wallpaper').particles('runParticlesTimer');
 
 })(jQuery, window, document, Math);

@@ -8,11 +8,6 @@
         "type": "color",
         "value": "0.7529411764705882 0.7529411764705882 0.7529411764705882"
       },
-
-
-
-
-
       "BG_Text": {
         "order": 1000,
         "text": "<br/><h4><b>背景设置(Background Settings)</b></h4><span style='color:gray'>设置背景相关的参数。目前支持纯色背景、图片背景、幻灯片图片背景以及视频背景</span><br/>",
@@ -128,9 +123,6 @@
         "type": "directory",
         "mode": "fetchall"
       },
-
-
-
       "directory_sliderStyle": {
         "order": 1100,
         "condition": "BG_mode.value == 3",
@@ -285,9 +277,6 @@
         "min": 1,
         "value": 5
       },
-
-
-
       "video_Text": {
         "order": 1200,
         "condition": "BG_mode.value == 4",
@@ -389,11 +378,6 @@
         "type": "color",
         "value": "0 0 0"
       },
-
-
-
-
-
       "global_Text": {
         "order": 2000,
         "text": "<br/><h4><b>全局设置(Global Settings)</b></h4><span style='color:gray'>影响音频圆环和时钟。对其基础参数、坐标参数进行统一设置。音频条形请单独设置</span><br/>",
@@ -490,9 +474,6 @@
         "type": "bool",
         "value": false
       },
-
-
-
       "global_coordinateText": {
         "order": 2012,
         "condition": "global_GlobalSettings.value == true",
@@ -526,11 +507,6 @@
         "type": "bool",
         "value": false
       },
-
-
-
-
-
       "circle_AudioText": {
         "order": 3000,
         "text": "<br/><h4><b>音频设置(Audio Settings)</b></h4><span style='color:gray'>设置音频相关的参数，影响音频圆环和音频条形</span><br/>",
@@ -563,10 +539,6 @@
         "min": 1,
         "value": 15
       },
-
-
-
-
       "circle_Text": {
         "order": 3100,
         "text": "<br/><h4><b>圆环设置(Ring Settings)</b></h4><span style='color:gray'>设置音频圆环相关的参数</span><br/>",
@@ -661,9 +633,6 @@
         "type": "bool",
         "value": false
       },
-
-
-
       "circle_coordinateText": {
         "order": 3111,
         "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true)",
@@ -697,12 +666,8 @@
         "type": "bool",
         "value": false
       },
-
-
-
       "circle_ringText": {
         "order": 3200,
-        "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true)",
         "text": "<br/><b>圆环 - 圆环设置</b><br/><b>Ring - Ring Settings</b><br/>",
         "type": "text"
       },
@@ -763,9 +728,6 @@
         "min": 30,
         "value": 30
       },
-
-
-
       "circle_LineText": {
         "order": 3300,
         "text": "<br/><b>圆环 - 线条设置</b><br/><b>Ring - Line Settings</b><br/>",
@@ -901,9 +863,6 @@
         "min": 1,
         "value": 5
       },
-
-
-
       "circle_BallText": {
         "order": 3400,
         "text": "<br/><b>圆环 - 小球设置</b><br/><b>Ring - Ball Settings</b><br/>",
@@ -955,11 +914,6 @@
         "min": -60,
         "value": 0
       },
-
-
-
-
-
       "bars_Text": {
         "order": 4000,
         "text": "<br/><h4><b>条形设置(Bars Settings)</b></h4><span style='color:gray'>设置音频条形相关的参数，通过基本参数、坐标参数、圆环参数、线条参数以及小球参数进行调节</span><br/>",
@@ -1054,9 +1008,6 @@
         "type": "bool",
         "value": false
       },
-
-
-
       "bars_coordinateText": {
         "order": 4011,
         "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
@@ -1090,9 +1041,6 @@
         "type": "bool",
         "value": false
       },
-
-
-
       "bars_barsText": {
         "order": 4100,
         "text": "<br/><b>条形 - 条形设置</b><br/><b>Bars - Bars Settings</b><br/>",
@@ -1233,11 +1181,6 @@
         "min": 30,
         "value": 30
       },
-
-
-
-
-
       "date_Text": {
         "order": 5000,
         "text": "<br/><h4><b>日期设置(Date Settings)</b></h4><span style='color:gray'>设置日期相关的参数。通过基本参数，日期参数进行调节。天气参数仅支持中国地区</span><br/>",
@@ -1328,7 +1271,6 @@
         "type": "bool",
         "value": false
       },
-
       "date_coordinateText": {
         "order": 5011,
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true",
@@ -1362,12 +1304,8 @@
         "type": "bool",
         "value": false
       },
-
-
-
       "date_dateText": {
-        "order": 5101,
-        "condition": "global_GlobalSettings.value == false && date_isDate.value == true",
+        "order": 5100,
         "text": "<br/><b>日期 - 日期设置</b><br/><b>Date - Date Settings</b><br/>",
         "type": "text"
       },
@@ -1829,11 +1767,6 @@
         "min": 0,
         "value": 0
       },
-
-
-
-
-
       "particles_Text": {
         "order": 6000,
         "text": "<br/><h4><b>粒子设置(Particles Settings)</b></h4><span style='color:gray'>设置粒子特效相关的参数</span><br/>",
@@ -1845,8 +1778,14 @@
         "type": "bool",
         "value": false
       },
-      "particles_number": {
+      "particles_basicText": {
         "order": 6002,
+        "condition": "particles_isParticles.value == true",
+        "text": "<br/><b>粒子 - 基础设置</b><br/><b>Particles - Basic Settings</b><br/>",
+        "type": "text"
+      },
+      "particles_number": {
+        "order": 6003,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>粒子数量<br/>Particles Number<br/>",
         "type": "slider",
@@ -1856,14 +1795,14 @@
         "value": 100
       },
       "particles_isDensity": {
-        "order": 6003,
+        "order": 6004,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>启用粒子密度<br/>Particles Density?<br/>",
         "type": "bool",
         "value": false
       },
       "particles_densityArea": {
-        "order": 6004,
+        "order": 6005,
         "condition": "particles_isParticles.value == true && particles_isDensity.value == true",
         "text": "<br/>密度区域<br/>Density Area<br/>",
         "type": "slider",
@@ -1872,7 +1811,7 @@
         "value": 1000
       },
       "particles_opacity": {
-        "order": 6005,
+        "order": 6006,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>粒子不透明度<br/>Particles Opacity<br/>",
         "type": "slider",
@@ -1882,28 +1821,28 @@
         "value": 75
       },
       "particles_opacityRandom": {
-        "order": 6006,
+        "order": 6007,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>随机不透明度<br/>Opacity Random?<br/>",
         "type": "bool",
         "value": true
       },
       "particles_color": {
-        "order": 6007,
+        "order": 6008,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>粒子颜色<br/>Particles Color<br/>",
         "type": "color",
         "value": "1 1 1"
       },
       "particles_shadowColor": {
-        "order": 6008,
+        "order": 6009,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>粒子模糊颜色<br/>Particles Blur Color<br/>",
         "type": "color",
         "value": "1 1 1"
       },
       "particles_shadowBlur": {
-        "order": 6009,
+        "order": 6010,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>粒子模糊程度<br/>Particles Blur Size<br/>",
         "type": "slider",
@@ -1912,8 +1851,14 @@
         "min": 0,
         "value": 0
       },
+      "particles_sizeText": {
+        "order": 6100,
+        "condition": "particles_isParticles.value == true",
+        "text": "<br/><b>粒子 - 类型设置</b><br/><b>Particles - Type Settings</b><br/>",
+        "type": "text"
+      },
       "particles_shapeType": {
-        "order": 6010,
+        "order": 6101,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>粒子形状<br/>Particles Shape Type<br/>",
         "type": "combo",
@@ -1942,13 +1887,13 @@
         "value": 1
       },
       "particles_image": {
-        "order": 6011,
+        "order": 6102,
         "condition": "particles_isParticles.value == true && particles_shapeType.value == 5",
         "text": "<br/>粒子图片<br/>Particles Img<br/>",
         "type": "file"
       },
       "particles_rotationAngle": {
-        "order": 6012,
+        "order": 6103,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>粒子旋转角度<br/>Rotation Angle<br/>",
         "type": "slider",
@@ -1958,14 +1903,14 @@
         "value": 0
       },
       "particles_angleRandom": {
-        "order": 6013,
+        "order": 6104,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>随机角度<br/>Angle Random?<br/>",
         "type": "bool",
         "value": true
       },
       "particles_sizeValue": {
-        "order": 6014,
+        "order": 6105,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>粒子大小<br/>Particles Size Value<br/>",
         "type": "slider",
@@ -1975,28 +1920,34 @@
         "value": 5
       },
       "particles_sizeRandom": {
-        "order": 6015,
+        "order": 6106,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>随机大小<br/>Size Random?<br/>",
         "type": "bool",
         "value": true
       },
+      "particles_lineText": {
+        "order": 6200,
+        "condition": "particles_isParticles.value == true",
+        "text": "<br/><b>粒子 - 连线设置</b><br/><b>Particles - Line Settings</b><br/>",
+        "type": "text"
+      },
       "particles_linkEnable": {
-        "order": 6016,
+        "order": 6201,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>显示连线<br/>Show Line?<br/>",
         "type": "bool",
         "value": false
       },
       "particles_mouseInteraction": {
-        "order": 6017,
+        "order": 6202,
         "condition": "particles_isParticles.value == true && particles_linkEnable.value == true",
         "text": "<br/>鼠标交互？<br/>Mouse interaction?<br/>",
         "type": "bool",
         "value": false
       },
       "particles_linkDistance": {
-        "order": 6018,
+        "order": 6203,
         "condition": "particles_isParticles.value == true && particles_linkEnable.value == true",
         "text": "<br/>连线距离<br/>Line Distance<br/>",
         "type": "slider",
@@ -2006,7 +1957,7 @@
         "value": 100
       },
       "particles_linkWidth": {
-        "order": 6019,
+        "order": 6204,
         "condition": "particles_isParticles.value == true && particles_linkEnable.value == true",
         "text": "<br/>连线宽度<br/>Line Width<br/>",
         "type": "slider",
@@ -2016,14 +1967,14 @@
         "value": 2
       },
       "particles_linkColor": {
-        "order": 6020,
+        "order": 6205,
         "condition": "particles_isParticles.value == true && particles_linkEnable.value == true",
         "text": "<br/>连线颜色<br/>Line Color<br/>",
         "type": "color",
         "value": "1 1 1"
       },
       "particles_linkOpacity": {
-        "order": 6021,
+        "order": 6206,
         "condition": "particles_isParticles.value == true && particles_linkEnable.value == true",
         "text": "<br/>连线不透明度<br/>Line Opacity<br/>",
         "type": "slider",
@@ -2032,15 +1983,21 @@
         "min": 0,
         "value": 75
       },
+      "particles_moveText": {
+        "order": 6300,
+        "condition": "particles_isParticles.value == true",
+        "text": "<br/><b>粒子 - 移动设置</b><br/><b>Particles - Move Settings</b><br/>",
+        "type": "text"
+      },
       "particles_isMove": {
-        "order": 6022,
+        "order": 6301,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>是否移动<br/>Particles Move?<br/>",
         "type": "bool",
         "value": true
       },
       "particles_speed": {
-        "order": 6023,
+        "order": 6302,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>粒子速度<br/>Particles Speed<br/>",
         "type": "slider",
@@ -2050,14 +2007,14 @@
         "value": 10
       },
       "particles_speedRandom": {
-        "order": 6024,
+        "order": 6303,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>随机速度<br/>Speed Random?<br/>",
         "type": "bool",
         "value": true
       },
       "particles_direction": {
-        "order": 6025,
+        "order": 6304,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>粒子方向<br/>Direction of Particles<br/>",
         "type": "combo",
@@ -2102,21 +2059,21 @@
         "value": 4
       },
       "particles_isStraight": {
-        "order": 6026,
+        "order": 6305,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>笔直移动<br/>Move Straight?<br/>",
         "type": "bool",
         "value": false
       },
       "particles_isBounce": {
-        "order": 6027,
+        "order": 6306,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>粒子反弹<br/>is Bounce?<br/>",
         "type": "bool",
         "value": false
       },
       "particles_moveOutMode": {
-        "order": 6028,
+        "order": 6307,
         "condition": "particles_isParticles.value == true",
         "text": "<br/>离屏模式<br/>Move Out Mode<br/>",
         "type": "combo",
@@ -2132,11 +2089,6 @@
         ],
         "value": 1
       },
-
-
-
-
-
       "about_isAbout": {
         "order": 90000,
         "text": "<br/><h4><b>关于作者</b></h4><span>Shoshin wasuru bekarazu</span><br/>",
@@ -2185,6 +2137,14 @@
         "condition": "about_isAbout.value == true && about_isQRcode.value == true",
         "text": "<br/><img src='https://steamuserimages-a.akamaihd.net/ugc/857225545735498072/E89F55AEA9EA8B154821285E0C9418F68B0CC861/' alt='https://www.bilibili.com/video/av484787/' width='250' height='250' />",
         "type": "text"
+      }
+    },
+    "localization": {
+      "en-us": {
+        "ui_test": "<br/>The language is english."
+      },
+      "zh-chs": {
+        "ui_test": "<br/>当前语言是简体中文。"
       }
     },
     "supportsaudioprocessing": true

@@ -946,12 +946,10 @@
                 case 'firstColor':
                     this.firstColor = value;
                     setColorObj(color1, this.firstColor);
-                    setColorObj(color2, this.secondColor);
                     setRGBIncrement();
                     break;
                 case 'secondColor':
                     this.secondColor = value;
-                    setColorObj(color1, this.firstColor);
                     setColorObj(color2, this.secondColor);
                     setRGBIncrement();
                     break;

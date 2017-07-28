@@ -681,7 +681,7 @@
             case 70:
                 return 'vi';
             default:
-                return 'zh_cn';
+                return 'zh-cn';
         }
     }
 
@@ -802,7 +802,7 @@
              * 参数属性：condition 满足后默认运行该参数一次
              */
 
-            // 背景参数
+            // 背景设置
             //-----------------------------------------------------------
 
             // 背景模式
@@ -910,7 +910,7 @@
             // 背景3D转换
 
             // # 幻灯片参数
-            //-----------------------------------------------------------
+            //-------------
 
             // 3D转换
             if (properties.image_isRotate3D) {
@@ -962,7 +962,7 @@
             }
 
             // # 视频参数
-            //-----------------------------------------------------------
+            //-----------
 
             // 视频文件
             if (properties.video_file) {
@@ -1214,7 +1214,7 @@
             }
 
             // # 坐标参数
-            //-----------------------------------------------------------
+            //-----------
 
             // X轴偏移
             if (properties.global_offsetX) {
@@ -1244,7 +1244,7 @@
                 }
             }
 
-            // 音频参数
+            // 音频设置
             //-----------------------------------------------------------
 
             // 音频振幅
@@ -1263,7 +1263,7 @@
                     .visualizerbars('set', 'peak', properties.circle_peak.value / 10);
             }
 
-            // 圆环参数
+            // 圆环设置
             //-----------------------------------------------------------
 
             // 显示圆环
@@ -1302,7 +1302,7 @@
             }
 
             // # 线条参数
-            //-----------------------------------------------------------
+            //-----------
 
             // 是否连线
             if (properties.circle_isLineTo) {
@@ -1342,7 +1342,7 @@
             }
 
             // # 小球参数
-            //-----------------------------------------------------------
+            //-----------
 
             // 显示小球
             if (properties.circle_isBall) {
@@ -1366,7 +1366,7 @@
             }
 
             // # 基础参数
-            //-----------------------------------------------------------
+            //-----------
 
             // 圆环和小球不透明度
             if (properties.circle_opacity) {
@@ -1428,7 +1428,7 @@
             }
 
             // # 颜色变换参数
-            //-----------------------------------------------------------
+            //---------------
 
             // 圆环和小球随机颜色
             if (properties.circle_isRandomColor) {
@@ -1456,7 +1456,7 @@
             }
 
             // # 坐标参数
-            //-----------------------------------------------------------
+            //-----------
 
             // 圆环和小球绑定模糊颜色
             if (properties.circle_isChangeBlur) {
@@ -1495,7 +1495,7 @@
                 }
             }
 
-            // 条形参数
+            // 条形设置
             //-----------------------------------------------------------
 
             // 显示条形
@@ -1550,7 +1550,7 @@
             }
 
             // # 基础参数
-            //-----------------------------------------------------------
+            //-----------
 
             // 条形不透明度
             if (properties.bars_opacity) {
@@ -1599,7 +1599,7 @@
             }
 
             // # 颜色变换参数
-            //-----------------------------------------------------------
+            //---------------
 
             // 条形随机颜色
             if (properties.bars_isRandomColor) {
@@ -1627,7 +1627,7 @@
             }
 
             // # 坐标参数
-            //-----------------------------------------------------------
+            //-----------
 
             // 条形X轴偏移
             if (properties.bars_offsetX) {
@@ -1679,7 +1679,7 @@
             }
 
             // # 天气参数
-            //-----------------------------------------------------------
+            //-----------
 
             // 天气接口提供者
             if (properties.date_weatherProvider) {
@@ -1704,7 +1704,7 @@
             }
 
             // # 时间日期参数
-            //-----------------------------------------------------------
+            //---------------
 
             // 字体大小
             if (properties.date_fontSize) {
@@ -1725,7 +1725,7 @@
             }
 
             // # 基础参数
-            //-----------------------------------------------------------
+            //-----------
 
             // 日期不透明度
             if (properties.date_opacity) {
@@ -1771,7 +1771,7 @@
             }
 
             // # 颜色变换参数
-            //-----------------------------------------------------------
+            //---------------
 
             // 日期随机颜色
             if (properties.date_isRandomColor) {
@@ -1811,7 +1811,7 @@
             }
 
             // # 坐标参数
-            //-----------------------------------------------------------
+            //-----------
 
             // 日期X轴偏移
             if (properties.date_offsetX) {
@@ -1847,6 +1847,10 @@
                         .particles('clearCanvas');
                 }
             }
+
+            // # 粒子基础参数
+            //---------------
+
             // 粒子数量
             if (properties.particles_number) {
                 wallpaper.particles('addParticles', properties.particles_number.value);
@@ -1879,6 +1883,10 @@
             if (properties.particles_shadowBlur) {
                 wallpaper.particles('set', 'shadowBlur', properties.particles_shadowBlur.value);
             }
+
+            // # 粒子类型参数
+            //---------------
+
             // 粒子类型
             if (properties.particles_shapeType) {
                 wallpaper.particles('set', 'shapeType', setShapeType(properties.particles_shapeType.value));
@@ -1905,7 +1913,7 @@
             }
 
             // # 粒子连线参数
-            //-----------------------------------------------------------
+            //---------------
 
             // 显示连线
             if (properties.particles_linkEnable) {
@@ -1927,14 +1935,14 @@
             if (properties.particles_linkColor) {
                 wallpaper.particles('set', 'linkColor', getColor(properties.particles_linkColor.value));
             }
-
-            // # 粒子移动参数
-            //-----------------------------------------------------------
-
             // 连线不透明度
             if (properties.particles_linkOpacity) {
                 wallpaper.particles('set', 'linkOpacity', properties.particles_linkOpacity.value / 100);
             }
+
+            // # 粒子移动参数
+            //---------------
+
             // 粒子是否移动
             if (properties.particles_isMove) {
                 wallpaper.particles('set', 'isMove', properties.particles_isMove.value);
@@ -1963,6 +1971,7 @@
             if (properties.particles_moveOutMode) {
                 wallpaper.particles('set', 'moveOutMode', setMoveOutMode(properties.particles_moveOutMode.value));
             }
+
         },
 
         /**

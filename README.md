@@ -1,16 +1,136 @@
 ![image](https://steamuserimages-a.akamaihd.net/ugc/842587364847342400/55201E5E7B04516568307E592F4EAD7BCC706638/)
-# [4K]Circle Audio Visualizer
+# [4K]Audio Visualizer
 ---
 一个在Wallpaper Engine创意工坊上的开源项目:
 http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
 
 目前Circle Audio Visualizer使用了4个jquery插件，分别是`jquery.audiovisualizer.bars`、`jquery.audiovisualizer.circle`、`jquery.date`、`juqery.slider`和`jquery.particles`。
 
+visualizerbars插件
+---
+
+#### 说明：
+visualizerbars插件用于创建一个canvas，并绘制一个音频条形组。从`wallpaperAudioListener`接收音频数组`audioArray`，并根据`audioArray`绘制音频条形组。
+
+如果你不知道`wallpaperAudioListener`，请点击：[Advanced: Web audio visualizer](http://steamcommunity.com/sharedfiles/filedetails/?id=786006047)
+
+
+#### 使用：
+
+初始化visualizerbars插件如下：
+
+
+```javascript
+    $(selector).visualizerbars();
+```
+
+你也可以传递一些参数初始化visualizerbars插件(具体参数详见参数列表):
+
+
+```javascript
+    $(selector).visualizerbars({
+        opacity: ...,
+        colorMode: ...,
+        ...
+    });
+```
+
+#### 参数列表：
+
+
+| 名称 | 类型 | 默认| 描述
+|------|------|-----|-----
+opacity | float | 0.90 | canvas的不透明度
+colorMode | string | 'monochrome' | 颜色模式标识字符串：'monochrome'、'colorTransformation'、'rainBow'
+color | string | '255,255,255' | RGB格式颜色，用于设置context.fillStyle、strokeStyle
+shadowColor | string | '255,255,255' | RGB格式颜色，用于设置context.shadowColor
+shadowBlur | int | 15 | 用于设置shadowBlur
+isRandomColor | boolean | true | 随机颜色变换开关
+firstColor | string | '255,255,255' | 初始颜色
+secondColor | string | '255,0,0' | 最终颜色
+isChangeBlur | boolean | false | 颜色变换shadowBlur绑定
+offsetX | float | 0.5 | X坐标偏移系数，范围在0~1之间
+offsetY | float | 0.5 | Y坐标偏移系数，范围在0~1之间
+isClickOffset | boolean | false | 开启后，根据鼠标点击位置确定XY坐标偏移系数
+amplitude | int | 5 | 音频条形组的振幅大小
+decline | float | 0.2 | 音频条形组变化灵敏度，最好在0.1~0.2之间
+peak | float | 1.5 | 音频数组所允许值上限
+isBars | boolean | false | 显示音频条形组
+isLineTo | boolean | false | 显示音频条形之间连线
+width | float | 0.5 | 音频条形组的宽度大小
+height | int | 2 | 音频条形组基础高度
+pointNum | int | 120 | 音频条形组上点的数量，范围在0~120之间
+barsRotation | int | 0 | 旋转音频条形组，负数为逆时针旋转，正数为顺时针旋转
+barsDirection | string | 'two bars' | 音频条形组成长方向
+lineCap | string | 'butt' | 用于设置context.lineCap
+lineJoin | string | 'miter' | 用于设置context.lineJoin
+lineWidth | int | 5 | 用于设置context.lineWidth
+milliSec | int | 30 | 重绘音频条形组间隔（ms）
+
+#### 方法列表：
+
+**clearCanvas：**
+
+调用`$(selector).visualizerbars('clearCanvas');`清除canvas内容。
+
+**updateVisualizerBars：**
+
+调用`$(selector).visualizerbars('updateVisualizerBars', audioArray);`更新音频圆环参数。
+
+参数类型 | 参数名 | 参数描述
+---------|--------|----------
+Array<float> | audioSamples | 音频数组
+
+**drawVisualizerBars：**
+
+调用`$(selector).visualizerbars('drawVisualizerBars');`绘制音频条形组
+
+**drawCanvas：**
+
+调用`$(selector).visualizerbars('drawCanvas', audioArray);`根据音频数组绘制音频条形组
+
+参数类型 | 参数名 | 参数描述
+---------|--------|----------
+Array<float> | audioSamples | 音频数组
+
+**stopVisualizerBarsTimer：**
+
+调用`$(selector).visualizerbars('stopVisualizerBarsTimer');`停止音频条形组计时器
+
+**runVisualizerBarsTimer：**
+
+调用`$(selector).visualizerbars('runVisualizerBarsTimer');`开始音频条形组计时器
+
+**destroy：**
+
+调用`$(selector).visualizerbars('destroy');`销毁音频条形组所在canvas
+
+**set：**
+
+调用`$(selector).visualizerbars('set', property, value);`设置visualizerbars插件相关参数，具体参数详见参数列表。
+
+参数类型 | 参数名 | 参数描述
+---------|--------|----------
+string | property | 属性名
+任意 | value | 属性对应值
+
+#### 使用wallpaper音频监视器：
+
+```javascript
+    $('body').visualizerbars({});
+
+    function wallpaperAudioListener(audioArray) {
+        wallpaper.visualizerbars('drawCanvas', audioArray);
+    }
+
+    window.wallpaperRegisterAudioListener && window.wallpaperRegisterAudioListener(wallpaperAudioListener);
+```
+
 visualizercircle插件
 ---
 
 #### 说明：
-visualizercircle插件用于创建一个canvas,并绘制一个音频圆环。从`wallpaperAudioListener`接收音频数组`audioArray`，并根据`audioArray`绘制音频圆环。
+visualizercircle插件用于创建一个canvas，并绘制一个音频圆环。从`wallpaperAudioListener`接收音频数组`audioArray`，并根据`audioArray`绘制音频圆环。
 
 如果你不知道`wallpaperAudioListener`，请点击：[Advanced: Web audio visualizer](http://steamcommunity.com/sharedfiles/filedetails/?id=786006047)
 
@@ -30,7 +150,7 @@ visualizercircle插件用于创建一个canvas,并绘制一个音频圆环。从
 ```javascript
     $(selector).visualizercircle({
         opacity: ...,
-        color: ...,
+        colorMode: ...,
         ...
     });
 ```
@@ -41,10 +161,10 @@ visualizercircle插件用于创建一个canvas,并绘制一个音频圆环。从
 | 名称 | 类型 | 默认| 描述
 |------|------|-----|-----
 opacity | float | 0.90 | canvas的不透明度
+colorMode | string | 'monochrome' | 颜色模式标识字符串：'monochrome'、'colorTransformation'、'rainBow'
 color | string | '255,255,255' | RGB格式颜色，用于设置context.fillStyle、strokeStyle
 shadowColor | string | '255,255,255' | RGB格式颜色，用于设置context.shadowColor
 shadowBlur | int | 15 | 用于设置shadowBlur
-isChangeColor | boolean | false | 颜色变换开关
 isRandomColor | boolean | true | 随机颜色变换开关
 firstColor | string | '255,255,255' | 初始颜色
 secondColor | string | '255,0,0' | 最终颜色
@@ -56,12 +176,12 @@ radius | float | 0.5 | 音频圆环的半径大小
 amplitude | int | 5 | 音频圆环的振幅大小
 decline | float | 0.2 | 音频圆环变化灵敏度，最好在0.1~0.2之间
 peak | float | 1.5 | 音频数组所允许值上限
-milliSec | int | 30 | 重绘音频圆环间隔（ms）
 isRing | boolean | true | 显示音频圆环开关
 isStaticRing | boolean | false | 显示静态圆环开关
 isInnerRing | boolean | true | 显示内环开关
 isOuterRing | boolean | true | 显示外环开关
 ringRotation | int | 0 | 旋转音频圆环，负数为逆时针旋转，正数为顺时针旋转
+milliSec | int | 30 | 重绘音频圆环间隔（ms）
 isLineTo | boolean | false | 显示内外环之间点与点连开关
 firstPoint | string | 'innerRing' | 连线的始点标识字符串
 secondPoint | string | 'outerRing' | 连线的末点标识字符串
@@ -81,17 +201,17 @@ ballRotation | int | 0 | 旋转音频小球，负数为逆时针旋转，正数�
 
 调用`$(selector).visualizercircle('clearCanvas');`清除canvas内容。
 
-**updateAudioVisualizer：**
+**updateVisualizerCircle：**
 
-调用`$(selector).visualizercircle('updateAudioVisualizer', audioArray);`更新音频圆环参数。
+调用`$(selector).visualizercircle('updateVisualizerCircle', audioArray);`更新音频圆环参数。
 
 参数类型 | 参数名 | 参数描述
 ---------|--------|----------
 Array<float> | audioSamples | 音频数组
 
-**drawAudioVisualizer：**
+**drawVisualizerCircle：**
 
-调用`$(selector).visualizercircle('drawAudioVisualizer');`绘制音频圆环和音频小球
+调用`$(selector).visualizercircle('drawVisualizerCircle');`绘制音频圆环和音频小球
 
 **drawCanvas：**
 
@@ -101,13 +221,13 @@ Array<float> | audioSamples | 音频数组
 ---------|--------|----------
 Array<float> | audioSamples | 音频数组
 
-**stopAudioVisualizerTimer：**
+**stopVisualizerCircleTimer：**
 
-调用`$(selector).visualizercircle('stopAudioVisualizerTimer');`停止音频圆环计时器
+调用`$(selector).visualizercircle('stopVisualizerCircleTimer');`停止音频圆环计时器
 
-**startAudioVisualizerTimer：**
+**runVisualizerCircleTimer：**
 
-调用`$(selector).visualizercircle('runAudioVisualizerTimer');`开始音频圆环计时器
+调用`$(selector).visualizercircle('runVisualizerCircleTimer');`开始音频圆环计时器
 
 **destroy：**
 
@@ -166,10 +286,10 @@ date插件用于创建一个canvas,创建一个canvas并绘制日期。
 | 名称 | 类型 | 默认| 描述
 |------|------|-----|------
 opacity | float | 0.90 | canvas的不透明度
+colorMode | string | 'monochrome' |  颜色模式标识字符串：'monochrome'、'colorTransformation'、'rainBow'
 color | string | '255,255,255' |  RGB格式颜色，用于设置context.fillStyle、strokeStyle
 shadowColor | string | '255,255,255' |  RGB格式颜色，用于设置context.shadowColor
 shadowBlur | int | 15 | 用于设置shadowBlur
-isChangeColor | boolean | false | 颜色变换开关
 isRandomColor | boolean | true | 随机颜色变换开关
 firstColor | string | '255,255,255' | 初始颜色
 secondColor | string | '255,0,0' | 最终颜色
@@ -236,23 +356,23 @@ string | cityStr | 城市名（仅限中国）
 
 调用`$(selector).date('set', property, value);`设置date插件相关参数，具体参数详见参数列表。
 
-参数类型 | 参数名 | 参数描述 
+参数类型 | 参数名 | 参数描述
 ---------|--------|----------
-string | property | 属性名 
-任意 | value | 属性对应值 
+string | property | 属性名
+任意 | value | 属性对应值
 
 #### 时间格式
 
-- YYYY：年 
-- MMM：月（非数字） 
-- MM：月（数字） 
-- Do：日（非数字） 
+- YYYY：年
+- MMM：月（非数字）
+- MM：月（数字）
+- Do：日（非数字）
 - DD：日（数字）
-- HH：小时(二十四小时制) 
-- hh：小时(十二小时制) 
-- mm：分钟 
+- HH：小时(二十四小时制)
+- hh：小时(十二小时制)
+- mm：分钟
 - ss：秒
-- a：时间段 
+- a：时间段
 - dddd：星期
 
 
@@ -289,7 +409,7 @@ slider插件用于背景切换，从`window.wallpaperPropertyListener`扩展方�
 
 #### 参数列表：
 
-| 名称 | 类型 | 默认| 描述 
+| 名称 | 类型 | 默认| 描述
 |------|------|-----|------
 sliderStyle | string | 'css' | 背景切换模式
 readStyle | string | 'sequential' | 读取模式
@@ -301,6 +421,7 @@ imgBGColor | string | '255,255,255' | RGB格式颜色，IMG背景颜色
 progress | float | 0 | 视频进度（0 - 1）
 isPlay | boolean | true | 视频播放状态
 volume | float | 0.75 | 视频音量（0 - 1）
+playbackRate | float | 1.00 | 视频播放速度（0 - 任意）
 videoFit | string | 'fill' | video适应方式
 videoBGColor | string | '255,255,255' | RGB格式颜色，video背景颜色
 isRotate3D | boolean | flase | 背景3D转换开关
@@ -311,7 +432,7 @@ isRotate3D | boolean | flase | 背景3D转换开关
 
 调用`$(selector).slider('selector', color);`获取用户自定义的颜色地址，如果路径不存在默认为'255,255,255'。
 
-参数类型 | 参数名 | 参数描述 
+参数类型 | 参数名 | 参数描述
 ---------|--------|----------
 string | color | 用户颜色路径
 
@@ -319,7 +440,7 @@ string | color | 用户颜色路径
 
 调用`$(selector).slider('setUserImg', img);`获取用户自定义的图片地址，如果路径不存在默认为空字符串。
 
-参数类型 | 参数名 | 参数描述 
+参数类型 | 参数名 | 参数描述
 ---------|--------|----------
 string | img | 用户图片路径
 
@@ -327,7 +448,7 @@ string | img | 用户图片路径
 
 调用`$(selector).slider('setUserVideo', video);`获取用户自定义的视频地址，如果路径不存在默认为空字符串。
 
-参数类型 | 参数名 | 参数描述 
+参数类型 | 参数名 | 参数描述
 ---------|--------|----------
 string | video | 用户视频路径
 
@@ -376,7 +497,7 @@ string | video | 用户视频路径
 
 调用`$(selector).slider('updateImgList', currentFiles);`更新图片列表。
 
-参数类型 | 参数名 | 参数描述 
+参数类型 | 参数名 | 参数描述
 ---------|--------|----------
 {Array}<string> | currentFiles | 文件名数组
 
@@ -412,7 +533,7 @@ string | video | 用户视频路径
 
 调用`$(selector).slider('getVideoList', index);`从videoList读取索引对应值并转换成视频源。
 
-参数类型 | 参数名 | 参数描述 
+参数类型 | 参数名 | 参数描述
 ---------|--------|----------
 {int} | index | 视频列表索引
 
@@ -436,9 +557,17 @@ string | video | 用户视频路径
 
 调用`$(selector).slider('setVideoProgress', progress);`按进度百分比设置视频当前读取位置。
 
-参数类型 | 参数名 | 参数描述 
+参数类型 | 参数名 | 参数描述
 ---------|--------|----------
 {float} | progress | 视频进度（%）
+
+**setVideoPlaybackRate：**
+
+调用`$(selector).slider('setVideoProgress', backRate);`设置视频当前的播放速度。
+
+参数类型 | 参数名 | 参数描述
+---------|--------|----------
+{float} | backRate | 视频播放速度（0.0 - 5.0）
 
 **playVideo：**
 
@@ -452,7 +581,7 @@ string | video | 用户视频路径
 
 调用`$(selector).slider('setVideoVolume', volume);`设置音量大小（%）。
 
-参数类型 | 参数名 | 参数描述 
+参数类型 | 参数名 | 参数描述
 ---------|--------|----------
 {float} | volume | 音量大小（%）
 
@@ -464,10 +593,10 @@ string | video | 用户视频路径
 
 调用`$(selector).slider('set', property, value);`设置slider插件相关参数，具体参数详见参数列表。
 
-参数类型 | 参数名 | 参数描述 
+参数类型 | 参数名 | 参数描述
 ---------|--------|----------
-string | property | 属性名 
-任意 | value | 属性对应值 
+string | property | 属性名
+任意 | value | 属性对应值
 
 #### 使用wallpaper图片文件夹监视器：
 
@@ -481,7 +610,7 @@ string | property | 属性名
         }
         wallpaper.slider('updateImgList', files[propertyName]);
     },
-    
+
     userDirectoryFilesRemoved: function (propertyName, removedFiles) {
         for (var i = 0; i < removedFiles.length; ++i) {
             var index = files[propertyName].indexOf(removedFiles[i]);
@@ -523,9 +652,11 @@ particles插件用于创建一个canvas,并随机在canvas上生成粒子并按�
 
 #### 参数列表：
 
-| 名称 | 类型 | 默认| 描述 
+| 名称 | 类型 | 默认| 描述
 |------|------|-----|------
 number | int | 100 | 粒子的数量
+isDensity | boolean | false | 启用粒子密度区域
+densityArea | int | 1000 | 粒子密度范围
 opacity | float | 0.75 | 粒子的最大透明度
 opacityRandom | boolean | false | 粒子的透明度是否随机
 color | string | '255,255,255' | RGB格式颜色，粒子的颜色

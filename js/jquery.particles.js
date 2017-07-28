@@ -441,7 +441,7 @@
         // 全局属性
         number: 100,                 // 粒子数量
         isDensity: false,            // 粒子密度开关
-        densityArea: 800,            // 粒子密度范围
+        densityArea: 1000,            // 粒子密度范围
         opacity: 0.75,               // 不透明度
         opacityRandom: false,        // 随机不透明度
         color: '255,255,255',        // 粒子颜色

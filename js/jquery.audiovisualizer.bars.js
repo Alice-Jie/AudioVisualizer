@@ -237,9 +237,6 @@
         this.color = options.color;                            // 颜色
         this.shadowColor = options.shadowColor;                // 阴影颜色
         this.shadowBlur = options.shadowBlur;                  // 模糊大小
-
-        this.isChangeColor = options.isChangeColor;            // 颜色变换开关
-
         this.isRandomColor = options.isRandomColor;            // 随机颜色开关
         this.firstColor = options.firstColor;                  // 起始颜色
         this.secondColor = options.secondColor;                // 最终颜色
@@ -319,9 +316,6 @@
         color: '255,255,255',        // 颜色
         shadowColor: '255,255,255',  // 阴影颜色
         shadowBlur: 0,               // 模糊大小
-
-        isChangeColor: false,        // 颜色变换开关
-
         isRandomColor: true,         // 随机颜色变换
         firstColor: '255,255,255',   // 起始颜色
         secondColor: '255,0,0',      // 最终颜色
@@ -335,13 +329,13 @@
         decline: 0.2,                // 衰退值
         peak: 1.5,                   // 峰值
         // 线条参数
-        isBars: true,                // 显示条形
+        isBars: false,                // 显示条形
         isLineTo: false,             // 显示连线
         width: 0.5,                  // 宽度比例
         height: 2,                   // 基础高度
         pointNum: 120,               // 点的数量
         barsRotation: 0,             // 旋转角度
-        barsDirection: "two bars",   // 条形方向
+        barsDirection: 'two bars',   // 条形方向
         lineCap: 'butt',             // 线帽类型
         lineJoin: 'miter',           // 交汇类型
         lineWidth: 5,                // 线条粗细
@@ -774,12 +768,10 @@
                 case 'firstColor':
                     this.firstColor = value;
                     setColorObj(color1, this.firstColor);
-                    setColorObj(color2, this.secondColor);
                     setRGBIncrement();
                     break;
                 case 'secondColor':
                     this.secondColor = value;
-                    setColorObj(color1, this.firstColor);
                     setColorObj(color2, this.secondColor);
                     setRGBIncrement();
                     break;
