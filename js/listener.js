@@ -23,7 +23,7 @@
 
     // 背景配置
     let BG = {
-        Mode: 'Color',                // 背景模式
+        mode: 'Color',                // 背景模式
         isLinearGradient: false,      // 线性开关
         Color: '255,255,255',         // 背景颜色
         GradientDeg: 120,             // 线性角度
@@ -810,7 +810,7 @@
                 // 初始化对应模式的所需环境
                 switch (properties.BG_mode.value) {
                     case 1:
-                        BG.Mode = 'Color';
+                        BG.mode = 'Color';
                         wallpaper.slider('delVideo')
                             .slider('stopSliderTimer');
                         if (BG.isLinearGradient === true) {
@@ -820,7 +820,7 @@
                         }
                         break;
                     case 2:
-                        BG.Mode = 'Wallpaper';
+                        BG.mode = 'Wallpaper';
                         wallpaper.slider('delVideo')
                             .slider('stopSliderTimer');
                         if (BG.Image) {
@@ -830,12 +830,12 @@
                         }
                         break;
                     case 3:
-                        BG.Mode = 'Directory';
+                        BG.mode = 'Directory';
                         wallpaper.slider('delVideo')
                             .slider('startSlider');
                         break;
                     case 4:
-                        BG.Mode = 'Video';
+                        BG.mode = 'Video';
                         wallpaper.slider('stopSliderTimer')
                             .slider('getVideoList')
                             .slider('addVideo');
@@ -851,7 +851,7 @@
             if (properties.BG_Color) {
                 BG.Color = getColor(properties.BG_Color.value);
                 wallpaper.slider('setUserColor', BG.Color);
-                if (BG.Mode === 'Color') {
+                if (BG.mode === 'Color') {
                     wallpaper.slider('cssUserColor');
                 }
             }
@@ -868,7 +868,7 @@
             if (properties.BG_linearGradientColor1) {
                 BG.GradientColor1 = getColor(properties.BG_linearGradientColor1.value);
                 wallpaper.slider('setUserLinearGradient', BG.GradientDeg, BG.GradientColor1, BG.GradientColor2);
-                if (BG.Mode === 'Color' && BG.isLinearGradient === true) {
+                if (BG.mode === 'Color' && BG.isLinearGradient === true) {
                     wallpaper.slider('cssLinearGradient');
                 }
             }
@@ -876,7 +876,7 @@
             if (properties.BG_linearGradientColor2) {
                 BG.GradientColor2 = getColor(properties.BG_linearGradientColor2.value);
                 wallpaper.slider('setUserLinearGradient', BG.GradientDeg, BG.GradientColor1, BG.GradientColor2);
-                if (BG.Mode === 'Color' && BG.isLinearGradient === true) {
+                if (BG.mode === 'Color' && BG.isLinearGradient === true) {
                     wallpaper.slider('cssLinearGradient');
                 }
             }
@@ -884,7 +884,7 @@
             if (properties.BG_linearGradientDeg) {
                 BG.GradientDeg = properties.BG_linearGradientDeg.value;
                 wallpaper.slider('setUserLinearGradient', BG.GradientDeg, BG.GradientColor1, BG.GradientColor2);
-                if (BG.Mode === 'Color' && BG.isLinearGradient === true) {
+                if (BG.mode === 'Color' && BG.isLinearGradient === true) {
                     wallpaper.slider('cssLinearGradient');
                 }
             }
@@ -893,12 +893,12 @@
                 if (properties.BG_image.value) {
                     BG.Image = properties.BG_image.value;
                     wallpaper.slider('setUserImg', BG.Image);
-                    if (BG.Mode === 'Wallpaper') {
+                    if (BG.mode === 'Wallpaper') {
                         wallpaper.slider('cssUserImg');
                     }
                 } else {
                     wallpaper.slider('setUserImg', '');
-                    if (BG.Mode === 'Wallpaper') {
+                    if (BG.mode === 'Wallpaper') {
                         wallpaper.slider('cssDefaultImg');
                     }
                 }
@@ -919,11 +919,11 @@
             // 幻灯片目录
             if (properties.directory) {
                 if (properties.directory.value) {
-                    if (BG.Mode === 'Directory') {
+                    if (BG.mode === 'Directory') {
                         wallpaper.slider('changeSlider');
                     }
                 } else {
-                    if (BG.Mode === 'Directory') {
+                    if (BG.mode === 'Directory') {
                         wallpaper.slider('changeSlider');
                     }
                 }
@@ -950,13 +950,13 @@
             }
             // 选择时间单位
             if (properties.directory_timeUnits) {
-                if (BG.Mode === 'Directory') {
+                if (BG.mode === 'Directory') {
                     wallpaper.slider('set', 'timeUnits', setTimeUnits(properties.directory_timeUnits.value));
                 }
             }
             // 停留时间
             if (properties.directory_pauseTime) {
-                if (BG.Mode === 'Directory') {
+                if (BG.mode === 'Directory') {
                     wallpaper.slider('set', 'pauseTime', properties.directory_pauseTime.value);
                 }
             }
@@ -969,12 +969,12 @@
                 if (properties.video_file.value) {
                     BG.Video = properties.video_file.value;
                     wallpaper.slider('setUserVideo', BG.Video);
-                    if (BG.Mode === 'Video') {
+                    if (BG.mode === 'Video') {
                         wallpaper.slider('videoSrcUserVideo');
                     }
                 } else {
                     wallpaper.slider('setUserVideo', '');
-                    if (BG.Mode === 'Video') {
+                    if (BG.mode === 'Video') {
                         wallpaper.slider('videoSrcDefaultVideo');
                     }
                 }
