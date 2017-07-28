@@ -1775,19 +1775,19 @@
         ],
         "value": 3
       },
-      "directory_isInputCity": {
-        "order": 5107,
-        "condition": "date_isDate.value == true && date_dateStyle.value == 8",
-        "text": "<br/>查询城市天气？<br/><br/>",
-        "type": "bool",
-        "value": false
-      },
       "date_city": {
-        "order": 5108,
-        "condition": "date_isDate.value == true && date_dateStyle.value == 8 && directory_isInputCity.value == true",
-        "text": "中国城市名：",
+        "order": 5107,
+        "condition": "date_isDate.value == true && date_dateStyle.value == 8 && date_isInputCity.value == true",
+        "text": "中国城市名：<br/>",
         "type": "textinput",
         "value": ""
+      },
+      "date_isInputCity": {
+        "order": 5108,
+        "condition": "date_isDate.value == true && date_dateStyle.value == 8",
+        "text": "查询城市天气？<br/>",
+        "type": "bool",
+        "value": false
       },
       "date_fontSize": {
         "order": 5109,

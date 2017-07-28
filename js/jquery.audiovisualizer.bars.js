@@ -533,7 +533,7 @@
                 context.moveTo(pointArray[i - 1].x, pointArray[i - 1].y);
                 context.lineTo(pointArray[i].x, pointArray[i].y);
                 context.closePath();
-                context.strokeStyle = this.getRainBowGradient(rainBowArray[i] - 1, pointArray[i - 1].x, pointArray[i - 1].y, pointArray[i].x, pointArray[i].y);
+                context.strokeStyle = this.getRainBowGradient(rainBowArray[i - 1], pointArray[i - 1].x, pointArray[i - 1].y, pointArray[i].x, pointArray[i].y);
                 context.stroke();
             }
             context.restore();
@@ -655,7 +655,6 @@
             if (this.isBars) {
                 let firstArray = pointArray1;
                 let secondArray = pointArray2;
-                //alert(this.barsDirection);
                 switch (this.barsDirection) {
                     case  'upper bars':
                         firstArray = pointArray1;

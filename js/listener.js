@@ -101,7 +101,11 @@
         // 坐标参数
         offsetX: 0.5,                // X坐标偏移
         offsetY: 0.5,                // Y坐标偏移
-        isClickOffset: false         // 鼠标坐标偏移
+        isClickOffset: false,        // 鼠标坐标偏移
+        // 天气参数
+        isInputCity: false,          // 查询城市天气
+        weatherProvider: '',         // 天气提供者
+        city: ''                     // 中国城市名
     };
 
     // 插件列表
@@ -946,11 +950,15 @@
             }
             // 选择时间单位
             if (properties.directory_timeUnits) {
-                wallpaper.slider('set', 'timeUnits', setTimeUnits(properties.directory_timeUnits.value));
+                if (BG.Mode === 'Directory') {
+                    wallpaper.slider('set', 'timeUnits', setTimeUnits(properties.directory_timeUnits.value));
+                }
             }
             // 停留时间
             if (properties.directory_pauseTime) {
-                wallpaper.slider('set', 'pauseTime', properties.directory_pauseTime.value);
+                if (BG.Mode === 'Directory') {
+                    wallpaper.slider('set', 'pauseTime', properties.directory_pauseTime.value);
+                }
             }
 
             // # 视频参数
@@ -1675,11 +1683,24 @@
 
             // 天气接口提供者
             if (properties.date_weatherProvider) {
-                wallpaper.date('set', 'weatherProvider', setWeatherProvider(properties.date_weatherProvider.value));
+                date.weatherProvider = setWeatherProvider(properties.date_weatherProvider.value);
+                wallpaper.date('set', 'weatherProvider', date.weatherProvider);
             }
-            // 天气城市
+            // 中国天气城市
             if (properties.date_city) {
-                wallpaper.date('set', 'currentCity', properties.date_city.value);
+                date.city = properties.date_city.value;
+                if (date.isInputCity === true) {
+                    wallpaper.date('set', 'currentCity', date.city);
+                }
+            }
+            // 查询城市天气
+            if (properties.date_isInputCity) {
+                date.isInputCity = properties.date_isInputCity.value;
+                if (date.isInputCity === true) {
+                    wallpaper.date('set', 'currentCity', date.city);
+                } else {
+                    wallpaper.date('set', 'currentCity', '');
+                }
             }
 
             // # 时间日期参数

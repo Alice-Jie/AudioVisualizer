@@ -450,7 +450,7 @@
         // 全局参数
         opacity: 0.90,                 // 不透明度
         color: '255,255,255',          // 颜色
-        colorMode: 'monochrome',     // 颜色模式
+        colorMode: 'monochrome',       // 颜色模式
         shadowColor: '255,255,255',    // 阴影颜色
         shadowBlur: 15,                // 模糊大小
         isRandomColor: true,           // 随机颜色变换
@@ -483,6 +483,7 @@
         /** 时间日期颜色变换 */
         colorTransformation: function () {
             if (incrementCount < incrementMAX) {
+                // color1对象向color2对象变化
                 color1.R -= R_Increment;
                 color1.G -= G_Increment;
                 color1.B -= B_Increment;
@@ -605,8 +606,8 @@
                 // 根据IP获取城市
                 let cityUrl = 'http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js';  // 获取IP
                 $.getScript(cityUrl, ()=> {
-                    this.currentCity = remote_ip_info.city;  // 获取城市
-                    getWeather(this.weatherProvider, this.currentCity);
+                    let currentCity = remote_ip_info.city;  // 获取城市
+                    getWeather(this.weatherProvider, currentCity);
                 });
             } else {
                 getWeather(this.weatherProvider, this.currentCity);

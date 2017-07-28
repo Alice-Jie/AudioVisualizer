@@ -41,7 +41,7 @@
     //--------------------------------------------------------------------------------------------------------------
 
     $('#wallpaper').visualizercircle({
-        colorMode:'rainBow',
+        colorMode: 'rainBow',
         isLineTo: true
     });
     $('#wallpaper').visualizercircle('updateVisualizerCircle', audioSamples);
@@ -51,7 +51,7 @@
     //--------------------------------------------------------------------------------------------------------------
 
     $('#wallpaper').visualizerbars({
-        colorMode:'rainBow'
+        colorMode: 'rainBow'
     });
     $('#wallpaper').visualizerbars('updateVisualizerBars', audioSamples);
     $('#wallpaper').visualizerbars('drawVisualizerBars');

@@ -77,7 +77,7 @@
         userGradientDeg = '120',             // 用户自定义线性角度
         userGradientColor1 = '189,253,0',    // 用户自定义线性颜色1
         userGradientColor2 = '255,255,0';    // 用户自定义线性颜色2
-     let userImg = '';                       // 用户自定义图片路径
+    let userImg = '';                        // 用户自定义图片路径
 
     let video = document.createElement('video');   // 视频对象
     let videoList = [];                            // 视频数组
@@ -1050,8 +1050,8 @@
     Slider.DEFAULTS = {
         sliderStyle: 'css',           // 背景切换模式
         readStyle: 'sequential',      // 读取模式
-        timeUnits: 'sec',             // 时间单位
-        pauseTime: 1,                 // 背景停留时间
+        timeUnits: 'min',             // 时间单位
+        pauseTime: 5,                 // 背景停留时间
         effect: 'none',               // 切换特效
         imgFit: 'fill',               // IMG适应方式
         imgBGColor: '255,255,255',    // IMG背景颜色
@@ -1259,22 +1259,22 @@
          * @param {string} color2 颜色字符串2
          */
         setUserLinearGradient: function (deg, color1, color2) {
-            if(deg) {
+            if (deg) {
                 userGradientDeg = deg;
             } else {
                 userGradientDeg = 0;
             }
-            if(color1) {
+            if (color1) {
                 userGradientColor1 = color1;
             } else {
                 userGradientColor1 = '189,253,0';
             }
-            if(color2) {
+            if (color2) {
                 userGradientColor2 = color2;
             } else {
                 userGradientColor2 = '255,255,0'
             }
-         },
+        },
 
         /**
          * 获取用户自定义的图片地址
@@ -1326,11 +1326,11 @@
         cssLinearGradient: function () {
             if (userGradientColor1 && userGradientColor2) {
                 this.$el.css('background-image', 'linear-gradient(' + userGradientDeg + 'deg, '
-                    + 'rgb(' + userGradientColor1 + ')' +' , '
+                    + 'rgb(' + userGradientColor1 + ')' + ' , '
                     + 'rgb(' + userGradientColor2 + ')' + ')');
             } else {
                 this.$el.css('background-image', 'linear-gradient(' + userGradientDeg + 'deg, '
-                    + 'rgb(189, 253, 0)' +' , '
+                    + 'rgb(189, 253, 0)' + ' , '
                     + 'rgb(255, 255, 255)' + ')');
             }
         },
@@ -1733,9 +1733,13 @@
                     break;
                 case 'readStyle':
                 case 'effect':
+                    this[property] = value;
+                    break;
                 case 'pauseTime':
                 case 'timeUnits':
+                    // 调用后自动开启幻灯片模式
                     this[property] = value;
+                    this.runSliderTimer();
                     break;
                 case 'sliderStyle':
                     this.sliderStyle = value;

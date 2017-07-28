@@ -550,7 +550,7 @@
 
             let that = this;
             $(this.$el).on('mousemove', function (e) {
-                if(that.interactivityLink) {
+                if (that.interactivityLink) {
                     mouseX = e.clientX;
                     mouseY = e.clientY;
                 }
