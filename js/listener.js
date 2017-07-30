@@ -908,14 +908,13 @@
                 setFillStyle(properties.image_fillStyle.value);
             }
             // 背景3D转换
+            if (properties.image_isRotate3D) {
+                wallpaper.slider('set', 'isRotate3D', properties.image_isRotate3D.value);
+            }
 
             // # 幻灯片参数
             //-------------
 
-            // 3D转换
-            if (properties.image_isRotate3D) {
-                wallpaper.slider('set', 'isRotate3D', properties.image_isRotate3D.value);
-            }
             // 幻灯片目录
             if (properties.directory) {
                 if (properties.directory.value) {
@@ -1064,6 +1063,7 @@
                     // 彩虹模式下关闭模糊效果
                     if (globalSettings.colorMode === 'rainBow') {
                         wallpaper.visualizercircle('set', 'shadowBlur', 0);
+
                     }
                 } else {
                     isGlobalSettings = false;  // 开启非全局模式
@@ -1089,6 +1089,7 @@
                     // 彩虹模式下关闭模糊效果
                     if (circle.colorMode === 'rainBow') {
                         wallpaper.visualizercircle('set', 'shadowBlur', 0);
+
                     }
 
                     // 日期参数设置
@@ -1168,12 +1169,15 @@
             if (properties.global_shadowBlur) {
                 globalSettings.shadowBlur = properties.global_shadowBlur.value;
                 // 全局模式下开启
-                if (isGlobalSettings === true && globalSettings.colorMode !== 'rainBow') {
-                    wallpaper.visualizercircle('set', 'shadowBlur', globalSettings.shadowBlur)
-                        .date('set', 'shadowBlur', globalSettings.shadowBlur);
-                } else {
-                    // 彩虹模式下关闭模糊效果
-                    wallpaper.visualizercircle('set', 'shadowBlur', 0);
+                if (isGlobalSettings === true) {
+                    if (globalSettings.colorMode !== 'rainBow') {
+                        wallpaper.visualizercircle('set', 'shadowBlur', globalSettings.shadowBlur)
+                            .date('set', 'shadowBlur', globalSettings.shadowBlur);
+                    }
+                    else {
+                        // 彩虹模式下关闭模糊效果
+                        wallpaper.visualizercircle('set', 'shadowBlur', 0);
+                    }
                 }
             }
             // 随机颜色
@@ -1424,11 +1428,13 @@
             if (properties.circle_shadowBlur) {
                 circle.shadowBlur = properties.circle_shadowBlur.value;
                 // 非全局模式下开启
-                if (isGlobalSettings === false && circle.colorMode !== 'rainBow') {
-                    wallpaper.visualizercircle('set', 'shadowBlur', circle.shadowBlur);
-                } else {
-                    // 彩虹模式下关闭模糊效果
-                    wallpaper.visualizercircle('set', 'shadowBlur', 0);
+                if (isGlobalSettings === false) {
+                    if (circle.colorMode !== 'rainBow') {
+                        wallpaper.visualizercircle('set', 'shadowBlur', circle.shadowBlur);
+                    } else {
+                        // 彩虹模式下关闭模糊效果
+                        wallpaper.visualizercircle('set', 'shadowBlur', 0);
+                    }
                 }
             }
 
