@@ -989,9 +989,14 @@
                     case -1:
                         wallpaper.slider('prevVideo');
                         break;
+                    case 0:
+                        wallpaper.slider('currentVideo');
+                        break;
                     case 1:
                         wallpaper.slider('nextVideo');
                         break;
+                    default:
+                        wallpaper.slider('currentVideo');
                 }
             }
             // 视频切换播放/暂停

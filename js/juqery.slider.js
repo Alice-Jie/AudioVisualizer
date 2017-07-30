@@ -1637,6 +1637,14 @@
             video.src = videoList[0] || 'video/test.webm';
         },
 
+        /** 当前视频 */
+        currentVideo: function () {
+            if (videoList.length > 1) {
+                videoIndex = getVideoIndex(videoList, videoIndex).currantIndex;
+                this.getVideoStr(videoIndex);
+            }
+        },
+
         /** 上一个视频 */
         prevVideo: function () {
             if (videoList.length > 1) {
