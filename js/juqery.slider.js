@@ -980,7 +980,7 @@
         canvas = document.createElement('canvas');
         canvas.id = 'canvas-slider'; // canvas ID
         $(canvas).css({
-            'position': 'absolute',
+            'position': 'fixed',
             'top': 0,
             'left': 0,
             'z-index': -3
@@ -1613,6 +1613,7 @@
                     video.src = videoList[0] || 'video/test.webm';
                 }
                 video.load();
+                this.isPlay || this.pauseVideo();
             }
         },
 
@@ -1778,7 +1779,7 @@
 
     };
 
-    //定义Slider插件
+    // 定义Slider插件
     //--------------------------------------------------------------------------------------------------------------
 
     let old = $.fn.slider;

@@ -1,12 +1,12 @@
 /*！
- * jQuery AudioVisualizer Circle plugin v0.0.9
+ * jQuery AudioVisualizer Circle plugin v0.1.0
  * project:
  * - https://github.com/Alice-Jie/4K-Circle-Audio-Visualizer
  * - https://git.oschina.net/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/07/27
+ * @date 2017/08/07
  */
 
 (function (global, factory) {
@@ -102,8 +102,9 @@
         B_Increment = (color1.B - color2.B) / incrementMAX;
 
     // 彩虹渐变对象数组
-    let ringRainBowArray = [],
-        ballRainBowArray = [];
+    let ringRainBowArray = [],    // 圆环渐变数组
+        ballRainBowArray = [];    // 小球渐变数组
+    let gradientOffsetRange = 0;  // 偏移范围
 
     let runCount = 1;  // 绘制次数
 
@@ -240,7 +241,7 @@
      * @return {float} 当前点对应的角度
      */
     function getDeg(point, index, angle) {
-        return (Math.PI / 180) * ( 360 / point ) * ( index + angle / 3 );
+        return (Math.PI / 180) * (360 / point * (index + angle / 3) + 90);
     }
 
     /**
@@ -329,54 +330,61 @@
         this.$el = $(el);
 
         // 全局参数
-        this.opacity = options.opacity;               // 不透明度
-        this.colorMode = options.colorMode;           // 颜色模式
-        this.color = options.color;                   // 颜色
-        this.shadowColor = options.shadowColor;       // 阴影颜色
-        this.shadowBlur = options.shadowBlur;         // 模糊大小
-        this.isRandomColor = options.isRandomColor;   // 随机颜色开关
-        this.firstColor = options.firstColor;         // 起始颜色
-        this.secondColor = options.secondColor;       // 最终颜色
-        this.isChangeBlur = options.isChangeBlur;     // 模糊变换开关
+        this.opacity = options.opacity;                  // 不透明度
+        this.colorMode = options.colorMode;              // 颜色模式
+        // 颜色模式-单色
+        this.color = options.color;                      // 颜色
+        this.shadowColor = options.shadowColor;          // 阴影颜色
+        this.shadowBlur = options.shadowBlur;            // 模糊大小
+        this.isRandomColor = options.isRandomColor;      // 随机颜色开关
+        // 颜色模式-颜色变换
+        this.firstColor = options.firstColor;            // 起始颜色
+        this.secondColor = options.secondColor;          // 最终颜色
+        this.isChangeBlur = options.isChangeBlur;        // 模糊变换开关
+        // 颜色模式-彩虹
+        this.hueRange = options.hueRange;                // 色相范围
+        this.saturationRange = options.saturationRange;  // 饱和度范围(%)
+        this.lightnessRange = options.lightnessRange;    // 亮度范围(%)
+        this.gradientOffset = options.gradientOffset;    // 旋转渐变效果
         // 坐标参数
-        this.offsetX = options.offsetX;               // X坐标偏移
-        this.offsetY = options.offsetY;               // Y坐标偏移
-        this.isClickOffset = options.isClickOffset;   // 鼠标坐标偏移
+        this.offsetX = options.offsetX;                  // X坐标偏移
+        this.offsetY = options.offsetY;                  // Y坐标偏移
+        this.isClickOffset = options.isClickOffset;      // 鼠标坐标偏移
         // 音频参数
-        this.amplitude = options.amplitude;           // 振幅
-        this.decline = options.decline;               // 衰退值
-        this.peak = options.peak;                     // 峰值
+        this.amplitude = options.amplitude;              // 振幅
+        this.decline = options.decline;                  // 衰退值
+        this.peak = options.peak;                        // 峰值
         // 圆环参数
-        this.isRing = options.isRing;                 // 显示环
-        this.isStaticRing = options.isStaticRing;     // 显示静态环
-        this.isInnerRing = options.isInnerRing;       // 显示内环
-        this.isOuterRing = options.isOuterRing;       // 显示外环
-        this.radius = options.radius;                 // 半径
-        this.ringRotation = options.ringRotation;     // 圆环旋转
-        this.milliSec = options.milliSec;             // 绘制间隔(ms);
+        this.isRing = options.isRing;                    // 显示环
+        this.isStaticRing = options.isStaticRing;        // 显示静态环
+        this.isInnerRing = options.isInnerRing;          // 显示内环
+        this.isOuterRing = options.isOuterRing;          // 显示外环
+        this.radius = options.radius;                    // 半径
+        this.ringRotation = options.ringRotation;        // 圆环旋转
+        this.milliSec = options.milliSec;                // 绘制间隔(ms);
         // 线条参数
-        this.isLineTo = options.isLineTo;             // 是否连线
-        this.firstPoint = options.firstPoint;         // 始点
-        this.secondPoint = options.secondPoint;       // 末点
-        this.pointNum = options.pointNum;             // 点的数量
-        this.innerDistance = options.innerDistance;   // 内环距离
-        this.outerDistance = options.outerDistance;   // 外环距离
-        this.lineCap = options.lineCap;               // 线帽类型
-        this.lineJoin = options.lineJoin;             // 交互类型
-        this.lineWidth = options.lineWidth;           // 线条粗细
+        this.isLineTo = options.isLineTo;                // 是否连线
+        this.firstPoint = options.firstPoint;            // 始点
+        this.secondPoint = options.secondPoint;          // 末点
+        this.pointNum = options.pointNum;                // 点的数量
+        this.innerDistance = options.innerDistance;      // 内环距离
+        this.outerDistance = options.outerDistance;      // 外环距离
+        this.lineCap = options.lineCap;                  // 线帽类型
+        this.lineJoin = options.lineJoin;                // 交互类型
+        this.lineWidth = options.lineWidth;              // 线条粗细
         // 小球参数
-        this.isBall = options.isBall;                 // 显示小球
-        this.ballSpacer = options.ballSpacer;         // 小球间隔
-        this.ballDistance = options.ballDistance;     // 小球距离
-        this.ballSize = options.ballSize;             // 小球大小
-        this.ballRotation = options.ballRotation;     // 小球旋转
+        this.isBall = options.isBall;                    // 显示小球
+        this.ballSpacer = options.ballSpacer;            // 小球间隔
+        this.ballDistance = options.ballDistance;        // 小球距离
+        this.ballSize = options.ballSize;                // 小球大小
+        this.ballRotation = options.ballRotation;        // 小球旋转
 
 
         // 创建并初始化canvas
         canvas = document.createElement('canvas');
         canvas.id = 'canvas-visualizercircle'; // canvas ID
         $(canvas).css({
-            'position': 'absolute',
+            'position': 'fixed',
             'top': 0,
             'left': 0,
             'z-index': 2,
@@ -419,16 +427,23 @@
 
     // 默认参数
     VisualizerCircle.DEFAULTS = {
-        // 全局参数
+        // 基础参数
         opacity: 0.90,               // 不透明度
         colorMode: 'monochrome',     // 颜色模式
+        // 颜色模式-单色
         color: '255,255,255',        // 颜色
         shadowColor: '255,255,255',  // 阴影颜色
         shadowBlur: 0,               // 模糊大小
+        // 颜色模式-颜色变换
         isRandomColor: true,         // 随机颜色变换
         firstColor: '255,255,255',   // 起始颜色
         secondColor: '255,0,0',      // 最终颜色
         isChangeBlur: false,         // 模糊颜色变换开关
+        // 颜色模式-彩虹
+        hueRange: 360,               // 色相范围
+        saturationRange: 100,        // 饱和度范围(%)
+        lightnessRange: 50,          // 亮度范围(%)
+        gradientOffset: 0,           // 渐变效果偏移
         // 坐标参数
         offsetX: 0.5,                // X坐标偏移
         offsetY: 0.5,                // Y坐标偏移
@@ -640,8 +655,8 @@
         /** 生成彩虹颜色对象集合 */
         setRainBow: function (pointNum) {
             let rainBowArray = [];
-            let H_Increment = 360 / (pointNum * 2);
-            let currantH = 0;
+            let H_Increment = this.hueRange / (pointNum * 2);
+            let currantH = gradientOffsetRange;
             for (let i = 0; i < pointNum; i++) {
                 let startH = currantH;
                 currantH += H_Increment;
@@ -681,8 +696,8 @@
          */
         getRainBowGradient: function (rainBow, x1, y1, x2, y2) {
             let rainBowGradient = context.createLinearGradient(x1, y1, x2, y2);
-            rainBowGradient.addColorStop(0, 'hsl(' + rainBow.startH + ',100%, 50%)');
-            rainBowGradient.addColorStop(1, 'hsl(' + rainBow.endH + ',100%, 50%)');
+            rainBowGradient.addColorStop(0, 'hsl(' + rainBow.startH + ',' + this.saturationRange + '%,' + this.lightnessRange + '%)');
+            rainBowGradient.addColorStop(1, 'hsl(' + rainBow.endH + ',' + this.saturationRange + '%,' + this.lightnessRange + '%)');
             return rainBowGradient;
         },
 
@@ -815,9 +830,18 @@
             // 更新偏移角度
             rotationAngle1 = rotation(rotationAngle1, this.ringRotation);
             rotationAngle2 = rotation(rotationAngle2, this.ballRotation);
-            // 更新音频圆环小球颜色
+            // 更新变换颜色
             if (this.colorMode === 'colorTransformation') {
                 this.colorTransformation();
+            }
+            // 更新彩虹渐变参数
+            if (this.colorMode === 'rainBow') {
+                // 彩虹渐变偏移
+                if(this.gradientOffset !== 0) {
+                    gradientOffsetRange += this.gradientOffset;
+                    ringRainBowArray = this.setRainBow(this.pointNum);
+                    ballRainBowArray = this.setRainBow(120 / this.ballSpacer);
+                }
             }
         },
 
@@ -826,15 +850,9 @@
             context.clearRect(0, 0, canvasWidth, canvasHeight);
             // 绘制圆环
             if (this.isRing && this.colorMode !== 'rainBow') {
-                if (this.isStaticRing) {
-                    this.drawRing(staticPointsArray);
-                }
-                if (this.isInnerRing) {
-                    this.drawRing(pointArray1);
-                }
-                if (this.isOuterRing) {
-                    this.drawRing(pointArray2);
-                }
+                this.isStaticRing && this.drawRing(staticPointsArray);
+                this.isInnerRing && this.drawRing(pointArray1);
+                this.isOuterRing && this.drawRing(pointArray2);
             }
             // 绘制连线
             let firstArray = getPointArray(this.firstPoint);
@@ -859,6 +877,7 @@
             if (isSilence(audioSamples)
                 || isSilence(lastAudioSamples)
                 || this.colorMode === 'colorTransformation'
+                || (this.colorMode === 'rainBow' && this.gradientOffset !== 0)
                 || (this.ringRotation && this.isLineTo)
                 || this.ballRotation) {
                 this.drawVisualizerCircle();
@@ -936,6 +955,7 @@
                 case 'colorMode':
                 case 'isRandomColor':
                 case 'isChangeBlur':
+                case 'gradientOffset':
                 case 'isClickOffset':
                 case 'amplitude':
                 case 'decline':
@@ -953,6 +973,8 @@
                     setColorObj(color2, this.secondColor);
                     setRGBIncrement();
                     break;
+                case 'saturationRange':
+                case 'lightnessRange':
                 case 'offsetX':
                 case 'offsetY':
                 case 'isRing':
@@ -974,8 +996,9 @@
                     this.updateVisualizerCircle(lastAudioSamples);
                     this.drawVisualizerCircle();
                     break;
+                case 'hueRange':
                 case 'pointNum':
-                    this.pointNum = value;
+                    this[property] = value;
                     ringRainBowArray = this.setRainBow(this.pointNum);
                     this.updateVisualizerCircle(lastAudioSamples);
                     this.drawVisualizerCircle();
@@ -988,9 +1011,10 @@
                     break;
             }
         }
+
     };
 
-    //定义VisualizerCircle插件
+    // 定义VisualizerCircle插件
     //--------------------------------------------------------------------------------------------------------------
 
     let old = $.fn.visualizercircle;

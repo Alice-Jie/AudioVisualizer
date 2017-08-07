@@ -1,12 +1,12 @@
 /*！
- * jQuery AudioVisualizer Bars plugin v0.0.3
+ * jQuery AudioVisualizer Bars plugin v0.0.4
  * project:
  * - https://github.com/Alice-Jie/4K-Circle-Audio-Visualizer
  * - https://git.oschina.net/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/07/27
+ * @date 2017/08/07
  */
 
 (function (global, factory) {
@@ -99,7 +99,8 @@
         B_Increment = (color1.B - color2.B) / incrementMAX;
 
     // 彩虹渐变对象数组
-    let rainBowArray = [];
+    let rainBowArray = [];        // 条形
+    let gradientOffsetRange = 0;  // 偏移范围
 
     let runCount = 1;  // 绘制次数
 
@@ -111,7 +112,7 @@
     /**
      *  检测音频数组静默状态
      *  数组所有值皆为0返回true,反之返回false
-     *
+     * @method 检测音频数组静默状态
      * @param  {Array<float>} audioSamples 音频数组
      * @return {boolean} 静默状态布尔值
      */
@@ -234,13 +235,20 @@
         // 全局参数
         this.opacity = options.opacity;                        // 不透明度
         this.colorMode = options.colorMode;                    // 颜色模式
+        // 颜色模式-单色
         this.color = options.color;                            // 颜色
         this.shadowColor = options.shadowColor;                // 阴影颜色
         this.shadowBlur = options.shadowBlur;                  // 模糊大小
+        // 颜色模式-颜色变换
         this.isRandomColor = options.isRandomColor;            // 随机颜色开关
         this.firstColor = options.firstColor;                  // 起始颜色
         this.secondColor = options.secondColor;                // 最终颜色
         this.isChangeBlur = options.isChangeBlur;              // 模糊变换开关
+        // 颜色模式-彩虹
+        this.hueRange = options.hueRange;                      // 色相范围
+        this.saturationRange = options.saturationRange;        // 饱和度范围(%)
+        this.lightnessRange = options.lightnessRange;          // 亮度范围(%)
+        this.gradientOffset = options.gradientOffset;          // 旋转渐变效果
         // 坐标参数
         this.offsetX = options.offsetX;                        // X坐标偏移
         this.offsetY = options.offsetY;                        // Y坐标偏移
@@ -266,7 +274,7 @@
         canvas = document.createElement('canvas');
         canvas.id = 'canvas-visualizerbars'; // canvas ID
         $(canvas).css({
-            'position': 'absolute',
+            'position': 'fixed',
             'top': 0,
             'left': 0,
             'z-index': 3,
@@ -310,16 +318,23 @@
 
     // 默认参数
     VisualizerBars.DEFAULTS = {
-        // 全局参数
+        // 基础参数
         opacity: 0.90,               // 不透明度
         colorMode: 'monochrome',     // 颜色模式
+        // 颜色模式-单色
         color: '255,255,255',        // 颜色
         shadowColor: '255,255,255',  // 阴影颜色
         shadowBlur: 0,               // 模糊大小
+        // 颜色模式-颜色变换
         isRandomColor: true,         // 随机颜色变换
         firstColor: '255,255,255',   // 起始颜色
         secondColor: '255,0,0',      // 最终颜色
         isChangeBlur: false,         // 模糊颜色变换开关
+        // 颜色模式-彩虹
+        hueRange: 360,               // 色相范围
+        saturationRange: 100,        // 饱和度范围(%)
+        lightnessRange: 50,          // 亮度范围(%)
+        gradientOffset: 0,           // 渐变效果偏移
         // 坐标参数
         offsetX: 0.5,                // X坐标偏移
         offsetY: 0.9,                // Y坐标偏移
@@ -329,7 +344,7 @@
         decline: 0.2,                // 衰退值
         peak: 1.5,                   // 峰值
         // 线条参数
-        isBars: false,                // 显示条形
+        isBars: false,               // 显示条形
         isLineTo: false,             // 显示连线
         width: 0.5,                  // 宽度比例
         height: 2,                   // 基础高度
@@ -468,8 +483,8 @@
         /** 生成彩虹颜色对象集合 */
         setRainBow: function (pointNum) {
             let rainBowArray = [];
-            let H_Increment = 360 / (pointNum * 2);
-            let currantH = 0;
+            let H_Increment = this.hueRange / (pointNum * 2);
+            let currantH = gradientOffsetRange;
             for (let i = 0; i < pointNum; i++) {
                 let startH = currantH;
                 currantH += H_Increment;
@@ -509,8 +524,8 @@
          */
         getRainBowGradient: function (rainBow, x1, y1, x2, y2) {
             let rainBowGradient = context.createLinearGradient(x1, y1, x2, y2);
-            rainBowGradient.addColorStop(0, 'hsl(' + rainBow.startH + ',100%, 50%)');
-            rainBowGradient.addColorStop(1, 'hsl(' + rainBow.endH + ',100%, 50%)');
+            rainBowGradient.addColorStop(0, 'hsl(' + rainBow.startH + ',' + this.saturationRange + '%,' + this.lightnessRange + '%)');
+            rainBowGradient.addColorStop(1, 'hsl(' + rainBow.endH + ',' + this.saturationRange + '%,' + this.lightnessRange + '%)');
             return rainBowGradient;
         },
 
@@ -617,6 +632,14 @@
             if (this.colorMode === 'colorTransformation') {
                 this.colorTransformation();
             }
+            // 更新彩虹渐变参数
+            if (this.colorMode === 'rainBow') {
+                // 彩虹渐变偏移
+                if(this.gradientOffset !== 0) {
+                    gradientOffsetRange += this.gradientOffset;
+                    rainBowArray = this.setRainBow(this.pointNum);
+                }
+            }
         },
 
         /** 绘制音频条形 */
@@ -682,6 +705,7 @@
             if (isSilence(audioSamples)
                 || isSilence(lastAudioSamples)
                 || this.colorMode === 'colorTransformation'
+                || (this.colorMode === 'rainBow' && this.gradientOffset !== 0)
                 || this.isBars
                 || this.isLineTo) {
                 this.drawVisualizerBars();
@@ -758,6 +782,7 @@
                 case 'colorMode':
                 case 'isRandomColor':
                 case 'isChangeBlur':
+                case 'gradientOffset':
                 case 'isClickOffset':
                 case 'amplitude':
                 case 'decline':
@@ -775,6 +800,8 @@
                     setColorObj(color2, this.secondColor);
                     setRGBIncrement();
                     break;
+                case 'saturationRange':
+                case 'lightnessRange':
                 case 'offsetX':
                 case 'offsetY':
                 case 'isBars':
@@ -787,8 +814,9 @@
                     this.updateVisualizerBars(lastAudioSamples);
                     this.drawVisualizerBars();
                     break;
+                case 'hueRange':
                 case 'pointNum':
-                    this.pointNum = value;
+                    this[property] = value;
                     rainBowArray = this.setRainBow(this.pointNum);
                     this.updateVisualizerBars(lastAudioSamples);
                     this.drawVisualizerBars();
@@ -798,7 +826,7 @@
 
     };
 
-    //定义VisualizerBars插件
+    // 定义VisualizerBars插件
     //--------------------------------------------------------------------------------------------------------------
 
     let old = $.fn.visualizerbars;

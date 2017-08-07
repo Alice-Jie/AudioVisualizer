@@ -49,6 +49,10 @@ isRandomColor | boolean | true | 随机颜色变换开关
 firstColor | string | '255,255,255' | 初始颜色
 secondColor | string | '255,0,0' | 最终颜色
 isChangeBlur | boolean | false | 颜色变换shadowBlur绑定
+hueRange | int  | 360 | 色相范围
+saturationRange | int  | 100 | 饱和度范围(%)
+lightnessRange | int  | 50 | 亮度范围(%)
+gradientOffset | int  | 0 | 渐变效果偏移值
 offsetX | float | 0.5 | X坐标偏移系数，范围在0~1之间
 offsetY | float | 0.5 | Y坐标偏移系数，范围在0~1之间
 isClickOffset | boolean | false | 开启后，根据鼠标点击位置确定XY坐标偏移系数
@@ -169,6 +173,10 @@ isRandomColor | boolean | true | 随机颜色变换开关
 firstColor | string | '255,255,255' | 初始颜色
 secondColor | string | '255,0,0' | 最终颜色
 isChangeBlur | boolean | false | 颜色变换shadowBlur绑定
+hueRange | int  | 360 | 色相范围
+saturationRange | int  | 100 | 饱和度范围(%)
+lightnessRange | int  | 50 | 亮度范围(%)
+gradientOffset | int  | 0 | 渐变效果偏移值
 offsetX | float | 0.5 | X坐标偏移系数，范围在0~1之间
 offsetY | float | 0.5 | Y坐标偏移系数，范围在0~1之间
 isClickOffset | boolean | false | 开启后，根据鼠标点击位置确定XY坐标偏移系数

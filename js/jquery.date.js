@@ -405,7 +405,7 @@
         canvas = document.createElement('canvas');
         canvas.id = 'canvas-date'; // canvas ID
         $(canvas).css({
-            'position': 'absolute',
+            'position': 'fixed',
             'top': 0,
             'left': 0,
             'z-index': 4,
@@ -711,7 +711,7 @@
 
     };
 
-    //定义Date插件
+    // 定义Date插件
     //--------------------------------------------------------------------------------------------------------------
 
     let old = $.fn.date;

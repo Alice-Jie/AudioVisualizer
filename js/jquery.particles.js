@@ -395,7 +395,7 @@
         canvas = document.createElement('canvas');
         canvas.id = 'canvas-particles'; // canvas ID
         $(canvas).css({
-            'position': 'absolute',
+            'position': 'fixed',
             'top': 0,
             'left': 0,
             'z-index': 1,
@@ -441,7 +441,7 @@
         // 全局属性
         number: 100,                 // 粒子数量
         isDensity: false,            // 粒子密度开关
-        densityArea: 1000,            // 粒子密度范围
+        densityArea: 1000,           // 粒子密度范围
         opacity: 0.75,               // 不透明度
         opacityRandom: false,        // 随机不透明度
         color: '255,255,255',        // 粒子颜色
@@ -572,7 +572,7 @@
          * 添加粒子
          * 和旧的粒子数量进行比较，添加/删除粒子
          *
-         * @param {int}      num  粒子数量
+         * @param {int} num  粒子数量
          */
         addParticles: function (num) {
             let old = this.number;
@@ -992,7 +992,7 @@
 
     };
 
-    //定义Particles插件
+    // 定义Particles插件
     //--------------------------------------------------------------------------------------------------------------
 
     let old = $.fn.particles;

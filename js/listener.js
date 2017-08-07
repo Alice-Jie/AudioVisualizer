@@ -6,7 +6,7 @@
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/07/28
+ * @date 2017/08/07
  */
 
 ;(function ($, window, document, Math, undefined) {
@@ -21,7 +21,7 @@
     let barsRedraw = 30;    // 音频条形重绘间隔(ms)
     let files = {};         // 文件路径对象
 
-    // 背景配置
+    // 背景/视频配置
     let BG = {
         mode: 'Color',                // 背景模式
         isLinearGradient: false,      // 线性开关
@@ -29,8 +29,18 @@
         GradientDeg: 120,             // 线性角度
         GradientColor1: '189,253,0',  // 线性颜色1
         GradientColor2: '255,255,0',  // 线性颜色2
-        Image: '',                    // 背景图片
-        Video: ''                     // 背景视频
+        file: ''                      // 背景图片
+    };
+    let video = {
+        file: '',
+        progress: 0,
+        switch: 0,
+        isPlay: true,
+        volume: 0.75,
+        playBackRate: 1,
+        fitStyle: 'fill',
+        BGColor: '255,255,255'
+
     };
 
     // 全局/局部配置
@@ -56,14 +66,20 @@
         // 基础参数
         opacity: 0.90,               // 不透明度
         colorMode: 'monochrome',     // 颜色模式
+        // 颜色模式-单色
         color: '255,255,255',        // 颜色
         shadowColor: '255,255,255',  // 模糊颜色
         shadowBlur: 0,               // 模糊大小
-        // 颜色变换参数
-        isRandomColor: true,
-        firstColor: '255,255,255',
-        secondColor: '255,0,0',
-        isChangeBlur: false,
+        // 颜色模式-颜色变换
+        isRandomColor: true,         // 随机颜色变换
+        firstColor: '255,255,255',   // 起始颜色
+        secondColor: '255,0,0',      // 最终颜色
+        isChangeBlur: false,         // 模糊颜色变换开关
+        // 颜色模式-彩虹
+        hueRange: 360,               // 色相范围
+        saturationRange: 100,        // 饱和度范围(%)
+        lightnessRange: 50,          // 亮度范围(%)
+        gradientOffset: 0,           // 渐变效果偏移
         // 坐标参数
         offsetX: 0.5,                // X坐标偏移
         offsetY: 0.5,                // Y坐标偏移
@@ -73,14 +89,20 @@
         // 基础参数
         opacity: 0.90,               // 不透明度
         colorMode: 'monochrome',     // 颜色模式
+        // 颜色模式-单色
         color: '255,255,255',        // 颜色
         shadowColor: '255,255,255',  // 模糊颜色
         shadowBlur: 0,               // 模糊大小
-        // 颜色变换参数
-        isRandomColor: true,
-        firstColor: '255,255,255',
-        secondColor: '255,0,0',
-        isChangeBlur: false,
+        // 颜色模式-颜色变换
+        isRandomColor: true,         // 随机颜色变换
+        firstColor: '255,255,255',   // 起始颜色
+        secondColor: '255,0,0',      // 最终颜色
+        isChangeBlur: false,         // 模糊颜色变换开关
+        // 颜色模式-彩虹
+        hueRange: 360,               // 色相范围
+        saturationRange: 100,        // 饱和度范围(%)
+        lightnessRange: 50,          // 亮度范围(%)
+        gradientOffset: 0,           // 渐变效果偏移
         // 坐标参数
         offsetX: 0.5,                // X坐标偏移
         offsetY: 0.9,                // Y坐标偏移
@@ -823,7 +845,7 @@
                         BG.mode = 'Wallpaper';
                         wallpaper.slider('delVideo')
                             .slider('stopSliderTimer');
-                        if (BG.Image) {
+                        if (BG.file) {
                             wallpaper.slider('cssUserImg');
                         } else {
                             wallpaper.slider('cssDefaultImg');
@@ -839,7 +861,7 @@
                         wallpaper.slider('stopSliderTimer')
                             .slider('getVideoList')
                             .slider('addVideo');
-                        if (BG.Video) {
+                        if (video.file) {
                             wallpaper.slider('videoSrcUserVideo');
                         } else {
                             wallpaper.slider('videoSrcDefaultVideo');
@@ -891,8 +913,8 @@
             // 更换背景
             if (properties.BG_image) {
                 if (properties.BG_image.value) {
-                    BG.Image = properties.BG_image.value;
-                    wallpaper.slider('setUserImg', BG.Image);
+                    BG.file = properties.BG_image.value;
+                    wallpaper.slider('setUserImg', BG.file);
                     if (BG.mode === 'Wallpaper') {
                         wallpaper.slider('cssUserImg');
                     }
@@ -966,8 +988,8 @@
             // 视频文件
             if (properties.video_file) {
                 if (properties.video_file.value) {
-                    BG.Video = properties.video_file.value;
-                    wallpaper.slider('setUserVideo', BG.Video);
+                    video.file = properties.video_file.value;
+                    wallpaper.slider('setUserVideo', video.file);
                     if (BG.mode === 'Video') {
                         wallpaper.slider('videoSrcUserVideo');
                     }
@@ -980,11 +1002,16 @@
             }
             // 视频进度
             if (properties.video_progress) {
-                wallpaper.slider('set', 'progress', properties.video_progress.value / 100);
+                video.progress = properties.video_progress.value / 100;
+                if (BG.mode === 'Video') {
+                    wallpaper.slider('set', 'progress', video.progress);
+                }
+
             }
             // 视频切换
-            if (properties.video_func) {
-                switch (properties.video_func.value) {
+            if (properties.video_switch) {
+                video.switch = properties.video_switch.value;
+                switch (video.switch) {
                     case -1:
                         wallpaper.slider('prevVideo');
                         break;
@@ -997,26 +1024,34 @@
                     default:
                         wallpaper.slider('currentVideo');
                 }
+
             }
             // 视频切换播放/暂停
             if (properties.video_isPlay) {
-                wallpaper.slider('set', 'isPlay', properties.video_isPlay.value);
+                video.isPlay = properties.video_isPlay.value;
+                if (BG.mode === 'Video') {
+                    wallpaper.slider('set', 'isPlay', video.isPlay);
+                }
             }
             // 视频音量
             if (properties.video_volume) {
-                wallpaper.slider('set', 'volume', properties.video_volume.value / 100);
+                video.volume = properties.video_volume.value / 100;
+                wallpaper.slider('set', 'volume', video.volume);
             }
             // 视频播放速度
             if (properties.video_playBackRate) {
-                wallpaper.slider('set', 'playbackRate', properties.video_playBackRate.value / 100);
+                video.playbackRate = properties.video_playBackRate.value / 100;
+                wallpaper.slider('set', 'playbackRate', video.playbackRate);
             }
             // video适应样式
             if (properties.video_FitStyle) {
-                wallpaper.slider('set', 'videoFit', setFitStyle(properties.video_FitStyle.value));
+                video.fitStyle = setFitStyle(properties.video_FitStyle.value);
+                wallpaper.slider('set', 'videoFit', video.fitStyle);
             }
             // video背景颜色
             if (properties.video_BGColor) {
-                wallpaper.slider('set', 'videoBGColor', getColor(properties.video_BGColor.value));
+                video.BGColor = getColor(properties.video_BGColor.value);
+                wallpaper.slider('set', 'videoBGColor', video.BGColor);
             }
 
             // 全局设置
@@ -1112,6 +1147,10 @@
                         .date('set', 'isClickOffset', date.isClickOffset);
                 }
             }
+
+            // # 基础参数
+            //-----------
+
             // 不透明度
             if (properties.global_opacity) {
                 globalSettings.opacity = properties.global_opacity.value / 100;
@@ -1180,6 +1219,10 @@
                     }
                 }
             }
+
+            // # 颜色变换参数
+            //---------------
+
             // 随机颜色
             if (properties.global_isRandomColor) {
                 globalSettings.isRandomColor = properties.global_isRandomColor.value;
@@ -1466,6 +1509,30 @@
                 }
             }
 
+            // # 彩虹渐变参数
+            //---------------
+
+            // 圆环和小球色相范围
+            if (properties.circle_hueRange) {
+                circle.hueRange = properties.circle_hueRange.value;
+                wallpaper.visualizercircle('set', 'hueRange', circle.hueRange);
+            }
+            // 圆环和小球饱和度范围(%)
+            if (properties.circle_saturationRange) {
+                circle.saturationRange = properties.circle_saturationRange.value;
+                wallpaper.visualizercircle('set', 'saturationRange', circle.saturationRange);
+            }
+            // 圆环和小球亮度范围(%)
+            if (properties.circle_lightnessRange) {
+                circle.lightnessRange = properties.circle_lightnessRange.value;
+                wallpaper.visualizercircle('set', 'lightnessRange', circle.lightnessRange);
+            }
+            // 圆环和小球渐变效果偏移
+            if (properties.circle_gradientOffset) {
+                circle.gradientOffset = properties.circle_gradientOffset.value;
+                wallpaper.visualizercircle('set', 'gradientOffset', circle.gradientOffset);
+            }
+
             // # 坐标参数
             //-----------
 
@@ -1635,6 +1702,30 @@
                 if (bars.isChangeBlur === false) {
                     wallpaper.visualizerbars('set', 'shadowColor', bars.shadowColor);
                 }
+            }
+
+            // # 彩虹渐变参数
+            //---------------
+
+            // 条形色相范围
+            if (properties.bars_hueRange) {
+                bars.hueRange = properties.bars_hueRange.value;
+                wallpaper.visualizerbars('set', 'hueRange', bars.hueRange);
+            }
+            // 条形饱和度范围(%)
+            if (properties.bars_saturationRange) {
+                bars.saturationRange = properties.bars_saturationRange.value;
+                wallpaper.visualizerbars('set', 'saturationRange', bars.saturationRange);
+            }
+            // 条形亮度范围(%)
+            if (properties.bars_lightnessRange) {
+                bars.lightnessRange = properties.bars_lightnessRange.value;
+                wallpaper.visualizerbars('set', 'lightnessRange', bars.lightnessRange);
+            }
+            // 条形渐变效果偏移
+            if (properties.bars_gradientOffset) {
+                bars.gradientOffset = properties.bars_gradientOffset.value;
+                wallpaper.visualizerbars('set', 'gradientOffset', bars.gradientOffset);
             }
 
             // # 坐标参数

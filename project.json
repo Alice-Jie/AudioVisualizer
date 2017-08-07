@@ -280,7 +280,7 @@
       "video_Text": {
         "order": 1200,
         "condition": "BG_mode.value == 4",
-        "text": "<br/><h4>视频设置(Video Settings)</h4><span style='color:gray'>支持webM格式视频，你可以通过ffmpeg将其他格式转换成webM。视频列表和转换具体方法详见创意工坊。<br/>",
+        "text": "<br/><span style='color:gray'>支持webM格式视频，你可以通过ffmpeg将其他格式转换成webM。视频列表和转换具体方法详见创意工坊。</span><br/>",
         "type": "text"
       },
       "video_file": {
@@ -300,7 +300,7 @@
         "min": 0,
         "value": 0
       },
-      "video_func": {
+      "video_switch": {
         "order": 1203,
         "condition": "BG_mode.value == 4",
         "text": "<br/>切换视频<br/>Prev/Next Video<br/>",
@@ -639,14 +639,54 @@
         "type": "bool",
         "value": false
       },
-      "circle_coordinateText": {
+      "circle_hueRange": {
         "order": 3111,
+        "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true) && circle_colorMode.value == 3",
+        "text": "<br/>色相范围<br/>Hue Range<br/>",
+        "type": "slider",
+        "editable": true,
+        "max": 360,
+        "min": 0,
+        "value": 360
+      },
+      "circle_saturationRange": {
+        "order": 3112,
+        "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true) && circle_colorMode.value == 3",
+        "text": "<br/>饱和度范围<br/>Saturation Range<br/>",
+        "type": "slider",
+        "editable": true,
+        "max": 100,
+        "min": 0,
+        "value": 100
+      },
+      "circle_lightnessRange": {
+        "order": 3113,
+        "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true) && circle_colorMode.value == 3",
+        "text": "<br/>亮度范围<br/>Lightness Range<br/>",
+        "type": "slider",
+        "editable": true,
+        "max": 100,
+        "min": 0,
+        "value": 50
+      },
+      "circle_gradientOffset": {
+        "order": 3114,
+        "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true) && circle_colorMode.value == 3",
+        "text": "<br/>渐变偏移<br/>Gradient Offset<br/>",
+        "type": "slider",
+        "editable": true,
+        "max": 10,
+        "min": -10,
+        "value": 0
+      },
+      "circle_coordinateText": {
+        "order": 3115,
         "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true)",
         "text": "<br/><b>圆环 - 坐标设置</b><br/><b>Ring - Coordinate Settings</b><br/>",
         "type": "text"
       },
       "circle_offsetX": {
-        "order": 3112,
+        "order": 3116,
         "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true)",
         "text": "<br/>X轴偏移<br/>Center of Ring-X<br/>",
         "type": "slider",
@@ -656,7 +696,7 @@
         "value": 50
       },
       "circle_offsetY": {
-        "order": 3113,
+        "order": 3117,
         "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true)",
         "text": "<br/>Y轴偏移<br/>Center of Ring-Y<br/>",
         "type": "slider",
@@ -666,7 +706,7 @@
         "value": 50
       },
       "circle_isClickOffset": {
-        "order": 3114,
+        "order": 3118,
         "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isLineTo.value == true || circle_isBall.value == true)",
         "text": "<br/>鼠标坐标偏移<br/>Mouse Coordinate Offset?<br/>",
         "type": "bool",
@@ -1014,14 +1054,54 @@
         "type": "bool",
         "value": false
       },
+      "bars_hueRange": {
+        "order": 4012,
+        "condition": "(bars_isBars.value == true || bars_isLineTo.value == true) && bars_colorMode.value == 3",
+        "text": "<br/>色相范围<br/>Hue Range<br/>",
+        "type": "slider",
+        "editable": true,
+        "max": 360,
+        "min": 0,
+        "value": 360
+      },
+      "bars_saturationRange": {
+        "order": 4013,
+        "condition": "(bars_isBars.value == true || bars_isLineTo.value == true) && bars_colorMode.value == 3",
+        "text": "<br/>饱和度范围<br/>Saturation Range<br/>",
+        "type": "slider",
+        "editable": true,
+        "max": 100,
+        "min": 0,
+        "value": 100
+      },
+      "bars_lightnessRange": {
+        "order": 4014,
+        "condition": "(bars_isBars.value == true || bars_isLineTo.value == true) && bars_colorMode.value == 3",
+        "text": "<br/>亮度范围<br/>Lightness Range<br/>",
+        "type": "slider",
+        "editable": true,
+        "max": 100,
+        "min": 0,
+        "value": 50
+      },
+      "bars_gradientOffset": {
+        "order": 4015,
+        "condition": "(bars_isBars.value == true || bars_isLineTo.value == true) && bars_colorMode.value == 3",
+        "text": "<br/>渐变偏移<br/>Gradient Offset<br/>",
+        "type": "slider",
+        "editable": true,
+        "max": 10,
+        "min": -10,
+        "value": 0
+      },
       "bars_coordinateText": {
-        "order": 4011,
+        "order": 4016,
         "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
         "text": "<br/><b>条形 - 坐标设置</b><br/><b>Bars - Coordinate Settings</b><br/>",
         "type": "text"
       },
       "bars_offsetX": {
-        "order": 4012,
+        "order": 4017,
         "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
         "text": "<br/>X轴偏移<br/>Center of Ring-X<br/>",
         "type": "slider",
@@ -1031,7 +1111,7 @@
         "value": 50
       },
       "bars_offsetY": {
-        "order": 4013,
+        "order": 4018,
         "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
         "text": "<br/>Y轴偏移<br/>Center of Ring-Y<br/>",
         "type": "slider",
@@ -1041,7 +1121,7 @@
         "value": 90
       },
       "bars_isClickOffset": {
-        "order": 4014,
+        "order": 4019,
         "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
         "text": "<br/>鼠标坐标偏移<br/>Mouse Coordinate Offset?<br/>",
         "type": "bool",
@@ -1802,14 +1882,14 @@
       },
       "particles_isDensity": {
         "order": 6004,
-        "condition": "particles_isParticles.value == true",
+        "condition": "false",
         "text": "<br/>启用粒子密度<br/>Particles Density?<br/>",
         "type": "bool",
         "value": false
       },
       "particles_densityArea": {
         "order": 6005,
-        "condition": "particles_isParticles.value == true && particles_isDensity.value == true",
+        "condition": "false",
         "text": "<br/>密度区域<br/>Density Area<br/>",
         "type": "slider",
         "max": 4000,
@@ -2119,21 +2199,27 @@
         "text": "<br/><span>Email：909011298@qq.com</span>",
         "type": "text"
       },
-      "about_describeText": {
+      "about_updateText": {
         "order": 90004,
         "condition": "about_isAbout.value == true",
-        "text": "<br/><span>相关说明：</span><br/><br/><span>感谢大家长期以来的支持，在第1000个好评之际进行一个大版本的更新，具体请移步创意工坊。因为是更新内容较多，难免会出现一些BUG。发现BUG请在BUG集中反馈区反馈。被发现的BUG将在后续的版本进行修复。</span><br/>",
+        "text": "<br/><span>08-07更新：</span><br/><br/><span>01、默认视频恢复至7-30更新之前</span><br/><span>02、颜色模式-彩虹：添加色相范围、饱和度范围、亮度范围、渐变偏移功能</span><br/><span>03、隐藏粒子密度选项</span><br/>",
+        "type": "text"
+      },
+      "about_describeText": {
+        "order": 90005,
+        "condition": "about_isAbout.value == true",
+        "text": "<br/><span>相关说明：</span><br/><br/><span>因为项目工作量较大，难免会有部分BUG没有排查到。如果你发现了BUG，请移步到创意工坊描述BUG发生原因以及产生的结果。感谢大家长期以来的支持。</span><br/><br/>",
         "type": "text"
       },
       "about_isQRcode": {
-        "order": 90005,
+        "order": 90006,
         "condition": "about_isAbout.value == true",
         "text": "显示二维码<br/>",
         "type": "bool",
         "value": false
       },
       "about_kunxiText": {
-        "order": 90006,
+        "order": 90007,
         "condition": "about_isAbout.value == true && about_isQRcode.value == false",
         "text": "<br/><img src='https://steamuserimages-a.akamaihd.net/ugc/857225545735417247/BA8288EF5173C82DD37930E67DF58C6940C8E435/' alt='昆西昆西昆~Quincy 0v0' width='250' height='250' />",
         "type": "text"
@@ -2159,7 +2245,7 @@
   "tags": [
     "Relaxing"
   ],
-  "title": "[4K]Audio Visualizer(自定义背景&音频可视化&70国日期语言&粒子特效系统)",
+  "title": "[4K]Audio Visualizer v0.5.2(自定义背景&音频可视化&70国日期语言&粒子特效系统)",
   "type": "web",
   "visibility": "public",
   "workshopid": 921617616
