@@ -484,7 +484,7 @@
         setRainBow: function (pointNum) {
             let rainBowArray = [];
             let H_Increment = this.hueRange / (pointNum * 2);
-            let currantH = gradientOffsetRange;
+            let currantH = gradientOffsetRange || 0;
             for (let i = 0; i < pointNum; i++) {
                 let startH = currantH;
                 currantH += H_Increment;
@@ -636,7 +636,7 @@
             if (this.colorMode === 'rainBow') {
                 // 彩虹渐变偏移
                 if(this.gradientOffset !== 0) {
-                    gradientOffsetRange += this.gradientOffset;
+                    gradientOffsetRange += this.gradientOffset || 0;
                     rainBowArray = this.setRainBow(this.pointNum);
                 }
             }

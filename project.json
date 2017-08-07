@@ -2208,7 +2208,7 @@
       "about_describeText": {
         "order": 90005,
         "condition": "about_isAbout.value == true",
-        "text": "<br/><span>相关说明：</span><br/><br/><span>因为项目工作量较大，难免会有部分BUG没有排查到。如果你发现了BUG，请移步到创意工坊描述BUG发生原因以及产生的结果。感谢大家长期以来的支持。</span><br/><br/>",
+        "text": "<br/><span>相关说明：</span><br/><br/><span>由于项目工作量较大，难免会有部分BUG没有排查到。如果你发现了BUG，请移步到创意工坊描述BUG发生原因以及产生的结果。感谢大家长期以来的支持。</span><br/><br/>",
         "type": "text"
       },
       "about_isQRcode": {
