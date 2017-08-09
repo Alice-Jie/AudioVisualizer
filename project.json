@@ -719,34 +719,41 @@
       },
       "circle_isRing": {
         "order": 3201,
-        "condition": "circle_colorMode.value != 3",
+        "condition": "global_GlobalSettings.value == true || circle_colorMode.value != 3",
         "text": "<br/>显示圆环<br/>Show Ring?<br/>",
         "type": "bool",
         "value": true
       },
       "circle_isStaticRing": {
         "order": 3202,
-        "condition": "circle_colorMode.value != 3 && circle_isRing.value == true",
+        "condition": "(global_GlobalSettings.value == true || circle_colorMode.value != 3) && circle_isRing.value == true",
         "text": "<br/>显示静态圆环<br/>Show Static Ring?<br/>",
         "type": "bool",
         "value": false
       },
       "circle_isInnerRing": {
         "order": 3203,
-        "condition": "circle_colorMode.value != 3 && circle_isRing.value == true",
+        "condition": "(global_GlobalSettings.value == true || circle_colorMode.value != 3) && circle_isRing.value == true",
         "text": "<br/>显示内圆环<br/>Show Inner Ring?<br/>",
         "type": "bool",
         "value": true
       },
       "circle_isOuterRing": {
         "order": 3204,
-        "condition": "circle_colorMode.value != 3 && circle_isRing.value == true",
+        "condition": "(global_GlobalSettings.value == true || circle_colorMode.value != 3) && circle_isRing.value == true",
         "text": "<br/>显示外圆环<br/>Show Outer Ring?<br/>",
         "type": "bool",
         "value": true
       },
-      "circle_radius": {
+      "circle_isWare": {
         "order": 3205,
+        "condition": "(global_GlobalSettings.value == true || circle_colorMode.value != 3) && circle_isRing.value == true",
+        "text": "<br/>波浪模式<br/>Wave Mode?<br/>",
+        "type": "bool",
+        "value": false
+      },
+      "circle_radius": {
+        "order": 3206,
         "condition": "circle_isRing.value == true || circle_isLineTo.value == true",
         "text": "<br/>圆环半径<br/>Radius<br/>",
         "type": "slider",
@@ -756,7 +763,7 @@
         "value": 5
       },
       "circle_ringRotation": {
-        "order": 3206,
+        "order": 3207,
         "condition": "circle_isRing.value == true || circle_isLineTo.value == true",
         "text": "<br/>旋转圆环<br/>Rotating Ring<br/>",
         "type": "slider",
@@ -766,7 +773,7 @@
         "value": 0
       },
       "circle_milliSec": {
-        "order": 3207,
+        "order": 3208,
         "text": "<br/>重绘间隔<br/>Redraw Interval<br/>",
         "type": "slider",
         "editable": true,
@@ -905,7 +912,7 @@
         "text": "<br/>线条粗细<br/>Line Width<br/>",
         "type": "slider",
         "editable": true,
-        "max": 10,
+        "max": 30,
         "min": 1,
         "value": 5
       },
@@ -950,9 +957,33 @@
         "min": 1,
         "value": 3
       },
-      "circle_ballRotation": {
+      "circle_ballDirection": {
         "order": 3405,
         "condition": "circle_isBall.value == true",
+        "text": "<br/>小球方向<br/>Ball Direction<br/>",
+        "type": "combo",
+        "options": [
+          {
+            "label": "向外/Outer",
+            "value": 1
+          },
+          {
+            "label": "向内/Inner",
+            "value": -1
+          }
+        ],
+        "value": 1
+      },
+      "circle_bindRingRotation": {
+        "order": 3406,
+        "condition": "circle_isBall.value == true",
+        "text": "<br/>绑定圆环旋转<br/>Bind Ring Rotation?<br/>",
+        "type": "bool",
+        "value": false
+      },
+      "circle_ballRotation": {
+        "order": 3407,
+        "condition": "circle_isBall.value == true && circle_bindRingRotation.value == false",
         "text": "<br/>旋转小球<br/>Rotating Ball<br/>",
         "type": "slider",
         "editable": true,
@@ -1253,7 +1284,7 @@
         "text": "<br/>线条粗细<br/>Line Width<br/>",
         "type": "slider",
         "editable": true,
-        "max": 10,
+        "max": 30,
         "min": 1,
         "value": 5
       },

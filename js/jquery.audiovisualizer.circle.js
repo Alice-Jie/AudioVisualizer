@@ -330,54 +330,57 @@
         this.$el = $(el);
 
         // 全局参数
-        this.opacity = options.opacity;                  // 不透明度
-        this.colorMode = options.colorMode;              // 颜色模式
+        this.opacity = options.opacity;                    // 不透明度
+        this.colorMode = options.colorMode;                // 颜色模式
         // 颜色模式-单色
-        this.color = options.color;                      // 颜色
-        this.shadowColor = options.shadowColor;          // 阴影颜色
-        this.shadowBlur = options.shadowBlur;            // 模糊大小
-        this.isRandomColor = options.isRandomColor;      // 随机颜色开关
+        this.color = options.color;                        // 颜色
+        this.shadowColor = options.shadowColor;            // 阴影颜色
+        this.shadowBlur = options.shadowBlur;              // 模糊大小
+        this.isRandomColor = options.isRandomColor;        // 随机颜色开关
         // 颜色模式-颜色变换
-        this.firstColor = options.firstColor;            // 起始颜色
-        this.secondColor = options.secondColor;          // 最终颜色
-        this.isChangeBlur = options.isChangeBlur;        // 模糊变换开关
+        this.firstColor = options.firstColor;              // 起始颜色
+        this.secondColor = options.secondColor;            // 最终颜色
+        this.isChangeBlur = options.isChangeBlur;          // 模糊变换开关
         // 颜色模式-彩虹
-        this.hueRange = options.hueRange;                // 色相范围
-        this.saturationRange = options.saturationRange;  // 饱和度范围(%)
-        this.lightnessRange = options.lightnessRange;    // 亮度范围(%)
-        this.gradientOffset = options.gradientOffset;    // 旋转渐变效果
+        this.hueRange = options.hueRange;                  // 色相范围
+        this.saturationRange = options.saturationRange;    // 饱和度范围(%)
+        this.lightnessRange = options.lightnessRange;      // 亮度范围(%)
+        this.gradientOffset = options.gradientOffset;      // 旋转渐变效果
         // 坐标参数
-        this.offsetX = options.offsetX;                  // X坐标偏移
-        this.offsetY = options.offsetY;                  // Y坐标偏移
-        this.isClickOffset = options.isClickOffset;      // 鼠标坐标偏移
+        this.offsetX = options.offsetX;                    // X坐标偏移
+        this.offsetY = options.offsetY;                    // Y坐标偏移
+        this.isClickOffset = options.isClickOffset;        // 鼠标坐标偏移
         // 音频参数
-        this.amplitude = options.amplitude;              // 振幅
-        this.decline = options.decline;                  // 衰退值
-        this.peak = options.peak;                        // 峰值
+        this.amplitude = options.amplitude;                // 振幅
+        this.decline = options.decline;                    // 衰退值
+        this.peak = options.peak;                          // 峰值
         // 圆环参数
-        this.isRing = options.isRing;                    // 显示环
-        this.isStaticRing = options.isStaticRing;        // 显示静态环
-        this.isInnerRing = options.isInnerRing;          // 显示内环
-        this.isOuterRing = options.isOuterRing;          // 显示外环
-        this.radius = options.radius;                    // 半径
-        this.ringRotation = options.ringRotation;        // 圆环旋转
-        this.milliSec = options.milliSec;                // 绘制间隔(ms);
+        this.isRing = options.isRing;                      // 显示环
+        this.isStaticRing = options.isStaticRing;          // 显示静态环
+        this.isInnerRing = options.isInnerRing;            // 显示内环
+        this.isOuterRing = options.isOuterRing;            // 显示外环
+        this.isWare = options.isWare;                      // 波浪模式
+        this.radius = options.radius;                      // 半径
+        this.ringRotation = options.ringRotation;          // 圆环旋转
+        this.milliSec = options.milliSec;                  // 绘制间隔(ms);
         // 线条参数
-        this.isLineTo = options.isLineTo;                // 是否连线
-        this.firstPoint = options.firstPoint;            // 始点
-        this.secondPoint = options.secondPoint;          // 末点
-        this.pointNum = options.pointNum;                // 点的数量
-        this.innerDistance = options.innerDistance;      // 内环距离
-        this.outerDistance = options.outerDistance;      // 外环距离
-        this.lineCap = options.lineCap;                  // 线帽类型
-        this.lineJoin = options.lineJoin;                // 交互类型
-        this.lineWidth = options.lineWidth;              // 线条粗细
+        this.isLineTo = options.isLineTo;                  // 是否连线
+        this.firstPoint = options.firstPoint;              // 始点
+        this.secondPoint = options.secondPoint;            // 末点
+        this.pointNum = options.pointNum;                  // 点的数量
+        this.innerDistance = options.innerDistance;        // 内环距离
+        this.outerDistance = options.outerDistance;        // 外环距离
+        this.lineCap = options.lineCap;                    // 线帽类型
+        this.lineJoin = options.lineJoin;                  // 交互类型
+        this.lineWidth = options.lineWidth;                // 线条粗细
         // 小球参数
-        this.isBall = options.isBall;                    // 显示小球
-        this.ballSpacer = options.ballSpacer;            // 小球间隔
-        this.ballDistance = options.ballDistance;        // 小球距离
-        this.ballSize = options.ballSize;                // 小球大小
-        this.ballRotation = options.ballRotation;        // 小球旋转
+        this.isBall = options.isBall;                      // 显示小球
+        this.ballSpacer = options.ballSpacer;              // 小球间隔
+        this.ballDistance = options.ballDistance;          // 小球距离
+        this.ballSize = options.ballSize;                  // 小球大小
+        this.ballDistance = options.ballDirection;         // 小球方向
+        this.bindRingRotation = options.bindRingRotation;  // 绑定圆环旋转
+        this.ballRotation = options.ballRotation;          // 小球旋转
 
 
         // 创建并初始化canvas
@@ -458,6 +461,7 @@
         isStaticRing: false,         // 显示静态环
         isInnerRing: true,           // 显示内环
         isOuterRing: true,           // 显示外环
+        isWare: false,               // 波浪模式
         ringRotation: 0,             // 圆环旋转
         milliSec: 30,                // 重绘间隔（ms）
         // 线条参数
@@ -475,6 +479,8 @@
         ballSpacer: 3,               // 小球间隔
         ballDistance: 50,            // 小球距离
         ballSize: 3,                 // 小球大小
+        ballDirection: 1,            // 小球方向
+        bindRingRotation: false,     // 绑定圆环旋转
         ballRotation: 0              // 小球旋转
     };
 
@@ -536,9 +542,10 @@
          * 根据音频数组值生成对应小球坐标，并储存在坐标数组中
          *
          * @param  {Array<float>} audioSamples 音频数组
+         * @param  {int}          direction    方向（1或则-1）
          * @return {Array<Object>} 坐标数组
          */
-        setBall: function (audioSamples) {
+        setBall: function (audioSamples, direction) {
             let pointArray = [];
             let ballArray = getBallArray(audioSamples, this.ballSpacer);
             // 将点数组转换成坐标数组
@@ -547,7 +554,7 @@
                 let audioValue = Math.min(audioSamples[i] ? audioSamples[i] : 0, 1);
                 let radius = this.radius * (minLength / 2)
                     + (this.outerDistance + this.ballDistance)
-                    + audioValue * 75;
+                    + direction * (audioValue * 75);
                 // 根据半径、角度、原点坐标获得坐标数组
                 let point = getXY(radius, deg, originX, originY);
                 pointArray.push(point);
@@ -569,6 +576,7 @@
             context.beginPath();
             context.moveTo(pointArray[end].x, pointArray[end].y);
             context.lineTo(pointArray[0].x, pointArray[0].y);
+            // 坐标数组之间连线
             for (let i = 1; i < pointArray.length; i++) {
                 context.lineTo(pointArray[i].x, pointArray[i].y);
             }
@@ -612,6 +620,39 @@
                 context.closePath();
                 context.fill();
             }
+            context.restore();
+        },
+
+        /**
+         * 绘制音频波浪
+         *
+         *  @param {Array<Object>} pointArray1 坐标数组1
+         *  @param {Array<Object>} pointArray2 坐标数组2
+         */
+        drawWave: function (pointArray1, pointArray2) {
+            context.save();
+            context.beginPath();
+            // 圆环1首尾之间的连线
+            let end1 = pointArray1.length - 1;
+            context.beginPath();
+            context.moveTo(pointArray1[end1].x, pointArray1[end1].y);
+            context.lineTo(pointArray1[0].x, pointArray1[0].y);
+            // 顺指针连接圆环1路径
+            for (let i = 1; i < pointArray1.length; i++) {
+                context.lineTo(pointArray1[i].x, pointArray1[i].y);
+            }
+            context.closePath();
+            // 圆环2首尾之间的连线
+            let end2 = pointArray2.length - 1;
+            context.moveTo(pointArray2[0].x, pointArray2[0].y);
+            context.lineTo(pointArray2[end2].x, pointArray2[end2].y);
+            // 逆指针连接圆环2路径
+            for (let i = pointArray2.length - 2; i >= 0; i--) {
+                context.lineTo(pointArray2[i].x, pointArray2[i].y);
+            }
+            context.closePath();
+            // 填充内部区域
+            context.fill();
             context.restore();
         },
 
@@ -753,8 +794,8 @@
         },
 
         /**
-         * 绘制音频小球
-         * 根据坐标数组绘制音频小球
+         * 绘制彩虹音频小球
+         * 根据坐标数组绘制彩虹音频小球
          *
          *  @param {Array<Object>} pointArray 坐标数组
          *  @param {int}           ballSize   小球大小
@@ -826,10 +867,10 @@
             staticPointsArray = this.setStaticPoint(audioSamples);
             pointArray1 = this.setPoint(audioSamples, -1, this.innerDistance, true);
             pointArray2 = this.setPoint(audioSamples, 1, this.outerDistance, false);
-            ballPointArray = this.setBall(audioSamples);
+            ballPointArray = this.setBall(audioSamples, this.ballDirection);
             // 更新偏移角度
             rotationAngle1 = rotation(rotationAngle1, this.ringRotation);
-            rotationAngle2 = rotation(rotationAngle2, this.ballRotation);
+            rotationAngle2 = rotation(rotationAngle2, this.bindRingRotation ? this.ringRotation : this.ballRotation);
             // 更新变换颜色
             if (this.colorMode === 'colorTransformation') {
                 this.colorTransformation();
@@ -837,7 +878,7 @@
             // 更新彩虹渐变参数
             if (this.colorMode === 'rainBow') {
                 // 彩虹渐变偏移
-                if(this.gradientOffset !== 0) {
+                if (this.gradientOffset !== 0) {
                     gradientOffsetRange += this.gradientOffset || 0;
                     ringRainBowArray = this.setRainBow(this.pointNum);
                     ballRainBowArray = this.setRainBow(120 / this.ballSpacer);
@@ -850,9 +891,21 @@
             context.clearRect(0, 0, canvasWidth, canvasHeight);
             // 绘制圆环
             if (this.isRing && this.colorMode !== 'rainBow') {
-                this.isStaticRing && this.drawRing(staticPointsArray);
-                this.isInnerRing && this.drawRing(pointArray1);
-                this.isOuterRing && this.drawRing(pointArray2);
+                if (this.isWare) {
+                    if (this.isStaticRing && this.isInnerRing && !this.isOuterRing) {
+                        this.drawWave(pointArray1, staticPointsArray);
+                    } else if (this.isStaticRing && !this.isInnerRing && this.isOuterRing) {
+                        this.drawWave(staticPointsArray, pointArray2);
+                    } else if (!this.isStaticRing && this.isInnerRing && this.isOuterRing) {
+                        this.drawWave(pointArray1, pointArray2);
+                    } else if (this.isStaticRing && this.isInnerRing && this.isOuterRing) {
+                        this.drawWave(pointArray1, pointArray2);
+                    }
+                } else {
+                    this.isStaticRing && this.drawRing(staticPointsArray);
+                    this.isInnerRing && this.drawRing(pointArray1);
+                    this.isOuterRing && this.drawRing(pointArray2);
+                }
             }
             // 绘制连线
             let firstArray = getPointArray(this.firstPoint);
@@ -961,6 +1014,7 @@
                 case 'decline':
                 case 'peak':
                 case 'milliSec':
+                case 'ballDirection':
                     this[property] = value;
                     break;
                 case 'firstColor':
@@ -981,6 +1035,7 @@
                 case 'isStaticRing':
                 case 'isInnerRing':
                 case 'isOuterRing':
+                case 'isWare':
                 case 'ringRotation':
                 case 'radius':
                 case 'innerDistance':
@@ -1008,6 +1063,10 @@
                     ballRainBowArray = this.setRainBow(120 / this.ballSpacer);
                     this.updateVisualizerCircle(lastAudioSamples);
                     this.drawVisualizerCircle();
+                    break;
+                case 'bindRingRotation':
+                    this.bindRingRotation = value;
+                    this.bindRingRotation && (rotationAngle2 = rotationAngle1);
                     break;
             }
         }

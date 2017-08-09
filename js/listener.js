@@ -1318,105 +1318,6 @@
             // 圆环设置
             //-----------------------------------------------------------
 
-            // 显示圆环
-            if (properties.circle_isRing) {
-                wallpaper.visualizercircle('set', 'isRing', properties.circle_isRing.value);
-            }
-            // 显示静态环
-            if (properties.circle_isStaticRing) {
-                wallpaper.visualizercircle('set', 'isStaticRing', properties.circle_isStaticRing.value);
-            }
-            // 显示内环
-            if (properties.circle_isInnerRing) {
-                wallpaper.visualizercircle('set', 'isInnerRing', properties.circle_isInnerRing.value);
-            }
-            // 显示内环
-            if (properties.circle_isOuterRing) {
-                wallpaper.visualizercircle('set', 'isOuterRing', properties.circle_isOuterRing.value);
-            }
-            // 圆环半径
-            if (properties.circle_radius) {
-                wallpaper.visualizercircle('set', 'radius', properties.circle_radius.value / 10);
-            }
-            // 圆环旋转
-            if (properties.circle_ringRotation) {
-                wallpaper.visualizercircle('set', 'ringRotation', properties.circle_ringRotation.value);
-            }
-            // 重绘间隔
-            if (properties.circle_milliSec) {
-                circleRedraw = properties.circle_milliSec.value;
-                wallpaper.visualizercircle('set', 'milliSec', circleRedraw);
-                if (circleRedraw === 30) {
-                    wallpaper.visualizercircle('stopVisualizerCircleTimer');
-                } else {
-                    wallpaper.visualizercircle('runVisualizerCircleTimer');
-                }
-            }
-
-            // # 线条参数
-            //-----------
-
-            // 是否连线
-            if (properties.circle_isLineTo) {
-                wallpaper.visualizercircle('set', 'isLineTo', properties.circle_isLineTo.value);
-            }
-            // 第一点
-            if (properties.circle_firstPoint) {
-                wallpaper.visualizercircle('set', 'firstPoint', setPoint(properties.circle_firstPoint.value));
-            }
-            // 第二点
-            if (properties.circle_secondPoint) {
-                wallpaper.visualizercircle('set', 'secondPoint', setPoint(properties.circle_secondPoint.value));
-            }
-            // 圆环点数
-            if (properties.circle_pointNum) {
-                wallpaper.visualizercircle('set', 'pointNum', properties.circle_pointNum.value);
-            }
-            // 内环距离
-            if (properties.circle_innerDistance) {
-                wallpaper.visualizercircle('set', 'innerDistance', properties.circle_innerDistance.value);
-            }
-            // 外环距离
-            if (properties.circle_outerDistance) {
-                wallpaper.visualizercircle('set', 'outerDistance', properties.circle_outerDistance.value);
-            }
-            // 线帽样式
-            if (properties.circle_lineCap) {
-                wallpaper.visualizercircle('set', 'lineCap', setLineCap(properties.circle_lineCap.value));
-            }
-            // 线交汇样式
-            if (properties.circle_lineJoin) {
-                wallpaper.visualizercircle('set', 'lineJoin', setLineJoin(properties.circle_lineJoin.value));
-            }
-            // 线条粗细
-            if (properties.circle_lineWidth) {
-                wallpaper.visualizercircle('set', 'lineWidth', properties.circle_lineWidth.value);
-            }
-
-            // # 小球参数
-            //-----------
-
-            // 显示小球
-            if (properties.circle_isBall) {
-                wallpaper.visualizercircle('set', 'isBall', properties.circle_isBall.value);
-            }
-            // 小球间隔
-            if (properties.circle_ballSpacer) {
-                wallpaper.visualizercircle('set', 'ballSpacer', properties.circle_ballSpacer.value);
-            }
-            // 内环距离
-            if (properties.circle_ballDistance) {
-                wallpaper.visualizercircle('set', 'ballDistance', properties.circle_ballDistance.value);
-            }
-            // 小球大小
-            if (properties.circle_ballSize) {
-                wallpaper.visualizercircle('set', 'ballSize', properties.circle_ballSize.value);
-            }
-            // 圆环旋转
-            if (properties.circle_ballRotation) {
-                wallpaper.visualizercircle('set', 'ballRotation', properties.circle_ballRotation.value);
-            }
-
             // # 基础参数
             //-----------
 
@@ -1573,59 +1474,120 @@
                 }
             }
 
-            // 条形设置
-            //-----------------------------------------------------------
-
-            // 显示条形
-            if (properties.bars_isBars) {
-                wallpaper.visualizerbars('set', 'isBars', properties.bars_isBars.value);
+            // 显示圆环
+            if (properties.circle_isRing) {
+                wallpaper.visualizercircle('set', 'isRing', properties.circle_isRing.value);
             }
-            // 显示线条
-            if (properties.bars_isLineTo) {
-                wallpaper.visualizerbars('set', 'isLineTo', properties.bars_isLineTo.value);
+            // 显示静态环
+            if (properties.circle_isStaticRing) {
+                wallpaper.visualizercircle('set', 'isStaticRing', properties.circle_isStaticRing.value);
             }
-            // 基础宽度
-            if (properties.bars_width) {
-                wallpaper.visualizerbars('set', 'width', properties.bars_width.value / 10);
+            // 显示内环
+            if (properties.circle_isInnerRing) {
+                wallpaper.visualizercircle('set', 'isInnerRing', properties.circle_isInnerRing.value);
             }
-            // 基础高度
-            if (properties.bars_height) {
-                wallpaper.visualizerbars('set', 'height', properties.bars_height.value);
+            // 显示外环
+            if (properties.circle_isOuterRing) {
+                wallpaper.visualizercircle('set', 'isOuterRing', properties.circle_isOuterRing.value);
             }
-            // 点的数量
-            if (properties.bars_pointNum) {
-                wallpaper.visualizerbars('set', 'pointNum', properties.bars_pointNum.value);
+            // 波浪模式
+            if(properties.circle_isWare) {
+                wallpaper.visualizercircle('set', 'isWare', properties.circle_isWare.value);
             }
-            // 旋转角度
-            if (properties.bars_barsRotation) {
-                wallpaper.visualizerbars('set', 'barsRotation', properties.bars_barsRotation.value);
+            // 圆环半径
+            if (properties.circle_radius) {
+                wallpaper.visualizercircle('set', 'radius', properties.circle_radius.value / 10);
             }
-            // 条形方向
-            if (properties.bars_barsDirection) {
-                wallpaper.visualizerbars('set', 'barsDirection', setBarsDirection(properties.bars_barsDirection.value));
-            }
-            // 线帽样式
-            if (properties.bars_lineCap) {
-                wallpaper.visualizerbars('set', 'lineCap', setLineCap(properties.bars_lineCap.value));
-            }
-            // 线交汇样式
-            if (properties.bars_lineJoin) {
-                wallpaper.visualizerbars('set', 'lineJoin', setLineJoin(properties.bars_lineJoin.value));
-            }
-            // 线条粗细
-            if (properties.bars_lineWidth) {
-                wallpaper.visualizerbars('set', 'lineWidth', properties.bars_lineWidth.value);
+            // 圆环旋转
+            if (properties.circle_ringRotation) {
+                wallpaper.visualizercircle('set', 'ringRotation', properties.circle_ringRotation.value);
             }
             // 重绘间隔
-            if (properties.bars_milliSec) {
-                barsRedraw = properties.bars_milliSec.value;
-                wallpaper.visualizerbars('set', 'milliSec', barsRedraw);
-                if (barsRedraw === 30) {
-                    wallpaper.visualizerbars('stopVisualizerBarsTimer');
+            if (properties.circle_milliSec) {
+                circleRedraw = properties.circle_milliSec.value;
+                wallpaper.visualizercircle('set', 'milliSec', circleRedraw);
+                if (circleRedraw === 30) {
+                    wallpaper.visualizercircle('stopVisualizerCircleTimer');
                 } else {
-                    wallpaper.visualizerbars('runVisualizerBarsTimer');
+                    wallpaper.visualizercircle('runVisualizerCircleTimer');
                 }
             }
+
+            // # 线条参数
+            //-----------
+
+            // 是否连线
+            if (properties.circle_isLineTo) {
+                wallpaper.visualizercircle('set', 'isLineTo', properties.circle_isLineTo.value);
+            }
+            // 第一点
+            if (properties.circle_firstPoint) {
+                wallpaper.visualizercircle('set', 'firstPoint', setPoint(properties.circle_firstPoint.value));
+            }
+            // 第二点
+            if (properties.circle_secondPoint) {
+                wallpaper.visualizercircle('set', 'secondPoint', setPoint(properties.circle_secondPoint.value));
+            }
+            // 圆环点数
+            if (properties.circle_pointNum) {
+                wallpaper.visualizercircle('set', 'pointNum', properties.circle_pointNum.value);
+            }
+            // 内环距离
+            if (properties.circle_innerDistance) {
+                wallpaper.visualizercircle('set', 'innerDistance', properties.circle_innerDistance.value);
+            }
+            // 外环距离
+            if (properties.circle_outerDistance) {
+                wallpaper.visualizercircle('set', 'outerDistance', properties.circle_outerDistance.value);
+            }
+            // 线帽样式
+            if (properties.circle_lineCap) {
+                wallpaper.visualizercircle('set', 'lineCap', setLineCap(properties.circle_lineCap.value));
+            }
+            // 线交汇样式
+            if (properties.circle_lineJoin) {
+                wallpaper.visualizercircle('set', 'lineJoin', setLineJoin(properties.circle_lineJoin.value));
+            }
+            // 线条粗细
+            if (properties.circle_lineWidth) {
+                wallpaper.visualizercircle('set', 'lineWidth', properties.circle_lineWidth.value);
+            }
+
+            // # 小球参数
+            //-----------
+
+            // 显示小球
+            if (properties.circle_isBall) {
+                wallpaper.visualizercircle('set', 'isBall', properties.circle_isBall.value);
+            }
+            // 小球间隔
+            if (properties.circle_ballSpacer) {
+                wallpaper.visualizercircle('set', 'ballSpacer', properties.circle_ballSpacer.value);
+            }
+            // 内环距离
+            if (properties.circle_ballDistance) {
+                wallpaper.visualizercircle('set', 'ballDistance', properties.circle_ballDistance.value);
+            }
+            // 小球大小
+            if (properties.circle_ballSize) {
+                wallpaper.visualizercircle('set', 'ballSize', properties.circle_ballSize.value);
+            }
+            // 小球方向
+            if (properties.circle_ballDirection) {
+                wallpaper.visualizercircle('set', 'ballDirection', properties.circle_ballDirection.value);
+            }
+            // 绑定圆环旋转
+            if (properties.circle_bindRingRotation) {
+                wallpaper.visualizercircle('set', 'bindRingRotation', properties.circle_bindRingRotation.value);
+            }
+            // 小球旋转
+            if (properties.circle_ballRotation) {
+                wallpaper.visualizercircle('set', 'ballRotation', properties.circle_ballRotation.value);
+            }
+
+
+            // 条形设置
+            //-----------------------------------------------------------
 
             // # 基础参数
             //-----------
@@ -1748,6 +1710,59 @@
                 wallpaper.visualizerbars('set', 'isClickOffset', bars.isClickOffset);
             }
 
+            // # 条形参数
+            //-----------
+
+            // 显示条形
+            if (properties.bars_isBars) {
+                wallpaper.visualizerbars('set', 'isBars', properties.bars_isBars.value);
+            }
+            // 显示线条
+            if (properties.bars_isLineTo) {
+                wallpaper.visualizerbars('set', 'isLineTo', properties.bars_isLineTo.value);
+            }
+            // 基础宽度
+            if (properties.bars_width) {
+                wallpaper.visualizerbars('set', 'width', properties.bars_width.value / 10);
+            }
+            // 基础高度
+            if (properties.bars_height) {
+                wallpaper.visualizerbars('set', 'height', properties.bars_height.value);
+            }
+            // 点的数量
+            if (properties.bars_pointNum) {
+                wallpaper.visualizerbars('set', 'pointNum', properties.bars_pointNum.value);
+            }
+            // 旋转角度
+            if (properties.bars_barsRotation) {
+                wallpaper.visualizerbars('set', 'barsRotation', properties.bars_barsRotation.value);
+            }
+            // 条形方向
+            if (properties.bars_barsDirection) {
+                wallpaper.visualizerbars('set', 'barsDirection', setBarsDirection(properties.bars_barsDirection.value));
+            }
+            // 线帽样式
+            if (properties.bars_lineCap) {
+                wallpaper.visualizerbars('set', 'lineCap', setLineCap(properties.bars_lineCap.value));
+            }
+            // 线交汇样式
+            if (properties.bars_lineJoin) {
+                wallpaper.visualizerbars('set', 'lineJoin', setLineJoin(properties.bars_lineJoin.value));
+            }
+            // 线条粗细
+            if (properties.bars_lineWidth) {
+                wallpaper.visualizerbars('set', 'lineWidth', properties.bars_lineWidth.value);
+            }
+            // 重绘间隔
+            if (properties.bars_milliSec) {
+                barsRedraw = properties.bars_milliSec.value;
+                wallpaper.visualizerbars('set', 'milliSec', barsRedraw);
+                if (barsRedraw === 30) {
+                    wallpaper.visualizerbars('stopVisualizerBarsTimer');
+                } else {
+                    wallpaper.visualizerbars('runVisualizerBarsTimer');
+                }
+            }
 
             // 时间日期参数
             //-----------------------------------------------------------
