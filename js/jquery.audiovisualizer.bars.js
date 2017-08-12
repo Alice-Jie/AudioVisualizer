@@ -263,7 +263,6 @@
         this.width = options.width;                            // 宽度比例
         this.height = options.height;                          // 基础高度
         this.pointNum = options.pointNum;                      // 点的数量
-        this.distance = options.distance;                      // 条形距离
         this.barsRotation = options.barsRotation;              // 旋转角度
         this.barsDirection = options.barsDirection;            // 条形方向
         this.lineCap = options.lineCap;                        // 线帽类型
@@ -350,7 +349,6 @@
         width: 0.5,                  // 宽度比例
         height: 2,                   // 基础高度
         pointNum: 120,               // 点的数量
-        distance: 0,                 // 条形距离
         barsRotation: 0,             // 旋转角度
         barsDirection: 'two bars',   // 条形方向
         lineCap: 'butt',             // 线帽类型

@@ -889,31 +889,37 @@
         /** 绘制音频圆环和小球 */
         drawVisualizerCircle: function () {
             context.clearRect(0, 0, canvasWidth, canvasHeight);
-            // 绘制圆环
+            // 绘制音频圆环
             if (this.isRing && this.colorMode !== 'rainBow') {
                 if (this.isWare) {
+                    // 非音频波浪模式
                     if (this.isStaticRing && this.isInnerRing && !this.isOuterRing) {
+                        // 静态圆环和内环
                         this.drawWave(pointArray1, staticPointsArray);
                     } else if (this.isStaticRing && !this.isInnerRing && this.isOuterRing) {
+                        // 静态圆环和外环
                         this.drawWave(staticPointsArray, pointArray2);
                     } else if (!this.isStaticRing && this.isInnerRing && this.isOuterRing) {
+                        // 内环和外环
                         this.drawWave(pointArray1, pointArray2);
                     } else if (this.isStaticRing && this.isInnerRing && this.isOuterRing) {
+                        // 静态圆环、内环和外环
                         this.drawWave(pointArray1, pointArray2);
                     }
                 } else {
+                    // 非音频波浪模式
                     this.isStaticRing && this.drawRing(staticPointsArray);
                     this.isInnerRing && this.drawRing(pointArray1);
                     this.isOuterRing && this.drawRing(pointArray2);
                 }
             }
-            // 绘制连线
+            // 绘制双环连线
             let firstArray = getPointArray(this.firstPoint);
             let secondArray = getPointArray(this.secondPoint);
             if (this.isLineTo && this.firstPoint !== this.secondPoint) {
                 this.colorMode === 'rainBow' ? this.drawRainBowLine(firstArray, secondArray) : this.drawLine(firstArray, secondArray);
             }
-            // 绘制小球
+            // 绘制音频小球
             if (this.isBall) {
                 this.colorMode === 'rainBow' ? this.drawRainBowBall(ballPointArray, this.ballSize) : this.drawBall(ballPointArray, this.ballSize);
             }
