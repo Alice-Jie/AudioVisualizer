@@ -1,12 +1,12 @@
 /*！
- * jQuery AudioVisualizer Circle plugin v0.1.0
+ * jQuery AudioVisualizer Circle plugin v0.1.1
  * project:
- * - https://github.com/Alice-Jie/4K-Circle-Audio-Visualizer
+ * - https://github.com/Alice-Jie/AudioVisualizer
  * - https://git.oschina.net/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/08/07
+ * @date 2017/08/12
  */
 
 (function (global, factory) {
@@ -359,10 +359,13 @@
         this.isStaticRing = options.isStaticRing;          // 显示静态环
         this.isInnerRing = options.isInnerRing;            // 显示内环
         this.isOuterRing = options.isOuterRing;            // 显示外环
-        this.isWare = options.isWare;                      // 波浪模式
         this.radius = options.radius;                      // 半径
         this.ringRotation = options.ringRotation;          // 圆环旋转
         this.milliSec = options.milliSec;                  // 绘制间隔(ms);
+        // 波浪参数
+        this.isWave = options.isWave;                      // 波浪模式
+        this.firstRing = options.firstRing;                // 始环
+        this.secondRing = options.secondRing;              // 末环
         // 线条参数
         this.isLineTo = options.isLineTo;                  // 是否连线
         this.firstPoint = options.firstPoint;              // 始点
@@ -461,9 +464,12 @@
         isStaticRing: false,         // 显示静态环
         isInnerRing: true,           // 显示内环
         isOuterRing: true,           // 显示外环
-        isWare: false,               // 波浪模式
         ringRotation: 0,             // 圆环旋转
         milliSec: 30,                // 重绘间隔（ms）
+        // 波浪参数
+        isWave: false,               // 波浪模式
+        firstRing: 'innerRing',      // 始环
+        secondRing: 'outerRing',     // 末环
         // 线条参数
         isLineTo: false,             // 是否连线
         firstPoint: 'innerRing',     // 始点
@@ -889,35 +895,23 @@
         /** 绘制音频圆环和小球 */
         drawVisualizerCircle: function () {
             context.clearRect(0, 0, canvasWidth, canvasHeight);
-            // 绘制音频圆环
-            if (this.isRing && this.colorMode !== 'rainBow') {
-                if (this.isWare) {
-                    // 非音频波浪模式
-                    if (this.isStaticRing && this.isInnerRing && !this.isOuterRing) {
-                        // 静态圆环和内环
-                        this.drawWave(pointArray1, staticPointsArray);
-                    } else if (this.isStaticRing && !this.isInnerRing && this.isOuterRing) {
-                        // 静态圆环和外环
-                        this.drawWave(staticPointsArray, pointArray2);
-                    } else if (!this.isStaticRing && this.isInnerRing && this.isOuterRing) {
-                        // 内环和外环
-                        this.drawWave(pointArray1, pointArray2);
-                    } else if (this.isStaticRing && this.isInnerRing && this.isOuterRing) {
-                        // 静态圆环、内环和外环
-                        this.drawWave(pointArray1, pointArray2);
-                    }
-                } else {
-                    // 非音频波浪模式
-                    this.isStaticRing && this.drawRing(staticPointsArray);
-                    this.isInnerRing && this.drawRing(pointArray1);
-                    this.isOuterRing && this.drawRing(pointArray2);
-                }
+            // 绘制音频波浪
+            let firstRingArray = getPointArray(this.firstRing);
+            let secondRingArray = getPointArray(this.secondRing);
+            if (this.isWave && this.firstRing !== this.secondRing && this.colorMode !== 'rainBow') {
+                this.drawWave(firstRingArray, secondRingArray);
             }
             // 绘制双环连线
-            let firstArray = getPointArray(this.firstPoint);
-            let secondArray = getPointArray(this.secondPoint);
+            let firstPointArray = getPointArray(this.firstPoint);
+            let secondPointArray = getPointArray(this.secondPoint);
             if (this.isLineTo && this.firstPoint !== this.secondPoint) {
-                this.colorMode === 'rainBow' ? this.drawRainBowLine(firstArray, secondArray) : this.drawLine(firstArray, secondArray);
+                this.colorMode === 'rainBow' ? this.drawRainBowLine(firstPointArray, secondPointArray) : this.drawLine(firstPointArray, secondPointArray);
+            }
+            // 绘制音频圆环
+            if (this.isRing && this.colorMode !== 'rainBow') {
+                this.isStaticRing && this.drawRing(staticPointsArray);
+                this.isInnerRing && this.drawRing(pointArray1);
+                this.isOuterRing && this.drawRing(pointArray2);
             }
             // 绘制音频小球
             if (this.isBall) {
@@ -938,6 +932,7 @@
                 || this.colorMode === 'colorTransformation'
                 || (this.colorMode === 'rainBow' && this.gradientOffset !== 0)
                 || (this.ringRotation && this.isLineTo)
+                || (this.ringRotation && this.bindRingRotation)
                 || this.ballRotation) {
                 this.drawVisualizerCircle();
                 runCount = 1;
@@ -1041,7 +1036,9 @@
                 case 'isStaticRing':
                 case 'isInnerRing':
                 case 'isOuterRing':
-                case 'isWare':
+                case 'isWave':
+                case 'firstRing':
+                case 'secondRing':
                 case 'ringRotation':
                 case 'radius':
                 case 'innerDistance':

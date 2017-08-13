@@ -2,7 +2,7 @@
  * jQuery date plugin v0.0.8
  * moment.js: http://momentjs.cn/
  * project:
- * - https://github.com/Alice-Jie/4K-Circle-Audio-Visualizer
+ * - https://github.com/Alice-Jie/AudioVisualizer
  * - https://git.oschina.net/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed

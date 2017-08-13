@@ -1474,6 +1474,10 @@
                 }
             }
 
+
+            // # 圆环参数
+            //-----------
+
             // 显示圆环
             if (properties.circle_isRing) {
                 wallpaper.visualizercircle('set', 'isRing', properties.circle_isRing.value);
@@ -1491,8 +1495,16 @@
                 wallpaper.visualizercircle('set', 'isOuterRing', properties.circle_isOuterRing.value);
             }
             // 波浪模式
-            if(properties.circle_isWare) {
-                wallpaper.visualizercircle('set', 'isWare', properties.circle_isWare.value);
+            if (properties.circle_isWave) {
+                wallpaper.visualizercircle('set', 'isWave', properties.circle_isWave.value);
+            }
+            // 第一环
+            if (properties.circle_firstRing) {
+                wallpaper.visualizercircle('set', 'firstRing', setPoint(properties.circle_firstRing.value));
+            }
+            // 第二环
+            if (properties.circle_secondRing) {
+                wallpaper.visualizercircle('set', 'secondRing', setPoint(properties.circle_secondRing.value));
             }
             // 圆环半径
             if (properties.circle_radius) {
@@ -1965,7 +1977,7 @@
                 }
             }
 
-            // # 粒子基础参数
+            // # 基础参数
             //---------------
 
             // 粒子数量
@@ -2001,7 +2013,7 @@
                 wallpaper.particles('set', 'shadowBlur', properties.particles_shadowBlur.value);
             }
 
-            // # 粒子类型参数
+            // # 类型参数
             //---------------
 
             // 粒子类型
@@ -2029,7 +2041,7 @@
                 wallpaper.particles('set', 'sizeRandom', properties.particles_sizeRandom.value);
             }
 
-            // # 粒子连线参数
+            // # 连线参数
             //---------------
 
             // 显示连线
@@ -2057,7 +2069,7 @@
                 wallpaper.particles('set', 'linkOpacity', properties.particles_linkOpacity.value / 100);
             }
 
-            // # 粒子移动参数
+            // # 移动参数
             //---------------
 
             // 粒子是否移动

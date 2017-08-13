@@ -1,7 +1,7 @@
 /*！
  * jQuery AudioVisualizer Bars plugin v0.0.4
  * project:
- * - https://github.com/Alice-Jie/4K-Circle-Audio-Visualizer
+ * - https://github.com/Alice-Jie/AudioVisualizer
  * - https://git.oschina.net/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
@@ -635,7 +635,7 @@
             // 更新彩虹渐变参数
             if (this.colorMode === 'rainBow') {
                 // 彩虹渐变偏移
-                if(this.gradientOffset !== 0) {
+                if (this.gradientOffset !== 0) {
                     gradientOffsetRange += this.gradientOffset || 0;
                     rainBowArray = this.setRainBow(this.pointNum);
                 }

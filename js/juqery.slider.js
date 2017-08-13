@@ -1,7 +1,7 @@
 /*!
  * jQuery Slider plugin v0.1.1
  * project:
- * - https://github.com/Alice-Jie/4K-Circle-Audio-Visualizer
+ * - https://github.com/Alice-Jie/AudioVisualizer
  * - https://git.oschina.net/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
@@ -60,34 +60,40 @@
     //私有变量
     //--------------------------------------------------------------------------------------------------------------
 
-    let canvas;                       // canvas对象
-    let context;                      // context对象
-    let canvasWidth, canvasHeight;    // canvas宽度和高度
-    let originX, originY;             // 原点位置
+    let canvas;                     // canvas对象
+    let context;                    // context对象
+    let canvasWidth, canvasHeight;  // canvas宽度和高度
+    let originX, originY;           // 原点位置
 
+    // 图像、canvas
     let prevImg = new Image(),        // 上张图片对象
         currantImg = new Image();     // 当前图片对象
     let prevCanvas, currantCanvas;    // 离屏Canvas
     let prevContext, currantContext;  // 离屏Context
 
-    let imgList = [];                 // 图片绝对路径数组
-    let imgIndex = 0,                 // 图片索引
-        oldIndex = 0;                 // 旧的索引
-    let userColor = '255,255,255',           // 用户自定义颜色
-        userGradientDeg = '120',             // 用户自定义线性角度
-        userGradientColor1 = '189,253,0',    // 用户自定义线性颜色1
-        userGradientColor2 = '255,255,0';    // 用户自定义线性颜色2
-    let userImg = '';                        // 用户自定义图片路径
+    // 索引
+    let imgList = [];  // 绝对路径数组
+    let imgIndex = 0,  // 当前索引
+        oldIndex = 0;  // 旧的索引
 
-    let video = document.createElement('video');   // 视频对象
-    let videoList = [];                            // 视频数组
-    let videoIndex = 0;                            // 视频索引
-    let userVideo = '';                            // 用户视频
-    let myVideoListLength;                         // 视频列表长度
-
-
+    // 计时器
     let timer = null,        // 切换计时器
         effectTimer = null;  // 特效计时器
+
+    // 用户颜色、线性渐变和图像
+    let userColor = '255,255,255',         // 用户自定义颜色
+        userGradientDeg = '120',           // 用户自定义线性角度
+        userGradientColor1 = '189,253,0',  // 用户自定义线性颜色1
+        userGradientColor2 = '255,255,0';  // 用户自定义线性颜色2
+    let userImg = '';                      // 用户自定义图片路径
+
+    // 视频
+    let video = document.createElement('video');  // 视频对象
+    let videoList = [];                           // 视频数组
+    let videoIndex = 0;                           // 视频索引
+    let userVideo = '';                           // 用户视频
+    let myVideoListLength;                        // 视频列表长度
+
 
     //私有方法
     //--------------------------------------------------------------------------------------------------------------
