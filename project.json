@@ -696,13 +696,13 @@
       },
       "circle_coordinateText": {
         "order": 3115,
-        "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isWave.value == true || circle_isLineTo.value == true || circle_isBall.value == true)",
+        "condition": "global_GlobalSettings.value == false && ((global_GlobalSettings.value == true || circle_colorMode.value != 3) && circle_isRing.value == true || circle_isWave.value == true || circle_isLineTo.value == true || circle_isBall.value == true)",
         "text": "ui_circle_coordinateText",
         "type": "text"
       },
       "circle_offsetX": {
         "order": 3116,
-        "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isWave.value == true || circle_isLineTo.value == true || circle_isBall.value == true)",
+        "condition": "global_GlobalSettings.value == false && ((global_GlobalSettings.value == true || circle_colorMode.value != 3) && circle_isRing.value == true || circle_isWave.value == true || circle_isLineTo.value == true || circle_isBall.value == true)",
         "text": "ui_circle_offsetX",
         "type": "slider",
         "editable": true,
@@ -712,7 +712,7 @@
       },
       "circle_offsetY": {
         "order": 3117,
-        "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isWave.value == true || circle_isLineTo.value == true || circle_isBall.value == true)",
+        "condition": "global_GlobalSettings.value == false && ((global_GlobalSettings.value == true || circle_colorMode.value != 3) && circle_isRing.value == true || circle_isWave.value == true || circle_isLineTo.value == true || circle_isBall.value == true)",
         "text": "ui_circle_offsetY",
         "type": "slider",
         "editable": true,
@@ -722,13 +722,14 @@
       },
       "circle_isClickOffset": {
         "order": 3118,
-        "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isWave.value == true || circle_isLineTo.value == true || circle_isBall.value == true)",
+        "condition": "global_GlobalSettings.value == false && ((global_GlobalSettings.value == true || circle_colorMode.value != 3) && circle_isRing.value == true || circle_isWave.value == true || circle_isLineTo.value == true || circle_isBall.value == true)",
         "text": "ui_circle_isClickOffset",
         "type": "bool",
         "value": false
       },
       "circle_ringText": {
         "order": 3200,
+        "condition": "global_GlobalSettings.value == true || circle_colorMode.value != 3 || circle_isLineTo.value == true || circle_isBall.value == true",
         "text": "ui_circle_ringText",
         "type": "text"
       },
@@ -811,7 +812,7 @@
       },
       "circle_radius": {
         "order": 3208,
-        "condition": "circle_isRing.value == true || circle_isLineTo.value == true",
+        "condition": "((global_GlobalSettings.value == true || circle_colorMode.value != 3) && circle_isRing.value == true) || circle_isLineTo.value == true || circle_isBall.value == true",
         "text": "ui_circle_radius",
         "type": "slider",
         "editable": true,
@@ -821,7 +822,7 @@
       },
       "circle_ringRotation": {
         "order": 3209,
-        "condition": "circle_isRing.value == true || circle_isLineTo.value == true",
+        "condition": "((global_GlobalSettings.value == true || circle_colorMode.value != 3) && circle_isRing.value == true) || circle_isLineTo.value == true",
         "text": "ui_circle_ringRotation",
         "type": "slider",
         "editable": true,
@@ -831,6 +832,7 @@
       },
       "circle_milliSec": {
         "order": 3210,
+        "condition": "((global_GlobalSettings.value == true || circle_colorMode.value != 3) && circle_isRing.value == true) || circle_isLineTo.value == true || circle_isBall.value == true",
         "text": "ui_circle_milliSec",
         "type": "slider",
         "editable": true,
@@ -893,7 +895,7 @@
       },
       "circle_pointNum": {
         "order": 3305,
-        "condition": "circle_isRing.value == true || circle_isLineTo.value == true",
+        "condition": "((global_GlobalSettings.value == true || circle_colorMode.value != 3) && circle_isRing.value == true) || circle_isLineTo.value == true",
         "text": "ui_circle_pointNum",
         "type": "slider",
         "editable": true,
@@ -903,7 +905,7 @@
       },
       "circle_innerDistance": {
         "order": 3306,
-        "condition": "circle_isRing.value == true || circle_isLineTo.value == true",
+        "condition": "((global_GlobalSettings.value == true || circle_colorMode.value != 3) && circle_isRing.value == true) || circle_isLineTo.value == true",
         "text": "ui_circle_innerDistance",
         "type": "slider",
         "editable": true,
@@ -913,7 +915,7 @@
       },
       "circle_outerDistance": {
         "order": 3307,
-        "condition": "circle_isRing.value == true || circle_isLineTo.value == true",
+        "condition": "((global_GlobalSettings.value == true || circle_colorMode.value != 3) && circle_isRing.value == true) || circle_isLineTo.value == true",
         "text": "ui_circle_outerDistance",
         "type": "slider",
         "editable": true,
@@ -923,7 +925,7 @@
       },
       "circle_lineCap": {
         "order": 3308,
-        "condition": "circle_isRing.value == true || circle_isLineTo.value == true",
+        "condition": "((global_GlobalSettings.value == true || circle_colorMode.value != 3) && circle_isRing.value == true) || circle_isLineTo.value == true",
         "text": "ui_circle_lineCap",
         "type": "combo",
         "options": [
@@ -944,7 +946,7 @@
       },
       "circle_lineJoin": {
         "order": 3309,
-        "condition": "circle_isRing.value == true || circle_isLineTo.value == true",
+        "condition": "((global_GlobalSettings.value == true || circle_colorMode.value != 3) && circle_isRing.value == true) || circle_isLineTo.value == true",
         "text": "ui_circle_lineJoin",
         "type": "combo",
         "options": [
@@ -965,7 +967,7 @@
       },
       "circle_lineWidth": {
         "order": 3310,
-        "condition": "circle_isRing.value == true || circle_isLineTo.value == true",
+        "condition": "((global_GlobalSettings.value == true || circle_colorMode.value != 3) && circle_isRing.value == true) || circle_isLineTo.value == true",
         "text": "ui_circle_lineWidth",
         "type": "slider",
         "editable": true,
@@ -2549,8 +2551,8 @@
         "ui_about_authorText": "<br/>Author：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
         "ui_about_emailText": "<br/>Email：909011298@qq.com<br/>",
-        "ui_about_versionText": "<br/>Version Number：0.5.3<br/>",
-        "ui_about_updateText": "<br/><span>Update Description：</span><br/><span>01、Audio ring add parameters: wave mode</span><br/><span>02、Audio ball add parameters: Ball Direction、Bind Ring Rotation</span><br/><span>03、Update interface text, add multi language support, currently support English, simplified Chinese and traditional Chinese</span><br/>",
+        "ui_about_versionText": "<br/>Version Number：0.5.4<br/>",
+        "ui_about_updateText": "<br/><span>Update Description：</span><br/><span>01、Fixed the audio ball initialization failed in rainbow mode</span><br/><span>02、fixed Bars-Redraw Interval failure</span><br/><span>03、In silence, stop drawing audio bars</span><br/><span>04、Strengthen audio ring parameter condition control</span><br/><span>                           -- From Baidu translate.</span><br/>",
         "ui_about_describeText": "<br/><span>Relevant Instructions：</span><br/><span>If you have better text translation, please contact me.</span><br/>",
         "ui_about_isQRcode": "<br/>Show QRcode?<br/><br/>"
       },
@@ -2757,8 +2759,8 @@
         "ui_about_authorText": "<br/>作者：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
         "ui_about_emailText": "<br/>Email：909011298@qq.com<br/>",
-        "ui_about_versionText": "<br/>版本号：0.5.3<br/>",
-        "ui_about_updateText": "<br/><span>更新说明：</span><br/><span>01、音频圆环添加参数：波浪模式</span><br/><span>02、音频小球添加参数：小球方向、绑定圆环旋转</span><br/><span>03、更新界面文本，添加多语言支持，目前支持英语、简体中文和繁体中文</span><br/>",
+        "ui_about_versionText": "<br/>版本号：0.5.4<br/>",
+        "ui_about_updateText": "<br/><span>更新说明：</span><br/><span>01、修复彩虹模式下初始化小球失败BUG</span><br/><span>02、修复条形重绘间隔失效BUG</span><br/><span>03、静默状态下停止绘制音频条形</span><br/><span>04、加强音频圆环参数条件控制</span><br/>",
         "ui_about_describeText": "<br/><span>相关说明：</span><br/><span>由于项目工作量较大，难免会有部分BUG没有排查到。如果你发现了BUG，请移步到创意工坊描述BUG发生原因以及产生的结果。感谢大家长期以来的支持。</span><br/>",
         "ui_about_isQRcode": "<br/>显示二维码<br/><br/>"
       },
@@ -2965,8 +2967,8 @@
         "ui_about_authorText": "<br/>作者：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
         "ui_about_emailText": "<br/>Email：909011298@qq.com<br/>",
-        "ui_about_versionText": "<br/>版本號：0.5.3<br/>",
-        "ui_about_updateText": "<br/><span>更新說明：</span><br/><span>01、音頻圓環添加參數：波浪模式</span><br/><span>02、音頻小球添加參數：小球方向、綁定圓環旋轉</span><br/><span>03、更新界面文本，添加多語言支持，目前支持英語、簡體中文和繁體中文</span><br/>",
+        "ui_about_versionText": "<br/>版本號：0.5.4<br/>",
+        "ui_about_updateText": "<br/><span>更新說明：</span><br/><span>01、修復彩虹模式下初始化小球失敗BUG</span><br/><span>02、修復條形重繪間隔失效BUG</span><br/><span>03、靜默狀態下停止繪制音頻條形</span><br/><span>04、加強音頻圓環參數條件控制</span><br/>",
         "ui_about_describeText": "<br/><span>相關說明：</span><br/><span>由於項目工作量較大，難免會有部分BUG沒有排查到。如果妳發現了BUG，請移步到創意工坊描述BUG發生原因以及產生的結果。感謝大家長期以來的支持。</span><br/>",
         "ui_about_isQRcode": "<br/>顯示二維碼<br/><br/>"
       }

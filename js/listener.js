@@ -17,8 +17,6 @@
     //--------------------------------------------------------------------------------------------------------------
 
     // 临时储存变量
-    let circleRedraw = 30;  // 音频圆环重绘间隔(ms)
-    let barsRedraw = 30;    // 音频条形重绘间隔(ms)
     let files = {};         // 文件路径对象
 
     // 背景/视频配置
@@ -83,7 +81,9 @@
         // 坐标参数
         offsetX: 0.5,                // X坐标偏移
         offsetY: 0.5,                // Y坐标偏移
-        isClickOffset: false         // 鼠标坐标偏移
+        isClickOffset: false,        // 鼠标坐标偏移
+        // 环参数
+        redraw: 30                   // 重绘间隔(ms)
     };
     let bars = {
         // 基础参数
@@ -106,7 +106,9 @@
         // 坐标参数
         offsetX: 0.5,                // X坐标偏移
         offsetY: 0.9,                // Y坐标偏移
-        isClickOffset: false         // 鼠标坐标偏移
+        isClickOffset: false,        // 鼠标坐标偏移
+        // 条形参数
+        redraw: 30                   // 重绘间隔(ms)
     };
     let date = {
         // 基础参数
@@ -789,14 +791,14 @@
     function wallpaperAudioListener(audioArray) {
         // 更新date插件数据
         wallpaper.date('updateDate');
-        if (circleRedraw === 30) {
+        if (circle.redraw === 30) {
             // 更新circle插件数据
             wallpaper.visualizercircle('drawCanvas', audioArray);
         } else {
             // 更新circle插件数据并绘图
             wallpaper.visualizercircle('updateVisualizerCircle', audioArray);
         }
-        if (barsRedraw === 30) {
+        if (bars.redraw === 30) {
             // 更新bars插件数据并绘图
             wallpaper.visualizerbars('drawCanvas', audioArray);
         } else {
@@ -835,7 +837,7 @@
                         BG.mode = 'Color';
                         wallpaper.slider('delVideo')
                             .slider('stopSliderTimer');
-                        if (BG.isLinearGradient === true) {
+                        if (BG.isLinearGradient) {
                             wallpaper.slider('cssLinearGradient');
                         } else {
                             wallpaper.slider('cssUserColor');
@@ -880,7 +882,7 @@
             // 线性颜色开关
             if (properties.BG_isLinearGradient) {
                 BG.isLinearGradient = properties.BG_isLinearGradient.value;
-                if (BG.isLinearGradient === true) {
+                if (BG.isLinearGradient) {
                     wallpaper.slider('cssLinearGradient');
                 } else {
                     wallpaper.slider('cssUserColor');
@@ -890,7 +892,7 @@
             if (properties.BG_linearGradientColor1) {
                 BG.GradientColor1 = getColor(properties.BG_linearGradientColor1.value);
                 wallpaper.slider('setUserLinearGradient', BG.GradientDeg, BG.GradientColor1, BG.GradientColor2);
-                if (BG.mode === 'Color' && BG.isLinearGradient === true) {
+                if (BG.mode === 'Color' && BG.isLinearGradient) {
                     wallpaper.slider('cssLinearGradient');
                 }
             }
@@ -898,7 +900,7 @@
             if (properties.BG_linearGradientColor2) {
                 BG.GradientColor2 = getColor(properties.BG_linearGradientColor2.value);
                 wallpaper.slider('setUserLinearGradient', BG.GradientDeg, BG.GradientColor1, BG.GradientColor2);
-                if (BG.mode === 'Color' && BG.isLinearGradient === true) {
+                if (BG.mode === 'Color' && BG.isLinearGradient) {
                     wallpaper.slider('cssLinearGradient');
                 }
             }
@@ -906,7 +908,7 @@
             if (properties.BG_linearGradientDeg) {
                 BG.GradientDeg = properties.BG_linearGradientDeg.value;
                 wallpaper.slider('setUserLinearGradient', BG.GradientDeg, BG.GradientColor1, BG.GradientColor2);
-                if (BG.mode === 'Color' && BG.isLinearGradient === true) {
+                if (BG.mode === 'Color' && BG.isLinearGradient) {
                     wallpaper.slider('cssLinearGradient');
                 }
             }
@@ -1155,7 +1157,7 @@
             if (properties.global_opacity) {
                 globalSettings.opacity = properties.global_opacity.value / 100;
                 // 全局模式下开启
-                if (isGlobalSettings === true) {
+                if (isGlobalSettings) {
                     wallpaper.visualizercircle('set', 'opacity', globalSettings.opacity)
                         .date('set', 'opacity', globalSettings.opacity);
                 }
@@ -1164,7 +1166,7 @@
             if (properties.global_colorMode) {
                 globalSettings.colorMode = setColorMode(properties.global_colorMode.value);
                 // 全局模式下开启
-                if (isGlobalSettings === true) {
+                if (isGlobalSettings) {
                     wallpaper.visualizercircle('set', 'colorMode', globalSettings.colorMode)
                         .date('set', 'colorMode', globalSettings.colorMode);
                     // 初始化对应颜色模式环境
@@ -1190,7 +1192,7 @@
             if (properties.global_color) {
                 globalSettings.color = getColor(properties.global_color.value);
                 // 全局模式下开启
-                if (isGlobalSettings === true) {
+                if (isGlobalSettings) {
                     wallpaper.visualizercircle('set', 'color', globalSettings.color)
                         .date('set', 'color', globalSettings.color);
                 }
@@ -1199,7 +1201,7 @@
             if (properties.global_shadowColor) {
                 globalSettings.shadowColor = getColor(properties.global_shadowColor.value);
                 // 全局模式下开启
-                if (isGlobalSettings === true) {
+                if (isGlobalSettings) {
                     wallpaper.visualizercircle('set', 'shadowColor', globalSettings.shadowColor)
                         .date('set', 'shadowColor', globalSettings.shadowColor);
                 }
@@ -1208,7 +1210,7 @@
             if (properties.global_shadowBlur) {
                 globalSettings.shadowBlur = properties.global_shadowBlur.value;
                 // 全局模式下开启
-                if (isGlobalSettings === true) {
+                if (isGlobalSettings) {
                     if (globalSettings.colorMode !== 'rainBow') {
                         wallpaper.visualizercircle('set', 'shadowBlur', globalSettings.shadowBlur)
                             .date('set', 'shadowBlur', globalSettings.shadowBlur);
@@ -1227,7 +1229,7 @@
             if (properties.global_isRandomColor) {
                 globalSettings.isRandomColor = properties.global_isRandomColor.value;
                 // 全局模式下开启
-                if (isGlobalSettings === true) {
+                if (isGlobalSettings) {
                     wallpaper.visualizercircle('set', 'isRandomColor', globalSettings.isRandomColor)
                         .date('set', 'isRandomColor', globalSettings.isRandomColor);
                 }
@@ -1236,7 +1238,7 @@
             if (properties.global_firstColor) {
                 globalSettings.firstColor = getColor(properties.global_firstColor.value);
                 // 全局模式下开启
-                if (isGlobalSettings === true) {
+                if (isGlobalSettings) {
                     wallpaper.visualizercircle('set', 'firstColor', globalSettings.firstColor)
                         .date('set', 'firstColor', globalSettings.firstColor);
                 }
@@ -1245,7 +1247,7 @@
             if (properties.global_secondColor) {
                 globalSettings.secondColor = getColor(properties.global_secondColor.value);
                 // 全局模式下开启
-                if (isGlobalSettings === true) {
+                if (isGlobalSettings) {
                     wallpaper.visualizercircle('set', 'secondColor', globalSettings.secondColor)
                         .date('set', 'secondColor', globalSettings.secondColor);
                 }
@@ -1254,7 +1256,7 @@
             if (properties.global_isChangeBlur) {
                 globalSettings.isChangeBlur = properties.global_isChangeBlur.value;
                 // 全局模式下开启
-                if (isGlobalSettings === true) {
+                if (isGlobalSettings) {
                     wallpaper.visualizercircle('set', 'isChangeBlur', globalSettings.isChangeBlur)
                         .date('set', 'isChangeBlur', globalSettings.isChangeBlur);
                     // 若不绑定模糊颜色
@@ -1272,7 +1274,7 @@
             if (properties.global_offsetX) {
                 globalSettings.offsetX = properties.global_offsetX.value / 100;
                 // 全局模式下开启
-                if (isGlobalSettings === true) {
+                if (isGlobalSettings) {
                     wallpaper.visualizercircle('set', 'offsetX', globalSettings.offsetX)
                         .date('set', 'offsetX', globalSettings.offsetX);
                 }
@@ -1281,7 +1283,7 @@
             if (properties.global_offsetY) {
                 globalSettings.offsetY = properties.global_offsetY.value / 100;
                 // 全局模式下开启
-                if (isGlobalSettings === true) {
+                if (isGlobalSettings) {
                     wallpaper.visualizercircle('set', 'offsetY', globalSettings.offsetY)
                         .date('set', 'offsetY', globalSettings.offsetY);
                 }
@@ -1290,7 +1292,7 @@
             if (properties.global_isClickOffset) {
                 globalSettings.isClickOffset = properties.global_isClickOffset.value;
                 // 全局模式下开启
-                if (isGlobalSettings === true) {
+                if (isGlobalSettings) {
                     wallpaper.visualizercircle('set', 'isClickOffset', globalSettings.isClickOffset)
                         .date('set', 'isClickOffset', globalSettings.isClickOffset);
                 }
@@ -1325,7 +1327,7 @@
             if (properties.circle_opacity) {
                 circle.opacity = properties.circle_opacity.value / 100;
                 // 非全局模式下开启
-                if (isGlobalSettings === false) {
+                if (!isGlobalSettings) {
                     wallpaper.visualizercircle('set', 'opacity', circle.opacity);
                 }
             }
@@ -1333,7 +1335,7 @@
             if (properties.circle_colorMode) {
                 circle.colorMode = setColorMode(properties.circle_colorMode.value);
                 // 非全局模式下开启
-                if (isGlobalSettings === false) {
+                if (!isGlobalSettings) {
                     wallpaper.visualizercircle('set', 'colorMode', circle.colorMode);
                     // 初始化对应颜色环境
                     switch (circle.colorMode) {
@@ -1356,7 +1358,7 @@
             if (properties.circle_color) {
                 circle.color = getColor(properties.circle_color.value);
                 // 非全局模式下开启
-                if (isGlobalSettings === false) {
+                if (!isGlobalSettings) {
                     wallpaper.visualizercircle('set', 'color', circle.color);
                 }
             }
@@ -1364,7 +1366,7 @@
             if (properties.circle_shadowColor) {
                 circle.shadowColor = getColor(properties.circle_shadowColor.value);
                 // 非全局模式下开启
-                if (isGlobalSettings === false) {
+                if (!isGlobalSettings) {
                     wallpaper.visualizercircle('set', 'shadowColor', circle.shadowColor);
                 }
             }
@@ -1372,7 +1374,7 @@
             if (properties.circle_shadowBlur) {
                 circle.shadowBlur = properties.circle_shadowBlur.value;
                 // 非全局模式下开启
-                if (isGlobalSettings === false) {
+                if (!isGlobalSettings) {
                     if (circle.colorMode !== 'rainBow') {
                         wallpaper.visualizercircle('set', 'shadowBlur', circle.shadowBlur);
                     } else {
@@ -1389,7 +1391,7 @@
             if (properties.circle_isRandomColor) {
                 circle.isRandomColor = properties.circle_isRandomColor.value;
                 // 非全局模式下开启
-                if (isGlobalSettings === false) {
+                if (!isGlobalSettings) {
                     wallpaper.visualizercircle('set', 'isRandomColor', circle.isRandomColor);
                 }
             }
@@ -1397,7 +1399,7 @@
             if (properties.circle_firstColor) {
                 circle.firstColor = getColor(properties.circle_firstColor.value);
                 // 非全局模式下开启
-                if (isGlobalSettings === false) {
+                if (!isGlobalSettings) {
                     wallpaper.visualizercircle('set', 'firstColor', circle.firstColor);
                 }
             }
@@ -1405,7 +1407,7 @@
             if (properties.circle_secondColor) {
                 circle.secondColor = getColor(properties.circle_secondColor.value);
                 // 非全局模式下开启
-                if (isGlobalSettings === false) {
+                if (!isGlobalSettings) {
                     wallpaper.visualizercircle('set', 'secondColor', circle.secondColor);
                 }
             }
@@ -1441,7 +1443,7 @@
             if (properties.circle_isChangeBlur) {
                 circle.isChangeBlur = properties.circle_isChangeBlur.value;
                 // 非全局模式下开启
-                if (isGlobalSettings === false) {
+                if (!isGlobalSettings) {
                     wallpaper.visualizercircle('set', 'isChangeBlur', circle.isChangeBlur);
                     // 若不绑定模糊颜色
                     if (circle.isChangeBlur === false) {
@@ -1453,7 +1455,7 @@
             if (properties.circle_offsetX) {
                 // 非全局模式下开启
                 circle.offsetX = properties.circle_offsetX.value / 100;
-                if (isGlobalSettings === false) {
+                if (!isGlobalSettings) {
                     wallpaper.visualizercircle('set', 'offsetX', circle.offsetX);
                 }
             }
@@ -1461,7 +1463,7 @@
             if (properties.circle_offsetY) {
                 // 非全局模式下开启
                 circle.offsetY = properties.circle_offsetY.value / 100;
-                if (isGlobalSettings === false) {
+                if (!isGlobalSettings) {
                     wallpaper.visualizercircle('set', 'offsetY', circle.offsetY);
                 }
             }
@@ -1469,7 +1471,7 @@
             if (properties.circle_isClickOffset) {
                 // 非全局模式下开启
                 circle.isClickOffset = properties.circle_isClickOffset.value;
-                if (isGlobalSettings === false) {
+                if (!isGlobalSettings) {
                     wallpaper.visualizercircle('set', 'isClickOffset', circle.isClickOffset);
                 }
             }
@@ -1516,9 +1518,9 @@
             }
             // 重绘间隔
             if (properties.circle_milliSec) {
-                circleRedraw = properties.circle_milliSec.value;
-                wallpaper.visualizercircle('set', 'milliSec', circleRedraw);
-                if (circleRedraw === 30) {
+                circle.redraw = properties.circle_milliSec.value;
+                wallpaper.visualizercircle('set', 'milliSec', circle.redraw);
+                if (circle.redraw === 30) {
                     wallpaper.visualizercircle('stopVisualizerCircleTimer');
                 } else {
                     wallpaper.visualizercircle('runVisualizerCircleTimer');
@@ -1673,7 +1675,7 @@
                 bars.isChangeBlur = properties.bars_isChangeBlur.value;
                 wallpaper.visualizerbars('set', 'isChangeBlur', bars.isChangeBlur);
                 // 若不绑定模糊颜色
-                if (bars.isChangeBlur === false) {
+                if (!bars.isChangeBlur) {
                     wallpaper.visualizerbars('set', 'shadowColor', bars.shadowColor);
                 }
             }
@@ -1767,9 +1769,9 @@
             }
             // 重绘间隔
             if (properties.bars_milliSec) {
-                barsRedraw = properties.bars_milliSec.value;
-                wallpaper.visualizerbars('set', 'milliSec', barsRedraw);
-                if (barsRedraw === 30) {
+                bars.redraw = properties.bars_milliSec.value;
+                wallpaper.visualizerbars('set', 'milliSec', bars.redraw);
+                if (bars.redraw === 30) {
                     wallpaper.visualizerbars('stopVisualizerBarsTimer');
                 } else {
                     wallpaper.visualizerbars('runVisualizerBarsTimer');
@@ -1818,14 +1820,14 @@
             // 中国天气城市
             if (properties.date_city) {
                 date.city = properties.date_city.value;
-                if (date.isInputCity === true) {
+                if (date.isInputCity) {
                     wallpaper.date('set', 'currentCity', date.city);
                 }
             }
             // 查询城市天气
             if (properties.date_isInputCity) {
                 date.isInputCity = properties.date_isInputCity.value;
-                if (date.isInputCity === true) {
+                if (date.isInputCity) {
                     wallpaper.date('set', 'currentCity', date.city);
                 } else {
                     wallpaper.date('set', 'currentCity', '');
@@ -1859,7 +1861,7 @@
             // 日期不透明度
             if (properties.date_opacity) {
                 date.opacity = properties.date_opacity.value / 100;
-                if (isGlobalSettings === false) {
+                if (!isGlobalSettings) {
                     wallpaper.date('set', 'opacity', date.opacity);
                 }
             }
@@ -1867,7 +1869,7 @@
             if (properties.date_colorMode) {
                 date.colorMode = setColorMode(properties.date_colorMode.value);
                 // 非全局模式下开启
-                if (isGlobalSettings === false) {
+                if (!isGlobalSettings) {
                     wallpaper.date('set', 'colorMode', date.colorMode);
                     if (date.colorMode === 'monochrome') {
                         // 初始化单颜色环境
@@ -1879,14 +1881,14 @@
             // 日期颜色
             if (properties.date_color) {
                 date.color = getColor(properties.date_color.value);
-                if (isGlobalSettings === false) {
+                if (!isGlobalSettings) {
                     wallpaper.date('set', 'color', date.color);
                 }
             }
             // 日期模糊颜色
             if (properties.date_shadowColor) {
                 date.shadowColor = getColor(properties.date_shadowColor.value);
-                if (isGlobalSettings === false) {
+                if (!isGlobalSettings) {
                     wallpaper.date('set', 'shadowColor', date.shadowColor);
                 }
             }
@@ -1894,7 +1896,7 @@
             if (properties.date_shadowBlur) {
                 date.shadowBlur = properties.date_shadowBlur.value;
                 // 非全局模式下开启
-                if (isGlobalSettings === false) {
+                if (!isGlobalSettings) {
                     wallpaper.date('set', 'shadowBlur', date.shadowBlur);
                 }
             }
@@ -1906,7 +1908,7 @@
             if (properties.date_isRandomColor) {
                 date.isRandomColor = properties.date_isRandomColor.value;
                 // 非全局模式下开启
-                if (isGlobalSettings === false) {
+                if (!isGlobalSettings) {
                     wallpaper.date('set', 'isRandomColor', date.isRandomColor);
                 }
             }
@@ -1914,7 +1916,7 @@
             if (properties.date_firstColor) {
                 date.firstColor = getColor(properties.date_firstColor.value);
                 // 非全局模式下开启
-                if (isGlobalSettings === false) {
+                if (!isGlobalSettings) {
                     wallpaper.date('set', 'firstColor', date.firstColor);
                 }
             }
@@ -1922,7 +1924,7 @@
             if (properties.date_secondColor) {
                 date.secondColor = getColor(properties.date_secondColor.value);
                 // 非全局模式下开启
-                if (isGlobalSettings === false) {
+                if (!isGlobalSettings) {
                     wallpaper.date('set', 'secondColor', date.secondColor);
                 }
             }
@@ -1930,10 +1932,10 @@
             if (properties.date_isChangeBlur) {
                 date.isChangeBlur = properties.date_isChangeBlur.value;
                 // 非全局模式下开启
-                if (isGlobalSettings === false) {
+                if (!isGlobalSettings) {
                     wallpaper.date('set', 'isChangeBlur', date.isChangeBlur);
                     // 若没有绑定模糊颜色
-                    if (date.isChangeBlur === false) {
+                    if (!date.isChangeBlur) {
                         wallpaper.date('set', 'shadowColor', date.shadowColor);
                     }
                 }
@@ -1945,21 +1947,21 @@
             // 日期X轴偏移
             if (properties.date_offsetX) {
                 date.offsetX = properties.date_offsetX.value / 100;
-                if (isGlobalSettings === false) {
+                if (!isGlobalSettings) {
                     wallpaper.date('set', 'offsetX', date.offsetX);
                 }
             }
             // 日期Y轴偏移
             if (properties.date_offsetY) {
                 date.offsetY = properties.date_offsetY.value / 100;
-                if (isGlobalSettings === false) {
+                if (!isGlobalSettings) {
                     wallpaper.date('set', 'offsetY', date.offsetY);
                 }
             }
             // 日期鼠标坐标偏移
             if (properties.date_isClickOffset) {
                 date.isClickOffset = properties.date_isClickOffset.value;
-                if (isGlobalSettings === false) {
+                if (!isGlobalSettings) {
                     wallpaper.date('set', 'isClickOffset', date.isClickOffset);
                 }
             }

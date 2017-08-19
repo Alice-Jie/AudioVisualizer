@@ -350,7 +350,7 @@
     //--------------------------------------------------------------------------------------------------------------
 
     /**
-     *  初始化Particles
+     * @class Particles
      *
      * @param {!Object} el      被选中的节点
      * @param {Object}  options 参数对象
@@ -478,7 +478,10 @@
         // 面向内部方法
         //-----------------------------------------------------------
 
-        /** 初始化粒子数组 */
+        /**
+         * 初始化粒子数组
+         * @private
+         */
         initParticlesArray: function () {
             // 向粒子数组添加粒子
             for (let i = 0; i < this.number; i++) {
@@ -522,6 +525,7 @@
         /**
          * 绘制多边形
          * By Programming Thomas - https://programmingthomas.wordpress.com/2013/04/03/n-sided-shapes/
+         * @private
          *
          * @param {!Object} context context      对象
          * @param {float}   startX               开始X坐标
@@ -534,7 +538,7 @@
             let sideCount = sideCountNumerator * sideCountDenominator;
             let decimalSides = sideCountNumerator / sideCountDenominator;
             let interiorAngleDegrees = (180 * (decimalSides - 2)) / decimalSides;
-            let interiorAngle = Math.PI - Math.PI * interiorAngleDegrees / 180; // convert to radians
+            let interiorAngle = Math.PI - Math.PI * interiorAngleDegrees / 180;  // convert to radians
             context.translate(startX, startY);
             context.moveTo(0, 0);
             for (let i = 0; i < sideCount; i++) {
@@ -545,7 +549,10 @@
         },
 
 
-        /** 设置交互事件 */
+        /**
+         * 设置交互事件
+         * @private
+         */
         setupPointerEvents: function () {
 
             let that = this;

@@ -1,5 +1,5 @@
 /*！
- * jQuery AudioVisualizer Circle plugin v0.1.1
+ * jQuery AudioVisualizer Circle plugin v0.1.2
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
  * - https://git.oschina.net/Alice_Jie/circleaudiovisualizer
@@ -106,7 +106,7 @@
         ballRainBowArray = [];    // 小球渐变数组
     let gradientOffsetRange = 0;  // 偏移范围
 
-    let runCount = 1;  // 绘制次数
+    let RUN_COUNT = 1;  // 绘制次数
 
     let timer = null;  // 音频圆环计时器
 
@@ -125,7 +125,7 @@
             return false;
         }
         for (let i = 0; i < audioSamples.length; i++) {
-            if (audioSamples[i] !== 0) {
+            if (audioSamples[i]) {
                 return true;
             }
         }
@@ -188,34 +188,6 @@
         }
         return AudioArray;
     }
-
-    /**
-     * 比较并获取音频数组索引对应值
-     * 若小于上一个点的音频数组索引对应值，则取上次记录对应值，反之取当前索引对应值
-     * decline保证音频数组衰退时，音频圆环能平缓收缩，而不是突然变回圆形
-     * 当然，decline越小过渡越缓慢，越大过渡越迅速（甚至失效）
-     *
-     * @param {Array<float>}   audioSamples 音频数组
-     * @param {int}            index        音频数组索引
-     * @param {float}          decline      衰退值
-     * @param {float}          peak         峰值
-     * @param {boolean<float>} isUpdate     是否更新上次音频数组记录
-     * @return 音频取样值
-     */
-    function getAudioSamples(audioSamples, index, decline, peak, isUpdate) {
-        if (!audioSamples) {
-            return [];
-        }
-        decline = decline || 0.01;
-        let audioValue = audioSamples[index] ? audioSamples[index] : 0;
-        audioValue = Math.max(audioValue, lastAudioSamples[index] - decline);
-        audioValue = Math.min(audioValue, peak);
-        if (isUpdate) {
-            lastAudioSamples[index] = audioValue;
-        }
-        return audioValue;
-    }
-
 
     /**
      * 角度偏移
@@ -321,7 +293,7 @@
     //--------------------------------------------------------------------------------------------------------------
 
     /**
-     *  初始化VisualizerCircle
+     * @class VisualizerCircle
      *
      * @param {!Object} el      被选中的节点
      * @param {Object}  options 参数对象
@@ -381,7 +353,7 @@
         this.ballSpacer = options.ballSpacer;              // 小球间隔
         this.ballDistance = options.ballDistance;          // 小球距离
         this.ballSize = options.ballSize;                  // 小球大小
-        this.ballDistance = options.ballDirection;         // 小球方向
+        this.ballDirection = options.ballDirection;        // 小球方向
         this.bindRingRotation = options.bindRingRotation;  // 绑定圆环旋转
         this.ballRotation = options.ballRotation;          // 小球旋转
 
@@ -497,8 +469,36 @@
         //-----------------------------------------------------------
 
         /**
+         * 比较并获取音频数组索引对应值
+         * 若小于上一个点的音频数组索引对应值，则取上次记录对应值，反之取当前索引对应值
+         * decline保证音频数组衰退时，音频圆环能平缓收缩。
+         * decline越小过渡越缓慢，越大过渡越迅速（甚至失效）
+         * @private
+         *
+         * @param  {Array<float>}   audioSamples 音频数组
+         * @param  {int}            index        音频数组索引
+         * @param  {boolean<float>} isUpdate     是否更新上次音频数组记录
+         * @return {Array<float>} 音频取样值
+         */
+        getAudioSamples: function (audioSamples, index, isUpdate) {
+            if (!audioSamples) {
+                return [];
+            }
+            this.decline = this.decline || 0.01;
+            let audioValue = audioSamples[index] ? audioSamples[index] : 0;
+            audioValue = Math.max(audioValue, lastAudioSamples[index] - this.decline);
+            audioValue = Math.min(audioValue, this.peak);
+            if (isUpdate) {
+                lastAudioSamples[index] = audioValue;
+            }
+            return audioValue;
+        },
+
+
+        /**
          * 生成静态点的坐标集合
          * 生成静态音频圆环坐标数组
+         * @private
          *
          * @param  {Array<float>}   audioSamples 音频数组
          * @return {Array<Object>} 坐标数组
@@ -520,6 +520,7 @@
         /**
          * 生成音频圆环点的坐标集合
          * 根据音频数组值生成对应点坐标，并储存在坐标数组中
+         * @private
          *
          * @param  {Array<float>}   audioSamples 音频数组
          * @param  {int}            direction    方向（1或则-1）
@@ -533,7 +534,7 @@
             // 将点数组转换成坐标数组
             for (let i = 0; i < ringArray.length; i++) {
                 let deg = getDeg(ringArray.length, i, rotationAngle1);
-                let audioValue = getAudioSamples(audioSamples, i, this.decline, this.peak, isChange);
+                let audioValue = this.getAudioSamples(audioSamples, i, isChange);
                 let radius = this.radius * (minLength / 2)
                     + direction * (distance + audioValue * (this.amplitude * 15));
                 // 根据半径、角度、原点坐标获得坐标数组
@@ -546,6 +547,7 @@
         /**
          * 生成音频小球坐标的集合
          * 根据音频数组值生成对应小球坐标，并储存在坐标数组中
+         * @private
          *
          * @param  {Array<float>} audioSamples 音频数组
          * @param  {int}          direction    方向（1或则-1）
@@ -571,6 +573,7 @@
         /**
          * 绘制音频圆环
          * 根据坐标数组绘制音频圆环
+         * @private
          *
          *  @param {Array<Object>} pointArray 坐标数组
          */
@@ -594,6 +597,7 @@
         /**
          * 绘制环与环连线
          * 根据坐标数组绘制内环、外环以及静态环之间连线
+         * @private
          *
          *  @param {Array<Object>} pointArray1 坐标数组1
          *  @param {Array<Object>} pointArray2 坐标数组2
@@ -614,15 +618,16 @@
         /**
          * 绘制音频小球
          * 根据坐标数组绘制音频小球
+         * @private
          *
-         *  @param {Array<Object>} pointArray 坐标数组
-         *  @param {int}           ballSize   小球大小
+         * @param {Array<Object>} pointArray 坐标数组
+         * @param {int}           ballSize   小球大小
          */
-        drawBall: function (pointArray, ballSize) {
+        drawBall: function (pointArray) {
             context.save();
             for (let i = 0; i < pointArray.length; i++) {
                 context.beginPath();
-                context.arc(pointArray[i].x - 0.5, pointArray[i].y - 0.5, ballSize, 0, 360, false);
+                context.arc(pointArray[i].x - 0.5, pointArray[i].y - 0.5, this.ballSize, 0, 360, false);
                 context.closePath();
                 context.fill();
             }
@@ -631,9 +636,10 @@
 
         /**
          * 绘制音频波浪
+         * @private
          *
-         *  @param {Array<Object>} pointArray1 坐标数组1
-         *  @param {Array<Object>} pointArray2 坐标数组2
+         * @param {Array<Object>} pointArray1 坐标数组1
+         * @param {Array<Object>} pointArray2 坐标数组2
          */
         drawWave: function (pointArray1, pointArray2) {
             context.save();
@@ -663,7 +669,10 @@
         },
 
 
-        /** 音频圆环和小球颜色变换 */
+        /**
+         * 音频圆环和小球颜色变换
+         * @private
+         */
         colorTransformation: function () {
             if (incrementCount < incrementMAX) {
                 // color1对象向color2对象变化
@@ -679,19 +688,19 @@
                 if (this.isChangeBlur) {
                     context.shadowColor = 'rgb(' + currantColor + ')';
                 }
-            } else if (colorDirection === 'left' && this.isRandomColor === false) {
+            } else if (colorDirection === 'left' && !this.isRandomColor) {
                 // 反方向改变颜色
                 setColorObj(color1, this.secondColor);
                 setColorObj(color2, this.firstColor);
                 setRGBIncrement();
                 colorDirection = 'right';
-            } else if (colorDirection === 'right' && this.isRandomColor === false) {
+            } else if (colorDirection === 'right' && !this.isRandomColor) {
                 // 正方向改变颜色
                 setColorObj(color1, this.firstColor);
                 setColorObj(color2, this.secondColor);
                 setRGBIncrement();
                 colorDirection = 'left';
-            } else if (this.isRandomColor === true) {
+            } else if (this.isRandomColor) {
                 // 随机生成目标颜色
                 setColorObj(color1, currantColor);
                 setRandomColor(color2);
@@ -699,7 +708,10 @@
             }
         },
 
-        /** 生成彩虹颜色对象集合 */
+        /**
+         * 生成彩虹颜色对象集合
+         * @private
+         */
         setRainBow: function (pointNum) {
             let rainBowArray = [];
             let H_Increment = this.hueRange / (pointNum * 2);
@@ -716,6 +728,7 @@
 
         /**
          * 根据线的宽度获取坐标
+         * @private
          *
          * @param  {float} x         线的坐标x
          * @param  {float} y         线的坐标y
@@ -733,6 +746,7 @@
 
         /**
          * 生成彩虹线性渐变
+         * @private
          *
          * @param {int}   rainBow rainBow对象
          * @param {float} x1      渐变开始点的 x 坐标
@@ -751,8 +765,9 @@
         /**
          * 绘制彩虹音频圆环
          * 根据坐标数组绘制彩虹音频圆环
+         * @private
          *
-         *  @param {Array<Object>} pointArray 坐标数组
+         * @param {Array<Object>} pointArray 坐标数组
          */
         drawRainBowRing: function (pointArray) {
             context.save();
@@ -779,9 +794,10 @@
         /**
          * 绘制环与环彩虹连线
          * 根据坐标数组绘制内环、外环以及静态环之间彩虹连线
+         * @private
          *
-         *  @param {Array<Object>} pointArray1 坐标数组1
-         *  @param {Array<Object>} pointArray2 坐标数组2
+         * @param {Array<Object>} pointArray1 坐标数组1
+         * @param {Array<Object>} pointArray2 坐标数组2
          */
         drawRainBowLine: function (pointArray1, pointArray2) {
             let XY = {};
@@ -802,25 +818,29 @@
         /**
          * 绘制彩虹音频小球
          * 根据坐标数组绘制彩虹音频小球
+         * @private
          *
-         *  @param {Array<Object>} pointArray 坐标数组
-         *  @param {int}           ballSize   小球大小
+         * @param {Array<Object>} pointArray 坐标数组
+         * @param {int}           ballSize   小球大小
          */
-        drawRainBowBall: function (pointArray, ballSize) {
+        drawRainBowBall: function (pointArray) {
             let XY = {};
             context.save();
             for (let i = 0; i < pointArray.length; i++) {
                 context.beginPath();
-                context.arc(pointArray[i].x - 0.5, pointArray[i].y - 0.5, ballSize, 0, 360, false);
+                context.arc(pointArray[i].x - 0.5, pointArray[i].y - 0.5, this.ballSize, 0, 360, false);
                 context.closePath();
-                XY = this.getLineXY(pointArray[i].x - 0.5, pointArray[i].y - 0.5, ballSize);
+                XY = this.getLineXY(pointArray[i].x - 0.5, pointArray[i].y - 0.5, this.ballSize);
                 context.fillStyle = this.getRainBowGradient(ballRainBowArray[i], XY.x1, XY.y1, XY.x2, XY.y2);
                 context.fill();
             }
             context.restore();
         },
 
-        /** 设置交互事件 */
+        /**
+         * 设置交互事件
+         * @private
+         */
         setupPointerEvents: function () {
 
             // 点击事件
@@ -915,7 +935,7 @@
             }
             // 绘制音频小球
             if (this.isBall) {
-                this.colorMode === 'rainBow' ? this.drawRainBowBall(ballPointArray, this.ballSize) : this.drawBall(ballPointArray, this.ballSize);
+                this.colorMode === 'rainBow' ? this.drawRainBowBall(ballPointArray) : this.drawBall(ballPointArray);
             }
         },
 
@@ -932,13 +952,12 @@
                 || this.colorMode === 'colorTransformation'
                 || (this.colorMode === 'rainBow' && this.gradientOffset !== 0)
                 || (this.ringRotation && this.isLineTo)
-                || (this.ringRotation && this.bindRingRotation)
                 || this.ballRotation) {
                 this.drawVisualizerCircle();
-                runCount = 1;
-            } else if (runCount > 0) {
+                RUN_COUNT = 1;
+            } else if (RUN_COUNT > 0) {
                 this.drawVisualizerCircle();
-                runCount--;
+                RUN_COUNT--;
             }
         },
 

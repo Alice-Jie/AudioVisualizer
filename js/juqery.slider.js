@@ -955,7 +955,7 @@
     //--------------------------------------------------------------------------------------------------------------
 
     /**
-     *  初始化Slider
+     * @class Slider
      *
      * @param {!Object} el      被选中的节点
      * @param {Object}  options 参数对象
@@ -1076,7 +1076,11 @@
         // 面向内部方法
         //-----------------------------------------------------------
 
-        /** 获取停留时间 */
+        /**
+         * 获取停留时间
+         * @private
+         *
+         */
         getPauseTime: function () {
             if (this.sliderStyle === 'css' || this.effect === 'none') {
                 switch (this.timeUnits) {
@@ -1103,7 +1107,10 @@
             }
         },
 
-        /** 改变背景图片 */
+        /**
+         * 改变背景图片
+         * @private
+         */
         changeBackgroud: function () {
             if (imgList.length <= 0) {
                 // 如果文件夹为空
@@ -1123,7 +1130,10 @@
             }
         },
 
-        /** 改变当前图片 */
+        /**
+         * 改变当前图片
+         * @private
+         */
         changeImage: function () {
             $(currantImg).css('z-index', -1);
             $(prevImg).css('z-index', -2);
@@ -1154,7 +1164,10 @@
             }
         },
 
-        /** Canvas绘制背景图片 */
+        /**
+         * Canvas绘制背景图片
+         * @private
+         */
         drawBackgroud: function () {
             if (imgList.length <= 0) {
                 // 如果文件夹为空
@@ -1196,10 +1209,11 @@
         },
 
         /**
-         *  开始背景3D转换
+         * 开始背景3D转换
+         * @private
          *
-         *  @param {float} ex 鼠标X轴坐标
-         *  @param {float} ey 鼠标Y轴坐标
+         * @param {float} ex 鼠标X轴坐标
+         * @param {float} ey 鼠标Y轴坐标
          */
         startSliderRotate3D: function (ex, ey) {
             let x_multiple = (ex / canvasWidth) * 2 - 1;
@@ -1212,12 +1226,18 @@
             );
         },
 
-        /** 停止背景3D转换 */
+        /**
+         * 停止背景3D转换
+         * @private
+         */
         stopSliderRotate3D: function () {
             $(this.$el).css('transform', 'none');
         },
 
-        /** 设置交互事件 */
+        /**
+         * 设置交互事件
+         * @private
+         */
         setupPointerEvents: function () {
             let that = this;
 

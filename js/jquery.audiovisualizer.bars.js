@@ -1,12 +1,12 @@
 /*！
- * jQuery AudioVisualizer Bars plugin v0.0.4
+ * jQuery AudioVisualizer Bars plugin v0.0.5
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
  * - https://git.oschina.net/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/08/07
+ * @date 2017/08/19
  */
 
 (function (global, factory) {
@@ -102,7 +102,7 @@
     let rainBowArray = [];        // 条形
     let gradientOffsetRange = 0;  // 偏移范围
 
-    let runCount = 1;  // 绘制次数
+    let RUN_COUNT = 1;  // 绘制次数
 
     let timer = null;  // 音频圆环计时器
 
@@ -121,7 +121,7 @@
             return false;
         }
         for (let i = 0; i < audioSamples.length; i++) {
-            if (audioSamples[i] !== 0) {
+            if (audioSamples[i]) {
                 return true;
             }
         }
@@ -158,33 +158,6 @@
             }
         }
         return AudioArray;
-    }
-
-    /**
-     * 比较并获取音频数组索引对应值
-     * 若小于上一个点的音频数组索引对应值，则取上次记录对应值，反之取当前索引对应值
-     * decline保证音频数组衰退时，音频圆环能平缓收缩，而不是突然变回圆形
-     * 当然，decline越小过渡越缓慢，越大过渡越迅速（甚至失效）
-     *
-     * @param {Array<float>}   audioSamples 音频数组
-     * @param {int}            index        音频数组索引
-     * @param {float}          decline      衰退值
-     * @param {float}          peak         峰值
-     * @param {boolean<float>} isUpdate     是否更新上次音频数组记录
-     * @return 音频取样值
-     */
-    function getAudioSamples(audioSamples, index, decline, peak, isUpdate) {
-        if (!audioSamples) {
-            return [];
-        }
-        decline = decline || 0.01;
-        let audioValue = audioSamples[index] ? audioSamples[index] : 0;
-        audioValue = Math.max(audioValue, lastAudioSamples[index] - decline);
-        audioValue = Math.min(audioValue, peak);
-        if (isUpdate) {
-            lastAudioSamples[index] = audioValue;
-        }
-        return audioValue;
     }
 
     /** 设置RGB增量 */
@@ -224,7 +197,7 @@
     //--------------------------------------------------------------------------------------------------------------
 
     /**
-     *  初始化VisualizerBars
+     * @class VisualizerBars
      *
      * @param {!Object} el      被选中的节点
      * @param {Object}  options 参数对象
@@ -364,8 +337,36 @@
         //-----------------------------------------------------------
 
         /**
+         * 比较并获取音频数组索引对应值
+         * 若小于上一个点的音频数组索引对应值，则取上次记录对应值，反之取当前索引对应值
+         * decline保证音频数组衰退时，音频圆环能平缓收缩。
+         * decline越小过渡越缓慢，越大过渡越迅速（甚至失效）
+         * @private
+         *
+         * @param  {Array<float>}   audioSamples 音频数组
+         * @param  {int}            index        音频数组索引
+         * @param  {boolean<float>} isUpdate     是否更新上次音频数组记录
+         * @return {Array<float>} 音频取样值
+         */
+        getAudioSamples: function (audioSamples, index, isUpdate) {
+            if (!audioSamples) {
+                return [];
+            }
+            this.decline = this.decline || 0.01;
+            let audioValue = audioSamples[index] ? audioSamples[index] : 0;
+            audioValue = Math.max(audioValue, lastAudioSamples[index] - this.decline);
+            audioValue = Math.min(audioValue, this.peak);
+            if (isUpdate) {
+                lastAudioSamples[index] = audioValue;
+            }
+            return audioValue;
+        },
+
+
+        /**
          * 生成静态点的坐标集合
          * 生成静态音频条形坐标数组
+         * @private
          *
          * @param  {Array<float>}   audioSamples 音频数组
          * @return {Array<Object>} 坐标数组
@@ -385,6 +386,7 @@
         /**
          * 生成音频条形点的坐标集合
          * 根据音频数组值生成对应点坐标，并储存在坐标数组中
+         * @private
          *
          * @param  {Array<float>}   audioSamples 音频数组
          * @param  {int}            direction    方向（1或则-1）
@@ -397,7 +399,7 @@
             let spacing = minLength / (barsArray.length - 1);
             // 将barsArray.length点数组转换成坐标数组
             for (let i = 0; i < barsArray.length; i++) {
-                let audioValue = getAudioSamples(audioSamples, i, this.decline, this.peak, isChange);
+                let audioValue = this.getAudioSamples(audioSamples, i, isChange);
                 let x = startX + i * spacing;
                 let y = originY + direction * (this.height + audioValue * this.amplitude * 15);
                 pointArray.push({x: x, y: y});
@@ -408,8 +410,9 @@
         /**
          * 绘制音频连线
          * 根据坐标数组绘制音频条形
+         * @private
          *
-         *  @param {Array<Object>} pointArray 坐标数组
+         * @param {Array<Object>} pointArray 坐标数组
          */
         drawLine: function (pointArray) {
             context.save();
@@ -426,9 +429,10 @@
         /**
          * 绘制音频条形
          * 根据坐标数组绘制上条形、下条形以及静态条形之间连线
+         * @private
          *
-         *  @param {Array<Object>} pointArray1 坐标数组1
-         *  @param {Array<Object>} pointArray2 坐标数组2
+         * @param {Array<Object>} pointArray1 坐标数组1
+         * @param {Array<Object>} pointArray2 坐标数组2
          */
         drawBars: function (pointArray1, pointArray2) {
             context.save();
@@ -444,7 +448,10 @@
         },
 
 
-        /** 音频圆环和小球颜色变换 */
+        /**
+         * 音频圆环和小球颜色变换
+         * @private
+         */
         colorTransformation: function () {
             if (incrementCount < incrementMAX) {
                 // color1对象向color2对象变化
@@ -460,19 +467,19 @@
                 if (this.isChangeBlur) {
                     context.shadowColor = 'rgb(' + currantColor + ')';
                 }
-            } else if (colorDirection === 'left' && this.isRandomColor === false) {
+            } else if (colorDirection === 'left' && !this.isRandomColor) {
                 // 反方向改变颜色
                 setColorObj(color1, this.secondColor);
                 setColorObj(color2, this.firstColor);
                 setRGBIncrement();
                 colorDirection = 'right';
-            } else if (colorDirection === 'right' && this.isRandomColor === false) {
+            } else if (colorDirection === 'right' && !this.isRandomColor) {
                 // 正方向改变颜色
                 setColorObj(color1, this.firstColor);
                 setColorObj(color2, this.secondColor);
                 setRGBIncrement();
                 colorDirection = 'left';
-            } else if (this.isRandomColor === true) {
+            } else if (this.isRandomColor) {
                 // 随机生成目标颜色
                 setColorObj(color1, currantColor);
                 setRandomColor(color2);
@@ -480,7 +487,10 @@
             }
         },
 
-        /** 生成彩虹颜色对象集合 */
+        /**
+         * 生成彩虹颜色对象集合
+         * @private
+         */
         setRainBow: function (pointNum) {
             let rainBowArray = [];
             let H_Increment = this.hueRange / (pointNum * 2);
@@ -497,6 +507,7 @@
 
         /**
          * 根据线的宽度获取坐标
+         * @private
          *
          * @param  {float} x         线的坐标x
          * @param  {float} y         线的坐标y
@@ -514,6 +525,7 @@
 
         /**
          * 生成彩虹线性渐变
+         * @private
          *
          * @param {int}   rainBow rainBow对象
          * @param {float} x1      渐变开始点的 x 坐标
@@ -532,8 +544,9 @@
         /**
          * 绘制彩虹音频连线
          * 根据坐标数组绘制彩虹音频条形
+         * @private
          *
-         *  @param {Array<Object>} pointArray 坐标数组
+         * @param {Array<Object>} pointArray 坐标数组
          */
         drawRainBowLine: function (pointArray) {
             context.save();
@@ -551,9 +564,10 @@
         /**
          * 绘制彩虹音频条形
          * 根据坐标数组绘制上条形、下条形以及静态条形之间彩虹连线
+         * @private
          *
-         *  @param {Array<Object>} pointArray1 坐标数组1
-         *  @param {Array<Object>} pointArray2 坐标数组2
+         * @param {Array<Object>} pointArray1 坐标数组1
+         * @param {Array<Object>} pointArray2 坐标数组2
          */
         drawRainBowBars: function (pointArray1, pointArray2) {
             let XY = {};
@@ -572,7 +586,10 @@
         },
 
 
-        /** 设置交互事件 */
+        /**
+         * 设置交互事件
+         * @private
+         */
         setupPointerEvents: function () {
 
             // 点击事件
@@ -705,14 +722,12 @@
             if (isSilence(audioSamples)
                 || isSilence(lastAudioSamples)
                 || this.colorMode === 'colorTransformation'
-                || (this.colorMode === 'rainBow' && this.gradientOffset !== 0)
-                || this.isBars
-                || this.isLineTo) {
+                || (this.colorMode === 'rainBow' && this.gradientOffset !== 0)) {
                 this.drawVisualizerBars();
-                runCount = 1;
-            } else if (runCount > 0) {
+                RUN_COUNT = 1;
+            } else if (RUN_COUNT > 0) {
                 this.drawVisualizerBars();
-                runCount--;
+                RUN_COUNT--;
             }
         },
 
@@ -726,6 +741,7 @@
 
         /** 运行音频圆环计时器 */
         runVisualizerBarsTimer: function () {
+            this.stopVisualizerBarsTimer();
             timer = setTimeout(
                 ()=> {
                     // 缺少静态判断

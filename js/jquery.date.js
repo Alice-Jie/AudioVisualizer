@@ -367,7 +367,7 @@
     //--------------------------------------------------------------------------------------------------------------
 
     /**
-     *  初始化Date
+     * @class Date
      *
      * @param {!Object} el      被选中的节点
      * @param {Object}  options 参数对象
@@ -480,7 +480,10 @@
         // 面向内部方法
         //-----------------------------------------------------------
 
-        /** 时间日期颜色变换 */
+        /**
+         * 时间日期颜色变换
+         * @private
+         */
         colorTransformation: function () {
             if (incrementCount < incrementMAX) {
                 // color1对象向color2对象变化
@@ -495,19 +498,19 @@
                 if (this.isChangeBlur) {
                     context.shadowColor = 'rgb(' + currantColor + ')';
                 }
-            } else if (colorDirection === 'left' && this.isRandomColor === false) {
+            } else if (colorDirection === 'left' && !this.isRandomColor) {
                 // 反方向改变颜色
                 setColorObj(color1, this.secondColor);
                 setColorObj(color2, this.firstColor);
                 setRGBIncrement();
                 colorDirection = 'right';
-            } else if (colorDirection === 'right' && this.isRandomColor === false) {
+            } else if (colorDirection === 'right' && !this.isRandomColor) {
                 // 正方向改变颜色
                 setColorObj(color1, this.firstColor);
                 setColorObj(color2, this.secondColor);
                 setRGBIncrement();
                 colorDirection = 'left';
-            } else if (this.isRandomColor === true) {
+            } else if (this.isRandomColor) {
                 // 随机生成目标颜色
                 setColorObj(color1, currantColor);
                 setRandomColor(color2);
@@ -516,7 +519,10 @@
         },
 
 
-        /** 设置交互事件 */
+        /**
+         * 设置交互事件
+         * @private
+         */
         setupPointerEvents: function () {
             // 点击事件
             let that = this;
