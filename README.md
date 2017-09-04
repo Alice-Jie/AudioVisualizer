@@ -772,14 +772,20 @@ string | property | 属性名
 
 如何通过谷歌浏览器调试Wallpaper Engine
 ---
-1. 打开Wallpaper Engine，设置-综合，在CEF devtools port输入一个非占用端口，比如2333
+打开Wallpaper Engine，设置-综合，在CEF devtools port输入一个非占用端口，比如2333。
+
 ![image](https://steamuserimages-a.akamaihd.net/ugc/857225761278768000/B25BECE2E4B011814F70FE2BDDD9BABC5A021912/)
 
-2. 回到Wallpaper Engine，点击过滤，在左侧栏选择类型“网页”，来源“我的壁纸”；并选中你要调试的壁纸（这里我调试[4K]Audio Visualizer）
+回到Wallpaper Engine，点击过滤，在左侧栏选择类型“网页”，来源“我的壁纸”；并选中你要调试的壁纸（这里我调试[4K]Audio Visualizer）
+
 ![image](https://steamuserimages-a.akamaihd.net/ugc/857225761278803478/E62BFEF8C98F07B5DF4C699083FC54E222BB1829/)
-3. 打开谷歌浏览器，输入地址`http://localhost:23333/`或则`http://127.0.0.1:23333/`（格式为：`http://localhost:你设置的端口号/`或则 `http://127.0.0.1:你设置的端口号/`）。如果没有显示请检查你设置的端口号是否被占用，并重新设置新的端口号，比如10086
+
+打开谷歌浏览器，输入地址`http://localhost:23333/`或则`http://127.0.0.1:23333/`（格式为：`http://localhost:你设置的端口号/`或则 `http://127.0.0.1:你设置的端口号/`）。如果没有显示请检查你设置的端口号是否被占用，并重新设置新的端口号，比如10086。
+
 ![image](https://steamuserimages-a.akamaihd.net/ugc/857225761278769702/5294064E61F048B1F3079877F67440720F24635E/)
-4. 点击网页中的超链接，操作你在Wallpaper Engine中设置的选项，开始调试。请善用console命令
+
+点击网页中的超链接，操作你在Wallpaper Engine中设置的选项，开始调试。请善用console命令
+
 ![image](https://steamuserimages-a.akamaihd.net/ugc/857225761278772256/ABA22E4AB354221535459D95B43ED377C68DD063/)
 
 有问题反馈
@@ -797,4 +803,4 @@ string | property | 属性名
 感谢以下的项目,排名不分先后
 * [jquery](http://jquery.com)
 * [moment](http://momentjs.cn/)
-* [particles.js](http://github.com/VincentGarreau/particles.js)
+* [particles](http://github.com/VincentGarreau/particles.js)

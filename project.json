@@ -2110,8 +2110,15 @@
         "min": 0,
         "value": 5
       },
-      "particles_sizeRandom": {
+      "particles_isSizeFollow": {
         "order": 6106,
+        "condition": "particles_isParticles.value == true",
+        "text": "ui_particles_isSizeFollow",
+        "type": "bool",
+        "value": false
+      },
+      "particles_sizeRandom": {
+        "order": 6107,
         "condition": "particles_isParticles.value == true",
         "text": "ui_particles_sizeRandom",
         "type": "bool",
@@ -2197,15 +2204,22 @@
         "min": 1,
         "value": 10
       },
-      "particles_speedRandom": {
+      "particles_isMoveFollow": {
         "order": 6303,
         "condition": "particles_isParticles.value == true",
+        "text": "ui_particles_isMoveFollow",
+        "type": "bool",
+        "value": false
+      },
+      "particles_speedRandom": {
+        "order": 6304,
+        "condition": "particles_isParticles.value == true && particles_isMoveFollow.value == false",
         "text": "ui_particles_speedRandom",
         "type": "bool",
         "value": true
       },
       "particles_direction": {
-        "order": 6304,
+        "order": 6305,
         "condition": "particles_isParticles.value == true",
         "text": "ui_particles_direction",
         "type": "combo",
@@ -2250,21 +2264,21 @@
         "value": 4
       },
       "particles_isStraight": {
-        "order": 6305,
+        "order": 6306,
         "condition": "particles_isParticles.value == true",
         "text": "ui_particles_isStraight",
         "type": "bool",
         "value": false
       },
       "particles_isBounce": {
-        "order": 6306,
+        "order": 6307,
         "condition": "particles_isParticles.value == true",
         "text": "ui_particles_isBounce",
         "type": "bool",
         "value": false
       },
       "particles_moveOutMode": {
-        "order": 6307,
+        "order": 6308,
         "condition": "particles_isParticles.value == true",
         "text": "ui_particles_moveOutMode",
         "type": "combo",
@@ -2531,6 +2545,7 @@
         "ui_particles_angleRandom": "<br/>Random Angle?<br/><br/>",
         "ui_particles_sizeValue": "<br/>Particle Size<br/><br/>",
         "ui_particles_sizeRandom": "<br/>Random Size?<br/><br/>",
+        "ui_particles_isSizeFollow": "<br/>Size Follow Audio?<br/><br/>",
         "ui_particles_lineText": "<br/><b>Particle - Line Settings</b><br/><br/>",
         "ui_particles_linkEnable": "<br/>Show Line?<br/><br/>",
         "ui_particles_mouseInteraction": "<br/>Mouse Interaction?<br/><br/>",
@@ -2540,6 +2555,7 @@
         "ui_particles_linkOpacity": "<br/>Line Opacity<br/><br/>",
         "ui_particles_moveText": "<br/><b>Particle - Move Settings</b><br/><br/>",
         "ui_particles_isMove": "<br/>Particle Move?<br/><br/>",
+        "ui_particles_isMoveFollow": "<br/>Move Follow Audio?<br/><br/>",
         "ui_particles_speed": "<br/>Particle Speed<br/><br/>",
         "ui_particles_speedRandom": "<br/>Random Speed?<br/><br/>",
         "ui_particles_direction": "<br/>Particle Directions<br/><br/>",
@@ -2739,6 +2755,7 @@
         "ui_particles_angleRandom": "<br/>随机角度<br/><br/>",
         "ui_particles_sizeValue": "<br/>粒子大小<br/><br/>",
         "ui_particles_sizeRandom": "<br/>随机大小<br/><br/>",
+        "ui_particles_isSizeFollow": "<br/>大小跟随音频<br/><br/>",
         "ui_particles_lineText": "<br/><b>粒子 - 连线设置</b><br/><br/>",
         "ui_particles_linkEnable": "<br/>显示连线<br/><br/>",
         "ui_particles_mouseInteraction": "<br/>鼠标交互<br/><br/>",
@@ -2748,6 +2765,7 @@
         "ui_particles_linkOpacity": "<br/>连线不透明度<br/><br/>",
         "ui_particles_moveText": "<br/><b>粒子 - 移动设置</b><br/><br/>",
         "ui_particles_isMove": "<br/>是否移动<br/><br/>",
+        "ui_particles_isMoveFollow": "<br/>移动跟随音频<br/><br/>",
         "ui_particles_speed": "<br/>粒子速度<br/><br/>",
         "ui_particles_speedRandom": "<br/>随机速度<br/><br/>",
         "ui_particles_direction": "<br/>粒子方向<br/><br/>",
@@ -2947,6 +2965,7 @@
         "ui_particles_angleRandom": "<br/>隨機角度<br/><br/>",
         "ui_particles_sizeValue": "<br/>粒子大小<br/><br/>",
         "ui_particles_sizeRandom": "<br/>隨機大小<br/><br/>",
+        "ui_particles_isSizeFollow": "<br/>大小跟隨音頻<br/><br/>",
         "ui_particles_lineText": "<br/><b>粒子 - 連線設置</b><br/><br/>",
         "ui_particles_linkEnable": "<br/>顯示連線<br/><br/>",
         "ui_particles_mouseInteraction": "<br/>鼠標交互<br/><br/>",
@@ -2956,6 +2975,7 @@
         "ui_particles_linkOpacity": "<br/>連線不透明度<br/><br/>",
         "ui_particles_moveText": "<br/><b>粒子 - 移動設置</b><br/><br/>",
         "ui_particles_isMove": "<br/>是否移動<br/><br/>",
+        "ui_particles_isMoveFollow": "<br/>移動跟隨音頻<br/><br/>",
         "ui_particles_speed": "<br/>粒子速度<br/><br/>",
         "ui_particles_speedRandom": "<br/>隨機速度<br/><br/>",
         "ui_particles_direction": "<br/>粒子方向<br/><br/>",

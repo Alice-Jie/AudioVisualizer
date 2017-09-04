@@ -807,7 +807,7 @@
         }
 
         // 更新音频均值
-        // wallpaper.particles('updateAudioAverage', audioArray);
+        wallpaper.particles('updateAudioAverage', audioArray);
     }
 
     window.wallpaperRegisterAudioListener && window.wallpaperRegisterAudioListener(wallpaperAudioListener);
@@ -2041,6 +2041,10 @@
             if (properties.particles_sizeValue) {
                 wallpaper.particles('set', 'sizeValue', properties.particles_sizeValue.value);
             }
+            // 粒子大小跟随音频
+            if (properties.particles_isSizeFollow) {
+                wallpaper.particles('set', 'isSizeFollow', properties.particles_isSizeFollow.value);
+            }
             // 粒子随机大小
             if (properties.particles_sizeRandom) {
                 wallpaper.particles('set', 'sizeRandom', properties.particles_sizeRandom.value);
@@ -2084,6 +2088,10 @@
             // 粒子速度
             if (properties.particles_speed) {
                 wallpaper.particles('set', 'speed', properties.particles_speed.value);
+            }
+            // 粒子移动跟随音频
+            if (properties.particles_isMoveFollow) {
+                wallpaper.particles('set', 'isMoveFollow', properties.particles_isMoveFollow.value);
             }
             // 随机粒子速度
             if (properties.particles_speedRandom) {

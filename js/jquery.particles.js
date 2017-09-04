@@ -137,13 +137,14 @@
         // 图片宽度和高度
         let width = currantCanvas.width,
             height = currantCanvas.height;
+        let size = particles.radius * particles.zoom;  // 粒子实际尺寸
         // 如果图片超过粒子的尺寸限制
-        if (currantCanvas.width > particles.radius * 10 || currantCanvas.height > particles.radius * 10) {
+        if (currantCanvas.width > size * 10 || currantCanvas.height > size * 10) {
             let scaling = 0.5;  // 缩放值
             if (currantCanvas.width > currantCanvas.height) {
-                scaling = particles.radius * 10 / currantCanvas.width;
+                scaling = size * 10 / currantCanvas.width;
             } else {
-                scaling = particles.radius * 10 / currantCanvas.height;
+                scaling = size * 10 / currantCanvas.height;
             }
             width = ~~(0.5 + currantCanvas.width * scaling);
             height = ~~(0.5 + currantCanvas.height * scaling);
@@ -187,7 +188,7 @@
             count += array[i];
         }
         count = (count / array.length);
-        return count.toPrecision(2);
+        return count;
     }
 
     //构造函数和公共方法
@@ -216,6 +217,7 @@
         this.angleRandom = options.angleRandom;              // 随机角度
         // 大小属性
         this.sizeValue = options.sizeValue;                  // 粒子大小
+        this.isSizeFollow = options.isSizeFollow;            // 跟随音频
         this.sizeRandom = options.sizeRandom;                // 随机大小
         // 连接属性
         this.linkEnable = options.linkEnable;                // 连接开关
@@ -225,6 +227,7 @@
         this.linkOpacity = options.linkOpacity;              // 连线不透明度
         // 移动属性
         this.isMove = options.isMove;                        // 移动开关
+        this.isMoveFollow = options.isMoveFollow;            // 跟随音频
         this.speed = options.speed;                          // 粒子速度
         this.speedRandom = options.speedRandom;              // 随机速度
         this.direction = options.direction;                  // 粒子方向
@@ -295,6 +298,7 @@
         angleRandom: false,          // 随机角度
         // 大小属性
         sizeValue: 5,                // 粒子大小
+        isSizeFollow: false,         // 跟随音频
         sizeRandom: true,            // 随机大小
         // 连线属性
         linkEnable: false,           // 连接开关
@@ -304,6 +308,7 @@
         linkOpacity: 0.75,           // 连线不透明度
         // 移动属性
         isMove: true,                // 粒子移动
+        isMoveFollow: false,         // 跟随音频
         speed: 2,                    // 粒子速度
         speedRandom: true,           // 随机速度
         direction: 'bottom',         // 粒子方向
@@ -393,6 +398,7 @@
                     currantAngle: 0,                 // 当前角度
                     // 大小属性
                     radius: this.sizeValue,          // 粒子大小
+                    zoom: 1,                         // 粒子比例
                     // 坐标属性
                     x: x,                            // X轴坐标
                     y: y,                            // Y轴坐标
@@ -424,9 +430,9 @@
          */
         moveParticles: function (particles, speed) {
             if (this.isMove) {
-                particles.x += particles.vx * speed;
-                particles.y += particles.vy * speed;
-                console.log(audioAverage);
+                let zoom = this.isMoveFollow ? (0.1 + audioAverage * 5) : 1;
+                particles.x += particles.vx * speed * zoom;
+                particles.y += particles.vy * speed * zoom;
             }
         },
 
@@ -510,18 +516,19 @@
          * @param {!Object} particles   粒子对象
          */
         marginalCheck: function (particles) {
+            let size = particles.radius * particles.zoom;  // 粒子实际尺寸
             let new_pos = {
-                x_left: -particles.radius,
-                x_right: canvasWidth + particles.radius,
-                y_top: -particles.radius,
-                y_bottom: canvasHeight + particles.radius
+                x_left: -size,
+                x_right: canvasWidth + size,
+                y_top: -size,
+                y_bottom: canvasHeight + size
             };
             // 如果离开模式是反弹
             if (this.moveOutMode === 'bounce') {
                 new_pos = {
-                    x_left: particles.radius,
+                    x_left: size,
                     x_right: canvasWidth,
-                    y_top: particles.radius,
+                    y_top: size,
                     y_bottom: canvasHeight
                 };
             }
@@ -529,22 +536,22 @@
             // 粒子超出屏幕范围时，重设粒子的XY坐标
 
             // 如果粒子X轴大于画布宽度
-            if (particles.x - particles.radius > canvasWidth) {
+            if (particles.x - size > canvasWidth) {
                 particles.x = new_pos.x_left;
                 particles.y = Math.random() * canvasHeight;
             }
             // 如果粒子X轴小于画布宽度
-            else if (particles.x + particles.radius < 0) {
+            else if (particles.x + size < 0) {
                 particles.x = new_pos.x_right;
                 particles.y = Math.random() * canvasHeight;
             }
             // 如果粒子Y轴大于画布高度
-            if (particles.y - particles.radius > canvasHeight) {
+            if (particles.y - size > canvasHeight) {
                 particles.y = new_pos.y_top;
                 particles.x = Math.random() * canvasWidth;
             }
             // 如果粒子Y轴小于画布高度
-            else if (particles.y + particles.radius < 0) {
+            else if (particles.y + size < 0) {
                 particles.y = new_pos.y_bottom;
                 particles.x = Math.random() * canvasWidth;
             }
@@ -552,20 +559,20 @@
             // 如果离开模式是反弹，改变粒子的方向向量
             if (this.moveOutMode === 'bounce') {
                 // 粒子的X坐标 > 屏幕宽度
-                if (particles.x + particles.radius > canvasWidth) {
+                if (particles.x + size > canvasWidth) {
                     particles.vx = -particles.vx;
                 }
                 // 粒子的X坐标 < 0
-                else if (particles.x - particles.radius < 0) {
+                else if (particles.x - size < 0) {
                     particles.vx = -particles.vx;
                 }
 
                 // 粒子的Y坐标 > 屏幕高度
-                if (particles.y + particles.radius > canvasHeight) {
+                if (particles.y + size > canvasHeight) {
                     particles.vy = -particles.vy;
                 }
                 // 粒子的Y坐标 < 0
-                else if (particles.y - particles.radius < 0) {
+                else if (particles.y - size < 0) {
                     particles.vy = -particles.vy;
                 }
             }
@@ -624,6 +631,7 @@
                         currantAngle: 0,                // 当前角度
                         // 大小属性
                         radius: this.sizeValue,         // 粒子大小
+                        zoom: 1,                         // 粒子比例
                         // 坐标属性
                         x: x,                           // X轴坐标
                         y: y,                           // Y轴坐标
@@ -678,7 +686,6 @@
          */
         updateAudioAverage: function (audioSamples) {
             audioAverage = mean(audioSamples);
-            // console.log(audioAverage);
         },
 
         /** 更新粒子数组 */
@@ -688,6 +695,9 @@
                 this.moveParticles(particlesArray[i], particlesArray[i].speed);
                 this.bounceParticles(i);
                 this.marginalCheck(particlesArray[i]);
+                if (this.isSizeFollow) {
+                    particlesArray[i].zoom = (1 + audioAverage * 5);
+                }
             }
         },
 
@@ -743,35 +753,36 @@
             context.shadowBlur = particles.shadowBlur;
             context.globalAlpha = particles.opacity;
             // 粒子路径
+            let size = particles.radius * particles.zoom;  // 粒子实际尺寸
             context.beginPath();
             switch (particles.shapeType) {
                 // 绘制圆形
                 case 'circle':
-                    context.arc(particles.x, particles.y, particles.radius, 0, Math.PI * 2, false);
+                    context.arc(particles.x, particles.y, size, 0, Math.PI * 2, false);
                     break;
                 // 绘制正方形
                 case 'edge':
-                    context.translate(particles.x + particles.radius / 2, particles.y + particles.radius / 2);
+                    context.translate(particles.x + size / 2, particles.y + size / 2);
                     context.rotate(particles.currantAngle);
-                    context.rect(-particles.radius, -particles.radius, particles.radius * 2, particles.radius * 2);
+                    context.rect(-size, -size, size * 2, size * 2);
                     break;
                 // 绘制三角形
                 case 'triangle':
-                    context.translate(particles.x + particles.radius / 2, particles.y + particles.radius / 2);
+                    context.translate(particles.x + size / 2, particles.y + size / 2);
                     context.rotate(particles.currantAngle);
-                    this.drawShape(context, -particles.radius, particles.radius / 1.66, particles.radius * 2, 3, 2);
+                    this.drawShape(context, -size, size / 1.66, size * 2, 3, 2);
                     break;
                 // 绘制星形
                 case 'star':
-                    context.translate(particles.x + particles.radius / 2, particles.y + particles.radius / 2);
+                    context.translate(particles.x + size / 2, particles.y + size / 2);
                     context.rotate(particles.currantAngle);
                     this.drawShape(
                         context,
-                        -particles.radius * 2 / (5 / 4),        // startX
-                        -particles.radius / (2 * 2.66 / 3.5),   // startY
-                        particles.radius * 2 * 2.66 / (5 / 3),  // sideLength
-                        5,                                      // sideCountNumerator
-                        2                                       // sideCountDenominator
+                        -size * 2 / (5 / 4),        // startX
+                        -size / (2 * 2.66 / 3.5),   // startY
+                        size * 2 * 2.66 / (5 / 3),  // sideLength
+                        5,                          // sideCountNumerator
+                        2                           // sideCountDenominator
                     );
                     break;
                 // 绘制图片
@@ -818,7 +829,7 @@
                         case 'edge':
                         case 'triangle':
                         case 'star':
-                            width = height = particles.radius / 2;
+                            width = height = particles.radius * particles.zoom / 2;
                             break;
                         // 绘制图片
                         case 'image':
@@ -965,6 +976,9 @@
                     case 'sizeRandom':
                         particlesArray[i].radius = (this.sizeRandom ? Math.random() : 1) * this.sizeValue;
                         break;
+                    case 'isSizeFollow':
+                        particlesArray[i].zoom = this.isSizeFollow ? audioAverage : 1;
+                        break;
                     case 'rotationAngle':
                     case 'angleRandom':
                         if (this.rotationAngle !== 0) {
@@ -996,6 +1010,7 @@
                 case 'linkColor':
                 case 'linkOpacity':
                 case 'isMove':
+                case 'isMoveFollow':
                 case 'isBounce':
                 case 'moveOutMode':
                 case 'interactivityLink':
@@ -1015,6 +1030,7 @@
                 case 'shadowColor':
                 case 'shadowBlur':
                 case 'shapeType':
+                case 'isSizeFollow':
                 case 'rotationAngle':
                 case 'angleRandom':
                 case 'sizeValue':
