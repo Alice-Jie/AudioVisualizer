@@ -156,9 +156,17 @@
      */
     function getVideoIndex(array, index) {
         if (array.length <= 0) {
-            return -1;
+            return {
+                prevIndex: -1,
+                currantIndex: -1,
+                nextIndex: -1
+            };
         } else if (array.length === 1) {
-            return 0;
+            return {
+                prevIndex: 0,
+                currantIndex: 0,
+                nextIndex: 0
+            };
         } else {
             let prev = index, currant = index, next = index;
             prev === 0 ? prev = array.length - 1 : prev--;
@@ -1623,7 +1631,7 @@
 
         /** 读取videoList */
         getVideoList: function () {
-            videoList = myVideoList;
+            videoList = myVideoList || [];
             myVideoListLength = videoList.length;
             for (let i = 0; i < videoList.length; i++) {
                 videoList[i] = 'video/' + videoList[i];
@@ -1647,13 +1655,8 @@
         videoSrcUserVideo: function () {
             if (userVideo) {
                 video.src = 'file:///' + userVideo;
-                if (videoList.length === myVideoListLength + 1) {
-                    videoList[videoList.length - 1] = video.src;
-                } else if (videoList.length === myVideoListLength) {
-                    videoList.push(video.src);
-                    videoIndex = videoList.length - 1;
-                }
-
+                videoList.push(video.src);
+                videoIndex = videoList.length - 1;
             } else {
                 video.src = videoList[0] || 'video/test.webm';
             }
@@ -1682,7 +1685,7 @@
 
         /** 下一个视频 */
         nextVideo: function () {
-            if (videoList) {
+            if (videoList.length > 1) {
                 videoIndex = getVideoIndex(videoList, videoIndex).nextIndex;
                 this.getVideoStr(videoIndex);
             }

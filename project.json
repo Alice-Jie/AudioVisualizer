@@ -321,7 +321,7 @@
           },
           {
             "label": "下一个/Next",
-            "value": -1
+            "value": 1
           }
         ],
         "value": 0
@@ -2552,7 +2552,7 @@
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
         "ui_about_emailText": "<br/>Email：909011298@qq.com<br/>",
         "ui_about_versionText": "<br/>Version Number：0.5.4<br/>",
-        "ui_about_updateText": "<br/><span>Update Description：</span><br/><span>01、Fixed the audio ball initialization failed in rainbow mode</span><br/><span>02、fixed Bars-Redraw Interval failure</span><br/><span>03、In silence, stop drawing audio bars</span><br/><span>04、Strengthen audio ring parameter condition control</span><br/><span>                           -- From Baidu translate.</span><br/>",
+        "ui_about_updateText": "<br/><span>Update Description：</span><br/><span>01、Fixed the audio ball initialization failed in rainbow mode</span><br/><span>02、Fixed Bars-Redraw Interval failure</span><br/><span>03、In silence, stop drawing audio bars</span><br/><span>04、Strengthen audio ring parameter condition control</span><br/><span>                           -- From Baidu translate.</span><br/>",
         "ui_about_describeText": "<br/><span>Relevant Instructions：</span><br/><span>If you have better text translation, please contact me.</span><br/>",
         "ui_about_isQRcode": "<br/>Show QRcode?<br/><br/>"
       },
@@ -2979,7 +2979,7 @@
   "tags": [
     "Relaxing"
   ],
-  "title": "[4K]Audio Visualizer v0.5.2(自定义背景&音频可视化&70国日期语言&粒子特效系统)",
+  "title": "[4K]Audio Visualizer v0.5.4(音频可视化)",
   "type": "web",
   "visibility": "public",
   "workshopid": 921617616

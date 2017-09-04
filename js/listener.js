@@ -805,6 +805,9 @@
             // 更新bars插件数据
             wallpaper.visualizerbars('updateVisualizerBars', audioArray);
         }
+
+        // 更新音频均值
+        // wallpaper.particles('updateAudioAverage', audioArray);
     }
 
     window.wallpaperRegisterAudioListener && window.wallpaperRegisterAudioListener(wallpaperAudioListener);
