@@ -177,18 +177,49 @@
      * 均值函数
      *
      * @param  {Array|float} array 数组
+     * @param  {int}         start 初始位置
+     * @param  {int}         end   结束为止
      * @return {float} 平均值
      */
-    function mean(array) {
-        if (!array) {
+    function mean(array, start, end) {
+        let count = 0.0;
+        try {
+            for (let i = start; i < end; i++) {
+                count += array[i];
+            }
+            count /= end;
+
+        } catch (e) {
+            console.error(e.name + ": " + e.message);
             return 0.0;
         }
-        let count = 0.0;
-        for (let i = 0; i < array.length; i++) {
-            count += array[i];
-        }
-        count = (count / array.length);
         return count;
+    }
+
+    /**
+     * 音频均值
+     *
+     * @param  {Array|float} array 数组
+     * @return {float} 平均值
+     */
+    function audioMean(array) {
+        if (!array) {
+            return {
+                lowCount: 0.0,
+                mediumCount1: 0.0,
+                mediumCount2: 0.0,
+                highCount: 0.0,
+                count: 0.0
+            };
+        }
+        let num = array.length / 4;
+        return {
+            lowCount: mean(array, 0, num),
+            mediumCount1: mean(array, num, num * 2),
+            mediumCount2: mean(array, num * 2, num * 3),
+            highCount: mean(array, num * 3, num * 4),
+            count: mean(array, 0, array.length)
+        };
     }
 
     //构造函数和公共方法
@@ -218,6 +249,7 @@
         // 大小属性
         this.sizeValue = options.sizeValue;                  // 粒子大小
         this.isSizeFollow = options.isSizeFollow;            // 跟随音频
+        this.sizeRate = options.sizeRate;                    // 变化速率
         this.sizeRandom = options.sizeRandom;                // 随机大小
         // 连接属性
         this.linkEnable = options.linkEnable;                // 连接开关
@@ -228,6 +260,7 @@
         // 移动属性
         this.isMove = options.isMove;                        // 移动开关
         this.isMoveFollow = options.isMoveFollow;            // 跟随音频
+        this.moveRate = options.moveRate;                    // 变化速率
         this.speed = options.speed;                          // 粒子速度
         this.speedRandom = options.speedRandom;              // 随机速度
         this.direction = options.direction;                  // 粒子方向
@@ -299,6 +332,7 @@
         // 大小属性
         sizeValue: 5,                // 粒子大小
         isSizeFollow: false,         // 跟随音频
+        sizeRate: 5,                 // 变化速率
         sizeRandom: true,            // 随机大小
         // 连线属性
         linkEnable: false,           // 连接开关
@@ -309,6 +343,7 @@
         // 移动属性
         isMove: true,                // 粒子移动
         isMoveFollow: false,         // 跟随音频
+        moveRate: 5,                 // 变化速率
         speed: 2,                    // 粒子速度
         speedRandom: true,           // 随机速度
         direction: 'bottom',         // 粒子方向
@@ -430,7 +465,7 @@
          */
         moveParticles: function (particles, speed) {
             if (this.isMove) {
-                let zoom = this.isMoveFollow ? (0.1 + audioAverage * 5) : 1;
+                let zoom = this.isMoveFollow ? (0.1 + audioAverage * this.moveRate) : 1;
                 particles.x += particles.vx * speed * zoom;
                 particles.y += particles.vy * speed * zoom;
             }
@@ -685,7 +720,7 @@
          * @param {Array|float} audioSamples 音频数组
          */
         updateAudioAverage: function (audioSamples) {
-            audioAverage = mean(audioSamples);
+            audioAverage = audioMean(audioSamples).count;
         },
 
         /** 更新粒子数组 */
@@ -696,7 +731,7 @@
                 this.bounceParticles(i);
                 this.marginalCheck(particlesArray[i]);
                 if (this.isSizeFollow) {
-                    particlesArray[i].zoom = (1 + audioAverage * 5);
+                    particlesArray[i].zoom = (1 + audioAverage * this.sizeRate);
                 }
             }
         },
@@ -1004,6 +1039,7 @@
          */
         set: function (property, value) {
             switch (property) {
+                case 'sizeRate':
                 case 'linkEnable':
                 case 'linkDistance':
                 case 'linkWidth':
@@ -1011,6 +1047,7 @@
                 case 'linkOpacity':
                 case 'isMove':
                 case 'isMoveFollow':
+                case 'moveRate':
                 case 'isBounce':
                 case 'moveOutMode':
                 case 'interactivityLink':

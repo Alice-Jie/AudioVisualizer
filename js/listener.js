@@ -2045,6 +2045,10 @@
             if (properties.particles_isSizeFollow) {
                 wallpaper.particles('set', 'isSizeFollow', properties.particles_isSizeFollow.value);
             }
+            // 粒子大小变化率
+            if (properties.particles_sizeRate) {
+                wallpaper.particles('set', 'sizeRate', properties.particles_sizeRate.value);
+            }
             // 粒子随机大小
             if (properties.particles_sizeRandom) {
                 wallpaper.particles('set', 'sizeRandom', properties.particles_sizeRandom.value);
@@ -2092,6 +2096,10 @@
             // 粒子移动跟随音频
             if (properties.particles_isMoveFollow) {
                 wallpaper.particles('set', 'isMoveFollow', properties.particles_isMoveFollow.value);
+            }
+            // 粒子移动变化率
+            if (properties.particles_moveRate) {
+                wallpaper.particles('set', 'moveRate', properties.particles_moveRate.value);
             }
             // 随机粒子速度
             if (properties.particles_speedRandom) {
