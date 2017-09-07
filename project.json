@@ -2020,20 +2020,44 @@
       },
       "particles_color": {
         "order": 6008,
-        "condition": "particles_isParticles.value == true",
+        "condition": "particles_isParticles.value == true && particles_isColorFollow.value == false && particles_colorRandom.value == false",
         "text": "ui_particles_color",
         "type": "color",
         "value": "1 1 1"
       },
-      "particles_shadowColor": {
+      "particles_isColorFollow": {
         "order": 6009,
+        "condition": "particles_isParticles.value == true",
+        "text": "ui_particles_isColorFollow",
+        "type": "bool",
+        "value": false
+      },
+      "particles_colorRate": {
+        "order": 6010,
+        "condition": "particles_isParticles.value == true && particles_isColorFollow.value == true",
+        "text": "ui_particles_colorRate",
+        "type": "slider",
+        "editable": true,
+        "max": 30,
+        "min": 0,
+        "value": 10
+      },
+      "particles_colorRandom": {
+        "order": 6011,
+        "condition": "particles_isParticles.value == true",
+        "text": "ui_particles_colorRandom",
+        "type": "bool",
+        "value": false
+      },
+      "particles_shadowColor": {
+        "order": 6012,
         "condition": "particles_isParticles.value == true",
         "text": "ui_particles_shadowColor",
         "type": "color",
         "value": "1 1 1"
       },
       "particles_shadowBlur": {
-        "order": 6010,
+        "order": 6013,
         "condition": "particles_isParticles.value == true",
         "text": "ui_particles_shadowBlur",
         "type": "slider",
@@ -2556,6 +2580,9 @@
         "ui_particles_opacity": "<br/>Particle Opacity<br/><br/>",
         "ui_particles_opacityRandom": "<br/>Random Opacity?<br/><br/>",
         "ui_particles_color": "<br/>Particle Color<br/><br/>",
+        "ui_particles_isColorFollow": "<br/>Color Follow Audio?<br/><br/>",
+        "ui_particles_colorRate": "<br/>Change Rate<br/><br/>",
+        "ui_particles_colorRandom": "<br/>Random Color?<br/><br/>",
         "ui_particles_shadowColor": "<br/>Glow Color<br/><br/>",
         "ui_particles_shadowBlur": "<br/>Glow Size(px)<br/><br/>",
         "ui_particles_sizeText": "<br/><b>Particle - Type Settings</b><br/><br/>",
@@ -2768,6 +2795,9 @@
         "ui_particles_opacity": "<br/>粒子不透明度<br/><br/>",
         "ui_particles_opacityRandom": "<br/>随机不透明度<br/><br/>",
         "ui_particles_color": "<br/>粒子颜色<br/><br/>",
+        "ui_particles_isColorFollow": "<br/>颜色跟随音频？<br/><br/>",
+        "ui_particles_colorRate": "<br/>颜色变化率<br/><br/>",
+        "ui_particles_colorRandom": "<br/>随机颜色？<br/><br/>",
         "ui_particles_shadowColor": "<br/>粒子模糊颜色<br/><br/>",
         "ui_particles_shadowBlur": "<br/>粒子模糊程度<br/><br/>",
         "ui_particles_sizeText": "<br/><b>粒子 - 类型设置</b><br/><br/>",
@@ -2980,6 +3010,9 @@
         "ui_particles_opacity": "<br/>粒子不透明度<br/><br/>",
         "ui_particles_opacityRandom": "<br/>隨機不透明度<br/><br/>",
         "ui_particles_color": "<br/>粒子顏色<br/><br/>",
+        "ui_particles_isColorFollow": "<br/>顏色跟隨音頻<br/><br/>",
+        "ui_particles_colorRate": "<br/>顏色變化率<br/><br/>",
+        "ui_particles_colorRandom": "<br/>隨機顏色<br/><br/>",
         "ui_particles_shadowColor": "<br/>粒子模糊顏色<br/><br/>",
         "ui_particles_shadowBlur": "<br/>粒子模糊程度<br/><br/>",
         "ui_particles_sizeText": "<br/><b>粒子 - 類型設置</b><br/><br/>",

@@ -2009,6 +2009,18 @@
             if (properties.particles_color) {
                 wallpaper.particles('set', 'color', getColor(properties.particles_color.value));
             }
+            // 粒子颜色跟随音频
+            if (properties.particles_isColorFollow) {
+                wallpaper.particles('set', 'isColorFollow', properties.particles_isColorFollow.value);
+            }
+            // 粒子颜色变化率
+            if (properties.particles_colorRate) {
+                wallpaper.particles('set', 'colorRate', properties.particles_colorRate.value);
+            }
+            // 粒子随机颜色
+            if (properties.particles_colorRandom) {
+                wallpaper.particles('set', 'colorRandom', properties.particles_colorRandom.value);
+            }
             // 粒子模糊颜色
             if (properties.particles_shadowColor) {
                 wallpaper.particles('set', 'shadowColor', getColor(properties.particles_shadowColor.value));

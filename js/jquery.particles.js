@@ -1,5 +1,5 @@
 /*!
- * jQuery Particles plugin v0.0.4
+ * jQuery Particles plugin v0.0.5
  * reference: http://github.com/VincentGarreau/particles.js
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
@@ -7,7 +7,7 @@
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/08/21
+ * @date 2017/09/06
  */
 
 (function (global, factory) {
@@ -222,6 +222,62 @@
         };
     }
 
+    /**
+     * 通过RGB字符串更新RGB颜色对象
+     *
+     * @param  {string} colorFormat 颜色格式
+     * @param  {string} colorStr RGB颜色字符串
+     * @return {!Object} RGB颜色对象
+     */
+    function getColorObj(colorFormat, colorStr) {
+        let colorObj = {};
+        switch (colorFormat) {
+            case 'RGB':
+                colorObj.R = parseInt(colorStr.split(",")[0]);
+                colorObj.G = parseInt(colorStr.split(",")[1]);
+                colorObj.B = parseInt(colorStr.split(",")[2]);
+                break;
+            case 'HSL':
+                colorObj.H = parseInt(colorStr.split(",")[0]);
+                colorObj.S = parseInt(colorStr.split(",")[1]);
+                colorObj.L = parseInt(colorStr.split(",")[2]);
+                break;
+            default:
+                console.error('error color format.');
+        }
+        return colorObj;
+    }
+
+    /**
+     * 获取颜色
+     * @param {string}             colorFormat 颜色格式
+     * @param {(!Object | string)} color       颜色
+     */
+    function getColor(colorFormat, color) {
+        if (typeof(color) == 'object') {
+            switch (colorFormat) {
+                case 'RGB':
+                    return 'rgb(' + color.R + ', ' + color.G + ', ' + color.B + ')';
+                case 'HSL':
+                    return 'hsl(' + color.H + ', ' + color.S + '%, ' + color.L + '%)';
+                default:
+                    return 'error color format.';
+            }
+        } else if (typeof(color) == 'string') {
+            switch (colorFormat) {
+                case 'RGB':
+                    return 'rgb(' + color + ')';
+                case 'HSL':
+                    return 'hsl(' + color + ')';
+                default:
+                    return 'error color format.';
+            }
+        } else {
+            return 'error color type.';
+        }
+
+    }
+
     //构造函数和公共方法
     //--------------------------------------------------------------------------------------------------------------
 
@@ -240,6 +296,9 @@
         this.densityArea = options.densityArea;              // 粒子密度范围
         this.opacity = options.opacity;                      // 不透明度
         this.color = options.color;                          // 粒子颜色
+        this.isColorFollow = options.isColorFollow;          // 跟随音频
+        this.colorRate = options.colorRate;                  // 变化速率
+        this.colorRandom = options.colorRandom;              // 随机颜色
         this.shadowColor = options.shadowColor;              // 模糊颜色
         this.shadowBlur = options.shadowBlur;                // 模糊大小
         // 形状属性
@@ -323,6 +382,9 @@
         opacity: 0.75,               // 不透明度
         opacityRandom: false,        // 随机不透明度
         color: '255,255,255',        // 粒子颜色
+        iscolorFollow: false,        // 跟随音频
+        colorRate: 10,               // 变化速率
+        colorRandom: false,          // 随机颜色
         shadowColor: '255,255,255',  // 阴影颜色
         shadowBlur: 0,               // 模糊大小
         // 形状属性
@@ -424,7 +486,9 @@
                 particlesArray.push({
                     // 粒子全局属性
                     opacity: this.opacity,           // 不透明度
+                    colorFormat: 'RGB',              // 颜色格式
                     color: this.color,               // 粒子颜色
+                    colorIncrement: 0,               // 颜色增量
                     shadowColor: this.shadowColor,   // 阴影颜色
                     shadowBlur: this.shadowBlur,     // 模糊大小
                     // 尺寸属性
@@ -445,6 +509,7 @@
             for (let i = 0; i < particlesArray.length; i++) {
                 // 粒子属性随机化
                 particlesArray[i].opacity = this.opacityRandom ? Math.min(Math.random(), this.opacity) : this.opacity;
+                particlesArray[i].color = (this.colorRandom ? 'hsl(' + Math.floor(360 * Math.random()) + ', 100%, 50%)' : 'rgb(' + this.color + ')');
                 if (this.rotationAngle !== 0) {
                     particlesArray[i].rotationAngle = (this.angleRandom ? Math.random() : 1) * this.rotationAngle * (Math.PI / 180);
                 }
@@ -657,7 +722,9 @@
                     tempArray.push({
                         // 粒子全局属性
                         opacity: this.opacity,          // 不透明度
+                        colorFormat: 'RGB',             // 颜色格式
                         color: this.color,              // 粒子颜色
+                        colorIncrement: 0,              // 颜色增量
                         shadowColor: this.shadowColor,  // 阴影颜色
                         shadowBlur: this.shadowBlur,    // 模糊大小
                         // 尺寸属性
@@ -677,11 +744,24 @@
                 }
                 // 多余的粒子属性随机化
                 for (let i = 0; i < tempArray.length; i++) {
+                    // 粒子不透明度
                     tempArray[i].opacity = (this.opacityRandom ? Math.random() : this.opacity);
+                    // 粒子颜色
+                    if (this.isColorFollow) {
+                        tempArray[i].colorFormat = 'HSL';
+                        let H = this.colorRandom ? Math.floor(360 * Math.random()) : 0;
+                        tempArray[i].color = getColorObj(tempArray[i].colorFormat, H + ', 100%, 50%');
+                    } else {
+                        tempArray[i].colorFormat = this.colorRandom ? 'HSL' : 'RGB';
+                        tempArray[i].color = this.colorRandom ? Math.floor(360 * Math.random()) + ', 100%, 50%' : this.color;
+                    }
+                    // 粒子大小
                     tempArray[i].radius = (this.sizeRandom ? Math.random() : 1) * this.sizeValue;
+                    // 粒子旋转角度
                     if (this.rotationAngle !== 0) {
                         tempArray[i].rotationAngle = (this.angleRandom ? Math.random() : 1) * this.rotationAngle * (Math.PI / 180);
                     }
+                    // 粒子速度
                     tempArray[i].speed = (this.speedRandom ? Math.random() : 1) * this.speed;
                     this.moveStraight(tempArray[i]);
                 }
@@ -695,6 +775,12 @@
                 for (let i = 0; i < n; i++) {
                     particlesArray.pop();
                 }
+            }
+            // 跟随音频切非随机颜色模式下
+            if (this.isColorFollow && !this.colorRandom) {
+                for (let i = 0; i < particlesArray.length; i++) {
+                    particlesArray[i].color = getColorObj(particlesArray[i].colorFormat, '0, 100%, 50%');
+                }  // 统一粒子颜色
             }
             this.number = particlesArray.length;  // 更新粒子数目
         },
@@ -730,7 +816,12 @@
                 this.moveParticles(particlesArray[i], particlesArray[i].speed);
                 this.bounceParticles(i);
                 this.marginalCheck(particlesArray[i]);
+                if (this.isColorFollow) {
+                    // 更新颜色增量
+                    particlesArray[i].colorIncrement = Math.floor(this.colorRate * audioAverage);
+                }
                 if (this.isSizeFollow) {
+                    // 更新缩放值
                     particlesArray[i].zoom = (1 + audioAverage * this.sizeRate);
                 }
             }
@@ -783,8 +874,14 @@
         drawParticles: function (particles) {
             // 设置context属性
             context.save();
-            context.fillStyle = 'rgb(' + particles.color + ')';
-            context.shadowColor = 'rgb(' + particles.shadowColor + ')';
+            // 粒子填充样式
+            if (this.isColorFollow) {
+                particles.color.H += particles.colorIncrement;
+                context.fillStyle = getColor(particles.colorFormat, particles.color);
+            } else {
+                context.fillStyle = getColor(particles.colorFormat, particles.color);
+            }
+            context.shadowColor = getColor(particles.colorFormat, particles.shadowColor);
             context.shadowBlur = particles.shadowBlur;
             context.globalAlpha = particles.opacity;
             // 粒子路径
@@ -996,10 +1093,19 @@
                         particlesArray[i].opacity = this.opacityRandom ? Math.min(Math.random(), this.opacity) : this.opacity;
                         break;
                     case 'color':
-                        particlesArray[i].color = this.color;
+                    case 'colorRandom':
+                    case 'isColorFollow':
+                        if (this.isColorFollow) {
+                            particlesArray[i].colorFormat = 'HSL';
+                            let H = this.colorRandom ? Math.floor(360 * Math.random()) : 0;
+                            particlesArray[i].color = getColorObj(particlesArray[i].colorFormat, H + ', 100%, 50%');
+                        } else {
+                            particlesArray[i].colorFormat = this.colorRandom ? 'HSL' : 'RGB';
+                            particlesArray[i].color = this.colorRandom ? Math.floor(360 * Math.random()) + ', 100%, 50%' : this.color;
+                        }
                         break;
                     case 'shadowColor':
-                        particlesArray[i].shadowColor = this.shadowColor;
+                        particlesArray[i].shadowColor = 'rgb(' + this.shadowColor + ')';
                         break;
                     case 'shadowBlur':
                         particlesArray[i].shadowBlur = this.shadowBlur;
@@ -1039,6 +1145,7 @@
          */
         set: function (property, value) {
             switch (property) {
+                case 'colorRate':
                 case 'sizeRate':
                 case 'linkEnable':
                 case 'linkDistance':
@@ -1062,6 +1169,8 @@
                     this.densityAutoParticles();
                     break;
                 case 'color':
+                case 'colorRandom':
+                case 'isColorFollow':
                 case 'opacity':
                 case 'opacityRandom':
                 case 'shadowColor':
