@@ -258,8 +258,12 @@
             switch (colorFormat) {
                 case 'RGB':
                     return 'rgb(' + color.R + ', ' + color.G + ', ' + color.B + ')';
+                case 'RGBA':
+                    return 'rgb(' + color.R + ', ' + color.G + ', ' + color.B + ', ' + color.A + ')';
                 case 'HSL':
                     return 'hsl(' + color.H + ', ' + color.S + '%, ' + color.L + '%)';
+                case 'HSLA':
+                    return 'hsla(' + color.H + ', ' + color.S + '%, ' + color.L + '%, ' + color.A + ')';
                 default:
                     return 'error color format.';
             }
@@ -267,8 +271,12 @@
             switch (colorFormat) {
                 case 'RGB':
                     return 'rgb(' + color + ')';
+                case 'RGBA':
+                    return 'rgba(' + color + ')';
                 case 'HSL':
                     return 'hsl(' + color + ')';
+                case 'HSLA':
+                    return 'hsla(' + color + ')';
                 default:
                     return 'error color format.';
             }
@@ -299,6 +307,9 @@
         this.isColorFollow = options.isColorFollow;          // 跟随音频
         this.colorRate = options.colorRate;                  // 变化速率
         this.colorRandom = options.colorRandom;              // 随机颜色
+        this.isFill = options.isFill;                        // 填充开关
+        this.isStroke = options.isStroke;                    // 描边开关
+        this.lineWidth = options.lineWidth;                  // 描边宽度
         this.shadowColor = options.shadowColor;              // 模糊颜色
         this.shadowBlur = options.shadowBlur;                // 模糊大小
         // 形状属性
@@ -315,6 +326,7 @@
         this.linkDistance = options.linkDistance;            // 连接距离
         this.linkWidth = options.linkWidth;                  // 连线宽度
         this.linkColor = options.linkColor;                  // 连接颜色
+        this.linkColorRandom = options.linkColorRandom;      // 连线随机颜色
         this.linkOpacity = options.linkOpacity;              // 连线不透明度
         // 移动属性
         this.isMove = options.isMove;                        // 移动开关
@@ -346,12 +358,12 @@
         // 创建并初始化绘图的环境
         context = canvas.getContext('2d');
         context.fillStyle = 'rgb(' + this.color + ')';
+        // 线条属性
+        context.strokeStyle = 'rgb(' + this.color + ')';
+        context.lineWidth = this.lineWidth;
         // 阴影属性
         context.shadowColor = 'rgb(' + this.color + ')';
         context.shadowBlur = this.shadowBlur;
-        // 线条属性
-        context.lineWidth = this.linkWidth;
-        context.strokeStyle = "rgba(" + this.linkColor + "," + 1 + ")";
 
         // 创建并初始化离屏canvas
         currantCanvas = document.createElement('canvas');
@@ -385,6 +397,9 @@
         iscolorFollow: false,        // 跟随音频
         colorRate: 10,               // 变化速率
         colorRandom: false,          // 随机颜色
+        isFill: true,                // 填充开关
+        isStroke: false,             // 描边开关
+        lineWidth: 1,                // 描边宽度
         shadowColor: '255,255,255',  // 阴影颜色
         shadowBlur: 0,               // 模糊大小
         // 形状属性
@@ -401,6 +416,7 @@
         linkDistance: 100,           // 连接距离
         linkWidth: 2,                // 连线宽度
         linkColor: '255,255,255',    // 连线颜色
+        linkColorRandom: false,      // 随机连线颜色
         linkOpacity: 0.75,           // 连线不透明度
         // 移动属性
         isMove: true,                // 粒子移动
@@ -498,6 +514,8 @@
                     // 大小属性
                     radius: this.sizeValue,          // 粒子大小
                     zoom: 1,                         // 粒子比例
+                    // 连线属性
+                    linkColor: this.linkColor,       // 连线属性
                     // 坐标属性
                     x: x,                            // X轴坐标
                     y: y,                            // Y轴坐标
@@ -509,11 +527,12 @@
             for (let i = 0; i < particlesArray.length; i++) {
                 // 粒子属性随机化
                 particlesArray[i].opacity = this.opacityRandom ? Math.min(Math.random(), this.opacity) : this.opacity;
-                particlesArray[i].color = (this.colorRandom ? 'hsl(' + Math.floor(360 * Math.random()) + ', 100%, 50%)' : 'rgb(' + this.color + ')');
+                particlesArray[i].color = this.colorRandom ? Math.floor(360 * Math.random()) + ', 100%, 50%' : this.color;
                 if (this.rotationAngle !== 0) {
                     particlesArray[i].rotationAngle = (this.angleRandom ? Math.random() : 1) * this.rotationAngle * (Math.PI / 180);
                 }
                 particlesArray[i].radius = (this.sizeRandom ? Math.random() : 1) * this.sizeValue;
+                particlesArray[i].linkColor = this.linkColorRandom ? Math.floor(360 * Math.random()) + ', 100%, 50%' : this.linkColor;
                 particlesArray[i].speed = (this.speedRandom ? Math.random() : 1) * this.speed;
                 this.moveStraight(particlesArray[i]);  // 设置粒子方向向量
                 checkOverlap(i);  // 检查粒子之间是否重叠
@@ -733,7 +752,9 @@
                         currantAngle: 0,                // 当前角度
                         // 大小属性
                         radius: this.sizeValue,         // 粒子大小
-                        zoom: 1,                         // 粒子比例
+                        zoom: 1,                        // 粒子比例
+                        // 连线属性
+                        linkColor: this.linkColor,      // 连线属性
                         // 坐标属性
                         x: x,                           // X轴坐标
                         y: y,                           // Y轴坐标
@@ -757,6 +778,7 @@
                     }
                     // 粒子大小
                     tempArray[i].radius = (this.sizeRandom ? Math.random() : 1) * this.sizeValue;
+                    tempArray[i].linkColor = this.linkColorRandom ? Math.floor(360 * Math.random()) + ', 100%, 50%' : this.linkColor;
                     // 粒子旋转角度
                     if (this.rotationAngle !== 0) {
                         tempArray[i].rotationAngle = (this.angleRandom ? Math.random() : 1) * this.rotationAngle * (Math.PI / 180);
@@ -816,14 +838,8 @@
                 this.moveParticles(particlesArray[i], particlesArray[i].speed);
                 this.bounceParticles(i);
                 this.marginalCheck(particlesArray[i]);
-                if (this.isColorFollow) {
-                    // 更新颜色增量
-                    particlesArray[i].colorIncrement = Math.floor(this.colorRate * audioAverage);
-                }
-                if (this.isSizeFollow) {
-                    // 更新缩放值
-                    particlesArray[i].zoom = (1 + audioAverage * this.sizeRate);
-                }
+                this.isColorFollow && (particlesArray[i].colorIncrement = Math.floor(this.colorRate * audioAverage));
+                this.isSizeFollow && (particlesArray[i].zoom = (1 + audioAverage * this.sizeRate));
             }
         },
 
@@ -875,12 +891,11 @@
             // 设置context属性
             context.save();
             // 粒子填充样式
-            if (this.isColorFollow) {
-                particles.color.H += particles.colorIncrement;
-                context.fillStyle = getColor(particles.colorFormat, particles.color);
-            } else {
-                context.fillStyle = getColor(particles.colorFormat, particles.color);
-            }
+
+            this.isColorFollow && (particles.color.H += particles.colorIncrement);
+            context.fillStyle = getColor(particles.colorFormat, particles.color);
+            context.strokeStyle = getColor(particles.colorFormat, particles.color);
+            this.isStroke && (context.lineWidth = this.lineWidth);
             context.shadowColor = getColor(particles.colorFormat, particles.shadowColor);
             context.shadowBlur = particles.shadowBlur;
             context.globalAlpha = particles.opacity;
@@ -928,7 +943,8 @@
                     break;
             }
             context.closePath();
-            context.fill();  // 绘制粒子
+            this.isFill && context.fill();      // 绘制粒子
+            this.isStroke && context.stroke();  // 描边粒子
             context.restore();
         },
 
@@ -950,7 +966,12 @@
                     let width = 0, height = 0;  // 粒子高度和宽度
                     context.save();
                     context.lineWidth = d * this.linkWidth;
-                    context.strokeStyle = "rgba(" + this.linkColor + "," + Math.min(d, this.linkOpacity) + ")";
+                    // 设置连线颜色和透明度
+                    if (this.linkColorRandom) {
+                        context.strokeStyle = 'hsla(' + particles.linkColor + ',' + Math.min(d, this.linkOpacity) + ')';
+                    } else {
+                        context.strokeStyle = "rgba(" + this.linkColor + "," + Math.min(d, this.linkOpacity) + ")";
+                    }
                     context.beginPath();
                     context.moveTo(x, y);
                     // 设置宽度和高度
@@ -998,7 +1019,12 @@
                     let width = 0, height = 0;  // 粒子高度和宽度
                     context.save();
                     context.lineWidth = d * this.linkWidth;
-                    context.strokeStyle = "rgba(" + this.linkColor + "," + Math.min(d, this.linkOpacity) + ")";
+                    // 设置连线颜色和透明度
+                    if (this.linkColorRandom) {
+                        context.strokeStyle = 'hsla(' + particles2.linkColor + ',' + Math.min(d, this.linkOpacity) + ')';
+                    } else {
+                        context.strokeStyle = 'rgba(' + this.linkColor + ',' + Math.min(d, this.linkOpacity) + ')';
+                    }
                     context.beginPath();
                     // 设置宽度和高度
                     switch (particles1.shapeType) {
@@ -1058,12 +1084,12 @@
                 that.updateParticlesArray();
                 context.clearRect(0, 0, canvasWidth, canvasHeight);
                 for (let i = 0; i < particlesArray.length; i++) {
+                    // 绘制粒子
                     that.drawParticles(particlesArray[i]);
+                    // 绘制连线
                     if (that.linkEnable) {
                         that.drawParticlesLine(i);
-                        if (that.interactivityLink) {
-                            that.drawXYLine(mouseX, mouseY, that.linkDistance);
-                        }
+                        that.interactivityLink && that.drawXYLine(mouseX, mouseY, that.linkDistance);
                     }
                 }
                 timer = requestAnimationFrame(animal);
@@ -1126,6 +1152,9 @@
                             particlesArray[i].rotationAngle = (this.angleRandom ? Math.random() : 1) * this.rotationAngle * (Math.PI / 180);
                         }
                         break;
+                    case 'linkColorRandom':
+                        particlesArray[i].linkColor = this.colorRandom ? Math.floor(360 * Math.random()) + ', 100%, 50%' : this.color;
+                        break;
                     case 'speed':
                     case 'speedRandom':
                         particlesArray[i].speed = (this.speedRandom ? Math.random() : 1) * this.speed;
@@ -1145,6 +1174,9 @@
          */
         set: function (property, value) {
             switch (property) {
+                case 'isFill':
+                case 'isStroke':
+                case 'lineWidth':
                 case 'colorRate':
                 case 'sizeRate':
                 case 'linkEnable':
@@ -1181,6 +1213,7 @@
                 case 'angleRandom':
                 case 'sizeValue':
                 case 'sizeRandom':
+                case 'linkColorRandom':
                 case 'speed':
                 case 'speedRandom':
                 case 'direction':

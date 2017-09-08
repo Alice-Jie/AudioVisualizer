@@ -2021,6 +2021,18 @@
             if (properties.particles_colorRandom) {
                 wallpaper.particles('set', 'colorRandom', properties.particles_colorRandom.value);
             }
+            // 填充粒子
+            if (properties.particles_isFill) {
+                wallpaper.particles('set', 'isFill', properties.particles_isFill.value);
+            }
+            // 描边粒子
+            if (properties.particles_isStroke) {
+                wallpaper.particles('set', 'isStroke', properties.particles_isStroke.value);
+            }
+            // 粒子描边颜色
+            if (properties.particles_lineWidth) {
+                wallpaper.particles('set', 'lineWidth', properties.particles_lineWidth.value);
+            }
             // 粒子模糊颜色
             if (properties.particles_shadowColor) {
                 wallpaper.particles('set', 'shadowColor', getColor(properties.particles_shadowColor.value));
@@ -2088,6 +2100,10 @@
             // 连线颜色
             if (properties.particles_linkColor) {
                 wallpaper.particles('set', 'linkColor', getColor(properties.particles_linkColor.value));
+            }
+            // 随机连线颜色
+            if (properties.particles_linkColorRandom) {
+                wallpaper.particles('set', 'linkColorRandom', properties.particles_linkColorRandom.value);
             }
             // 连线不透明度
             if (properties.particles_linkOpacity) {

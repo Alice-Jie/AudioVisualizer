@@ -333,7 +333,7 @@
         this.isOuterRing = options.isOuterRing;            // 显示外环
         this.radius = options.radius;                      // 半径
         this.ringRotation = options.ringRotation;          // 圆环旋转
-        this.milliSec = options.milliSec;                  // 绘制间隔(ms);
+        this.milliSec = options.milliSec;                  // 绘制间隔(ms)
         // 波浪参数
         this.isWave = options.isWave;                      // 波浪模式
         this.firstRing = options.firstRing;                // 始环
@@ -437,7 +437,7 @@
         isInnerRing: true,           // 显示内环
         isOuterRing: true,           // 显示外环
         ringRotation: 0,             // 圆环旋转
-        milliSec: 30,                // 重绘间隔（ms）
+        milliSec: 30,                // 重绘间隔(ms)
         // 波浪参数
         isWave: false,               // 波浪模式
         firstRing: 'innerRing',      // 始环

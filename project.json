@@ -842,7 +842,7 @@
       },
       "circle_LineText": {
         "order": 3300,
-        "text": "ui_circle_LineText",
+        "text": "ui_circle_lineText",
         "type": "text"
       },
       "circle_isLineTo": {
@@ -2020,21 +2020,21 @@
       },
       "particles_color": {
         "order": 6008,
-        "condition": "particles_isParticles.value == true && particles_isColorFollow.value == false && particles_colorRandom.value == false",
+        "condition": "particles_isParticles.value == true && particles_shapeType.value != 5 && particles_isColorFollow.value == false && particles_colorRandom.value == false",
         "text": "ui_particles_color",
         "type": "color",
         "value": "1 1 1"
       },
       "particles_isColorFollow": {
         "order": 6009,
-        "condition": "particles_isParticles.value == true",
+        "condition": "particles_isParticles.value == true && particles_shapeType.value != 5 ",
         "text": "ui_particles_isColorFollow",
         "type": "bool",
         "value": false
       },
       "particles_colorRate": {
         "order": 6010,
-        "condition": "particles_isParticles.value == true && particles_isColorFollow.value == true",
+        "condition": "particles_isParticles.value == true && particles_shapeType.value != 5  && particles_isColorFollow.value == true",
         "text": "ui_particles_colorRate",
         "type": "slider",
         "editable": true,
@@ -2044,21 +2044,45 @@
       },
       "particles_colorRandom": {
         "order": 6011,
-        "condition": "particles_isParticles.value == true",
+        "condition": "particles_isParticles.value == true && particles_shapeType.value != 5 ",
         "text": "ui_particles_colorRandom",
         "type": "bool",
         "value": false
       },
-      "particles_shadowColor": {
+      "particles_isFill": {
         "order": 6012,
-        "condition": "particles_isParticles.value == true",
+        "condition": "particles_isParticles.value == true && particles_shapeType.value != 5 ",
+        "text": "ui_particles_isFill",
+        "type": "bool",
+        "value": true
+      },
+      "particles_isStroke": {
+        "order": 6013,
+        "condition": "particles_isParticles.value == true && particles_shapeType.value != 5 ",
+        "text": "ui_particles_isStroke",
+        "type": "bool",
+        "value": false
+      },
+      "particles_lineWidth": {
+        "order": 6014,
+        "condition": "particles_isParticles.value == true && particles_shapeType.value != 5  && particles_isStroke.value == true",
+        "text": "ui_particles_lineWidth",
+        "type": "slider",
+        "editable": true,
+        "max": 10,
+        "min": 0,
+        "value": 5
+      },
+      "particles_shadowColor": {
+        "order": 6015,
+        "condition": "particles_isParticles.value == true && particles_shapeType.value != 5 ",
         "text": "ui_particles_shadowColor",
         "type": "color",
         "value": "1 1 1"
       },
       "particles_shadowBlur": {
-        "order": 6013,
-        "condition": "particles_isParticles.value == true",
+        "order": 6016,
+        "condition": "particles_isParticles.value == true && particles_shapeType.value != 5 ",
         "text": "ui_particles_shadowBlur",
         "type": "slider",
         "editable": true,
@@ -2200,13 +2224,20 @@
       },
       "particles_linkColor": {
         "order": 6205,
-        "condition": "particles_isParticles.value == true && particles_linkEnable.value == true",
+        "condition": "particles_isParticles.value == true && particles_linkEnable.value == true && particles_linkColorRandom.value == false",
         "text": "ui_particles_linkColor",
         "type": "color",
         "value": "1 1 1"
       },
-      "particles_linkOpacity": {
+      "particles_linkColorRandom": {
         "order": 6206,
+        "condition": "particles_isParticles.value == true && particles_linkEnable.value == true",
+        "text": "ui_particles_linkColorRandom",
+        "type": "bool",
+        "value": "false"
+      },
+      "particles_linkOpacity": {
+        "order": 6207,
         "condition": "particles_isParticles.value == true && particles_linkEnable.value == true",
         "text": "ui_particles_linkOpacity",
         "type": "slider",
@@ -2489,7 +2520,7 @@
         "ui_circle_radius": "<br/>Radius<br/><br/>",
         "ui_circle_ringRotation": "<br/>Rotating Ring<br/><br/>",
         "ui_circle_milliSec": "<br/>Redraw Interval<br/><br/>",
-        "ui_circle_LineText": "<br/><b>Ring - Line Settings</b><br/>",
+        "ui_circle_lineText": "<br/><b>Ring - Line Settings</b><br/>",
         "ui_circle_isLineTo": "<br/>Show Line?<br/><br/>",
         "ui_circle_firstPoint": "<br/>First Point<br/><br/>",
         "ui_circle_secondPoint": "<br/>Second Point<br/><br/>",
@@ -2583,6 +2614,9 @@
         "ui_particles_isColorFollow": "<br/>Color Follow Audio?<br/><br/>",
         "ui_particles_colorRate": "<br/>Change Rate<br/><br/>",
         "ui_particles_colorRandom": "<br/>Random Color?<br/><br/>",
+        "ui_particles_isFill": "<br/>Fill?<br/><br/>",
+        "ui_particles_isStroke": "<br/>Stroke?<br/><br/>",
+        "ui_particles_lineWidth": "<br/>Stroke Width<br/><br/>",
         "ui_particles_shadowColor": "<br/>Glow Color<br/><br/>",
         "ui_particles_shadowBlur": "<br/>Glow Size(px)<br/><br/>",
         "ui_particles_sizeText": "<br/><b>Particle - Type Settings</b><br/><br/>",
@@ -2600,6 +2634,7 @@
         "ui_particles_linkDistance": "<br/>Line Distance<br/><br/>",
         "ui_particles_linkWidth": "<br/>Line Width<br/><br/>",
         "ui_particles_linkColor": "<br/>Line Color<br/><br/>",
+        "ui_particles_linkColorRandom": "<br/>Random Line Color?<br/><br/>",
         "ui_particles_linkOpacity": "<br/>Line Opacity<br/><br/>",
         "ui_particles_moveText": "<br/><b>Particle - Move Settings</b><br/><br/>",
         "ui_particles_isMove": "<br/>Particle Move?<br/><br/>",
@@ -2704,7 +2739,7 @@
         "ui_circle_radius": "<br/>圆环半径<br/><br/>",
         "ui_circle_ringRotation": "<br/>旋转圆环<br/><br/>",
         "ui_circle_milliSec": "<br/>重绘间隔<br/><br/>",
-        "ui_circle_LineText": "<br/><b>圆环 - 线条设置</b><br/>",
+        "ui_circle_lineText": "<br/><b>圆环 - 线条设置</b><br/>",
         "ui_circle_isLineTo": "<br/>显示连线<br/><br/>",
         "ui_circle_firstPoint": "<br/>第一点<br/><br/>",
         "ui_circle_secondPoint": "<br/>第二点<br/><br/>",
@@ -2798,6 +2833,9 @@
         "ui_particles_isColorFollow": "<br/>颜色跟随音频？<br/><br/>",
         "ui_particles_colorRate": "<br/>颜色变化率<br/><br/>",
         "ui_particles_colorRandom": "<br/>随机颜色？<br/><br/>",
+        "ui_particles_isFill": "<br/>填充<br/><br/>",
+        "ui_particles_isStroke": "<br/>描边<br/><br/>",
+        "ui_particles_lineWidth": "<br/>描边宽度<br/><br/>",
         "ui_particles_shadowColor": "<br/>粒子模糊颜色<br/><br/>",
         "ui_particles_shadowBlur": "<br/>粒子模糊程度<br/><br/>",
         "ui_particles_sizeText": "<br/><b>粒子 - 类型设置</b><br/><br/>",
@@ -2815,6 +2853,7 @@
         "ui_particles_linkDistance": "<br/>连线距离<br/><br/>",
         "ui_particles_linkWidth": "<br/>连线宽度<br/><br/>",
         "ui_particles_linkColor": "<br/>连线颜色<br/><br/>",
+        "ui_particles_linkColorRandom": "<br/>随机连线颜色<br/><br/>",
         "ui_particles_linkOpacity": "<br/>连线不透明度<br/><br/>",
         "ui_particles_moveText": "<br/><b>粒子 - 移动设置</b><br/><br/>",
         "ui_particles_isMove": "<br/>是否移动<br/><br/>",
@@ -2919,7 +2958,7 @@
         "ui_circle_radius": "<br/>圓環半徑<br/><br/>",
         "ui_circle_ringRotation": "<br/>旋轉圓環<br/><br/>",
         "ui_circle_milliSec": "<br/>重繪間隔<br/><br/>",
-        "ui_circle_LineText": "<br/><b>圓環 - 線條設置</b><br/>",
+        "ui_circle_lineText": "<br/><b>圓環 - 線條設置</b><br/>",
         "ui_circle_isLineTo": "<br/>顯示連線<br/><br/>",
         "ui_circle_firstPoint": "<br/>第壹點<br/><br/>",
         "ui_circle_secondPoint": "<br/>第二點<br/><br/>",
@@ -3013,6 +3052,9 @@
         "ui_particles_isColorFollow": "<br/>顏色跟隨音頻<br/><br/>",
         "ui_particles_colorRate": "<br/>顏色變化率<br/><br/>",
         "ui_particles_colorRandom": "<br/>隨機顏色<br/><br/>",
+        "ui_particles_isFill": "<br/>填充<br/><br/>",
+        "ui_particles_isStroke": "<br/>描邊<br/><br/>",
+        "ui_particles_lineWidth": "<br/>描邊寬度<br/><br/>",
         "ui_particles_shadowColor": "<br/>粒子模糊顏色<br/><br/>",
         "ui_particles_shadowBlur": "<br/>粒子模糊程度<br/><br/>",
         "ui_particles_sizeText": "<br/><b>粒子 - 類型設置</b><br/><br/>",
@@ -3030,6 +3072,7 @@
         "ui_particles_linkDistance": "<br/>連線距離<br/><br/>",
         "ui_particles_linkWidth": "<br/>連線寬度<br/><br/>",
         "ui_particles_linkColor": "<br/>連線顏色<br/><br/>",
+        "ui_particles_linkColorRandom": "<br/>隨機連線顏色<br/><br/>",
         "ui_particles_linkOpacity": "<br/>連線不透明度<br/><br/>",
         "ui_particles_moveText": "<br/><b>粒子 - 移動設置</b><br/><br/>",
         "ui_particles_isMove": "<br/>是否移動<br/><br/>",
