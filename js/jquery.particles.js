@@ -74,7 +74,7 @@
 
     let timer = null;  // 粒子计时器
 
-    let audioAverage = 0; // 音频平均值
+    let audioAverage = 0;  // 音频平均值
 
     // 初始化鼠标XY
     let mouseX = 0,
@@ -1153,7 +1153,7 @@
                         }
                         break;
                     case 'linkColorRandom':
-                        particlesArray[i].linkColor = this.colorRandom ? Math.floor(360 * Math.random()) + ', 100%, 50%' : this.color;
+                        particlesArray[i].linkColor = this.linkColorRandom ? Math.floor(360 * Math.random()) + ', 100%, 50%' : this.color;
                         break;
                     case 'speed':
                     case 'speedRandom':

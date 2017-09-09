@@ -132,6 +132,8 @@
         city: ''                     // 中国城市名
     };
 
+    let isBackgroundZoom = false;  // 背景缩放开关
+
     // 插件列表
     let wallpaper = $('#wallpaper').visualizercircle().visualizerbars().date().particles().slider();
 
@@ -791,23 +793,30 @@
     function wallpaperAudioListener(audioArray) {
         // 更新date插件数据
         wallpaper.date('updateDate');
+
         if (circle.redraw === 30) {
-            // 更新circle插件数据
+            // 更新circle插件音频数据
             wallpaper.visualizercircle('drawCanvas', audioArray);
         } else {
-            // 更新circle插件数据并绘图
+            // 更新circle插件音频数据并绘图
             wallpaper.visualizercircle('updateVisualizerCircle', audioArray);
         }
         if (bars.redraw === 30) {
-            // 更新bars插件数据并绘图
+            // 更新bars插件音频数据并绘图
             wallpaper.visualizerbars('drawCanvas', audioArray);
         } else {
-            // 更新bars插件数据
+            // 更新bars插件音频数据
             wallpaper.visualizerbars('updateVisualizerBars', audioArray);
         }
 
-        // 更新音频均值
+        // 更新slider和particles音频均值
         wallpaper.particles('updateAudioAverage', audioArray);
+        wallpaper.slider('updateAudioAverage', audioArray);
+
+        // 背景缩放
+        if (isBackgroundZoom) {
+            wallpaper.slider('backgroundZoom');
+        }
     }
 
     window.wallpaperRegisterAudioListener && window.wallpaperRegisterAudioListener(wallpaperAudioListener);
@@ -933,6 +942,11 @@
             // 背景填充样式
             if (properties.image_fillStyle) {
                 setFillStyle(properties.image_fillStyle.value);
+            }
+            // 背景缩放开关
+            if (properties.image_isBackgroundZoom) {
+                isBackgroundZoom = properties.image_isBackgroundZoom.value;
+                wallpaper.slider('set', 'isBackgroundZoom', properties.image_isBackgroundZoom.value);
             }
             // 背景3D转换
             if (properties.image_isRotate3D) {

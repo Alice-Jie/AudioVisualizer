@@ -80,6 +80,8 @@
     let timer = null,        // 切换计时器
         effectTimer = null;  // 特效计时器
 
+    let audioAverage = 0;  // 音频平均值
+
     // 用户颜色、线性渐变和图像
     let userColor = '255,255,255',         // 用户自定义颜色
         userGradientDeg = '120',           // 用户自定义线性角度
@@ -216,6 +218,24 @@
             context.globalAlpha = 1;
             cancelAnimationFrame(effectTimer);
         }
+    }
+
+    /**
+     * 均值函数
+     *
+     * @param  {Array|float} array 数组
+     * @return {float} 平均值
+     */
+    function mean(array) {
+        if (!array) {
+            return 0.0;
+        }
+        let count = 0.0;
+        for (let i = 0; i < array.length; i++) {
+            count += array[i];
+        }
+        count /= array.length;
+        return count;
     }
 
     // Canvas
@@ -971,20 +991,21 @@
     let Slider = function (el, options) {
         this.$el = $(el);
 
-        this.sliderStyle = options.sliderStyle;     // 背景切换模式
-        this.readStyle = options.readStyle;         // 读取模式
-        this.effect = options.effect;               // 时间单位
-        this.timeUnits = options.timeUnits;         // 切换特效
-        this.pauseTime = options.pauseTime;         // 动画切换速度
-        this.imgFit = options.imgFit;               // IMG适应方式
-        this.imgBGColor = options.imgBGColor;       // IMG背景颜色
-        this.progress = options.progress;           // 视频进度
-        this.isPlay = options.isPlay;               // 是否播放Video
-        this.volume = options.volume;               // Video音量
-        this.playbackRate = options.playbackRate;   // Video播放速度
-        this.videoFit = options.videoFit;           // Video适应方式
-        this.videoBGColor = options.videoBGColor;   // Video背景颜色
-        this.isRotate3D = options.isRotate3D;       // 是否3D旋转
+        this.sliderStyle = options.sliderStyle;            // 背景切换模式
+        this.readStyle = options.readStyle;                // 读取模式
+        this.effect = options.effect;                      // 时间单位
+        this.timeUnits = options.timeUnits;                // 切换特效
+        this.pauseTime = options.pauseTime;                // 动画切换速度
+        this.imgFit = options.imgFit;                      // IMG适应方式
+        this.imgBGColor = options.imgBGColor;              // IMG背景颜色
+        this.progress = options.progress;                  // 视频进度
+        this.isPlay = options.isPlay;                      // 是否播放Video
+        this.volume = options.volume;                      // Video音量
+        this.playbackRate = options.playbackRate;          // Video播放速度
+        this.videoFit = options.videoFit;                  // Video适应方式
+        this.videoBGColor = options.videoBGColor;          // Video背景颜色
+        this.isBackgroundZoom = options.isBackgroundZoom;  // 是否背景缩放
+        this.isRotate3D = options.isRotate3D;              // 是否3D旋转
 
         // 初始化图片源
         prevImg.src = 'img/bg.png';
@@ -1075,6 +1096,7 @@
         playbackRate: 1.0,            // Video播放速度
         videoFit: 'fill',             // Video适应方式
         videoBGColor: '255,255,255',  // Video背景颜色
+        isBackgroundZoom: true,      // 是否背景缩放
         isRotate3D: false             // 是否3D旋转
     };
 
@@ -1217,6 +1239,17 @@
         },
 
         /**
+         * 背景缩放
+         * @private
+         */
+        backgroundZoom: function () {
+            if (this.isBackgroundZoom && !this.isRotate3D) {
+                let zoom = 1.00 + audioAverage * 0.05;
+                $(this.$el).css('transform', 'scale(' + zoom + ', ' + zoom + ')');
+            }
+        },
+
+        /**
          * 开始背景3D转换
          * @private
          *
@@ -1270,6 +1303,15 @@
 
         // 面向外部方法
         //-----------------------------------------------------------
+
+        /**
+         * 更新音频均值
+         *
+         * @param {Array|float} audioSamples 音频数组
+         */
+        updateAudioAverage: function (audioSamples) {
+            audioAverage = mean(audioSamples);
+        },
 
         /**
          * 获取用户自定义的背景颜色
@@ -1798,6 +1840,10 @@
                 case 'playbackRate':
                     this.playbackRate = value;
                     this.setVideoPlaybackRate(this.playbackRate);
+                    break;
+                case 'isBackgroundZoom':
+                    this.isBackgroundZoom = value;
+                    this.isBackgroundZoom || this.stopSliderRotate3D();
                     break;
                 case 'isRotate3D':
                     this.isRotate3D = value;

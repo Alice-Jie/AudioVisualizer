@@ -121,8 +121,15 @@
         "type": "bool",
         "value": false
       },
-      "directory": {
+      "image_isBackgroundZoom": {
         "order": 1010,
+        "condition": "image_isRotate3D.value == false",
+        "text": "ui_image_isBackgroundZoom",
+        "type": "bool",
+        "value": false
+      },
+      "directory": {
+        "order": 1011,
         "condition": "BG_mode.value == 3",
         "text": "ui_directory",
         "type": "directory",
@@ -2449,6 +2456,7 @@
         "ui_BG_image": "<br/>Background Image<br/><br/>",
         "ui_image_fillStyle": "<br/>Background Fill Style<br/><br/>",
         "ui_image_isRotate3D": "<br/>3D Rotating Background?<br/><br/>",
+        "ui_image_isBackgroundZoom": "<br/>Background Zoom Follow Audio?<br/><br/>",
         "Dividing_line2": "------------------------------------------------------------------------------------------------------------------------",
         "ui_directory": "<br/>Image Folder<br/><br/>",
         "ui_directory_sliderStyle": "<br/>Sliding Style<br/><br/>",
@@ -2668,6 +2676,7 @@
         "ui_BG_image": "<br/>背景图片<br/><br/>",
         "ui_image_fillStyle": "<br/>背景填充方式<br/><br/>",
         "ui_image_isRotate3D": "<br/>3D旋转背景<br/><br/>",
+        "ui_image_isBackgroundZoom": "<br/>背景跟随音频缩放<br/><br/>",
         "Dividing_line2": "------------------------------------------------------------------------------------------------------------------------",
         "ui_directory": "<br/>背景文件夹<br/><br/>",
         "ui_directory_sliderStyle": "<br/>滑动方式<br/><br/>",
@@ -2887,6 +2896,7 @@
         "ui_BG_image": "<br/>背景圖片<br/><br/>",
         "ui_image_fillStyle": "<br/>背景填充方式<br/><br/>",
         "ui_image_isRotate3D": "<br/>3D旋轉背景<br/><br/>",
+        "ui_image_isBackgroundZoom": "<br/>背景跟隨音頻縮放<br/><br/>",
         "Dividing_line2": "------------------------------------------------------------------------------------------------------------------------",
         "ui_directory": "<br/>背景文件夾<br/><br/>",
         "ui_directory_sliderStyle": "<br/>滑動方式<br/><br/>",
