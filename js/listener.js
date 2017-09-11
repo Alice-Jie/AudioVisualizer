@@ -40,6 +40,13 @@
         BGColor: '255,255,255'
 
     };
+    let audio = {
+        file: '',
+        progress: 0,
+        switch: 0,
+        isPlay: true,
+        volume: 0.75
+    };
 
     // 全局/局部配置
     let isGlobalSettings = true;
@@ -136,6 +143,7 @@
 
     // 插件列表
     let wallpaper = $('#wallpaper').visualizercircle().visualizerbars().date().particles().slider();
+    wallpaper.slider('getAudioList');  // 获取音频列表
 
     // 定义方法
     //--------------------------------------------------------------------------------------------------------------
@@ -1023,7 +1031,7 @@
             if (properties.video_progress) {
                 video.progress = properties.video_progress.value / 100;
                 if (BG.mode === 'Video') {
-                    wallpaper.slider('set', 'progress', video.progress);
+                    wallpaper.slider('set', 'videoProgress', video.progress);
                 }
 
             }
@@ -1049,13 +1057,13 @@
             if (properties.video_isPlay) {
                 video.isPlay = properties.video_isPlay.value;
                 if (BG.mode === 'Video') {
-                    wallpaper.slider('set', 'isPlay', video.isPlay);
+                    wallpaper.slider('set', 'isVideoPlay', video.isPlay);
                 }
             }
             // 视频音量
             if (properties.video_volume) {
                 video.volume = properties.video_volume.value / 100;
-                wallpaper.slider('set', 'volume', video.volume);
+                wallpaper.slider('set', 'videoVolume', video.volume);
             }
             // 视频播放速度
             if (properties.video_playBackRate) {
@@ -1071,6 +1079,55 @@
             if (properties.video_BGColor) {
                 video.BGColor = getColor(properties.video_BGColor.value);
                 wallpaper.slider('set', 'videoBGColor', video.BGColor);
+            }
+
+            // # 音频参数
+            //-----------
+
+            // 音频文件
+            if (properties.audio_file) {
+                if (properties.audio_file.value) {
+                    audio.file = properties.audio_file.value;
+                    wallpaper.slider('setUserAudio', audio.file)
+                        .slider('audioSrcUserAudio');
+                } else {
+                    audio.file = '';
+                    wallpaper.slider('setUserAudio', '')
+                        .slider('audioSrcDefaultAudio');
+                }
+            }
+            // 音频进度
+            if (properties.audio_progress) {
+                audio.progress = properties.audio_progress.value / 100;
+                wallpaper.slider('set', 'audioProgress', audio.progress);
+            }
+            // 音频切换
+            if (properties.audio_switch) {
+                audio.switch = properties.audio_switch.value;
+                switch (audio.switch) {
+                    case -1:
+                        wallpaper.slider('prevAudio');
+                        break;
+                    case 0:
+                        wallpaper.slider('currentAudio');
+                        break;
+                    case 1:
+                        wallpaper.slider('nextAudio');
+                        break;
+                    default:
+                        wallpaper.slider('currentAudio');
+                }
+
+            }
+            // 音频切换播放/暂停
+            if (properties.audio_isPlay) {
+                audio.isPlay = properties.audio_isPlay.value;
+                wallpaper.slider('set', 'isAudioPlay', audio.isPlay);
+            }
+            // 音频音量
+            if (properties.audio_volume) {
+                audio.volume = properties.audio_volume.value / 100;
+                wallpaper.slider('set', 'audioVolume', audio.volume);
             }
 
             // 全局设置

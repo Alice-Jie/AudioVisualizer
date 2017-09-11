@@ -1,12 +1,12 @@
 /*!
- * jQuery Slider plugin v0.1.1
+ * jQuery Slider plugin v0.1.3
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
  * - https://git.oschina.net/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/07/28
+ * @date 2017/09/11
  */
 
 (function (global, factory) {
@@ -96,6 +96,13 @@
     let userVideo = '';                           // 用户视频
     let myVideoListLength;                        // 视频列表长度
 
+    // 音频
+    let audio = document.createElement('audio');  // 音频对象
+    let audioList = [];                           // 音频数组
+    let audioIndex = 0;                           // 音频索引
+    let userAudio = '';                           // 用户音频
+    let myAudioListLength;                        // 音频列表长度
+
 
     //私有方法
     //--------------------------------------------------------------------------------------------------------------
@@ -149,14 +156,14 @@
     }
 
     /**
-     * 获取视频索引
+     * 获取数组顺序索引
      * 根据数组长度、当前数组索引，（按顺序）返回包含上一个、当前、下一个索引对象
      *
      *  @param {Array<*>} array    数组
      *  @param {int}      index    当前数组索引
      *  @return 索引对象
      */
-    function getVideoIndex(array, index) {
+    function getArrayIndex(array, index) {
         if (array.length <= 0) {
             return {
                 prevIndex: -1,
@@ -998,12 +1005,15 @@
         this.pauseTime = options.pauseTime;                // 动画切换速度
         this.imgFit = options.imgFit;                      // IMG适应方式
         this.imgBGColor = options.imgBGColor;              // IMG背景颜色
-        this.progress = options.progress;                  // 视频进度
-        this.isPlay = options.isPlay;                      // 是否播放Video
-        this.volume = options.volume;                      // Video音量
+        this.videoProgress = options.videoProgress;        // Video进度
+        this.isVideoPlay = options.isVideoPlay;            // 是否播放Video
+        this.videoVolume = options.videoVolume;            // Video音量
         this.playbackRate = options.playbackRate;          // Video播放速度
         this.videoFit = options.videoFit;                  // Video适应方式
         this.videoBGColor = options.videoBGColor;          // Video背景颜色
+        this.audioProgress = options.audioProgress;        // Audio进度
+        this.isAudioPlay = options.isAudioPlay;            // 是否播放Audio
+        this.audioVolume = options.audioVolume;            // Audio音量
         this.isBackgroundZoom = options.isBackgroundZoom;  // 是否背景缩放
         this.isRotate3D = options.isRotate3D;              // 是否3D旋转
 
@@ -1066,7 +1076,7 @@
         // 初始化Video属性
         video.width = canvasWidth;
         video.height = canvasHeight;
-        video.autoplay = 'video';
+        video.autoplay = true;
         video.loop = 'loop';
         $(video).css({
             'position': 'absolute',
@@ -1076,6 +1086,10 @@
             'background-color': 'rgb(' + this.videoBGColor + ')',
             'z-index': 0
         });  // Video CSS
+
+        // 初始化Audio属性
+        audio.autoplay = false;
+        audio.loop = false;
 
         // 默认开启
         this.setupPointerEvents();
@@ -1090,13 +1104,16 @@
         effect: 'none',               // 切换特效
         imgFit: 'fill',               // IMG适应方式
         imgBGColor: '255,255,255',    // IMG背景颜色
-        progress: 0,                  // 视频进度
-        isPlay: true,                 // 是否播放Video
-        volume: 0.75,                 // Video音量
+        videoProgress: 0,             // Video进度
+        isVideoPlay: true,            // 是否播放Video
+        videoVolume: 0.75,            // Video音量
         playbackRate: 1.0,            // Video播放速度
         videoFit: 'fill',             // Video适应方式
         videoBGColor: '255,255,255',  // Video背景颜色
-        isBackgroundZoom: true,      // 是否背景缩放
+        audioProgress: 0,             // Audio进度
+        isAudioPlay: false,           // 是否播放Audio
+        audioVolume: 0.75,            // Audio音量
+        isBackgroundZoom: true,       // 是否背景缩放
         isRotate3D: false             // 是否3D旋转
     };
 
@@ -1238,16 +1255,6 @@
             }
         },
 
-        /**
-         * 背景缩放
-         * @private
-         */
-        backgroundZoom: function () {
-            if (this.isBackgroundZoom && !this.isRotate3D) {
-                let zoom = 1.00 + audioAverage * 0.05;
-                $(this.$el).css('transform', 'scale(' + zoom + ', ' + zoom + ')');
-            }
-        },
 
         /**
          * 开始背景3D转换
@@ -1313,6 +1320,14 @@
             audioAverage = mean(audioSamples);
         },
 
+        /** 背景缩放 */
+        backgroundZoom: function () {
+            if (this.isBackgroundZoom && !this.isRotate3D) {
+                let zoom = 1.00 + audioAverage * 0.05;
+                $(this.$el).css('transform', 'scale(' + zoom + ', ' + zoom + ')');
+            }
+        },
+
         /**
          * 获取用户自定义的背景颜色
          * 如果颜色不存在默认为空字符串
@@ -1373,11 +1388,17 @@
          * @param {string} video 用户视频路径
          */
         setUserVideo: function (video) {
-            if (video) {
-                userVideo = video;
-            } else {
-                userVideo = '';
-            }
+            userVideo = video || '';
+        },
+
+        /**
+         * 获取用户自定义的音频
+         * 如果路径不存在默认为空字符串
+         *
+         * @param {string} audio 用户音频路径
+         */
+        setUserAudio: function (audio) {
+            userAudio = audio || '';
         },
 
         // CSS
@@ -1673,7 +1694,7 @@
 
         /** 读取videoList */
         getVideoList: function () {
-            videoList = myVideoList || [];
+            videoList = [].concat(myVideoList) || [];
             myVideoListLength = videoList.length;
             for (let i = 0; i < videoList.length; i++) {
                 videoList[i] = 'video/' + videoList[i];
@@ -1689,7 +1710,7 @@
                     video.src = videoList[0] || 'video/test.webm';
                 }
                 video.load();
-                this.isPlay || this.pauseVideo();
+                this.isVideoPlay || this.pauseVideo();
             }
         },
 
@@ -1700,19 +1721,23 @@
                 videoList.push(video.src);
                 videoIndex = videoList.length - 1;
             } else {
+                this.getVideoList();
+                videoIndex = 0;
                 video.src = videoList[0] || 'video/test.webm';
             }
         },
 
         /** 设置当前视频为默认视频 */
         videoSrcDefaultVideo: function () {
+            this.getVideoList();
+            videoIndex = 0;
             video.src = videoList[0] || 'video/test.webm';
         },
 
         /** 当前视频 */
         currentVideo: function () {
             if (videoList.length > 1) {
-                videoIndex = getVideoIndex(videoList, videoIndex).currantIndex;
+                videoIndex = getArrayIndex(videoList, videoIndex).currantIndex;
                 this.getVideoStr(videoIndex);
             }
         },
@@ -1720,7 +1745,7 @@
         /** 上一个视频 */
         prevVideo: function () {
             if (videoList.length > 1) {
-                videoIndex = getVideoIndex(videoList, videoIndex).prevIndex;
+                videoIndex = getArrayIndex(videoList, videoIndex).prevIndex;
                 this.getVideoStr(videoIndex);
             }
         },
@@ -1728,7 +1753,7 @@
         /** 下一个视频 */
         nextVideo: function () {
             if (videoList.length > 1) {
-                videoIndex = getVideoIndex(videoList, videoIndex).nextIndex;
+                videoIndex = getArrayIndex(videoList, videoIndex).nextIndex;
                 this.getVideoStr(videoIndex);
             }
         },
@@ -1770,6 +1795,112 @@
         setVideoVolume: function (volume) {
             if (video.src) {
                 video.volume = volume;
+            }
+        },
+
+        // Audio
+        //-------
+
+        /** 读取audioList */
+        getAudioList: function () {
+            audioList = [].concat(myAudioList) || [];
+            myAudioListLength = audioList.length;
+            for (let i = 0; i < audioList.length; i++) {
+                audioList[i] = 'audio/' + audioList[i];
+            }
+        },
+
+        /** 读取音频源 */
+        getAudioStr: function (index) {
+            if (audioList) {
+                if (index >= 0 && index < audioList.length) {
+                    audio.setAttribute('src', audioList[index]);
+                } else {
+                    audio.setAttribute('src', audioList[0] || 'audio/Alice.ogg');
+                }
+                audio.load();
+                this.isAudioPlay && this.playAudio();
+            }
+        },
+
+        /** 设置当前音频为用户音频并添加至音频列表 */
+        audioSrcUserAudio: function () {
+            if (userAudio) {
+                audio.setAttribute('src', 'file:///' + userAudio);
+                audioList.push(audio.src);
+                audioIndex = audioList.length - 1;
+            } else {
+                this.getAudioList();
+                audioIndex = 0;
+                audio.setAttribute('src', audioList[0] || 'audio/Alice.ogg');
+            }
+            audio.load();
+            this.isAudioPlay && this.playAudio();
+        },
+
+        /** 设置当前音频为默认音频 */
+        audioSrcDefaultAudio: function () {
+            this.getAudioList();
+            audioIndex = 0;
+            audio.setAttribute('src', audioList[0] || 'audio/Alice.ogg');
+            audio.load();
+            this.isAudioPlay && this.playAudio();
+        },
+
+        /** 当前音频 */
+        currentAudio: function () {
+            if (audioList.length > 1) {
+                audioIndex = getArrayIndex(audioList, audioIndex).currantIndex;
+                this.getAudioStr(audioIndex);
+            }
+        },
+
+        /** 上一个音频 */
+        prevAudio: function () {
+            if (audioList.length > 1) {
+                audioIndex = getArrayIndex(audioList, audioIndex).prevIndex;
+                this.getAudioStr(audioIndex);
+            }
+        },
+
+        /** 下一个音频 */
+        nextAudio: function () {
+            if (audioList.length > 1) {
+                audioIndex = getArrayIndex(audioList, audioIndex).nextIndex;
+                this.getAudioStr(audioIndex);
+            }
+        },
+
+        /** 设置音频进度 */
+        setAudioProgress: function (progress) {
+            if (audio.src && audio.duration) {
+                audio.currentTime = audio.duration * progress;
+            }
+        },
+
+        /** 播放音频 */
+        playAudio: function () {
+            if (audio.src) {
+                audio.play();
+            }
+        },
+
+        /** 暂停音频 */
+        pauseAudio: function () {
+            if (audio.src) {
+                audio.pause();
+            }
+        },
+
+        /**
+         * 设置音频音量
+         * 如果音频源存在，则调节音频音量
+         *
+         * @param {float} volume 音量
+         */
+        setAudioVolume: function (volume) {
+            if (audio.src) {
+                audio.volume = volume;
             }
         },
 
@@ -1825,17 +1956,29 @@
                     this.sliderStyle = value;
                     this.changeSliderStyle();
                     break;
-                case 'progress':
-                    this.progress = value;
-                    this.setVideoProgress(this[property]);
+                case 'videoProgress':
+                    this.videoProgress = value;
+                    this.setVideoProgress(this.videoProgress);
                     break;
-                case 'isPlay':
-                    this.isPlay = value;
-                    this.isPlay ? this.playVideo() : this.pauseVideo();
+                case 'audioProgress':
+                    this.audioProgress = value;
+                    this.setAudioProgress(this.audioProgress);
                     break;
-                case 'volume':
-                    this.volume = value;
-                    this.setVideoVolume(this.volume);
+                case 'isVideoPlay':
+                    this.isVideoPlay = value;
+                    this.isVideoPlay ? this.playVideo() : this.pauseVideo();
+                    break;
+                case 'isAudioPlay':
+                    this.isAudioPlay = value;
+                    this.isAudioPlay ? this.playAudio() : this.pauseAudio();
+                    break;
+                case 'videoVolume':
+                    this.videoVolume = value;
+                    this.setVideoVolume(this.videoVolume);
+                    break;
+                case 'audioVolume':
+                    this.audioVolume = value;
+                    this.setAudioVolume(this.audioVolume);
                     break;
                 case 'playbackRate':
                     this.playbackRate = value;

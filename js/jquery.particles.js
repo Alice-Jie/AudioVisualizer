@@ -1,5 +1,5 @@
 /*!
- * jQuery Particles plugin v0.0.5
+ * jQuery Particles plugin v0.0.63
  * reference: http://github.com/VincentGarreau/particles.js
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
@@ -7,7 +7,7 @@
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/09/06
+ * @date 2017/09/08
  */
 
 (function (global, factory) {
