@@ -1,5 +1,5 @@
 /*!
- * jQuery Particles plugin v0.0.63
+ * jQuery Particles plugin v0.0.6
  * reference: http://github.com/VincentGarreau/particles.js
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
