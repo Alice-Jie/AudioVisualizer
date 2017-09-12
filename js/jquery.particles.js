@@ -96,7 +96,7 @@
     function getDist(x1, y1, x2, y2) {
         let dx = x1 - x2,
             dy = y1 - y2;
-        return Math.sqrt(dx * dx + dy * dy);
+        return Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
     }
 
     /**
@@ -177,49 +177,18 @@
      * 均值函数
      *
      * @param  {Array|float} array 数组
-     * @param  {int}         start 初始位置
-     * @param  {int}         end   结束为止
      * @return {float} 平均值
      */
-    function mean(array, start, end) {
-        let count = 0.0;
-        try {
-            for (let i = start; i < end; i++) {
-                count += array[i];
-            }
-            count /= end;
-
-        } catch (e) {
-            console.error(e.name + ": " + e.message);
+    function mean(array) {
+        if (!array) {
             return 0.0;
         }
-        return count;
-    }
-
-    /**
-     * 音频均值
-     *
-     * @param  {Array|float} array 数组
-     * @return {float} 平均值
-     */
-    function audioMean(array) {
-        if (!array) {
-            return {
-                lowCount: 0.0,
-                mediumCount1: 0.0,
-                mediumCount2: 0.0,
-                highCount: 0.0,
-                count: 0.0
-            };
+        let count = 0.0;
+        for (let i = 0; i < array.length; i++) {
+            count += array[i];
         }
-        let num = array.length / 4;
-        return {
-            lowCount: mean(array, 0, num),
-            mediumCount1: mean(array, num, num * 2),
-            mediumCount2: mean(array, num * 2, num * 3),
-            highCount: mean(array, num * 3, num * 4),
-            count: mean(array, 0, array.length)
-        };
+        count /= array.length;
+        return count;
     }
 
     /**
@@ -452,19 +421,19 @@
                 case 'top':
                     return {x: 0, y: -1};
                 case 'top-right':
-                    return {x: 0.5, y: -0.5};
+                    return {x: 1, y: -1};
                 case 'right':
                     return {x: 1, y: -0};
                 case 'bottom-right':
-                    return {x: 0.5, y: 0.5};
+                    return {x: 1, y: 1};
                 case 'bottom':
                     return {x: 0, y: 1};
                 case 'bottom-left':
-                    return {x: -0.5, y: 1};
+                    return {x: -1, y: 1};
                 case 'left':
                     return {x: -1, y: 0};
                 case 'top-left':
-                    return {x: -0.5, y: -0.5};
+                    return {x: -1, y: -1};
                 default:
                     return {x: 0, y: 0};
             }
@@ -828,7 +797,7 @@
          * @param {Array|float} audioSamples 音频数组
          */
         updateAudioAverage: function (audioSamples) {
-            audioAverage = audioMean(audioSamples).count;
+            audioAverage = mean(audioSamples);
         },
 
         /** 更新粒子数组 */
@@ -838,8 +807,12 @@
                 this.moveParticles(particlesArray[i], particlesArray[i].speed);
                 this.bounceParticles(i);
                 this.marginalCheck(particlesArray[i]);
-                this.isColorFollow && (particlesArray[i].colorIncrement = Math.floor(this.colorRate * audioAverage));
-                this.isSizeFollow && (particlesArray[i].zoom = (1 + audioAverage * this.sizeRate));
+                if (this.isColorFollow) {
+                    particlesArray[i].colorIncrement = Math.floor(this.colorRate * audioAverage)
+                }
+                if (this.isSizeFollow) {
+                    particlesArray[i].zoom = (1 + audioAverage * this.sizeRate)
+                }
             }
         },
 
@@ -891,11 +864,14 @@
             // 设置context属性
             context.save();
             // 粒子填充样式
-
-            this.isColorFollow && (particles.color.H += particles.colorIncrement);
+            if (this.isColorFollow) {
+                particles.color.H += particles.colorIncrement
+            }
             context.fillStyle = getColor(particles.colorFormat, particles.color);
             context.strokeStyle = getColor(particles.colorFormat, particles.color);
-            this.isStroke && (context.lineWidth = this.lineWidth);
+            if (this.isStroke) {
+                context.lineWidth = this.lineWidth
+            }
             context.shadowColor = getColor(particles.colorFormat, particles.shadowColor);
             context.shadowBlur = particles.shadowBlur;
             context.globalAlpha = particles.opacity;

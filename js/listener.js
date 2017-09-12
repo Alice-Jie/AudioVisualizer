@@ -45,6 +45,7 @@
         progress: 0,
         switch: 0,
         isPlay: true,
+        isLoop: false,
         volume: 0.75
     };
 
@@ -1124,6 +1125,11 @@
                 audio.isPlay = properties.audio_isPlay.value;
                 wallpaper.slider('set', 'isAudioPlay', audio.isPlay);
             }
+            // 音频循环
+            if (properties.audio_isLoop) {
+                audio.isLoop = properties.audio_isLoop.value;
+                wallpaper.slider('set', 'isAudioLoop', audio.isLoop);
+            }
             // 音频音量
             if (properties.audio_volume) {
                 audio.volume = properties.audio_volume.value / 100;
@@ -1872,9 +1878,23 @@
             if (properties.date_timeStyle) {
                 wallpaper.date('set', 'timeStyle', setTimeStyle(properties.date_timeStyle.value));
             }
+            // 自定义时间样式
+            if (properties.date_userTimeStyle) {
+                wallpaper.date('set', 'userTimeStyle', properties.date_userTimeStyle.value);
+            }
             // 日期样式
             if (properties.date_dateStyle) {
                 wallpaper.date('set', 'dateStyle', setDateStyle(properties.date_dateStyle.value));
+                // 天气计时器开关
+                if (properties.date_dateStyle === 8) {
+                    wallpaper.date('runWeatherTimer');
+                } else {
+                    wallpaper.date('stopWeatherTimer');
+                }
+            }
+            // 自定义日期样式
+            if (properties.date_userDateStyle) {
+                wallpaper.date('set', 'userDateStyle', properties.date_userDateStyle.value);
                 // 天气计时器开关
                 if (properties.date_dateStyle === 8) {
                     wallpaper.date('runWeatherTimer');

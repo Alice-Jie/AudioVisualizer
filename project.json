@@ -442,8 +442,14 @@
         "type": "bool",
         "value": false
       },
-      "audio_volume": {
+      "audio_isLoop": {
         "order": 1305,
+        "text": "ui_audio_isLoop",
+        "type": "bool",
+        "value": false
+      },
+      "audio_volume": {
+        "order": 1306,
         "text": "ui_audio_volume",
         "type": "slider",
         "editable": true,
@@ -1893,8 +1899,15 @@
         ],
         "value": 1
       },
-      "date_dateStyle": {
+      "date_userTimeStyle": {
         "order": 5104,
+        "condition": "date_isDate.value == true",
+        "text": "ui_date_userTimeStyle",
+        "type": "textinput",
+        "value": ""
+      },
+      "date_dateStyle": {
+        "order": 5105,
         "condition": "date_isDate.value == true",
         "text": "ui_date_dateStyle",
         "type": "combo",
@@ -1934,14 +1947,21 @@
         ],
         "value": 2
       },
+      "date_userDateStyle": {
+        "order": 5106,
+        "condition": "date_isDate.value == true",
+        "text": "ui_date_userDateStyle",
+        "type": "textinput",
+        "value": ""
+      },
       "date_weatherText": {
-        "order": 5105,
+        "order": 5107,
         "condition": "date_isDate.value == true && date_dateStyle.value == 8",
         "text": "ui_date_weatherText",
         "type": "text"
       },
       "date_weatherProvider": {
-        "order": 5106,
+        "order": 5108,
         "condition": "date_isDate.value == true && date_dateStyle.value == 8",
         "text": "ui_date_weatherProvider",
         "type": "combo",
@@ -1962,21 +1982,21 @@
         "value": 3
       },
       "date_city": {
-        "order": 5107,
+        "order": 5109,
         "condition": "date_isDate.value == true && date_dateStyle.value == 8 && date_isInputCity.value == true",
         "text": "ui_date_city",
         "type": "textinput",
         "value": ""
       },
       "date_isInputCity": {
-        "order": 5108,
+        "order": 5110,
         "condition": "date_isDate.value == true && date_dateStyle.value == 8",
         "text": "ui_date_isInputCity",
         "type": "bool",
         "value": false
       },
       "date_fontSize": {
-        "order": 5109,
+        "order": 5111,
         "condition": "date_isDate.value == true",
         "text": "ui_date_fontSize",
         "type": "slider",
@@ -1986,7 +2006,7 @@
         "value": 60
       },
       "date_timeFontSize": {
-        "order": 5110,
+        "order": 5112,
         "condition": "date_isDate.value == true",
         "text": "ui_date_timeFontSize",
         "type": "slider",
@@ -1996,7 +2016,7 @@
         "value": 60
       },
       "date_dateFontSize": {
-        "order": 5111,
+        "order": 5113,
         "condition": "date_isDate.value == true",
         "text": "ui_date_dateFontSize",
         "type": "slider",
@@ -2006,7 +2026,7 @@
         "value": 30
       },
       "date_distance": {
-        "order": 5112,
+        "order": 5114,
         "condition": "date_isDate.value == true",
         "text": "ui_date_distance",
         "type": "slider",
@@ -2133,7 +2153,7 @@
         "editable": true,
         "max": 10,
         "min": 0,
-        "value": 5
+        "value": 2
       },
       "particles_shadowColor": {
         "order": 6015,
@@ -2527,6 +2547,7 @@
         "ui_video_progress": "<br/>Progress Bar<br/><br/>",
         "ui_video_switch": "<br/>Prev/Next Video<br/><br/>",
         "ui_video_isPlay": "<br/>Play/Pause Video<br/><br/>",
+        "ui_audio_isLoop": "<br/>Looping Audio?<br/><br/>",
         "ui_video_volume": "<br/>Video Volume<br/><br/>",
         "ui_video_playBackRate": "<br/>Playback Rate<br/><br/>",
         "ui_video_FitStyle": "<br/>Video Fill Style<br/><br/>",
@@ -2660,7 +2681,9 @@
         "ui_date_isDate": "<br/>Show Date?<br/><br/>",
         "ui_date_language": "<br/>Date Language<br/><br/>",
         "ui_date_timeStyle": "<br/>Time Style<br/><br/>",
+        "ui_date_userTimeStyle": "<br/>Time Style<br/><br/>",
         "ui_date_dateStyle": "<br/>Date Style<br/><br/>",
+        "ui_date_userDateStyle": "<br/>Date Style<br/><br/>",
         "Dividing_line9": "------------------------------------------------------------------------------------------------------------------------",
         "ui_date_weatherText": "<br/><b>Date - Weather Setting</b><br/>",
         "ui_date_weatherProvider": "<br/>Weather Interface：<br/><br/>",
@@ -2686,7 +2709,7 @@
         "ui_particles_colorRandom": "<br/>Random Color?<br/><br/>",
         "ui_particles_isFill": "<br/>Fill?<br/><br/>",
         "ui_particles_isStroke": "<br/>Stroke?<br/><br/>",
-        "ui_particles_lineWidth": "<br/>Stroke Width<br/><br/>",
+        "ui_particles_lineWidth": "<br/>Stroke Width(px)<br/><br/>",
         "ui_particles_shadowColor": "<br/>Glow Color<br/><br/>",
         "ui_particles_shadowBlur": "<br/>Glow Size(px)<br/><br/>",
         "ui_particles_sizeText": "<br/><b>Particle - Type Settings</b><br/><br/>",
@@ -2764,6 +2787,7 @@
         "ui_audio_progress": "<br/>进度条<br/><br/>",
         "ui_audio_switch": "<br/>切换音频<br/><br/>",
         "ui_audio_isPlay": "<br/>播放音频<br/><br/>",
+        "ui_audio_isLoop": "<br/>循环音频<br/><br/>",
         "ui_audio_volume": "<br/>音频音量<br/><br/>",
         "Dividing_line5": "------------------------------------------------------------------------------------------------------------------------",
         "ui_global_Text": "<h3><b>全局设置</b></h3><h6>影响音频圆环和日期显示，对其基础参数和坐标参</h6><h6>数进行统一设置。</h6>",
@@ -2887,7 +2911,9 @@
         "ui_date_isDate": "<br/>显示日期<br/><br/>",
         "ui_date_language": "<br/>日期语言<br/><br/>",
         "ui_date_timeStyle": "<br/>时间风格<br/><br/>",
+        "ui_date_userTimeStyle": "<br/>自定义时间<br/><br/>",
         "ui_date_dateStyle": "<br/>日期风格<br/><br/>",
+        "ui_date_userDateStyle": "<br/>自定义日期<br/><br/>",
         "Dividing_line9": "------------------------------------------------------------------------------------------------------------------------",
         "ui_date_weatherText": "<br/><b>日期 - 天气设置</b><br/>",
         "ui_date_weatherProvider": "<br/>天气接口：<br/><br/>",
@@ -2991,6 +3017,7 @@
         "ui_audio_progress": "<br/>進度條<br/><br/>",
         "ui_audio_switch": "<br/>切換音頻<br/><br/>",
         "ui_audio_isPlay": "<br/>播放音頻<br/><br/>",
+        "ui_audio_isLoop": "<br/>循環音頻<br/><br/>",
         "ui_audio_volume": "<br/>音頻音量<br/><br/>",
         "Dividing_line5": "------------------------------------------------------------------------------------------------------------------------",
         "ui_global_Text": "<h3><b>全局設置</b></h3><h6>影響音頻圓環和日期顯示，對其基礎參數、坐標參</h6><h6>數進行統壹設置。</h6>",
@@ -3114,7 +3141,9 @@
         "ui_date_isDate": "<br/>顯示日期<br/><br/>",
         "ui_date_language": "<br/>日期語言<br/><br/>",
         "ui_date_timeStyle": "<br/>時間風格<br/><br/>",
+        "ui_date_userTimeStyle": "<br/>自定義時間<br/><br/>",
         "ui_date_dateStyle": "<br/>日期風格<br/><br/>",
+        "ui_date_userDateStyle": "<br/>自定義日期<br/><br/>",
         "Dividing_line9": "------------------------------------------------------------------------------------------------------------------------",
         "ui_date_weatherText": "<br/><b>日期 - 天氣設置</b><br/>",
         "ui_date_weatherProvider": "<br/>天氣接口：<br/><br/>",

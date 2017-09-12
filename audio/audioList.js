@@ -6,7 +6,7 @@
  * const myAudioList = [
  *
  *    "audio.ogg",
- *    "Alice.ogg"
+ *    "test.ogg"
  * ];
  *
  * （注意：最后一个视频末尾没有“,”，加上逗号会报错。）
@@ -16,5 +16,5 @@
 
 const myAudioList = [
 
-    "Alice.ogg"
+    "test.ogg"
 ];

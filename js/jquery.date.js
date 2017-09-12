@@ -163,7 +163,7 @@
             case 'HH:mm':
                 return moment().format(timeStyle).toUpperCase();
             default:
-                return moment().format('hh:mm:ss a').toUpperCase();
+                return moment().format(timeStyle).toUpperCase();
         }
     }
 
@@ -187,7 +187,7 @@
             case 'weather':
                 return weatherStr;
             default:
-                return moment().format('LL dddd');
+                return moment().format(dateStyle);
         }
     }
 
@@ -392,7 +392,9 @@
         // 日期参数
         this.isDate = options.isDate;                    // 是否显示日期
         this.timeStyle = options.timeStyle;              // 时间显示风格
+        this.userTimeStyle = options.userTimeStyle;      // 自定义时间显示风格
         this.dateStyle = options.dateStyle;              // 日期显示风格
+        this.userDateStyle = options.userDateStyle;      // 自定义日期显示风格
         this.timeFontSize = options.timeFontSize;        // 字体大小
         this.dateFontSize = options.dateFontSize;        // 字体大小
         this.distance = options.distance;                // 时间和日期之间距离
@@ -464,7 +466,9 @@
         // 日期参数
         isDate: true,                  // 是否显示日期
         timeStyle: 'hh:mm:ss a',       // 时间显示风格
+        userTimeStyle: '',             // 自定义时间显示风格
         dateStyle: 'LL dddd',          // 日期显示风格
+        userDateStyle: '',             // 自定义日期显示风格
         timeFontSize: 60,              // 时间字体大小
         dateFontSize: 30,              // 日期字体大小
         distance: 0,                   // 时间与日期之间距离
@@ -575,9 +579,9 @@
             // 更新时间和日期
             if (this.isDate) {
                 context.font = this.timeFontSize + 'px 微软雅黑';
-                context.fillText(getTime(this.timeStyle), originX, originY - this.timeFontSize / 2 - this.distance);
+                context.fillText(getTime(this.userTimeStyle || this.timeStyle), originX, originY - this.timeFontSize / 2 - this.distance);
                 context.font = this.dateFontSize + 'px 微软雅黑';
-                context.fillText(getDate(this.dateStyle), originX, originY + this.dateFontSize / 2 + this.distance);
+                context.fillText(getDate(this.userDateStyle || this.dateStyle), originX, originY + this.dateFontSize / 2 + this.distance);
             }
         },
 
@@ -696,7 +700,9 @@
                     break;
                 case 'isDate':
                 case 'timeStyle':
+                case 'userTimeStyle':
                 case 'dateStyle':
+                case 'userDateStyle':
                 case 'timeFontSize':
                 case 'dateFontSize':
                 case 'distance':

@@ -1013,6 +1013,7 @@
         this.videoBGColor = options.videoBGColor;          // Video背景颜色
         this.audioProgress = options.audioProgress;        // Audio进度
         this.isAudioPlay = options.isAudioPlay;            // 是否播放Audio
+        this.isAudioLoop = options.isAudioLoop;            // 是否循环播放
         this.audioVolume = options.audioVolume;            // Audio音量
         this.isBackgroundZoom = options.isBackgroundZoom;  // 是否背景缩放
         this.isRotate3D = options.isRotate3D;              // 是否3D旋转
@@ -1112,6 +1113,7 @@
         videoBGColor: '255,255,255',  // Video背景颜色
         audioProgress: 0,             // Audio进度
         isAudioPlay: false,           // 是否播放Audio
+        isAudioLoop: false,           // 是否循环播放
         audioVolume: 0.75,            // Audio音量
         isBackgroundZoom: true,       // 是否背景缩放
         isRotate3D: false             // 是否3D旋转
@@ -1701,7 +1703,11 @@
             }
         },
 
-        /** 读取视频源 */
+        /**
+         * 读取视频源
+         *
+         * @param {int} index 视频列表索引
+         */
         getVideoStr: function (index) {
             if (videoList) {
                 if (index >= 0 && index < videoList.length) {
@@ -1758,14 +1764,24 @@
             }
         },
 
-        /** 设置视频进度 */
+        /**
+         * 设置视频进度
+         * 如果视频源存在且加载完成，则调节视频进度
+         *
+         * @param {float} progress 进度百分比
+         */
         setVideoProgress: function (progress) {
             if (video.src && video.duration) {
                 video.currentTime = video.duration * progress;
             }
         },
 
-        /** 设置视频播放速度 */
+        /**
+         * 设置视频播放速度
+         * 如果视频源存在，则调节视频播放速度
+         *
+         * @param {float} backRate 播放速率
+         */
         setVideoPlaybackRate: function (backRate) {
             if (video.src) {
                 video.playbackRate = backRate;
@@ -1810,13 +1826,17 @@
             }
         },
 
-        /** 读取音频源 */
+        /**
+         * 读取音频源
+         *
+         * @param {int} index 音频列表索引
+         */
         getAudioStr: function (index) {
             if (audioList) {
                 if (index >= 0 && index < audioList.length) {
                     audio.setAttribute('src', audioList[index]);
                 } else {
-                    audio.setAttribute('src', audioList[0] || 'audio/Alice.ogg');
+                    audio.setAttribute('src', audioList[0] || 'audio/test.ogg');
                 }
                 audio.load();
                 this.isAudioPlay && this.playAudio();
@@ -1832,7 +1852,7 @@
             } else {
                 this.getAudioList();
                 audioIndex = 0;
-                audio.setAttribute('src', audioList[0] || 'audio/Alice.ogg');
+                audio.setAttribute('src', audioList[0] || 'audio/test.ogg');
             }
             audio.load();
             this.isAudioPlay && this.playAudio();
@@ -1842,7 +1862,7 @@
         audioSrcDefaultAudio: function () {
             this.getAudioList();
             audioIndex = 0;
-            audio.setAttribute('src', audioList[0] || 'audio/Alice.ogg');
+            audio.setAttribute('src', audioList[0] || 'audio/test.ogg');
             audio.load();
             this.isAudioPlay && this.playAudio();
         },
@@ -1871,7 +1891,12 @@
             }
         },
 
-        /** 设置音频进度 */
+        /**
+         * 设置音频进度
+         * 如果音频源存在且加载完成，则调节音频进度
+         *
+         * @param {float} progress 进度百分比
+         */
         setAudioProgress: function (progress) {
             if (audio.src && audio.duration) {
                 audio.currentTime = audio.duration * progress;
@@ -1979,6 +2004,10 @@
                 case 'audioVolume':
                     this.audioVolume = value;
                     this.setAudioVolume(this.audioVolume);
+                    break;
+                case 'isAudioLoop':
+                    this.isAudioLoop = value;
+                    audio.loop = this.isAudioLoop;
                     break;
                 case 'playbackRate':
                     this.playbackRate = value;
