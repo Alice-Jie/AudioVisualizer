@@ -6,7 +6,7 @@
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/08/07
+ * @date 2017/09/13
  */
 
 ;(function ($, window, document, Math, undefined) {
@@ -19,7 +19,7 @@
     // 临时储存变量
     let files = {};         // 文件路径对象
 
-    // 背景/视频配置
+    // 背景/幻灯片/视频配置
     let BG = {
         mode: 'Color',                // 背景模式
         isLinearGradient: false,      // 线性开关
@@ -28,6 +28,11 @@
         GradientColor1: '189,253,0',  // 线性颜色1
         GradientColor2: '255,255,0',  // 线性颜色2
         file: ''                      // 背景图片
+    };
+    let directory = {
+        sliderStyle: 'css',
+        timeUnits: 'sec',
+        pauseTime: 30
     };
     let video = {
         file: '',
@@ -877,7 +882,10 @@
                     case 3:
                         BG.mode = 'Directory';
                         wallpaper.slider('delVideo')
-                            .slider('startSlider');
+                            .slider('startSlider')
+                            .slider('set', 'sliderStyle', directory.sliderStyle)
+                            .slider('set', 'timeUnits', directory.timeUnits)
+                            .slider('set', 'pauseTime', directory.pauseTime);
                         break;
                     case 4:
                         BG.mode = 'Video';
@@ -979,7 +987,10 @@
             }
             // 滑动样式
             if (properties.directory_sliderStyle) {
-                wallpaper.slider('set', 'sliderStyle', setSliderStyle(properties.directory_sliderStyle.value));
+                directory.sliderStyle = setSliderStyle(properties.directory_sliderStyle.value);
+                if (BG.mode === 'Directory') {
+                    wallpaper.slider('set', 'sliderStyle', directory.sliderStyle);
+                }
             }
             // 切换特效
             if (properties.directory_effect) {
@@ -999,14 +1010,16 @@
             }
             // 选择时间单位
             if (properties.directory_timeUnits) {
+                directory.timeUnits = setTimeUnits(properties.directory_timeUnits.value);
                 if (BG.mode === 'Directory') {
-                    wallpaper.slider('set', 'timeUnits', setTimeUnits(properties.directory_timeUnits.value));
+                    wallpaper.slider('set', 'timeUnits', directory.timeUnits);
                 }
             }
             // 停留时间
             if (properties.directory_pauseTime) {
+                directory.pauseTime = properties.directory_pauseTime.value;
                 if (BG.mode === 'Directory') {
-                    wallpaper.slider('set', 'pauseTime', properties.directory_pauseTime.value);
+                    wallpaper.slider('set', 'pauseTime', directory.pauseTime);
                 }
             }
 

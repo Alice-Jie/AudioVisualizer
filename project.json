@@ -277,7 +277,7 @@
             "value": 3
           }
         ],
-        "value": 2
+        "value": 1
       },
       "directory_pauseTime": {
         "order": 1106,
@@ -287,7 +287,7 @@
         "editable": true,
         "max": 60,
         "min": 1,
-        "value": 5
+        "value": 30
       },
       "video_Text": {
         "order": 1200,
@@ -2934,9 +2934,9 @@
         "ui_particles_opacity": "<br/>粒子不透明度<br/><br/>",
         "ui_particles_opacityRandom": "<br/>随机不透明度<br/><br/>",
         "ui_particles_color": "<br/>粒子颜色<br/><br/>",
-        "ui_particles_isColorFollow": "<br/>颜色跟随音频？<br/><br/>",
+        "ui_particles_isColorFollow": "<br/>颜色跟随音频<br/><br/>",
         "ui_particles_colorRate": "<br/>颜色变化率<br/><br/>",
-        "ui_particles_colorRandom": "<br/>随机颜色？<br/><br/>",
+        "ui_particles_colorRandom": "<br/>随机颜色<br/><br/>",
         "ui_particles_isFill": "<br/>填充<br/><br/>",
         "ui_particles_isStroke": "<br/>描边<br/><br/>",
         "ui_particles_lineWidth": "<br/>描边宽度<br/><br/>",

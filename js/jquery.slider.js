@@ -1,12 +1,12 @@
 /*!
- * jQuery Slider plugin v0.1.3
+ * jQuery Slider plugin v0.1.4
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
  * - https://git.oschina.net/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/09/11
+ * @date 2017/09/13
  */
 
 (function (global, factory) {
@@ -1100,8 +1100,8 @@
     Slider.DEFAULTS = {
         sliderStyle: 'css',           // 背景切换模式
         readStyle: 'sequential',      // 读取模式
-        timeUnits: 'min',             // 时间单位
-        pauseTime: 5,                 // 背景停留时间
+        timeUnits: 'sec',             // 时间单位
+        pauseTime: 30,                // 背景停留时间
         effect: 'none',               // 切换特效
         imgFit: 'fill',               // IMG适应方式
         imgBGColor: '255,255,255',    // IMG背景颜色
