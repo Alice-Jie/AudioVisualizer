@@ -310,7 +310,9 @@ offsetY | float | 0.5 | Y坐标偏移系数，范围在0~1之间
 isClickOffset | boolean | false | 开启后，根据鼠标点击位置确定XY坐标偏移系数 |
 isDate | boolean | true | 显示日期日期
 timeStyle | string | 'hh:mm:ss a' | 时间显示风格
+userTimeStyle | string | 'hh:mm:ss a' | 自定义时间显示风格
 dateStyle | string | 'LL dddd' | 日期显示风格
+userDateStyle | string | 'LL dddd' | 自定义日期显示风格
 timeFontSize | int | 60 | 时间字体大小
 dateFontSize | int | 30 | 日期字体大小
 language | string | 'zh_cn' | 日期语言
@@ -429,15 +431,36 @@ pauseTime | int | 1 | 当前背景停留时间
 effect | string | 'none' | 背景切换特效
 imgFit | string | 'fill' | IMG适应方式
 imgBGColor | string | '255,255,255' | RGB格式颜色，IMG背景颜色
-progress | float | 0 | 视频进度（0 - 1）
-isPlay | boolean | true | 视频播放状态
-volume | float | 0.75 | 视频音量（0 - 1）
+videoProgress | float | 0 | 视频进度（0 - 1）
+isVideoPlay | boolean | true | 视频播放状态
+videoVolume | float | 0.75 | 视频音量（0 - 1）
 playbackRate | float | 1.00 | 视频播放速度（0 - 任意）
 videoFit | string | 'fill' | video适应方式
 videoBGColor | string | '255,255,255' | RGB格式颜色，video背景颜色
+audioProgress | float | 0 | 音频进度（0 - 1）
+isAudioPlay | boolean | false | 音频播放状态
+isAudioLoop | boolean | false | 音频是否播放
+audioVolume | float | 0.75 | 音频音量（0 - 1）
+isBackgroundZoom | boolean | flase | 背景缩放开关
 isRotate3D | boolean | flase | 背景3D转换开关
 
 #### 方法列表：
+
+**updateAudioAverage：**
+
+调用`$(selector).slider('updateAudioAverage',  audioSamples);`更新音频均值。
+
+参数类型 | 参数名 | 参数描述 
+---------|--------|----------
+float | audioSamples | 音频数组
+
+**backgroundZoom：**
+
+调用`$(selector).slider('backgroundZoom');`根据音频均值缩放背景
+
+参数类型 | 参数名 | 参数描述 
+---------|--------|----------
+float | audioSamples | 音频数组
 
 **setUserColor：**
 
@@ -600,6 +623,62 @@ string | video | 用户视频路径
 ---------|--------|----------
 {float} | volume | 音量大小（%）
 
+**getAudioList：**
+
+调用`$(selector).slider('getAudioList');`从js/audioList.js中读取音频列表audioList。
+
+**getAudioStr：**
+
+调用`$(selector).slider('getAudioList', index);`从audioList读取索引对应值并转换成音频源。
+
+参数类型 | 参数名 | 参数描述 
+---------|--------|----------
+{int} | index | 音频列表索引
+
+**audioSrcUserAudio：**
+
+调用`$(selector).slider('audioSrcUserAudio');`设置当前音频为用户音频并添加至音频列表。
+
+**audioSrcDefaultAudio：**
+
+调用`$(selector).slider('audioSrcDefaultAudio');`设置当前音频为默认音频。
+
+**currentAudio：**
+
+调用`$(selector).slider('currentAudio');`读取当前音频源。
+
+**prevAudio：**
+
+调用`$(selector).slider('prevAudio');`读取上一个音频源。
+
+**nextAudio：**
+
+调用`$(selector).slider('nextAudio');`读取下一个音频源。
+
+**setAudioProgress：**
+
+调用`$(selector).slider('setAudioProgress', progress);`按进度百分比设置音频当前读取位置。
+
+参数类型 | 参数名 | 参数描述 
+---------|--------|----------
+{float} | progress | 音频进度（%）
+
+**playAudio：**
+
+调用`$(selector).slider('playAudio');`播放音频。
+
+**pauseAudio：**
+
+调用`$(selector).slider('pauseAudio');`暂停音频。
+
+**setAudioVolume：**
+
+调用`$(selector).slider('setAudioVolume', volume);`设置音量大小（%）。
+
+参数类型 | 参数名 | 参数描述 
+---------|--------|----------
+{float} | volume | 音量大小（%）
+
 **destroy：**
 
 调用`$(selector).slider('destroy');`销毁slider所在canvas、img。
@@ -673,21 +752,32 @@ number | int | 100 | 粒子的数量
 isDensity | boolean | false | 启用粒子密度区域
 densityArea | int | 1000 | 粒子密度范围
 opacity | float | 0.75 | 粒子的最大透明度
-opacityRandom | boolean | false | 粒子的透明度是否随机
+opacityRandom | boolean | false | 粒子的粒子的透明度是否随机
 color | string | '255,255,255' | RGB格式颜色，粒子的颜色
+isColorFollow | boolean | false | 颜色跟随音频开关
+colorRate | int | 10 | 颜色变化速率
+colorRandom | boolean | false | 随机粒子颜色开关
+isFill | boolean | true | 填充粒子开关
+isStroke | boolean | false | 描边粒子开关
+lineWidth | int | 1 | 描边宽度
 shadowColor | string | '255,255,255' | RGB格式颜色，粒子的阴影颜色
 shadowBlur | int | 0 | 粒子的阴影大小
 shapeType | string | 'circle' | 粒子的形状
 rotationAngle| int | 0 | 旋转粒子，负数为逆时针旋转，正数为顺时针旋转
 angleRandom | boolean | false | 粒子的旋转角度是否随机 
 sizeValue | int | 5 | 粒子的最大半径
+isSizeFollow | boolean | false | 粒子的大小是否跟随音频
+sizeRate | int | 5 | 大小变化速率
 sizeRandom | boolean | true | 粒子的半径是否随机
 linkEnable | boolean | false | 粒子间是否显示连线
 linkDistance | int | 100 | 粒子间显示连线所需要的距离
 linkWidth | int | 2 | 粒子间连线的宽度
 linkColor | string | '255,255,255' | RGB格式颜色，粒子间连线的颜色
+linkColorRandom | boolean | false | 随机粒子间连线颜色开关
 linkOpacity | float | 0.75 | 粒子间连线的透明度
 isMove | boolean | true | 粒子是否移动
+isMoveFollow | boolean | false | 粒子的移动是否跟随音频开关
+moveRate | int | 5 | 移动变化速率
 speed | int | 2 | 粒子的最大移动速度
 speedRandom | boolean | true | 粒子的移动速度是否随机
 direction | string | 'bottom' | 粒子的移动方向
@@ -708,6 +798,14 @@ int | num | 添加/删除粒子的数量
 **densityAutoParticles：**
 
 调用`$(selector).particles('densityAutoParticles');`根据粒子密度确定粒子数量。
+
+**updateAudioAverage：**
+
+调用`$(selector).particles('updateAudioAverage',  audioSamples);`更新音频均值。
+
+参数类型 | 参数名 | 参数描述 
+---------|--------|----------
+float | audioSamples | 音频数组
 
 **updateParticlesArray：**
 

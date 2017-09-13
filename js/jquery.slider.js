@@ -1115,7 +1115,7 @@
         isAudioPlay: false,           // 是否播放Audio
         isAudioLoop: false,           // 是否循环播放
         audioVolume: 0.75,            // Audio音量
-        isBackgroundZoom: true,       // 是否背景缩放
+        isBackgroundZoom: false,      // 是否背景缩放
         isRotate3D: false             // 是否3D旋转
     };
 
