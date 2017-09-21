@@ -128,8 +128,15 @@
         "type": "bool",
         "value": false
       },
-      "directory": {
+      "image_filterBlur": {
         "order": 1011,
+        "condition": "image_isRotate3D.value == false",
+        "text": "ui_image_filterBlur",
+        "type": "bool",
+        "value": false
+      },
+      "directory": {
+        "order": 1012,
         "condition": "BG_mode.value == 3",
         "text": "ui_directory",
         "type": "directory",
@@ -1130,13 +1137,13 @@
       },
       "bars_basicText": {
         "order": 4001,
-        "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
+        "condition": "bars_isWave.value == true || bars_isBars.value == true || bars_isLineTo.value == true",
         "text": "ui_bars_basicText",
         "type": "text"
       },
       "bars_opacity": {
         "order": 4002,
-        "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
+        "condition": "bars_isWave.value == true || bars_isBars.value == true || bars_isLineTo.value == true",
         "text": "ui_bars_opacity",
         "type": "slider",
         "editable": true,
@@ -1146,7 +1153,7 @@
       },
       "bars_colorMode": {
         "order": 4003,
-        "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
+        "condition": "bars_isWave.value == true || bars_isBars.value == true || bars_isLineTo.value == true",
         "text": "ui_bars_colorMode",
         "type": "combo",
         "options": [
@@ -1167,21 +1174,21 @@
       },
       "bars_color": {
         "order": 4004,
-        "condition": "(bars_isBars.value == true || bars_isLineTo.value) == true && bars_colorMode.value == 1",
+        "condition": "(bars_isWave.value == true || bars_isBars.value == true || bars_isLineTo.value) == true && bars_colorMode.value == 1",
         "text": "ui_bars_color",
         "type": "color",
         "value": "1 1 1"
       },
       "bars_shadowColor": {
         "order": 4005,
-        "condition": "(bars_isBars.value == true || bars_isLineTo.value == true) && (bars_colorMode.value == 1 || (bars_colorMode.value == 2 && bars_isChangeBlur.value == false))",
+        "condition": "(bars_isWave.value == true || bars_isBars.value == true || bars_isLineTo.value == true) && (bars_colorMode.value == 1 || (bars_colorMode.value == 2 && bars_isChangeBlur.value == false))",
         "text": "ui_bars_shadowColor",
         "type": "color",
         "value": "1 1 1"
       },
       "bars_shadowBlur": {
         "order": 4006,
-        "condition": "(bars_isBars.value == true || bars_isLineTo.value == true) && bars_colorMode.value != 3",
+        "condition": "(bars_isWave.value == true || bars_isBars.value == true || bars_isLineTo.value == true) && bars_colorMode.value != 3",
         "text": "ui_bars_shadowBlur",
         "type": "slider",
         "editable": true,
@@ -1191,35 +1198,35 @@
       },
       "bars_isRandomColor": {
         "order": 4007,
-        "condition": "(bars_isBars.value == true || bars_isLineTo.value == true) && bars_colorMode.value == 2",
+        "condition": "(bars_isWave.value == true || bars_isBars.value == true || bars_isLineTo.value == true) && bars_colorMode.value == 2",
         "text": "ui_bars_isRandomColor",
         "type": "bool",
         "value": true
       },
       "bars_firstColor": {
         "order": 4008,
-        "condition": "(bars_isBars.value == true || bars_isLineTo.value == true) && bars_colorMode.value == 2 == true && bars_isRandomColor.value == false",
+        "condition": "(bars_isWave.value == true || bars_isBars.value == true || bars_isLineTo.value == true) && bars_colorMode.value == 2 == true && bars_isRandomColor.value == false",
         "text": "ui_bars_firstColor",
         "type": "color",
         "value": "1 1 1"
       },
       "bars_secondColor": {
         "order": 4009,
-        "condition": "(bars_isBars.value == true || bars_isLineTo.value == true) && bars_colorMode.value == 2 && bars_isRandomColor.value == false",
+        "condition": "(bars_isWave.value == true || bars_isBars.value == true || bars_isLineTo.value == true) && bars_colorMode.value == 2 && bars_isRandomColor.value == false",
         "text": "ui_bars_secondColor",
         "type": "color",
         "value": "1 0 0"
       },
       "bars_isChangeBlur": {
         "order": 4010,
-        "condition": "(bars_isBars.value == true || bars_isLineTo.value == true) && bars_colorMode.value == 2",
+        "condition": "(bars_isWave.value == true || bars_isBars.value == true || bars_isLineTo.value == true) && bars_colorMode.value == 2",
         "text": "ui_bars_isChangeBlur",
         "type": "bool",
         "value": false
       },
       "bars_hueRange": {
         "order": 4012,
-        "condition": "(bars_isBars.value == true || bars_isLineTo.value == true) && bars_colorMode.value == 3",
+        "condition": "(bars_isWave.value == true || bars_isBars.value == true || bars_isLineTo.value == true) && bars_colorMode.value == 3",
         "text": "ui_bars_hueRange",
         "type": "slider",
         "editable": true,
@@ -1229,7 +1236,7 @@
       },
       "bars_saturationRange": {
         "order": 4013,
-        "condition": "(bars_isBars.value == true || bars_isLineTo.value == true) && bars_colorMode.value == 3",
+        "condition": "(bars_isWave.value == true || bars_isBars.value == true || bars_isLineTo.value == true) && bars_colorMode.value == 3",
         "text": "ui_bars_saturationRange",
         "type": "slider",
         "editable": true,
@@ -1239,7 +1246,7 @@
       },
       "bars_lightnessRange": {
         "order": 4014,
-        "condition": "(bars_isBars.value == true || bars_isLineTo.value == true) && bars_colorMode.value == 3",
+        "condition": "(bars_isWave.value == true || bars_isBars.value == true || bars_isLineTo.value == true) && bars_colorMode.value == 3",
         "text": "ui_bars_lightnessRange",
         "type": "slider",
         "editable": true,
@@ -1249,7 +1256,7 @@
       },
       "bars_gradientOffset": {
         "order": 4015,
-        "condition": "(bars_isBars.value == true || bars_isLineTo.value == true) && bars_colorMode.value == 3",
+        "condition": "(bars_isWave.value == true || bars_isBars.value == true || bars_isLineTo.value == true) && bars_colorMode.value == 3",
         "text": "ui_bars_gradientOffset",
         "type": "slider",
         "editable": true,
@@ -1259,13 +1266,13 @@
       },
       "bars_coordinateText": {
         "order": 4016,
-        "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
+        "condition": "bars_isWave.value == true || bars_isBars.value == true || bars_isLineTo.value == true",
         "text": "ui_bars_coordinateText",
         "type": "text"
       },
       "bars_offsetX": {
         "order": 4017,
-        "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
+        "condition": "bars_isWave.value == true || bars_isBars.value == true || bars_isLineTo.value == true",
         "text": "ui_bars_offsetX",
         "type": "slider",
         "editable": true,
@@ -1275,7 +1282,7 @@
       },
       "bars_offsetY": {
         "order": 4018,
-        "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
+        "condition": "bars_isWave.value == true || bars_isBars.value == true || bars_isLineTo.value == true",
         "text": "ui_bars_offsetY",
         "type": "slider",
         "editable": true,
@@ -1285,7 +1292,7 @@
       },
       "bars_isClickOffset": {
         "order": 4019,
-        "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
+        "condition": "bars_isWave.value == true || bars_isBars.value == true || bars_isLineTo.value == true",
         "text": "ui_bars_isClickOffset",
         "type": "bool",
         "value": false
@@ -1295,21 +1302,70 @@
         "text": "ui_bars_barsText",
         "type": "text"
       },
-      "bars_isBars": {
+      "bars_isWave": {
         "order": 4101,
+        "condition": "bars_colorMode.value != 3",
+        "text": "ui_bars_isWave",
+        "type": "bool",
+        "value": false
+      },
+      "bars_firstLine": {
+        "order": 4102,
+        "condition": "bars_isWave.value == true",
+        "text": "ui_bars_firstLine",
+        "type": "combo",
+        "options": [
+          {
+            "label": "静态线段/Static Line",
+            "value": 1
+          },
+          {
+            "label": "向上线段/Inner Line",
+            "value": 2
+          },
+          {
+            "label": "向下线段/Outer Line",
+            "value": 3
+          }
+        ],
+        "value": 1
+      },
+      "bars_secondLine": {
+        "order": 4103,
+        "condition": "bars_isWave.value == true",
+        "text": "ui_bars_secondLine",
+        "type": "combo",
+        "options": [
+          {
+            "label": "静态线段/Static Line",
+            "value": 1
+          },
+          {
+            "label": "向上线段/Inner Line",
+            "value": 2
+          },
+          {
+            "label": "向下线段/Outer Line",
+            "value": 3
+          }
+        ],
+        "value": 2
+      },
+      "bars_isBars": {
+        "order": 4104,
         "text": "ui_bars_isBars",
         "type": "bool",
         "value": false
       },
       "bars_isLineTo": {
-        "order": 4102,
+        "order": 4105,
         "text": "ui_bars_isLineTo",
         "type": "bool",
         "value": false
       },
       "bars_width": {
-        "order": 4103,
-        "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
+        "order": 4106,
+        "condition": "bars_isWave.value == true || bars_isBars.value == true || bars_isLineTo.value == true",
         "text": "ui_bars_width",
         "type": "slider",
         "editable": true,
@@ -1318,8 +1374,8 @@
         "value": 5
       },
       "bars_height": {
-        "order": 4104,
-        "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
+        "order": 4107,
+        "condition": "bars_isWave.value == true || bars_isBars.value == true || bars_isLineTo.value == true",
         "text": "ui_bars_height",
         "type": "slider",
         "editable": true,
@@ -1328,8 +1384,8 @@
         "value": 2
       },
       "bars_pointNum": {
-        "order": 4105,
-        "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
+        "order": 4108,
+        "condition": "bars_isWave.value == true || bars_isBars.value == true || bars_isLineTo.value == true",
         "text": "ui_bars_pointNum",
         "type": "slider",
         "editable": true,
@@ -1338,8 +1394,8 @@
         "value": 120
       },
       "bars_barsRotation": {
-        "order": 4106,
-        "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
+        "order": 4109,
+        "condition": "bars_isWave.value == true || bars_isBars.value == true || bars_isLineTo.value == true",
         "text": "ui_bars_barsRotation",
         "type": "slider",
         "editable": true,
@@ -1348,7 +1404,7 @@
         "value": 0
       },
       "bars_barsDirection": {
-        "order": 4107,
+        "order": 4110,
         "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
         "text": "ui_bars_barsDirection",
         "type": "combo",
@@ -1369,7 +1425,7 @@
         "value": 3
       },
       "bars_lineCap": {
-        "order": 4108,
+        "order": 4111,
         "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
         "text": "ui_bars_lineCap",
         "type": "combo",
@@ -1390,7 +1446,7 @@
         "value": 1
       },
       "bars_lineJoin": {
-        "order": 4109,
+        "order": 4112,
         "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
         "text": "ui_bars_lineJoin",
         "type": "combo",
@@ -1411,7 +1467,7 @@
         "value": 1
       },
       "bars_lineWidth": {
-        "order": 4110,
+        "order": 4113,
         "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
         "text": "ui_bars_lineWidth",
         "type": "slider",
@@ -1421,8 +1477,8 @@
         "value": 5
       },
       "bars_milliSec": {
-        "order": 4111,
-        "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
+        "order": 4114,
+        "condition": "bars_isWave.value == true || bars_isBars.value == true || bars_isLineTo.value == true",
         "text": "ui_bars_milliSec",
         "type": "slider",
         "editable": true,
@@ -2532,6 +2588,7 @@
         "ui_image_fillStyle": "<br/>Background Fill Style<br/><br/>",
         "ui_image_isRotate3D": "<br/>3D Rotating Background?<br/><br/>",
         "ui_image_isBackgroundZoom": "<br/>Background Zoom Follow Audio?<br/><br/>",
+        "ui_image_filterBlur": "<br/>Background Blur Follow Audio?<br/><br/>",
         "Dividing_line2": "------------------------------------------------------------------------------------------------------------------------",
         "ui_directory": "<br/>Image Folder<br/><br/>",
         "ui_directory_sliderStyle": "<br/>Sliding Style<br/><br/>",
@@ -2650,6 +2707,9 @@
         "ui_bars_offsetY": "<br/>Position Y(%)<br/><br/>",
         "ui_bars_isClickOffset": "<br/>Mouse Coordinate Offset?<br/><br/>",
         "ui_bars_barsText": "<br/><b>Bars - Bars Settings</b><br/><br/>",
+        "ui_bars_isWave": "<br/>Show Wave?<br/><br/>",
+        "ui_bars_firstLine": "<br/>First Line<br/><br/>",
+        "ui_bars_secondLine": "<br/>Second Line<br/><br/>",
         "ui_bars_isBars": "<br/>Show Bars?<br/><br/>",
         "ui_bars_isLineTo": "<br/>Show Line?<br/><br/>",
         "ui_bars_width": "<br/>Width<br/><br/>",
@@ -2762,6 +2822,7 @@
         "ui_image_fillStyle": "<br/>背景填充方式<br/><br/>",
         "ui_image_isRotate3D": "<br/>3D旋转背景<br/><br/>",
         "ui_image_isBackgroundZoom": "<br/>背景跟随音频缩放<br/><br/>",
+        "ui_image_filterBlur": "<br/>背景模糊跟随音频<br/><br/>",
         "Dividing_line2": "------------------------------------------------------------------------------------------------------------------------",
         "ui_directory": "<br/>背景文件夹<br/><br/>",
         "ui_directory_sliderStyle": "<br/>滑动方式<br/><br/>",
@@ -2880,6 +2941,9 @@
         "ui_bars_offsetY": "<br/>Y轴偏移<br/><br/>",
         "ui_bars_isClickOffset": "<br/>鼠标坐标偏移<br/><br/>",
         "ui_bars_barsText": "<br/><b>条形 - 条形设置</b><br/><br/>",
+        "ui_bars_isWave": "<br/>波浪模式<br/><br/>",
+        "ui_bars_firstLine": "<br/>第一线段<br/><br/>",
+        "ui_bars_secondLine": "<br/>第二线段<br/><br/>",
         "ui_bars_isBars": "<br/>显示条形<br/><br/>",
         "ui_bars_isLineTo": "<br/>显示连线<br/><br/>",
         "ui_bars_width": "<br/>宽度<br/><br/>",
@@ -2992,6 +3056,7 @@
         "ui_image_fillStyle": "<br/>背景填充方式<br/><br/>",
         "ui_image_isRotate3D": "<br/>3D旋轉背景<br/><br/>",
         "ui_image_isBackgroundZoom": "<br/>背景跟隨音頻縮放<br/><br/>",
+        "ui_image_filterBlur": "<br/>背景模糊跟隨音頻<br/><br/>",
         "Dividing_line2": "------------------------------------------------------------------------------------------------------------------------",
         "ui_directory": "<br/>背景文件夾<br/><br/>",
         "ui_directory_sliderStyle": "<br/>滑動方式<br/><br/>",
@@ -3110,6 +3175,9 @@
         "ui_bars_offsetY": "<br/>Y軸偏移<br/><br/>",
         "ui_bars_isClickOffset": "<br/>鼠標坐標偏移<br/><br/>",
         "ui_bars_barsText": "<br/><b>條形 - 條形設置</b><br/><br/>",
+        "ui_bars_isWave": "<br/>波浪模式<br/><br/>",
+        "ui_bars_firstLine": "<br/>第一線段<br/><br/>",
+        "ui_bars_secondLine": "<br/>第二線段<br/><br/>",
         "ui_bars_isBars": "<br/>顯示條形<br/><br/>",
         "ui_bars_isLineTo": "<br/>顯示連線<br/><br/>",
         "ui_bars_width": "<br/>寬度<br/><br/>",

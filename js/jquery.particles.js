@@ -1,5 +1,5 @@
 /*!
- * jQuery Particles plugin v0.0.6
+ * jQuery Particles plugin v0.0.7
  * reference: http://github.com/VincentGarreau/particles.js
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
@@ -7,7 +7,7 @@
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/09/08
+ * @date 2017/09/20
  */
 
 (function (global, factory) {
@@ -16,16 +16,17 @@
         define(['jquery'], function ($) {
             return factory($, global, global.document, global.Math);
         });
-    } else if (typeof exports === "object" && exports) {
+    } else if (typeof exports === 'object' && exports) {
         module.exports = factory(require('jquery'), global, global.document, global.Math);
     } else if (global.layui && layui.define) {
+        /* global layui:true */
         layui.define('jquery', function (exports) {
             exports(factory(layui.jquery, global, global.document, global.Math));
         });
     } else {
         factory(jQuery, global, global.document, global.Math);
     }
-})(typeof window !== 'undefined' ? window : this, function ($, window, document, Math, undefined) {
+})(typeof window !== 'undefined' ? window : this, function ($, window, document, Math) {
 
     'use strict';
 
@@ -40,8 +41,8 @@
             window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] || window[vendors[x] + 'CancelRequestAnimationFrame'];
         }
 
-        if (!window.requestAnimationFrame)
-            window.requestAnimationFrame = function (callback, element) {
+        if (!window.requestAnimationFrame) {
+            window.requestAnimationFrame = function (callback) {
                 let currTime = new Date().getTime();
                 let timeToCall = Math.max(0, 16 - (currTime - lastTime));
                 let id = window.setTimeout(function () {
@@ -51,11 +52,12 @@
                 lastTime = currTime + timeToCall;
                 return id;
             };
-
-        if (!window.cancelAnimationFrame)
+        }
+        if (!window.cancelAnimationFrame) {
             window.cancelAnimationFrame = function (id) {
                 clearTimeout(id);
             };
+        }
     }());
 
     //私有变量
@@ -87,11 +89,11 @@
      * 获取粒子之间距离
      * XY坐标代入勾股函数计算出两点之间距离
      *
-     * @param  {float} x1 始点X轴坐标
-     * @param  {float} y1 始点Y轴坐标
-     * @param  {float} x2 末点X轴坐标
-     * @param  {float} y2 末点Y轴坐标
-     * @return {float} 两点之间距离
+     * @param  {(int | float)} x1 始点X轴坐标
+     * @param  {(int | float)} y1 始点Y轴坐标
+     * @param  {(int | float)} x2 末点X轴坐标
+     * @param  {(int | float)} y2 末点Y轴坐标
+     * @return {(int | float)} 两点之间距离
      */
     function getDist(x1, y1, x2, y2) {
         let dx = x1 - x2,
@@ -177,7 +179,7 @@
      * 均值函数
      *
      * @param  {Array|float} array 数组
-     * @return {float} 平均值
+     * @return {(int | float)} 平均值
      */
     function mean(array) {
         if (!array) {
@@ -202,14 +204,14 @@
         let colorObj = {};
         switch (colorFormat) {
             case 'RGB':
-                colorObj.R = parseInt(colorStr.split(",")[0]);
-                colorObj.G = parseInt(colorStr.split(",")[1]);
-                colorObj.B = parseInt(colorStr.split(",")[2]);
+                colorObj.R = parseInt(colorStr.split(',')[0]);
+                colorObj.G = parseInt(colorStr.split(',')[1]);
+                colorObj.B = parseInt(colorStr.split(',')[2]);
                 break;
             case 'HSL':
-                colorObj.H = parseInt(colorStr.split(",")[0]);
-                colorObj.S = parseInt(colorStr.split(",")[1]);
-                colorObj.L = parseInt(colorStr.split(",")[2]);
+                colorObj.H = parseInt(colorStr.split(',')[0]);
+                colorObj.S = parseInt(colorStr.split(',')[1]);
+                colorObj.L = parseInt(colorStr.split(',')[2]);
                 break;
             default:
                 console.error('error color format.');
@@ -331,7 +333,7 @@
         context.strokeStyle = 'rgb(' + this.color + ')';
         context.lineWidth = this.lineWidth;
         // 阴影属性
-        context.shadowColor = 'rgb(' + this.color + ')';
+        context.shadowColor = 'rgb(' + this.shadowColor + ')';
         context.shadowBlur = this.shadowBlur;
 
         // 创建并初始化离屏canvas
@@ -530,9 +532,9 @@
          * @private
          *
          * @param {!Object} context context      对象
-         * @param {float}   startX               开始X坐标
-         * @param {float}   startY               开始Y坐标
-         * @param {float}   sideLength           边长
+         * @param {(int | float)}   startX       开始X坐标
+         * @param {(int | float)}   startY       开始Y坐标
+         * @param {(int | float)}   sideLength   边长
          * @param {int}     sideCountNumerator   边数分子
          * @param {int}     sideCountDenominator 边数分母
          */
@@ -560,12 +562,12 @@
         bounceParticles: function (index) {
             if (this.isBounce) {
                 let particles1 = particlesArray[index];
-                let particles1_dist = 0;
+                let particlesDist1 = 0;
                 if (particles1.shapeType === 'image') {
                     // 粒子图片则取宽和高之间最小值
-                    particles1_dist = Math.min(getImgSize(particles1).width, getImgSize(particles1).height) / 2;
+                    particlesDist1 = Math.min(getImgSize(particles1).width, getImgSize(particles1).height) / 2;
                 } else {
-                    particles1_dist = particles1.radius;
+                    particlesDist1 = particles1.radius;
                 }
                 for (let i = 0; i < particlesArray.length; i++) {
                     // 跳过索引相同的粒子
@@ -573,19 +575,19 @@
                         continue;
                     }
                     let particles2 = particlesArray[i];
-                    let particles2_dist = 0;
+                    let particlesDist2 = 0;
                     if (particles2.shapeType === 'image') {
                         // 粒子图片则取宽和高之间最小值
-                        particles2_dist = Math.min(getImgSize(particles2).width, getImgSize(particles2).height) / 2;
+                        particlesDist2 = Math.min(getImgSize(particles2).width, getImgSize(particles2).height) / 2;
                     } else {
-                        particles2_dist = particles2.radius;
+                        particlesDist2 = particles2.radius;
                     }
                     // 获取对象粒子和当前粒子之间距离
-                    let dist = getDist(particles1.x + particles1_dist, particles1.y + particles1_dist,
-                        particles2.x + particles2_dist, particles2.y + particles2_dist);
-                    let dist_p = particles1_dist + particles2_dist;
+                    let dist = getDist(particles1.x + particlesDist1, particles1.y + particlesDist1,
+                        particles2.x + particlesDist2, particles2.y + particlesDist2);
+                    let particlesDist = particlesDist1 + particlesDist2;
                     // 如果粒子距离小于等于两者半径之和
-                    if (dist <= dist_p) {
+                    if (dist <= particlesDist) {
                         particles1.vx = -particles1.vx;
                         particles1.vy = -particles1.vy;
 
@@ -605,19 +607,19 @@
          */
         marginalCheck: function (particles) {
             let size = particles.radius * particles.zoom;  // 粒子实际尺寸
-            let new_pos = {
-                x_left: -size,
-                x_right: canvasWidth + size,
-                y_top: -size,
-                y_bottom: canvasHeight + size
+            let newPosition = {
+                xLeft: -size,
+                xRight: canvasWidth + size,
+                yTop: -size,
+                yBottom: canvasHeight + size
             };
             // 如果离开模式是反弹
             if (this.moveOutMode === 'bounce') {
-                new_pos = {
-                    x_left: size,
-                    x_right: canvasWidth,
-                    y_top: size,
-                    y_bottom: canvasHeight
+                newPosition = {
+                    xLeft: size,
+                    xRight: canvasWidth,
+                    yTop: size,
+                    yBottom: canvasHeight
                 };
             }
 
@@ -625,22 +627,22 @@
 
             // 如果粒子X轴大于画布宽度
             if (particles.x - size > canvasWidth) {
-                particles.x = new_pos.x_left;
+                particles.x = newPosition.xLeft;
                 particles.y = Math.random() * canvasHeight;
             }
             // 如果粒子X轴小于画布宽度
             else if (particles.x + size < 0) {
-                particles.x = new_pos.x_right;
+                particles.x = newPosition.xRight;
                 particles.y = Math.random() * canvasHeight;
             }
             // 如果粒子Y轴大于画布高度
             if (particles.y - size > canvasHeight) {
-                particles.y = new_pos.y_top;
+                particles.y = newPosition.yTop;
                 particles.x = Math.random() * canvasWidth;
             }
             // 如果粒子Y轴小于画布高度
             else if (particles.y + size < 0) {
-                particles.y = new_pos.y_bottom;
+                particles.y = newPosition.yBottom;
                 particles.x = Math.random() * canvasWidth;
             }
 
@@ -808,10 +810,10 @@
                 this.bounceParticles(i);
                 this.marginalCheck(particlesArray[i]);
                 if (this.isColorFollow) {
-                    particlesArray[i].colorIncrement = Math.floor(this.colorRate * audioAverage)
+                    particlesArray[i].colorIncrement = Math.floor(this.colorRate * audioAverage);
                 }
                 if (this.isSizeFollow) {
-                    particlesArray[i].zoom = (1 + audioAverage * this.sizeRate)
+                    particlesArray[i].zoom = (1 + audioAverage * this.sizeRate);
                 }
             }
         },
@@ -851,7 +853,7 @@
                     currantCanvas.height = img.height;
                     currantContext.drawImage(img, 0, 0);
                 }
-            }
+            };
         },
 
         /**
@@ -865,18 +867,21 @@
             context.save();
             // 粒子填充样式
             if (this.isColorFollow) {
-                particles.color.H += particles.colorIncrement
+                particles.color.H += particles.colorIncrement;
             }
             context.fillStyle = getColor(particles.colorFormat, particles.color);
             context.strokeStyle = getColor(particles.colorFormat, particles.color);
             if (this.isStroke) {
-                context.lineWidth = this.lineWidth
+                context.lineWidth = this.lineWidth;
             }
-            context.shadowColor = getColor(particles.colorFormat, particles.shadowColor);
+            context.shadowColor = getColor('RGB', particles.shadowColor);
             context.shadowBlur = particles.shadowBlur;
             context.globalAlpha = particles.opacity;
             // 粒子路径
             let size = particles.radius * particles.zoom;  // 粒子实际尺寸
+            // 获取粒子的宽和高
+            let width = getImgSize(particles).width,
+                height = getImgSize(particles).height;
             context.beginPath();
             switch (particles.shapeType) {
                 // 绘制圆形
@@ -910,13 +915,11 @@
                     break;
                 // 绘制图片
                 case 'image':
-                    // 获取图片粒子的宽和高
-                    let width = getImgSize(particles).width,
-                        height = getImgSize(particles).height;
                     context.translate(particles.x + width / 2, particles.y + height / 2);
                     context.rotate(particles.currantAngle);
                     context.drawImage(currantCanvas, -width / 2, -height / 2, width, height);
                     break;
+                // no default
             }
             context.closePath();
             this.isFill && context.fill();      // 绘制粒子
@@ -928,9 +931,9 @@
          * 绘制两点之间连线
          * 粒子之间透明度由两点之间距离决定，越近越清晰
          *
-         * @param {float} x            始点X坐标
-         * @param {float} y            始点Y坐标
-         * @param {float} linkDistance 两点之间最大距离
+         * @param {(int | float)} x            始点X坐标
+         * @param {(int | float)} y            始点Y坐标
+         * @param {(int | float)} linkDistance 两点之间最大距离
          */
         drawXYLine: function (x, y, linkDistance) {
             for (let i = 0; i < particlesArray.length; i++) {
@@ -946,7 +949,7 @@
                     if (this.linkColorRandom) {
                         context.strokeStyle = 'hsla(' + particles.linkColor + ',' + Math.min(d, this.linkOpacity) + ')';
                     } else {
-                        context.strokeStyle = "rgba(" + this.linkColor + "," + Math.min(d, this.linkOpacity) + ")";
+                        context.strokeStyle = 'rgba(' + this.linkColor + ',' + Math.min(d, this.linkOpacity) + ')';
                     }
                     context.beginPath();
                     context.moveTo(x, y);
@@ -965,6 +968,7 @@
                             width = getImgSize(particles).width / 2;
                             height = getImgSize(particles).height / 2;
                             break;
+                        // no default
                     }
                     context.lineTo(particles.x + width, particles.y + height);
                     context.closePath();
@@ -1017,6 +1021,7 @@
                             width = getImgSize(particles1).width / 2;
                             height = getImgSize(particles1).height / 2;
                             break;
+                        // no default
                     }
                     context.moveTo(particles1.x + width, particles1.y + height);
                     // 设置宽度和高度
@@ -1034,6 +1039,7 @@
                             width = getImgSize(particles2).width / 2;
                             height = getImgSize(particles2).height / 2;
                             break;
+                        // no default
                     }
                     context.lineTo(particles2.x + width, particles2.y + height);
                     context.closePath();
@@ -1107,7 +1113,7 @@
                         }
                         break;
                     case 'shadowColor':
-                        particlesArray[i].shadowColor = 'rgb(' + this.shadowColor + ')';
+                        particlesArray[i].shadowColor = this.shadowColor;
                         break;
                     case 'shadowBlur':
                         particlesArray[i].shadowBlur = this.shadowBlur;
@@ -1139,6 +1145,7 @@
                     case 'direction':
                         this.moveStraight(particlesArray[i]);
                         break;
+                    // no default
                 }
             }
         },
@@ -1197,6 +1204,7 @@
                     this[property] = value;
                     this.setParticles(property);
                     break;
+                // no default
             }
         }
 

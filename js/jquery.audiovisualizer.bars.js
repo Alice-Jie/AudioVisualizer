@@ -1,12 +1,12 @@
 /*！
- * jQuery AudioVisualizer Bars plugin v0.0.5
+ * jQuery AudioVisualizer Bars plugin v0.0.6
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
  * - https://git.oschina.net/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/08/19
+ * @date 2017/09/20
  */
 
 (function (global, factory) {
@@ -15,16 +15,17 @@
         define(['jquery'], function ($) {
             return factory($, global, global.document, global.Math);
         });
-    } else if (typeof exports === "object" && exports) {
+    } else if (typeof exports === 'object' && exports) {
         module.exports = factory(require('jquery'), global, global.document, global.Math);
     } else if (global.layui && layui.define) {
+        /* global layui:true */
         layui.define('jquery', function (exports) {
             exports(factory(layui.jquery, global, global.document, global.Math));
         });
     } else {
         factory(jQuery, global, global.document, global.Math);
     }
-})(typeof window !== 'undefined' ? window : this, function ($, window, document, Math, undefined) {
+})(typeof window !== 'undefined' ? window : this, function ($, window, document, Math) {
 
     'use strict';
 
@@ -39,8 +40,8 @@
             window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] || window[vendors[x] + 'CancelRequestAnimationFrame'];
         }
 
-        if (!window.requestAnimationFrame)
-            window.requestAnimationFrame = function (callback, element) {
+        if (!window.requestAnimationFrame) {
+            window.requestAnimationFrame = function (callback) {
                 let currTime = new Date().getTime();
                 let timeToCall = Math.max(0, 16 - (currTime - lastTime));
                 let id = window.setTimeout(function () {
@@ -50,11 +51,12 @@
                 lastTime = currTime + timeToCall;
                 return id;
             };
-
-        if (!window.cancelAnimationFrame)
+        }
+        if (!window.cancelAnimationFrame) {
             window.cancelAnimationFrame = function (id) {
                 clearTimeout(id);
             };
+        }
     }());
 
     // 私有变量
@@ -94,9 +96,9 @@
     const incrementMAX = 255;          // 计数上限
     let incrementCount = 0;            // 增量计数
     // 颜色增量
-    let R_Increment = (color1.R - color2.R) / incrementMAX,
-        G_Increment = (color1.G - color2.G) / incrementMAX,
-        B_Increment = (color1.B - color2.B) / incrementMAX;
+    let incrementR = (color1.R - color2.R) / incrementMAX,
+        incrementG = (color1.G - color2.G) / incrementMAX,
+        incrementB = (color1.B - color2.B) / incrementMAX;
 
     // 彩虹渐变对象数组
     let rainBowArray = [];        // 条形
@@ -160,12 +162,36 @@
         return AudioArray;
     }
 
+    /**
+     * 获取点对应的坐标数组
+     * 根据点所在的环获取对应坐标数组
+     *
+     * @param  {int} line 点所在的线
+     * @return {!Object} 坐标数组
+     */
+    function getPointArray(line) {
+        switch (line) {
+            // 静态环
+            case 'staticLine':
+                return staticPointsArray;
+            // 内环
+            case 'innerLine':
+                return pointArray1;
+            // 外环
+            case 'outerLine':
+                return pointArray2;
+            default:
+
+                console.error(line + ' is undefined.');
+        }
+    }
+
     /** 设置RGB增量 */
     function setRGBIncrement() {
         incrementCount = 0;
-        R_Increment = (color1.R - color2.R) / incrementMAX;
-        G_Increment = (color1.G - color2.G) / incrementMAX;
-        B_Increment = (color1.B - color2.B) / incrementMAX;
+        incrementR = (color1.R - color2.R) / incrementMAX;
+        incrementG = (color1.G - color2.G) / incrementMAX;
+        incrementB = (color1.B - color2.B) / incrementMAX;
     }
 
     /**
@@ -176,9 +202,9 @@
      * @param {string}  colorStr RGB颜色字符串
      */
     function setColorObj(colorObj, colorStr) {
-        colorObj.R = parseInt(colorStr.split(",")[0]);
-        colorObj.G = parseInt(colorStr.split(",")[1]);
-        colorObj.B = parseInt(colorStr.split(",")[2]);
+        colorObj.R = parseInt(colorStr.split(',')[0]);
+        colorObj.G = parseInt(colorStr.split(',')[1]);
+        colorObj.B = parseInt(colorStr.split(',')[2]);
     }
 
     /**
@@ -242,10 +268,14 @@
         this.lineJoin = options.lineJoin;                      // 交互类型
         this.lineWidth = options.lineWidth;                    // 线条粗细
         this.milliSec = options.milliSec;                      // 重绘间隔
+        // 波浪参数
+        this.isWave = options.isWave;                          // 波浪模式
+        this.firstLine = options.firstLine;                    // 始环
+        this.secondLine = options.secondLine;                  // 末环
 
         // 创建并初始化canvas
         canvas = document.createElement('canvas');
-        canvas.id = 'canvas-visualizerbars'; // canvas ID
+        canvas.id = 'canvas-visualizerBars'; // canvas ID
         $(canvas).css({
             'position': 'fixed',
             'top': 0,
@@ -327,7 +357,11 @@
         lineCap: 'butt',             // 线帽类型
         lineJoin: 'miter',           // 交汇类型
         lineWidth: 5,                // 线条粗细
-        milliSec: 30                 // 重绘间隔
+        milliSec: 30,                // 重绘间隔
+        // 波浪参数
+        isWave: false,               // 波浪模式
+        firstLine: 'innerLine',      // 始线
+        secondLine: 'outerLine'      // 末线
     };
 
     // 公共方法
@@ -447,6 +481,33 @@
             context.restore();
         },
 
+        /**
+         * 绘制音频波浪
+         * @private
+         *
+         * @param {!Object} pointArray1 坐标数组1
+         * @param {!Object} pointArray2 坐标数组2
+         */
+        drawWave: function (pointArray1, pointArray2) {
+            context.save();
+            // 线段1开头和线段2结尾
+            context.beginPath();
+            context.moveTo(pointArray2[0].x, pointArray2[0].y);
+            context.lineTo(pointArray1[0].x, pointArray1[0].y);
+            // 顺指针连接线段1路径
+            for (let i = 1; i < pointArray1.length; i++) {
+                context.lineTo(pointArray1[i].x, pointArray1[i].y);
+            }
+            // 逆指针连接线段2路径
+            for (let i = pointArray2.length - 1; i >= 0; i--) {
+                context.lineTo(pointArray2[i].x, pointArray2[i].y);
+            }
+            context.closePath();
+            // 填充内部区域
+            context.fill();
+            context.restore();
+        },
+
 
         /**
          * 音频圆环和小球颜色变换
@@ -455,9 +516,9 @@
         colorTransformation: function () {
             if (incrementCount < incrementMAX) {
                 // color1对象向color2对象变化
-                color1.R -= R_Increment;
-                color1.G -= G_Increment;
-                color1.B -= B_Increment;
+                color1.R -= incrementR;
+                color1.G -= incrementG;
+                color1.B -= incrementB;
                 incrementCount++;
                 // 改变context颜色属性
                 currantColor = Math.floor(color1.R) + ',' + Math.floor(color1.G) + ',' + Math.floor(color1.B);
@@ -493,13 +554,13 @@
          */
         setRainBow: function (pointNum) {
             let rainBowArray = [];
-            let H_Increment = this.hueRange / (pointNum * 2);
+            let incrementH = this.hueRange / (pointNum * 2);
             let currantH = gradientOffsetRange || 0;
             for (let i = 0; i < pointNum; i++) {
                 let startH = currantH;
-                currantH += H_Increment;
+                currantH += incrementH;
                 let endH = currantH;
-                currantH += H_Increment;
+                currantH += incrementH;
                 rainBowArray.push({startH: startH, endH: endH});
             }
             return rainBowArray;
@@ -528,10 +589,10 @@
          * @private
          *
          * @param {int}   rainBow rainBow对象
-         * @param {float} x1      渐变开始点的 x 坐标
-         * @param {float} y1      渐变开始点的 y 坐标
-         * @param {float} x2      渐变结束点的 x 坐标
-         * @param {float} y2      渐变结束点的 y 坐标
+         * @param {(int | float)} x1      渐变开始点的 x 坐标
+         * @param {(int | float)} y1      渐变开始点的 y 坐标
+         * @param {(int | float)} x2      渐变结束点的 x 坐标
+         * @param {(int | float)} y2      渐变结束点的 y 坐标
          * @return {!Object} 彩虹渐变对象
          */
         getRainBowGradient: function (rainBow, x1, y1, x2, y2) {
@@ -708,6 +769,12 @@
                 }
                 this.colorMode === 'rainBow' ? this.drawRainBowBars(firstArray, secondArray) : this.drawBars(firstArray, secondArray);
             }
+            // 绘制音频波浪
+            let firstLineArray = getPointArray(this.firstLine);
+            let secondLineArray = getPointArray(this.secondLine);
+            if (this.isWave && this.firstLine !== this.secondLine && this.colorMode !== 'rainBow') {
+                this.drawWave(firstLineArray, secondLineArray);
+            }
             context.restore();
         },
 
@@ -754,9 +821,9 @@
         /** 移除canvas */
         destroy: function () {
             this.$el
-                .off('#canvas-visualizerbars')
-                .removeData('visualizerbars');
-            $('#canvas-visualizerbars').remove();
+                .off('#canvas-visualizerBars')
+                .removeData('visualizerBars');
+            $('#canvas-visualizerBars').remove();
         },
 
         /**
@@ -826,6 +893,9 @@
                 case 'height':
                 case 'barsRotation':
                 case 'barsDirection':
+                case 'isWave':
+                case 'firstLine':
+                case 'secondLine':
                     this[property] = value;
                     this.updateVisualizerBars(lastAudioSamples);
                     this.drawVisualizerBars();
@@ -837,6 +907,7 @@
                     this.updateVisualizerBars(lastAudioSamples);
                     this.drawVisualizerBars();
                     break;
+                // no default
             }
         }
 
@@ -845,21 +916,21 @@
     // 定义VisualizerBars插件
     //--------------------------------------------------------------------------------------------------------------
 
-    let old = $.fn.visualizerbars;
+    let old = $.fn.visualizerBars;
 
-    $.fn.visualizerbars = function (option) {
+    $.fn.visualizerBars = function (option) {
         let args = (arguments.length > 1) ? Array.prototype.slice.call(arguments, 1) : undefined;
 
         return this.each(function () {
             let $this = $(this);
-            let data = $this.data('visualizerbars');
+            let data = $this.data('visualizerBars');
             let options = $.extend({}, VisualizerBars.DEFAULTS, $this.data(), typeof option === 'object' && option);
 
             if (!data && typeof option === 'string') {
                 return;
             }
             if (!data) {
-                $this.data('visualizerbars', (data = new VisualizerBars(this, options)));
+                $this.data('visualizerBars', (data = new VisualizerBars(this, options)));
             }
             else if (typeof option === 'string') {
                 VisualizerBars.prototype[option].apply(data, args);
@@ -867,10 +938,10 @@
         });
     };
 
-    $.fn.visualizerbars.Constructor = VisualizerBars;
+    $.fn.visualizerBars.Constructor = VisualizerBars;
 
     // 确保插件不冲突
-    $.fn.visualizerbars.noConflict = function () {
+    $.fn.visualizerBars.noConflict = function () {
         $.fn.audiovisualize = old;
         return this;
     };

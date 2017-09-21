@@ -1,12 +1,12 @@
 /*!
- * jQuery Slider plugin v0.1.4
+ * jQuery Slider plugin v0.0.15
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
  * - https://git.oschina.net/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/09/13
+ * @date 2017/09/20
  */
 
 (function (global, factory) {
@@ -15,16 +15,17 @@
         define(['jquery'], function ($) {
             return factory($, global, global.document, global.Math);
         });
-    } else if (typeof exports === "object" && exports) {
+    } else if (typeof exports === 'object' && exports) {
         module.exports = factory(require('jquery'), global, global.document, global.Math);
     } else if (global.layui && layui.define) {
+        /* global layui:true */
         layui.define('jquery', function (exports) {
             exports(factory(layui.jquery, global, global.document, global.Math));
         });
     } else {
         factory(jQuery, global, global.document, global.Math);
     }
-})(typeof window !== 'undefined' ? window : this, function ($, window, document, Math, undefined) {
+})(typeof window !== 'undefined' ? window : this, function ($, window, document, Math) {
 
     'use strict';
 
@@ -39,8 +40,8 @@
             window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] || window[vendors[x] + 'CancelRequestAnimationFrame'];
         }
 
-        if (!window.requestAnimationFrame)
-            window.requestAnimationFrame = function (callback, element) {
+        if (!window.requestAnimationFrame) {
+            window.requestAnimationFrame = function (callback) {
                 let currTime = new Date().getTime();
                 let timeToCall = Math.max(0, 16 - (currTime - lastTime));
                 let id = window.setTimeout(function () {
@@ -50,11 +51,12 @@
                 lastTime = currTime + timeToCall;
                 return id;
             };
-
-        if (!window.cancelAnimationFrame)
+        }
+        if (!window.cancelAnimationFrame) {
             window.cancelAnimationFrame = function (id) {
                 clearTimeout(id);
             };
+        }
     }());
 
     //私有变量
@@ -94,14 +96,12 @@
     let videoList = [];                           // 视频数组
     let videoIndex = 0;                           // 视频索引
     let userVideo = '';                           // 用户视频
-    let myVideoListLength;                        // 视频列表长度
 
     // 音频
     let audio = document.createElement('audio');  // 音频对象
     let audioList = [];                           // 音频数组
     let audioIndex = 0;                           // 音频索引
     let userAudio = '';                           // 用户音频
-    let myAudioListLength;                        // 音频列表长度
 
 
     //私有方法
@@ -127,15 +127,17 @@
      *  更新数组索引
      *  根据顺序/随机读取模式更新数组索引
      *
-     *  @param {Array<*>} array    数组
-     *  @param {int}      index    当前数组索引
-     *  @param {boolean}  isRandom 是否随机读取
-     *  @return 更新的索引值
+     *  @param  {Array<*>} array    数组
+     *  @param  {int}      index    当前数组索引
+     *  @param  {boolean}  isRandom 是否随机读取
+     *  @return {int} 更新的索引值
      */
     function upDateIndex(array, index, isRandom) {
-        if (array.length <= 0) {
+        if (!array || array.length <= 0) {
+            // 如果数组不存在或者为空
             return -1;
         } else if (array.length === 1) {
+            // 如果数组长度只有1
             return 0;
         } else {
             if (isRandom) {
@@ -149,7 +151,11 @@
                 index = randomIndex(index, array);
             } else {
                 // 顺序读取
-                index + 1 < array.length ? index++ : index = 0;
+                if (index + 1 < array.length) {
+                    index++;
+                } else {
+                    index = 0;
+                }
             }
             return index;
         }
@@ -159,9 +165,9 @@
      * 获取数组顺序索引
      * 根据数组长度、当前数组索引，（按顺序）返回包含上一个、当前、下一个索引对象
      *
-     *  @param {Array<*>} array    数组
-     *  @param {int}      index    当前数组索引
-     *  @return 索引对象
+     *  @param  {Array<*>} array    数组
+     *  @param  {int}      index    当前数组索引
+     *  @return {!Object} 索引对象
      */
     function getArrayIndex(array, index) {
         if (array.length <= 0) {
@@ -192,30 +198,16 @@
      * 根据中心点坐标获取图片左上角坐标
      * 返回图片的XY坐标对象
      *
-     * @param  {float} centerX 中心点坐标X
-     * @param  {float} centerY 中心点坐标Y
-     * @param  {float} width   image宽度
-     * @param  {float} height  image高度
+     * @param  {(int | float)} centerX 中心点坐标X
+     * @param  {(int | float)} centerY 中心点坐标Y
+     * @param  {(int | float)} width   image宽度
+     * @param  {(int | float)} height  image高度
      * @return {Object} 坐标对象
      */
     function getXY(centerX, centerY, width, height) {
         return {
             'x': centerX - width / 2,
             'y': centerY - height / 2
-        };
-    }
-
-    /**
-     * 根据图片大小获取缩放
-     * 获取图片与窗口尺寸之间的比例对象
-     *
-     * @param  {Object} img image对象
-     * @return {Object} 缩放对象
-     */
-    function getScaling(img) {
-        return {
-            'widthScaling': img.width / canvasWidth,
-            'heightScaling': img.height / canvasHeight
         };
     }
 
@@ -231,7 +223,7 @@
      * 均值函数
      *
      * @param  {Array|float} array 数组
-     * @return {float} 平均值
+     * @return {(int | float)} 平均值
      */
     function mean(array) {
         if (!array) {
@@ -1015,6 +1007,7 @@
         this.isAudioPlay = options.isAudioPlay;            // 是否播放Audio
         this.isAudioLoop = options.isAudioLoop;            // 是否循环播放
         this.audioVolume = options.audioVolume;            // Audio音量
+        this.isBackgourndBlur = options.isBackgourndBlur;  // 是否背景模糊
         this.isBackgroundZoom = options.isBackgroundZoom;  // 是否背景缩放
         this.isRotate3D = options.isRotate3D;              // 是否3D旋转
 
@@ -1115,6 +1108,7 @@
         isAudioPlay: false,           // 是否播放Audio
         isAudioLoop: false,           // 是否循环播放
         audioVolume: 0.75,            // Audio音量
+        isBackgourndBlur: false,      // 是否背景模糊
         isBackgroundZoom: false,      // 是否背景缩放
         isRotate3D: false             // 是否3D旋转
     };
@@ -1164,18 +1158,18 @@
             if (imgList.length <= 0) {
                 // 如果文件夹为空
                 if (userImg) {
-                    $(this.$el).css("background-image", "url('file:///" + userImg + "')");
+                    $(this.$el).css('background-image', 'url("file:///' + userImg + '")');
                 } else {
-                    $(this.$el).css("background-image", "url(img/bg.png)");
+                    $(this.$el).css('background-image', 'url(img/bg.png)');
                 }
                 imgIndex = 0;
             }
             else if (imgList.length === 1) {
                 // 如果文件只有一张图片
-                $(this.$el).css("background-image", "url('file:///" + imgList[0] + "')");
+                $(this.$el).css('background-image', 'url("file:///' + imgList[0] + '")');
                 imgIndex = 0;
             } else {
-                $(this.$el).css("background-image", "url('file:///" + imgList[imgIndex] + "')");
+                $(this.$el).css('background-image', 'url("file:///' + imgList[imgIndex] + '")');
             }
         },
 
@@ -1189,11 +1183,11 @@
             if (imgList.length <= 0) {
                 // 如果文件夹为空
                 if (userImg) {
-                    $(this.$el).css("background-image", "url('file:///" + userImg + "')");
+                    $(this.$el).css('background-image', 'url("file:///' + userImg + '")');
                     prevImg.src = 'file:///' + userImg;
                     currantImg.src = 'file:///' + userImg;
                 } else {
-                    $(this.$el).css("background-image", "url(img/bg.png)");
+                    $(this.$el).css('background-image', 'url(img/bg.png)');
                     prevImg.src = 'img/bg.png';
                     currantImg.src = 'img/bg.png';
                 }
@@ -1202,12 +1196,12 @@
             else if (imgList.length === 1) {
                 // 如果文件只有一张图片
                 imgIndex = 0;
-                $(this.$el).css("background-image", "url('file:///" + imgList[0] + "')");
+                $(this.$el).css('background-image', 'url("file:///' + imgList[0] + '")');
                 prevImg.src = 'file:///' + imgList[imgIndex];
                 currantImg.src = 'file:///' + imgList[imgIndex];
             } else {
                 // 读取下一张图片
-                $(this.$el).css("background-image", "url('file:///" + imgList[imgIndex] + "')");
+                $(this.$el).css('background-image', 'url("file:///' + imgList[imgIndex] + '")');
                 prevImg.src = 'file:///' + imgList[oldIndex];
                 currantImg.src = 'file:///' + imgList[imgIndex];
             }
@@ -1221,42 +1215,49 @@
             if (imgList.length <= 0) {
                 // 如果文件夹为空
                 if (userImg) {
-                    $(this.$el).css("background-image", "url('file:///" + userImg + "')");
+                    $(this.$el).css('background-image', 'url("file:///' + userImg + '")');
                     prevImg.src = 'file:///' + userImg;
                     currantImg.src = 'file:///' + userImg;
                     currantImg.onload = function () {
                         context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
-                    }
+                    };
                 } else {
-                    $(this.$el).css("background-image", "url(img/bg.png)");
+                    $(this.$el).css('background-image', 'url(img/bg.png)');
                     prevImg.src = 'img/bg.png';
                     currantImg.src = 'img/bg.png';
                     currantImg.onload = function () {
                         context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
-                    }
+                    };
                 }
                 imgIndex = 0;
             }
             else if (imgList.length === 1) {
                 // 如果文件只有一张图片
                 imgIndex = 0;
-                $(this.$el).css("background-image", "url('file:///" + imgList[0] + "')");
+                $(this.$el).css('background-image', 'url("file:///' + imgList[0] + '")');
                 prevImg.src = 'file:///' + imgList[imgIndex];
                 currantImg.src = 'file:///' + imgList[imgIndex];
                 currantImg.onload = function () {
                     context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
-                }
+                };
             } else {
                 // 读取下一张图片
-                $(this.$el).css("background-image", "url('file:///" + imgList[imgIndex] + "')");
+                $(this.$el).css('background-image', 'url("file:///' + imgList[imgIndex] + '")');
                 prevImg.src = 'file:///' + imgList[oldIndex];
                 currantImg.src = 'file:///' + imgList[imgIndex];
                 currantImg.onload = function () {
                     context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
-                }
+                };
             }
         },
 
+        /**
+         * 停止滤镜
+         * @private
+         */
+        stopSliderFilter: function () {
+            $(this.$el).css('filter', 'none');
+        },
 
         /**
          * 开始背景3D转换
@@ -1266,23 +1267,24 @@
          * @param {float} ey 鼠标Y轴坐标
          */
         startSliderRotate3D: function (ex, ey) {
-            let x_multiple = (ex / canvasWidth) * 2 - 1;
-            let y_multiple = (ey / canvasHeight) * 2 - 1;
+            let xMultiple = (ex / canvasWidth) * 2 - 1;
+            let yMultiple = (ey / canvasHeight) * 2 - 1;
             $(this.$el).css('transform',
                 'scale(1.06, 1.06)'
-                + 'perspective(' + (3 - Math.abs(x_multiple + y_multiple)) + 'em)'
-                + 'translate(' + x_multiple + '%,' + y_multiple + '%)'
-                + 'rotate3d(' + -y_multiple + ',' + x_multiple + ',0,' + 0.07 + 'deg)'
+                + 'perspective(' + (3 - Math.abs(xMultiple + yMultiple)) + 'em)'
+                + 'translate(' + xMultiple + '%,' + yMultiple + '%)'
+                + 'rotate3d(' + -yMultiple + ',' + xMultiple + ',0,' + 0.07 + 'deg)'
             );
         },
 
         /**
-         * 停止背景3D转换
+         * 停止变换
          * @private
          */
-        stopSliderRotate3D: function () {
+        stopSliderTransform: function () {
             $(this.$el).css('transform', 'none');
         },
+
 
         /**
          * 设置交互事件
@@ -1320,6 +1322,17 @@
          */
         updateAudioAverage: function (audioSamples) {
             audioAverage = mean(audioSamples);
+            // 音频均值相关的函数
+            this.isBackgourndBlur && this.backgroundBlur();
+            this.isBackgroundZoom && this.backgroundZoom();
+        },
+
+        /** 背景模糊 */
+        backgroundBlur: function () {
+            if (this.isBackgourndBlur && !this.isRotate3D) {
+                let blur = 3 * audioAverage;
+                $(this.$el).css('filter', 'blur(' + blur + 'px)');
+            }
         },
 
         /** 背景缩放 */
@@ -1365,7 +1378,7 @@
             if (color2) {
                 userGradientColor2 = color2;
             } else {
-                userGradientColor2 = '255,255,0'
+                userGradientColor2 = '255,255,0';
             }
         },
 
@@ -1438,7 +1451,7 @@
         cssUserImg: function () {
             if (userImg) {
                 this.$el.css({
-                    'background-image': "url('file:///" + userImg + "')",
+                    'background-image': 'url("file:///' + userImg + '")',
                     'background-color': 'rgb(255, 255, 255)'
                 });
             } else {
@@ -1472,45 +1485,8 @@
             $(currantImg).remove();
         },
 
-        /** 设置当前图片为用户图片 */
-        imgSrcUserImg: function () {
-            if (userImg) {
-                currantImg.src = 'file:///' + userImg;
-            } else {
-                currantImg.src = 'img/bg.png';
-            }
-        },
-
-        /** 设置当前图片为默认图片 */
-        imgSrcDefaultImg: function () {
-            currantImg.src = 'img/bg.png';
-        },
-
         // Canvas
         //-------
-
-        /** 绘制用户图片 */
-        drawUserImg: function () {
-            if (userImg) {
-                currantImg.src = 'file:///' + userImg;
-                currantImg.onload = function () {
-                    context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
-                };
-            } else {
-                currantImg.src = 'img/bg.png';
-                currantImg.onload = function () {
-                    context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
-                };
-            }
-        },
-
-        /** 绘制默认图片 */
-        drawDefaultImg: function () {
-            currantImg.src = 'img/bg.png';
-            currantImg.onload = function () {
-                context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
-            };
-        },
 
         /** 清空Canvas内容 */
         clearCanvas: function () {
@@ -1527,7 +1503,11 @@
          *@param {Array<string>} currentFiles 当前文件路径数组
          */
         updateImgList: function (currentFiles) {
-            currentFiles.length <= 0 ? imgList = [] : imgList = currentFiles;
+            if (currentFiles.length <= 0) {
+                imgList = [];
+            } else {
+                imgList = currentFiles;
+            }
             imgIndex = 0;  // 初始化图片索引
         },
 
@@ -1545,6 +1525,7 @@
                 case 'canvas':
                     this.delImg();
                     break;
+                // no default
             }
         },
 
@@ -1560,6 +1541,7 @@
                 case 'canvas':
                     this.drawBackgroud();
                     break;
+                // no default
             }
         },
 
@@ -1696,8 +1678,8 @@
 
         /** 读取videoList */
         getVideoList: function () {
+            /* global myVideoList:true */
             videoList = [].concat(myVideoList) || [];
-            myVideoListLength = videoList.length;
             for (let i = 0; i < videoList.length; i++) {
                 videoList[i] = 'video/' + videoList[i];
             }
@@ -1819,8 +1801,8 @@
 
         /** 读取audioList */
         getAudioList: function () {
+            /* global myAudioList:true */
             audioList = [].concat(myAudioList) || [];
-            myAudioListLength = audioList.length;
             for (let i = 0; i < audioList.length; i++) {
                 audioList[i] = 'audio/' + audioList[i];
             }
@@ -1934,9 +1916,9 @@
         destroy: function () {
             this.$el
                 .off('#canvas-slider')
-                .removeData('date');
+                .removeData('slider');
 
-            this.cssSrcDefaultImg();
+            this.cssDefaultImg();
             this.delImg();
             this.delVideo();
             $('#canvas-slider').remove();
@@ -2013,14 +1995,19 @@
                     this.playbackRate = value;
                     this.setVideoPlaybackRate(this.playbackRate);
                     break;
+                case 'isBackgroundBlur':
+                    this.isBackgourndBlur = value;
+                    this.isBackgourndBlur || this.stopSliderFilter();
+                    break;
                 case 'isBackgroundZoom':
                     this.isBackgroundZoom = value;
-                    this.isBackgroundZoom || this.stopSliderRotate3D();
+                    this.isBackgroundZoom || this.stopSliderTransform();
                     break;
                 case 'isRotate3D':
                     this.isRotate3D = value;
-                    this.isRotate3D || this.stopSliderRotate3D();
+                    this.isRotate3D || this.stopSliderTransform();
                     break;
+                // no default
             }
         }
 

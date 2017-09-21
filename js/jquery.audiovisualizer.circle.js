@@ -1,12 +1,12 @@
 /*！
- * jQuery AudioVisualizer Circle plugin v0.1.2
+ * jQuery AudioVisualizer Circle plugin v0.0.13
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
  * - https://git.oschina.net/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/08/12
+ * @date 2017/09/20
  */
 
 (function (global, factory) {
@@ -15,8 +15,9 @@
         define(['jquery'], function ($) {
             return factory($, global, global.document, global.Math);
         });
-    } else if (typeof exports === "object" && exports) {
+    } else if (typeof exports === 'object' && exports) {
         module.exports = factory(require('jquery'), global, global.document, global.Math);
+        /* global layui:true */
     } else if (global.layui && layui.define) {
         layui.define('jquery', function (exports) {
             exports(factory(layui.jquery, global, global.document, global.Math));
@@ -24,7 +25,7 @@
     } else {
         factory(jQuery, global, global.document, global.Math);
     }
-})(typeof window !== 'undefined' ? window : this, function ($, window, document, Math, undefined) {
+})(typeof window !== 'undefined' ? window : this, function ($, window, document, Math) {
 
     'use strict';
 
@@ -39,8 +40,8 @@
             window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] || window[vendors[x] + 'CancelRequestAnimationFrame'];
         }
 
-        if (!window.requestAnimationFrame)
-            window.requestAnimationFrame = function (callback, element) {
+        if (!window.requestAnimationFrame) {
+            window.requestAnimationFrame = function (callback) {
                 let currTime = new Date().getTime();
                 let timeToCall = Math.max(0, 16 - (currTime - lastTime));
                 let id = window.setTimeout(function () {
@@ -50,11 +51,12 @@
                 lastTime = currTime + timeToCall;
                 return id;
             };
-
-        if (!window.cancelAnimationFrame)
+        }
+        if (!window.cancelAnimationFrame) {
             window.cancelAnimationFrame = function (id) {
                 clearTimeout(id);
             };
+        }
     }());
 
     // 私有变量
@@ -97,9 +99,9 @@
     const incrementMAX = 255;          // 计数上限
     let incrementCount = 0;            // 增量计数
     // 颜色增量
-    let R_Increment = (color1.R - color2.R) / incrementMAX,
-        G_Increment = (color1.G - color2.G) / incrementMAX,
-        B_Increment = (color1.B - color2.B) / incrementMAX;
+    let incrementR = (color1.R - color2.R) / incrementMAX,
+        incrementG = (color1.G - color2.G) / incrementMAX,
+        incrementB = (color1.B - color2.B) / incrementMAX;
 
     // 彩虹渐变对象数组
     let ringRainBowArray = [],    // 圆环渐变数组
@@ -201,16 +203,16 @@
         if (!deg || deg === 0) {
             return rotationAngle;
         }
-        return rotationAngle += Math.PI / 180 * deg;
+        return rotationAngle + Math.PI / 180 * deg;
     }
 
     /**
      *  获取当前点对应的角度
      *
-     * @param  {int} point 点的数量
-     * @param  {int} index 音频数组索引
-     * @param  {int} angle 当前角度
-     * @return {float} 当前点对应的角度
+     * @param  {int}           point 点的数量
+     * @param  {int}           index 音频数组索引
+     * @param  {(int | float)} angle 当前角度
+     * @return {(int | float)} 当前点对应的角度
      */
     function getDeg(point, index, angle) {
         return (Math.PI / 180) * (360 / point * (index + angle / 3) + 90);
@@ -252,16 +254,16 @@
             case 'outerRing':
                 return pointArray2;
             default:
-                console.error("ring is undefined.");
+                console.error('ring is undefined.');
         }
     }
 
     /** 设置RGB增量 */
     function setRGBIncrement() {
         incrementCount = 0;
-        R_Increment = (color1.R - color2.R) / incrementMAX;
-        G_Increment = (color1.G - color2.G) / incrementMAX;
-        B_Increment = (color1.B - color2.B) / incrementMAX;
+        incrementR = (color1.R - color2.R) / incrementMAX;
+        incrementG = (color1.G - color2.G) / incrementMAX;
+        incrementB = (color1.B - color2.B) / incrementMAX;
     }
 
     /**
@@ -272,9 +274,9 @@
      * @param {string}  colorStr RGB颜色字符串
      */
     function setColorObj(colorObj, colorStr) {
-        colorObj.R = parseInt(colorStr.split(",")[0]);
-        colorObj.G = parseInt(colorStr.split(",")[1]);
-        colorObj.B = parseInt(colorStr.split(",")[2]);
+        colorObj.R = parseInt(colorStr.split(',')[0]);
+        colorObj.G = parseInt(colorStr.split(',')[1]);
+        colorObj.B = parseInt(colorStr.split(',')[2]);
     }
 
     /**
@@ -360,7 +362,7 @@
 
         // 创建并初始化canvas
         canvas = document.createElement('canvas');
-        canvas.id = 'canvas-visualizercircle'; // canvas ID
+        canvas.id = 'canvas-visualizerCircle'; // canvas ID
         $(canvas).css({
             'position': 'fixed',
             'top': 0,
@@ -599,8 +601,8 @@
          * 根据坐标数组绘制内环、外环以及静态环之间连线
          * @private
          *
-         *  @param {Array<Object>} pointArray1 坐标数组1
-         *  @param {Array<Object>} pointArray2 坐标数组2
+         *  @param {!Object} pointArray1 坐标数组1
+         *  @param {!Object} pointArray2 坐标数组2
          */
         drawLine: function (pointArray1, pointArray2) {
             context.save();
@@ -621,7 +623,6 @@
          * @private
          *
          * @param {Array<Object>} pointArray 坐标数组
-         * @param {int}           ballSize   小球大小
          */
         drawBall: function (pointArray) {
             context.save();
@@ -638,8 +639,8 @@
          * 绘制音频波浪
          * @private
          *
-         * @param {Array<Object>} pointArray1 坐标数组1
-         * @param {Array<Object>} pointArray2 坐标数组2
+         * @param {!Object} pointArray1 坐标数组1
+         * @param {!Object} pointArray2 坐标数组2
          */
         drawWave: function (pointArray1, pointArray2) {
             context.save();
@@ -676,9 +677,9 @@
         colorTransformation: function () {
             if (incrementCount < incrementMAX) {
                 // color1对象向color2对象变化
-                color1.R -= R_Increment;
-                color1.G -= G_Increment;
-                color1.B -= B_Increment;
+                color1.R -= incrementR;
+                color1.G -= incrementG;
+                color1.B -= incrementB;
                 incrementCount++;
                 // 改变context颜色属性
                 currantColor = Math.floor(color1.R) + ',' + Math.floor(color1.G) + ',' + Math.floor(color1.B);
@@ -714,13 +715,13 @@
          */
         setRainBow: function (pointNum) {
             let rainBowArray = [];
-            let H_Increment = this.hueRange / (pointNum * 2);
+            let incrementH = this.hueRange / (pointNum * 2);
             let currantH = gradientOffsetRange || 0;
             for (let i = 0; i < pointNum; i++) {
                 let startH = currantH;
-                currantH += H_Increment;
+                currantH += incrementH;
                 let endH = currantH;
-                currantH += H_Increment;
+                currantH += incrementH;
                 rainBowArray.push({startH: startH, endH: endH});
             }
             return rainBowArray;
@@ -730,9 +731,9 @@
          * 根据线的宽度获取坐标
          * @private
          *
-         * @param  {float} x         线的坐标x
-         * @param  {float} y         线的坐标y
-         * @param  {int}   lineWidth 线宽
+         * @param  {(int | float)} x         线的坐标x
+         * @param  {(int | float)} y         线的坐标y
+         * @param  {int}           lineWidth 线宽
          * @return {!Object} 两侧坐标XY对象
          */
         getLineXY: function (x, y, lineWidth) {
@@ -749,10 +750,10 @@
          * @private
          *
          * @param {int}   rainBow rainBow对象
-         * @param {float} x1      渐变开始点的 x 坐标
-         * @param {float} y1      渐变开始点的 y 坐标
-         * @param {float} x2      渐变结束点的 x 坐标
-         * @param {float} y2      渐变结束点的 y 坐标
+         * @param {(int | float)} x1      渐变开始点的 x 坐标
+         * @param {(int | float)} y1      渐变开始点的 y 坐标
+         * @param {(int | float)} x2      渐变结束点的 x 坐标
+         * @param {(int | float)} y2      渐变结束点的 y 坐标
          * @return {!Object} 彩虹渐变对象
          */
         getRainBowGradient: function (rainBow, x1, y1, x2, y2) {
@@ -763,41 +764,12 @@
         },
 
         /**
-         * 绘制彩虹音频圆环
-         * 根据坐标数组绘制彩虹音频圆环
-         * @private
-         *
-         * @param {Array<Object>} pointArray 坐标数组
-         */
-        drawRainBowRing: function (pointArray) {
-            context.save();
-            // 首尾之间的连线
-            let end = pointArray.length - 1;
-            context.beginPath();
-            context.moveTo(pointArray[end].x, pointArray[end].y);
-            context.lineTo(pointArray[0].x, pointArray[0].y);
-            context.closePath();
-            context.strokeStyle = 'red';
-            context.stroke();
-            // 点与点之间的连线
-            for (let i = 1; i < pointArray.length; i++) {
-                context.beginPath();
-                context.moveTo(pointArray[i - 1].x, pointArray[i - 1].y);
-                context.lineTo(pointArray[i].x, pointArray[i].y);
-                context.closePath();
-                context.strokeStyle = this.getRainBowGradient(ringRainBowArray[i - 1], pointArray[i - 1].x, pointArray[i - 1].y, pointArray[i].x, pointArray[i].y);
-                context.stroke();
-            }
-            context.restore();
-        },
-
-        /**
          * 绘制环与环彩虹连线
          * 根据坐标数组绘制内环、外环以及静态环之间彩虹连线
          * @private
          *
-         * @param {Array<Object>} pointArray1 坐标数组1
-         * @param {Array<Object>} pointArray2 坐标数组2
+         * @param {!Object} pointArray1 坐标数组1
+         * @param {!Object} pointArray2 坐标数组2
          */
         drawRainBowLine: function (pointArray1, pointArray2) {
             let XY = {};
@@ -821,7 +793,6 @@
          * @private
          *
          * @param {Array<Object>} pointArray 坐标数组
-         * @param {int}           ballSize   小球大小
          */
         drawRainBowBall: function (pointArray) {
             let XY = {};
@@ -984,9 +955,9 @@
         /** 移除canvas */
         destroy: function () {
             this.$el
-                .off('#canvas-visualizercircle')
-                .removeData('visualizercircle');
-            $('#canvas-visualizercircle').remove();
+                .off('#canvas-visualizerCircle')
+                .removeData('visualizerCircle');
+            $('#canvas-visualizerCircle').remove();
         },
 
         /**
@@ -1090,6 +1061,7 @@
                     this.bindRingRotation = value;
                     this.bindRingRotation && (rotationAngle2 = rotationAngle1);
                     break;
+                // no default
             }
         }
 
@@ -1098,21 +1070,21 @@
     // 定义VisualizerCircle插件
     //--------------------------------------------------------------------------------------------------------------
 
-    let old = $.fn.visualizercircle;
+    let old = $.fn.visualizerCircle;
 
-    $.fn.visualizercircle = function (option) {
+    $.fn.visualizerCircle = function (option) {
         let args = (arguments.length > 1) ? Array.prototype.slice.call(arguments, 1) : undefined;
 
         return this.each(function () {
             let $this = $(this);
-            let data = $this.data('visualizercircle');
+            let data = $this.data('visualizerCircle');
             let options = $.extend({}, VisualizerCircle.DEFAULTS, $this.data(), typeof option === 'object' && option);
 
             if (!data && typeof option === 'string') {
                 return;
             }
             if (!data) {
-                $this.data('visualizercircle', (data = new VisualizerCircle(this, options)));
+                $this.data('visualizerCircle', (data = new VisualizerCircle(this, options)));
             }
             else if (typeof option === 'string') {
                 VisualizerCircle.prototype[option].apply(data, args);
@@ -1120,10 +1092,10 @@
         });
     };
 
-    $.fn.visualizercircle.Constructor = VisualizerCircle;
+    $.fn.visualizerCircle.Constructor = VisualizerCircle;
 
     // 确保插件不冲突
-    $.fn.visualizercircle.noConflict = function () {
+    $.fn.visualizerCircle.noConflict = function () {
         $.fn.audiovisualize = old;
         return this;
     };
