@@ -262,7 +262,7 @@
                             0, 0, currantWidth, canvasHeight,
                             0, 0, currantWidth, canvasHeight);
                         // 更新当前图片宽度
-                        currantWidth += ~~(0.5 + canvasWidth / 50);
+                        currantWidth += Math.floor(canvasWidth / 50);
                         effectTimer = requestAnimationFrame(animal);
                     } else {
                         context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
@@ -384,8 +384,8 @@
                                 canvasWidth - currantWidth, 0, currantWidth, canvasHeight);
                         }
                         // 更新上张图片和当前图片宽度
-                        prevWidth += ~~(0.5 + canvasWidth / 50);
-                        currantWidth += ~~(0.5 + canvasWidth / 50);
+                        prevWidth += Math.floor(canvasWidth / 50);
+                        currantWidth += Math.floor(canvasWidth / 50);
                         effectTimer = requestAnimationFrame(animal);
                     } else {
                         context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
@@ -417,8 +417,8 @@
                             0, 0, canvasWidth - prevWidth, canvasHeight,
                             prevWidth, 0, canvasWidth - prevWidth, canvasHeight);
                         // 更新上张图片和当前图片宽度
-                        prevWidth += ~~(0.5 + canvasWidth / 50);
-                        currantWidth += ~~(0.5 + canvasWidth / 50);
+                        prevWidth += Math.floor(canvasWidth / 50);
+                        currantWidth += Math.floor(canvasWidth / 50);
                         effectTimer = requestAnimationFrame(animal);
                     } else {
                         context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
@@ -447,8 +447,8 @@
                         context.drawImage(prevCanvas, 0, 0, canvasWidth, canvasHeight);
                         context.drawImage(currantCanvas, currantX + currantWidth / 2, 0, currantWidth, canvasHeight);
                         // 更新当前图片宽度和坐标X
-                        currantWidth += ~~(0.5 + canvasWidth / 50);
-                        currantX -= ~~(0.5 + canvasWidth / 50);
+                        currantWidth += Math.floor(canvasWidth / 50);
+                        currantX -= Math.floor(canvasWidth / 50);
                         effectTimer = requestAnimationFrame(animal);
                     } else {
                         context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
@@ -480,8 +480,8 @@
                         context.drawImage(currantCanvas, 0, 0, canvasWidth, canvasHeight);
                         context.drawImage(prevCanvas, currantX, 0, currantWidth, canvasHeight);
                         // 更新当前图片宽度和坐标X
-                        currantWidth -= ~~(0.5 + canvasWidth / 50);
-                        currantX += ~~(0.5 + originX / 50);
+                        currantWidth -= Math.floor(canvasWidth / 50);
+                        currantX += Math.floor(originX / 50);
                         effectTimer = requestAnimationFrame(animal);
                     } else {
                         context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
@@ -513,10 +513,10 @@
                         context.drawImage(prevCanvas, 0, 0, canvasWidth, canvasHeight);
                         context.drawImage(currantCanvas, currantX + currantWidth / 2, currantY + currantHeight / 2, currantWidth, currantHeight);
                         // 更新当前图片宽度和XY坐标
-                        currantX -= ~~(0.5 + canvasWidth / 50);
-                        currantY -= ~~(0.5 + canvasHeight / 50);
-                        currantWidth += ~~(0.5 + canvasWidth / 50);
-                        currantHeight += ~~(0.5 + canvasHeight / 50);
+                        currantX -= Math.floor(canvasWidth / 50);
+                        currantY -= Math.floor(canvasHeight / 50);
+                        currantWidth += Math.floor(canvasWidth / 50);
+                        currantHeight += Math.floor(canvasHeight / 50);
                         effectTimer = requestAnimationFrame(animal);
                     } else {
                         context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
@@ -548,10 +548,10 @@
                         context.drawImage(currantCanvas, 0, 0, canvasWidth, canvasHeight);
                         context.drawImage(prevCanvas, currantX, currantY, currantWidth, currantHeight);
                         // 更新当前图片宽度和XY坐标
-                        currantX += ~~(0.5 + originX / 50);
-                        currantY += ~~(0.5 + originY / 50);
-                        currantWidth -= ~~(0.5 + canvasWidth / 50);
-                        currantHeight -= ~~(0.5 + canvasHeight / 50);
+                        currantX += Math.floor(originX / 50);
+                        currantY += Math.floor(originY / 50);
+                        currantWidth -= Math.floor(canvasWidth / 50);
+                        currantHeight -= Math.floor(canvasHeight / 50);
                         effectTimer = requestAnimationFrame(animal);
                     } else {
                         context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
@@ -1154,7 +1154,7 @@
          * 改变背景图片
          * @private
          */
-        changeBackgroud: function () {
+        changeBackground: function () {
             if (imgList.length <= 0) {
                 // 如果文件夹为空
                 if (userImg) {
@@ -1211,7 +1211,7 @@
          * Canvas绘制背景图片
          * @private
          */
-        drawBackgroud: function () {
+        drawBackground: function () {
             if (imgList.length <= 0) {
                 // 如果文件夹为空
                 if (userImg) {
@@ -1533,13 +1533,13 @@
         changeSlider: function () {
             switch (this.sliderStyle) {
                 case 'css':
-                    this.changeBackgroud();
+                    this.changeBackground();
                     break;
                 case 'image':
                     this.changeImage();
                     break;
                 case 'canvas':
-                    this.drawBackgroud();
+                    this.drawBackground();
                     break;
                 // no default
             }
@@ -2005,6 +2005,7 @@
                     break;
                 case 'isRotate3D':
                     this.isRotate3D = value;
+                    this.stopSliderFilter();
                     this.isRotate3D || this.stopSliderTransform();
                     break;
                 // no default

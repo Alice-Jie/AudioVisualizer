@@ -1320,11 +1320,11 @@
             "value": 1
           },
           {
-            "label": "向上线段/Inner Line",
+            "label": "向上线段/Upper Line",
             "value": 2
           },
           {
-            "label": "向下线段/Outer Line",
+            "label": "向下线段/Lower Line",
             "value": 3
           }
         ],
@@ -1341,11 +1341,11 @@
             "value": 1
           },
           {
-            "label": "向上线段/Inner Line",
+            "label": "向上线段/Upper Line",
             "value": 2
           },
           {
-            "label": "向下线段/Outer Line",
+            "label": "向下线段/Lower Line",
             "value": 3
           }
         ],
@@ -1426,7 +1426,7 @@
       },
       "bars_lineCap": {
         "order": 4111,
-        "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
+        "condition": "bars_isWave.value == true || bars_isBars.value == true || bars_isLineTo.value == true",
         "text": "ui_bars_lineCap",
         "type": "combo",
         "options": [
@@ -1447,7 +1447,7 @@
       },
       "bars_lineJoin": {
         "order": 4112,
-        "condition": "bars_isBars.value == true || bars_isLineTo.value == true",
+        "condition": "bars_isWave.value == true || bars_isBars.value == true || bars_isLineTo.value == true",
         "text": "ui_bars_lineJoin",
         "type": "combo",
         "options": [
@@ -2804,8 +2804,8 @@
         "ui_about_authorText": "<br/>Author：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
         "ui_about_emailText": "<br/>Email：909011298@qq.com<br/>",
-        "ui_about_versionText": "<br/>Version Number：0.5.5<br/>",
-        "ui_about_updateText": "<br/><span>Update Description：</span><br/><span>01、Fixed background - video several questions, add background music settings</span><br/><span>02、Now you can customize the time / date style</span><br/><span>03、Add background to follow audio vibration function</span><br/><span>04、Particles add random color, stroke, fill function. Add color, size, and move to follow audio function.</span><br/><span>                           -- From Baidu translate.</span><br/>",
+        "ui_about_versionText": "<br/>Version Number：0.5.6<br/>",
+        "ui_about_updateText": "<br/><span>Update Description：</span><br/><span>01、Fixed particles glow color failure BUG</span><br/><span>02、Bars settings add wave mode</span><br/><span>03、Fixed some potential BUG</span><br/><span>                           -- From Baidu translate.</span><br/>",
         "ui_about_describeText": "<br/><span>Relevant Instructions：</span><br/><span>If you have better text translation, please contact me.</span><br/>",
         "ui_about_isQRcode": "<br/>Show QRcode?<br/><br/>"
       },
@@ -3038,8 +3038,8 @@
         "ui_about_authorText": "<br/>作者：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
         "ui_about_emailText": "<br/>Email：909011298@qq.com<br/>",
-        "ui_about_versionText": "<br/>版本号：0.5.5<br/>",
-        "ui_about_updateText": "<br/><span>更新说明：</span><br/><span>01、修复背景-视频若干问题，添加背景音乐设置</span><br/><span>02、现在可以自定义时间/日期风格了</span><br/><span>03、加入背景跟随音频震动功能</span><br/><span>04、粒子加入描边、随机颜色、粒子颜色、大小和速度跟随音频功能</span><br/>",
+        "ui_about_versionText": "<br/>版本号：0.5.6<br/>",
+        "ui_about_updateText": "<br/><span>更新说明：</span><br/><span>01、修复粒子模糊颜色失效BUG</span><br/><span>02、条形设置加入波浪模式</span><br/><span>03、修复部分潜在BUG</span><br/>",
         "ui_about_describeText": "<br/><span>相关说明：</span><br/><span>由于项目工作量较大，难免会有部分BUG没有排查到。如果你发现了BUG，请移步到创意工坊描述BUG发生原因以及产生的结果。感谢大家长期以来的支持。</span><br/>",
         "ui_about_isQRcode": "<br/>显示二维码<br/><br/>"
       },
@@ -3272,8 +3272,8 @@
         "ui_about_authorText": "<br/>作者：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
         "ui_about_emailText": "<br/>Email：909011298@qq.com<br/>",
-        "ui_about_versionText": "<br/>版本號：0.5.5<br/>",
-        "ui_about_updateText": "<br/><span>更新說明：</span><br/><span>01、修復背景-視頻若幹問題，添加背景音樂設置</span><br/><span>02、現在可以自定義時間/日期風格了</span><br/><span>03、加入背景跟隨音頻震動功能</span><br/><span>04、粒子加入描邊、隨機顏色、粒子顏色、大小和速度跟隨音頻功能</span><br/>",
+        "ui_about_versionText": "<br/>版本號：0.5.6<br/>",
+        "ui_about_updateText": "<br/><span>更新說明：</span><br/><span>01、修復粒子模糊顏色失效BUG</span><br/><span>02、條形設置加入波浪模式</span><br/><span>03、修復部分潛在BUG</span><br/>",
         "ui_about_describeText": "<br/><span>相關說明：</span><br/><span>由於項目工作量較大，難免會有部分BUG沒有排查到。如果妳發現了BUG，請移步到創意工坊描述BUG發生原因以及產生的結果。感謝大家長期以來的支持。</span><br/>",
         "ui_about_isQRcode": "<br/>顯示二維碼<br/><br/>"
       }
@@ -3284,7 +3284,7 @@
   "tags": [
     "Relaxing"
   ],
-  "title": "[4K]Audio Visualizer v0.5.4(音频可视化)",
+  "title": "[4K]Audio Visualizer v0.5.6(音频可视化)",
   "type": "web",
   "visibility": "public",
   "workshopid": 921617616
