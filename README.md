@@ -4,7 +4,7 @@
 一个在Wallpaper Engine创意工坊上的开源项目:
 http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
 
-目前Circle Audio Visualizer使用了4个jquery插件，分别是`jquery.audiovisualizer.bars`、`jquery.audiovisualizer.circle`、`jquery.date`、`juqery.slider`和`jquery.particles`。
+目前Circle Audio Visualizer使用了4个jquery插件，分别是`jquery.audiovisualizer.bars`、`jquery.audiovisualizer.circle`、`jquery.time`、`juqery.slider`和`jquery.particles`。
 
 visualizerbars插件
 ---
@@ -70,6 +70,9 @@ lineCap | string | 'butt' | 用于设置context.lineCap
 lineJoin | string | 'miter' | 用于设置context.lineJoin
 lineWidth | int | 5 | 用于设置context.lineWidth
 milliSec | int | 30 | 重绘音频条形组间隔（ms）
+isWave | boolean | false | 波浪模式开关
+firstRing | string | 'upperLine' | 波浪模式-上线段
+secondRing | string | 'lowerLine' | 波浪模式-下线段
 
 #### 方法列表：
 
@@ -190,6 +193,9 @@ isInnerRing | boolean | true | 显示内环开关
 isOuterRing | boolean | true | 显示外环开关
 ringRotation | int | 0 | 旋转音频圆环，负数为逆时针旋转，正数为顺时针旋转
 milliSec | int | 30 | 重绘音频圆环间隔（ms）
+isWave | boolean | false | 波浪模式开关
+firstRing | string | 'innerRing' | 波浪模式-始环
+secondRing | string | 'outerRing' | 波浪模式-末环
 isLineTo | boolean | false | 显示内外环之间点与点连开关
 firstPoint | string | 'innerRing' | 连线的始点标识字符串
 secondPoint | string | 'outerRing' | 连线的末点标识字符串
@@ -265,26 +271,26 @@ string | property | 属性名
     window.wallpaperRegisterAudioListener && window.wallpaperRegisterAudioListener(wallpaperAudioListener);
 ```
 
-date插件
+time插件
 ---
 
 #### 说明：
-date插件用于创建一个canvas,创建一个canvas并绘制日期。
+time插件用于创建一个canvas,创建一个canvas并绘制日期。
 
 #### 使用：
 
-初始化date插件如下：
+初始化time插件如下：
 
 
 ```javascript
-    $(selector).date();
+    $(selector).time();
 ```
 
-你也可以传递一些参数初始化date插件(具体参数详见参数列表):
+你也可以传递一些参数初始化time插件(具体参数详见参数列表):
 
 
 ```javascript
-    $(selector).date({
+    $(selector).time({
         opacity: ...,
         color: ...,
         ...
@@ -323,7 +329,7 @@ currentCity | string | 'zh_cn' | 当前城市
 
 **setCity：**
 
-调用`$(selector).date('setCity', cityStr);`清除canvas内容。
+调用`$(selector).time('setCity', cityStr);`清除canvas内容。
 
 参数类型 | 参数名 | 参数描述
 ---------|--------|----------
@@ -331,43 +337,43 @@ string | cityStr | 城市名（仅限中国）
 
 **clearCanvas：**
 
-调用`$(selector).date('clearCanvas');`清除canvas内容。
+调用`$(selector).time('clearCanvas');`清除canvas内容。
 
 **updateDate：**
 
-调用`$(selector).date('updateDate');`更新时间日期信息
+调用`$(selector).time('updateDate');`更新时间日期信息
 
 **drawDate：**
 
-调用`$(selector).date('drawDate');`绘制时间日期
+调用`$(selector).time('drawDate');`绘制时间日期
 
 **stopDateTimer：**
 
-调用`$(selector).date('stopDateTimer');`停止日期计时器
+调用`$(selector).time('stopDateTimer');`停止日期计时器
 
 **startDateTimer：**
 
-调用`$(selector).date('runDateTimer');`开始日期计时器，间隔一秒重绘时间和日期
+调用`$(selector).time('runDateTimer');`开始日期计时器，间隔一秒重绘时间和日期
 
 **updateWeather：**
 
-调用`$(selector).date('updataWeather');`更新天气信息
+调用`$(selector).time('updataWeather');`更新天气信息
 
 **stopWeatherTimer：**
 
-调用`$(selector).date('stopWeatherTimer');`停止天气计时器
+调用`$(selector).time('stopWeatherTimer');`停止天气计时器
 
 **startWeatherTimer：**
 
-调用`$(selector).date('runWeatherTimer');`开始天气计时器，间隔三个小时重绘天气信息
+调用`$(selector).time('runWeatherTimer');`开始天气计时器，间隔三个小时重绘天气信息
 
 **destroy：**
 
-调用`$(selector).date('destroy');`销毁日期所在canvas
+调用`$(selector).time('destroy');`销毁日期所在canvas
 
 **set：**
 
-调用`$(selector).date('set', property, value);`设置date插件相关参数，具体参数详见参数列表。
+调用`$(selector).time('set', property, value);`设置date插件相关参数，具体参数详见参数列表。
 
 参数类型 | 参数名 | 参数描述 
 ---------|--------|----------
@@ -441,6 +447,7 @@ audioProgress | float | 0 | 音频进度（0 - 1）
 isAudioPlay | boolean | false | 音频播放状态
 isAudioLoop | boolean | false | 音频是否播放
 audioVolume | float | 0.75 | 音频音量（0 - 1）
+isBackgourndBlur | boolean | flase | 背景缩放模糊
 isBackgroundZoom | boolean | flase | 背景缩放开关
 isRotate3D | boolean | flase | 背景3D转换开关
 
@@ -450,7 +457,15 @@ isRotate3D | boolean | flase | 背景3D转换开关
 
 调用`$(selector).slider('updateAudioAverage',  audioSamples);`更新音频均值。
 
-参数类型 | 参数名 | 参数描述 
+参数类型 | 参数名 | 参数描述
+---------|--------|----------
+float | audioSamples | 音频数组
+
+**backgroundBlur：**
+
+调用`$(selector).slider('backgroundBlur');`根据音频均值模糊背景
+
+参数类型 | 参数名 | 参数描述
 ---------|--------|----------
 float | audioSamples | 音频数组
 
@@ -458,7 +473,7 @@ float | audioSamples | 音频数组
 
 调用`$(selector).slider('backgroundZoom');`根据音频均值缩放背景
 
-参数类型 | 参数名 | 参数描述 
+参数类型 | 参数名 | 参数描述
 ---------|--------|----------
 float | audioSamples | 音频数组
 
@@ -466,7 +481,7 @@ float | audioSamples | 音频数组
 
 调用`$(selector).slider('selector', color);`获取用户自定义的颜色地址，如果路径不存在默认为'255,255,255'。
 
-参数类型 | 参数名 | 参数描述 
+参数类型 | 参数名 | 参数描述
 ---------|--------|----------
 string | color | 用户颜色路径
 
@@ -474,7 +489,7 @@ string | color | 用户颜色路径
 
 调用`$(selector).slider('setUserImg', img);`获取用户自定义的图片地址，如果路径不存在默认为空字符串。
 
-参数类型 | 参数名 | 参数描述 
+参数类型 | 参数名 | 参数描述
 ---------|--------|----------
 string | img | 用户图片路径
 
@@ -482,13 +497,25 @@ string | img | 用户图片路径
 
 调用`$(selector).slider('setUserVideo', video);`获取用户自定义的视频地址，如果路径不存在默认为空字符串。
 
-参数类型 | 参数名 | 参数描述 
+参数类型 | 参数名 | 参数描述
 ---------|--------|----------
 string | video | 用户视频路径
 
-**cssSrcUserImg：**
+**setUserAudio：**
 
-调用`$(selector).slider('cssSrcUserImg');`设置background-image为用户图片。
+调用`$(selector).slider('setUserAudio', video);`获取用户自定义的视频地址，如果路径不存在默认为空字符串。
+
+参数类型 | 参数名 | 参数描述
+---------|--------|----------
+string | audio | 用户音频路径
+
+**cssUserColor：**
+
+调用`$(selector).slider('cssUserColor');`设置background-color为用户颜色
+
+**cssLinearGradient：**
+
+调用`$(selector).slider('cssLinearGradient');`设置background-image为线性渐变
 
 **cssSrcUserImg：**
 
@@ -505,22 +532,6 @@ string | video | 用户视频路径
 **delImg：**
 
 调用`$(selector).slider('delImg');`删除上张图片和当前图片。
-
-**imgSrcUserImg：**
-
-调用`$(selector).slider('imgSrcUserImg');`设置当前图片为用户图片。
-
-**imgSrcDefaultImg：**
-
-调用`$(selector).slider('imgSrcDefaultImg');`设置当前图片为默认图片。
-
-**drawUserImg：**
-
-调用`$(selector).slider('drawUserImg');`绘制用户图片。
-
-**drawDefaultImg：**
-
-调用`$(selector).slider('drawDefaultImg');`绘制默认图片。
 
 **clearCanvas：**
 

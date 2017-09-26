@@ -120,8 +120,8 @@
             // 如果距离小于两者半径之和
             if (dist <= particles1.radius + particles2.radius) {
                 // 随机在画布上设置粒子对象坐标
-                particles1.x = Math.random() * canvasWidth;
-                particles1.y = Math.random() * canvasHeight;
+                particles1.x = Math.floor(Math.random() * canvasWidth);
+                particles1.y = Math.floor(Math.random() * canvasHeight);
                 // 检查粒子位置是否重叠
                 checkOverlap(index);
             }
@@ -148,8 +148,8 @@
             } else {
                 scaling = size * 10 / currantCanvas.height;
             }
-            width = ~~(0.5 + currantCanvas.width * scaling);
-            height = ~~(0.5 + currantCanvas.height * scaling);
+            width = Math.floor(currantCanvas.width * scaling);
+            height = Math.floor(currantCanvas.height * scaling);
         }
         return {
             width: width,
@@ -467,8 +467,8 @@
             // 向粒子数组添加粒子
             for (let i = 0; i < this.number; i++) {
                 // 随机XY坐标
-                let x = ~~(0.5 + Math.random() * canvasWidth);
-                let y = ~~(0.5 + Math.random() * canvasHeight);
+                let x = Math.floor(Math.random() * canvasWidth);
+                let y = Math.floor(Math.random() * canvasHeight);
                 // 向粒子数组添加粒子
                 particlesArray.push({
                     // 粒子全局属性
@@ -521,8 +521,8 @@
         moveParticles: function (particles, speed) {
             if (this.isMove) {
                 let zoom = this.isMoveFollow ? (0.1 + audioAverage * this.moveRate) : 1;
-                particles.x += particles.vx * speed * zoom;
-                particles.y += particles.vy * speed * zoom;
+                particles.x = Math.floor(particles.x + particles.vx * speed * zoom);
+                particles.y = Math.floor(particles.y + particles.vy * speed * zoom);
             }
         },
 
@@ -627,23 +627,23 @@
 
             // 如果粒子X轴大于画布宽度
             if (particles.x - size > canvasWidth) {
-                particles.x = newPosition.xLeft;
-                particles.y = Math.random() * canvasHeight;
+                particles.x = Math.floor(newPosition.xLeft);
+                particles.y = Math.floor(Math.random() * canvasHeight);
             }
             // 如果粒子X轴小于画布宽度
             else if (particles.x + size < 0) {
-                particles.x = newPosition.xRight;
-                particles.y = Math.random() * canvasHeight;
+                particles.x = Math.floor(newPosition.xRight);
+                particles.y = Math.floor(Math.random() * canvasHeight);
             }
             // 如果粒子Y轴大于画布高度
             if (particles.y - size > canvasHeight) {
-                particles.y = newPosition.yTop;
-                particles.x = Math.random() * canvasWidth;
+                particles.y = Math.floor(newPosition.yTop);
+                particles.x = Math.floor(Math.random() * canvasWidth);
             }
             // 如果粒子Y轴小于画布高度
             else if (particles.y + size < 0) {
-                particles.y = newPosition.yBottom;
-                particles.x = Math.random() * canvasWidth;
+                particles.y = Math.floor(newPosition.yBottom);
+                particles.x = Math.floor(Math.random() * canvasWidth);
             }
 
             // 如果离开模式是反弹，改变粒子的方向向量
@@ -707,8 +707,8 @@
                 let tempArray = [];
                 // 多余的粒子初始化
                 for (let i = 0; i < n; i++) {
-                    let x = ~~(0.5 + Math.random() * canvasWidth);
-                    let y = ~~(0.5 + Math.random() * canvasHeight);
+                    let x = Math.floor(Math.random() * canvasWidth);
+                    let y = Math.floor(Math.random() * canvasHeight);
                     tempArray.push({
                         // 粒子全局属性
                         opacity: this.opacity,          // 不透明度

@@ -377,9 +377,9 @@
             case 1:
                 return 'staticLine';
             case 2:
-                return 'innerLine';
+                return 'upperLine';
             case 3:
-                return 'outerLine';
+                return 'lowerLine';
             default:
                 return 'staticLine';
         }

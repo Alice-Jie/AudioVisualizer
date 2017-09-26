@@ -171,14 +171,14 @@
      */
     function getPointArray(line) {
         switch (line) {
-            // 静态环
+            // 静态线段
             case 'staticLine':
                 return staticPointsArray;
-            // 内环
-            case 'innerLine':
+            // 上线段
+            case 'upperLine':
                 return pointArray1;
-            // 外环
-            case 'outerLine':
+            // 下线段
+            case 'lowerLine':
                 return pointArray2;
             default:
 
