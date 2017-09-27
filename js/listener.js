@@ -146,8 +146,14 @@
     };
 
     // 插件列表
-    let wallpaper = $('#wallpaper').visualizerCircle().visualizerBars().time().particles().slider();
+    let wallpaper = $('#wallpaper').slider().particles().visualizerCircle().visualizerBars().time();
     wallpaper.slider('getAudioList');  // 获取音频列表
+
+    // 测试模块
+    //--------------------------------------------------------------------------------------------------------------
+
+    // wallpaper.logo();
+    // wallpaper.logo('setUserImg', '').logo('runLogoTimer');
 
     // 定义方法
     //--------------------------------------------------------------------------------------------------------------

@@ -206,8 +206,8 @@
      */
     function getXY(centerX, centerY, width, height) {
         return {
-            'x': centerX - width / 2,
-            'y': centerY - height / 2
+            x: centerX - width / 2,
+            y: centerY - height / 2
         };
     }
 

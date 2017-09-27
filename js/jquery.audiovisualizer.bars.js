@@ -360,8 +360,8 @@
         milliSec: 30,                // 重绘间隔
         // 波浪参数
         isWave: false,               // 波浪模式
-        firstLine: 'innerLine',      // 始线
-        secondLine: 'outerLine'      // 末线
+        firstLine: 'upperLine',      // 始线
+        secondLine: 'lowerLine'      // 末线
     };
 
     // 公共方法
