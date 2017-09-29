@@ -1011,10 +1011,6 @@
         this.isBackgroundZoom = options.isBackgroundZoom;  // 是否背景缩放
         this.isRotate3D = options.isRotate3D;              // 是否3D旋转
 
-        // 初始化图片源
-        prevImg.src = 'img/bg.png';
-        currantImg.src = 'img/bg.png';
-
         // 创建并初始化canvas
         canvas = document.createElement('canvas');
         canvas.id = 'canvas-slider'; // canvas ID
@@ -1042,6 +1038,10 @@
         currantCanvas.height = canvasHeight;
         prevContext = prevCanvas.getContext('2d');
         currantContext = currantCanvas.getContext('2d');
+
+        // 初始化图片源
+        prevImg.src = 'img/bg.png';
+        currantImg.src = 'img/bg.png';
 
         // 初始化prevImg、currantImg属性
         prevImg.id = 'img-prev';

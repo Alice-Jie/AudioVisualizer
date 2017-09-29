@@ -225,7 +225,7 @@
      * @param {(!Object | string)} color       颜色
      */
     function getColor(colorFormat, color) {
-        if (typeof(color) == 'object') {
+        if (typeof(color) === 'object') {
             switch (colorFormat) {
                 case 'RGB':
                     return 'rgb(' + color.R + ', ' + color.G + ', ' + color.B + ')';
@@ -238,7 +238,7 @@
                 default:
                     return 'error color format.';
             }
-        } else if (typeof(color) == 'string') {
+        } else if (typeof(color) === 'string') {
             switch (colorFormat) {
                 case 'RGB':
                     return 'rgb(' + color + ')';
@@ -320,7 +320,7 @@
             'position': 'fixed',
             'top': 0,
             'left': 0,
-            'z-index': 1,
+            'z-index': 2,
             'opacity': this.opacity
         });  // canvas CSS
         canvasWidth = canvas.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;

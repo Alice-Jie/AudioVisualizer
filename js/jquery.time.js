@@ -411,7 +411,7 @@
             'position': 'fixed',
             'top': 0,
             'left': 0,
-            'z-index': 4,
+            'z-index': 5,
             'opacity': this.opacity
         });  // canvas CSS
         canvasWidth = canvas.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;

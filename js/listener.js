@@ -6,7 +6,7 @@
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/09/20
+ * @date 2017/09/29
  */
 
 (function ($, window, document, Math) {
@@ -146,14 +146,8 @@
     };
 
     // 插件列表
-    let wallpaper = $('#wallpaper').slider().particles().visualizerCircle().visualizerBars().time();
+    let wallpaper = $('#wallpaper').slider().logo().particles().visualizerCircle().visualizerBars().time();
     wallpaper.slider('getAudioList');  // 获取音频列表
-
-    // 测试模块
-    //--------------------------------------------------------------------------------------------------------------
-
-    // wallpaper.logo();
-    // wallpaper.logo('setUserImg', '').logo('runLogoTimer');
 
     // 定义方法
     //--------------------------------------------------------------------------------------------------------------
@@ -1908,6 +1902,82 @@
                     wallpaper.visualizerBars('runVisualizerBarsTimer');
                 }
             }
+
+            // Logo设置
+            //-----------------------------------------------------------
+
+            // # 基础参数
+            //-----------
+
+            // 显示标志
+            if (properties.logo_isLogo) {
+                wallpaper.logo('set', 'isLogo', properties.logo_isLogo.value);
+            }
+            // 标志不透明度
+            if (properties.logo_opacity) {
+                wallpaper.logo('set', 'opacity', properties.logo_opacity.value / 100);
+            }
+            // 标志文件
+            if (properties.logo_image) {
+                if (properties.logo_image.value) {
+                    wallpaper.logo('setUserImg', properties.logo_image.value);
+                } else {
+                    wallpaper.logo('setUserImg', '');
+                }
+            }
+            // 圆形标志
+            if (properties.logo_isCircular) {
+                wallpaper.logo('set', 'isCircular', properties.logo_isCircular.value);
+            }
+
+            // # 坐标参数
+            //-----------
+
+            // 标志X轴偏移
+            if (properties.logo_offsetX) {
+                wallpaper.logo('set', 'offsetX', properties.logo_offsetX.value / 100);
+            }
+            // 标志Y轴偏移
+            if (properties.logo_offsetY) {
+                wallpaper.logo('set', 'offsetY', properties.logo_offsetY.value / 100);
+            }
+            // 标志鼠标坐标偏移
+            if (properties.logo_isClickOffset) {
+                wallpaper.logo('set', 'isClickOffset', properties.logo_isClickOffset.value);
+            }
+
+            // # 标志参数
+            //-----------
+
+            // 比例缩放
+            if (properties.logo_zoom) {
+                wallpaper.logo('set', 'zoom', properties.logo_zoom.value / 100);
+            }
+            // 宽度比例
+            if (properties.logo_widthRatio) {
+                wallpaper.logo('set', 'widthRatio', properties.logo_widthRatio.value / 100);
+            }
+            // 高度比例
+            if (properties.logo_heightRatio) {
+                wallpaper.logo('set', 'heightRatio', properties.logo_heightRatio.value / 100);
+            }
+            // 初始角度
+            if (properties.logo_initialAngle) {
+                wallpaper.logo('set', 'initialAngle', properties.logo_initialAngle.value);
+            }
+            // 旋转Logo
+            if (properties.logo_isRotation) {
+                wallpaper.logo('set', 'isRotation', properties.logo_isRotation.value);
+            }
+            // 旋转速度
+            if (properties.logo_rotationAngle) {
+                wallpaper.logo('set', 'rotationAngle', properties.logo_rotationAngle.value / 100);
+            }
+            // 重绘间隔
+            if (properties.logo_milliSec) {
+                wallpaper.logo('set', 'milliSec', properties.logo_milliSec.value);
+            }
+
 
             // 时间日期参数
             //-----------------------------------------------------------

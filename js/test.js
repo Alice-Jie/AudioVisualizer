@@ -9,7 +9,7 @@
  * @date 2017/07/28
  */
 
-;(function ($, window, document, Math, undefined) {
+(function ($, window, document, Math) {
 
     'use strict';
 
@@ -71,7 +71,10 @@
     // Particles插件调试区域
     //--------------------------------------------------------------------------------------------------------------
 
-    $('#wallpaper').particles({});
-    $('#wallpaper').particles('runParticlesTimer');
+    $('#wallpaper').logo({});
+    $('#wallpaper').logo('setUserImg', '');
+
+    // Logo插件调试区域
+    //--------------------------------------------------------------------------------------------------------------
 
 })(jQuery, window, document, Math);

@@ -1491,19 +1491,151 @@
         "text": "<br/>_______________________________<br/><br/><br/>",
         "type": "text"
       },
-      "date_Text": {
+      "logo_Text": {
         "order": 5000,
+        "text": "ui_logo_Text",
+        "type": "text"
+      },
+      "logo_isLogo": {
+        "order": 5001,
+        "text": "ui_logo_isLogo",
+        "type": "bool",
+        "value": false
+      },
+      "logo_image": {
+        "order": 5002,
+        "condition": "logo_isLogo.value == true",
+        "text": "ui_logo_image",
+        "type": "file"
+      },
+      "logo_isCircular": {
+        "order": 5003,
+        "text": "ui_logo_isCircular",
+        "type": "bool",
+        "value": true
+      },
+      "logo_opacity": {
+        "order": 5003,
+        "condition": "logo_isLogo.value == true",
+        "text": "ui_logo_opacity",
+        "type": "slider",
+        "editable": true,
+        "max": 100,
+        "min": 0,
+        "value": 90
+      },
+      "logo_offsetX": {
+        "order": 5004,
+        "condition": "logo_isLogo.value == true",
+        "text": "ui_logo_offsetX",
+        "type": "slider",
+        "editable": true,
+        "max": 100,
+        "min": 0,
+        "value": 50
+      },
+      "logo_offsetY": {
+        "order": 5005,
+        "condition": "logo_isLogo.value == true",
+        "text": "ui_logo_offsetY",
+        "type": "slider",
+        "editable": true,
+        "max": 100,
+        "min": 0,
+        "value": 50
+      },
+      "logo_isClickOffset": {
+        "order": 5006,
+        "condition": "logo_isLogo.value == true",
+        "text": "ui_logo_isClickOffset",
+        "type": "bool",
+        "value": false
+      },
+      "logo_zoom": {
+        "order": 5101,
+        "condition": "logo_isLogo.value == true",
+        "text": "ui_logo_zoom",
+        "type": "slider",
+        "editable": true,
+        "max": 500,
+        "min": 0,
+        "value": 100
+      },
+      "logo_widthRatio": {
+        "order": 5102,
+        "condition": "logo_isLogo.value == true",
+        "text": "ui_logo_widthRatio",
+        "type": "slider",
+        "editable": true,
+        "max": 500,
+        "min": 0,
+        "value": 100
+      },
+      "logo_heightRatio": {
+        "order": 5103,
+        "condition": "logo_isLogo.value == true",
+        "text": "ui_logo_heightRatio",
+        "type": "slider",
+        "editable": true,
+        "max": 500,
+        "min": 0,
+        "value": 100
+      },
+      "logo_initialAngle": {
+        "order": 5104,
+        "condition": "logo_isLogo.value == true",
+        "text": "ui_logo_initialAngle",
+        "type": "slider",
+        "editable": true,
+        "max": 360,
+        "min": -360,
+        "value": 0
+      },
+      "logo_isRotation": {
+        "order": 5105,
+        "condition": "logo_isLogo.value == true",
+        "text": "ui_logo_isRotation",
+        "type": "bool",
+        "value": false
+      },
+      "logo_rotationAngle": {
+        "order": 5106,
+        "condition": "logo_isLogo.value == true && logo_isRotation.value == true",
+        "text": "ui_logo_rotationAngle",
+        "type": "slider",
+        "editable": true,
+        "max": 900,
+        "min": -900,
+        "value": 10
+      },
+      "logo_milliSec": {
+        "order": 5107,
+        "condition": "logo_isLogo.value == true && logo_isRotation.value == true",
+        "text": "ui_logo_milliSec",
+        "type": "slider",
+        "editable": true,
+        "max": 150,
+        "min": 30,
+        "value": 30
+      },
+      "Text_line05": {
+        "order": 5999,
+        "text": "<br/>_______________________________<br/><br/><br/>",
+        "type": "text"
+      },
+      "date_Text": {
+        "order": 6000,
         "text": "ui_date_Text",
         "type": "text"
       },
       "date_basicText": {
-        "order": 5001,
+        "order": 6001,
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true",
         "text": "ui_date_basicText",
         "type": "text"
       },
       "date_opacity": {
-        "order": 5002,
+        "order": 6002,
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true",
         "text": "ui_date_opacity",
         "type": "slider",
@@ -1513,7 +1645,7 @@
         "value": 90
       },
       "date_colorMode": {
-        "order": 5003,
+        "order": 6003,
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true",
         "text": "ui_date_colorMode",
         "type": "combo",
@@ -1530,21 +1662,21 @@
         "value": 1
       },
       "date_color": {
-        "order": 5004,
+        "order": 6004,
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true && date_colorMode.value == 1",
         "text": "ui_date_color",
         "type": "color",
         "value": "1 1 1"
       },
       "date_shadowColor": {
-        "order": 5005,
+        "order": 6005,
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true && (date_colorMode.value == 1 || (date_colorMode.value == 2 && date_isChangeBlur.value == false))",
         "text": "ui_date_shadowColor",
         "type": "color",
         "value": "1 1 1"
       },
       "date_shadowBlur": {
-        "order": 5006,
+        "order": 6006,
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true && date_colorMode.value != 3",
         "text": "ui_date_shadowBlur",
         "type": "slider",
@@ -1554,41 +1686,41 @@
         "value": 0
       },
       "date_isRandomColor": {
-        "order": 5007,
+        "order": 6007,
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true && date_colorMode.value == 2",
         "text": "ui_date_isRandomColor",
         "type": "bool",
         "value": false
       },
       "date_firstColor": {
-        "order": 5008,
+        "order": 6008,
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true && date_colorMode.value == 2 && date_isRandomColor.value == false",
         "text": "ui_date_firstColor",
         "type": "color",
         "value": "1 1 1"
       },
       "date_secondColor": {
-        "order": 5009,
+        "order": 6009,
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true && date_colorMode.value == 2 && date_isRandomColor.value == false",
         "text": "ui_date_secondColor",
         "type": "color",
         "value": "1 0 0"
       },
       "date_isChangeBlur": {
-        "order": 5010,
+        "order": 6010,
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true && date_colorMode.value == 2",
         "text": "ui_date_isChangeBlur",
         "type": "bool",
         "value": false
       },
       "date_coordinateText": {
-        "order": 5011,
+        "order": 6011,
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true",
         "text": "ui_date_coordinateText",
         "type": "text"
       },
       "date_offsetX": {
-        "order": 5012,
+        "order": 6012,
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true",
         "text": "ui_date_offsetX",
         "type": "slider",
@@ -1598,7 +1730,7 @@
         "value": 50
       },
       "date_offsetY": {
-        "order": 5013,
+        "order": 6013,
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true",
         "text": "ui_date_offsetY",
         "type": "slider",
@@ -1608,25 +1740,25 @@
         "value": 50
       },
       "date_isClickOffset": {
-        "order": 5014,
+        "order": 6014,
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true",
         "text": "ui_date_isClickOffset",
         "type": "bool",
         "value": false
       },
       "date_dateText": {
-        "order": 5100,
+        "order": 6100,
         "text": "ui_date_dateText",
         "type": "text"
       },
       "date_isDate": {
-        "order": 5101,
+        "order": 6101,
         "text": "ui_date_isDate",
         "type": "bool",
         "value": true
       },
       "date_language": {
-        "order": 5102,
+        "order": 6102,
         "condition": "date_isDate.value == true",
         "text": "ui_date_language",
         "type": "combo",
@@ -1915,7 +2047,7 @@
         "value": 55
       },
       "date_timeStyle": {
-        "order": 5103,
+        "order": 6103,
         "condition": "date_isDate.value == true",
         "text": "ui_date_timeStyle",
         "type": "combo",
@@ -1956,14 +2088,14 @@
         "value": 1
       },
       "date_userTimeStyle": {
-        "order": 5104,
+        "order": 6104,
         "condition": "date_isDate.value == true",
         "text": "ui_date_userTimeStyle",
         "type": "textinput",
         "value": ""
       },
       "date_dateStyle": {
-        "order": 5105,
+        "order": 6105,
         "condition": "date_isDate.value == true",
         "text": "ui_date_dateStyle",
         "type": "combo",
@@ -2004,20 +2136,20 @@
         "value": 2
       },
       "date_userDateStyle": {
-        "order": 5106,
+        "order": 6106,
         "condition": "date_isDate.value == true",
         "text": "ui_date_userDateStyle",
         "type": "textinput",
         "value": ""
       },
       "date_weatherText": {
-        "order": 5107,
+        "order": 6107,
         "condition": "date_isDate.value == true && date_dateStyle.value == 8",
         "text": "ui_date_weatherText",
         "type": "text"
       },
       "date_weatherProvider": {
-        "order": 5108,
+        "order": 6108,
         "condition": "date_isDate.value == true && date_dateStyle.value == 8",
         "text": "ui_date_weatherProvider",
         "type": "combo",
@@ -2038,21 +2170,21 @@
         "value": 3
       },
       "date_city": {
-        "order": 5109,
+        "order": 6109,
         "condition": "date_isDate.value == true && date_dateStyle.value == 8 && date_isInputCity.value == true",
         "text": "ui_date_city",
         "type": "textinput",
         "value": ""
       },
       "date_isInputCity": {
-        "order": 5110,
+        "order": 6110,
         "condition": "date_isDate.value == true && date_dateStyle.value == 8",
         "text": "ui_date_isInputCity",
         "type": "bool",
         "value": false
       },
       "date_fontSize": {
-        "order": 5111,
+        "order": 6111,
         "condition": "date_isDate.value == true",
         "text": "ui_date_fontSize",
         "type": "slider",
@@ -2062,7 +2194,7 @@
         "value": 60
       },
       "date_timeFontSize": {
-        "order": 5112,
+        "order": 6112,
         "condition": "date_isDate.value == true",
         "text": "ui_date_timeFontSize",
         "type": "slider",
@@ -2072,7 +2204,7 @@
         "value": 60
       },
       "date_dateFontSize": {
-        "order": 5113,
+        "order": 6113,
         "condition": "date_isDate.value == true",
         "text": "ui_date_dateFontSize",
         "type": "slider",
@@ -2082,7 +2214,7 @@
         "value": 30
       },
       "date_distance": {
-        "order": 5114,
+        "order": 6114,
         "condition": "date_isDate.value == true",
         "text": "ui_date_distance",
         "type": "slider",
@@ -2091,30 +2223,30 @@
         "min": 0,
         "value": 0
       },
-      "Text_line05": {
-        "order": 5999,
+      "Text_line06": {
+        "order": 6999,
         "text": "<br/>_______________________________<br/><br/><br/>",
         "type": "text"
       },
       "particles_Text": {
-        "order": 6000,
+        "order": 7000,
         "text": "ui_particles_Text",
         "type": "text"
       },
       "particles_isParticles": {
-        "order": 6001,
+        "order": 7001,
         "text": "ui_particles_isParticles",
         "type": "bool",
         "value": false
       },
       "particles_basicText": {
-        "order": 6002,
+        "order": 7002,
         "condition": "particles_isParticles.value == true",
         "text": "ui_particles_basicText",
         "type": "text"
       },
       "particles_number": {
-        "order": 6003,
+        "order": 7003,
         "condition": "particles_isParticles.value == true",
         "text": "ui_particles_number",
         "type": "slider",
@@ -2124,14 +2256,14 @@
         "value": 100
       },
       "particles_isDensity": {
-        "order": 6004,
+        "order": 7004,
         "condition": "false",
         "text": "ui_particles_isDensity",
         "type": "bool",
         "value": false
       },
       "particles_densityArea": {
-        "order": 6005,
+        "order": 7005,
         "condition": "false",
         "text": "ui_particles_densityArea",
         "type": "slider",
@@ -2140,7 +2272,7 @@
         "value": 1000
       },
       "particles_opacity": {
-        "order": 6006,
+        "order": 7006,
         "condition": "particles_isParticles.value == true",
         "text": "ui_particles_opacity",
         "type": "slider",
@@ -2150,28 +2282,28 @@
         "value": 75
       },
       "particles_opacityRandom": {
-        "order": 6007,
+        "order": 7007,
         "condition": "particles_isParticles.value == true",
         "text": "ui_particles_opacityRandom",
         "type": "bool",
         "value": true
       },
       "particles_color": {
-        "order": 6008,
+        "order": 7008,
         "condition": "particles_isParticles.value == true && particles_shapeType.value != 5 && particles_isColorFollow.value == false && particles_colorRandom.value == false",
         "text": "ui_particles_color",
         "type": "color",
         "value": "1 1 1"
       },
       "particles_isColorFollow": {
-        "order": 6009,
+        "order": 7009,
         "condition": "particles_isParticles.value == true && particles_shapeType.value != 5 ",
         "text": "ui_particles_isColorFollow",
         "type": "bool",
         "value": false
       },
       "particles_colorRate": {
-        "order": 6010,
+        "order": 7010,
         "condition": "particles_isParticles.value == true && particles_shapeType.value != 5  && particles_isColorFollow.value == true",
         "text": "ui_particles_colorRate",
         "type": "slider",
@@ -2181,28 +2313,28 @@
         "value": 10
       },
       "particles_colorRandom": {
-        "order": 6011,
+        "order": 7011,
         "condition": "particles_isParticles.value == true && particles_shapeType.value != 5 ",
         "text": "ui_particles_colorRandom",
         "type": "bool",
         "value": false
       },
       "particles_isFill": {
-        "order": 6012,
+        "order": 7012,
         "condition": "particles_isParticles.value == true && particles_shapeType.value != 5 ",
         "text": "ui_particles_isFill",
         "type": "bool",
         "value": true
       },
       "particles_isStroke": {
-        "order": 6013,
+        "order": 7013,
         "condition": "particles_isParticles.value == true && particles_shapeType.value != 5 ",
         "text": "ui_particles_isStroke",
         "type": "bool",
         "value": false
       },
       "particles_lineWidth": {
-        "order": 6014,
+        "order": 7014,
         "condition": "particles_isParticles.value == true && particles_shapeType.value != 5  && particles_isStroke.value == true",
         "text": "ui_particles_lineWidth",
         "type": "slider",
@@ -2212,14 +2344,14 @@
         "value": 2
       },
       "particles_shadowColor": {
-        "order": 6015,
+        "order": 7015,
         "condition": "particles_isParticles.value == true && particles_shapeType.value != 5 ",
         "text": "ui_particles_shadowColor",
         "type": "color",
         "value": "1 1 1"
       },
       "particles_shadowBlur": {
-        "order": 6016,
+        "order": 7016,
         "condition": "particles_isParticles.value == true && particles_shapeType.value != 5 ",
         "text": "ui_particles_shadowBlur",
         "type": "slider",
@@ -2229,13 +2361,13 @@
         "value": 0
       },
       "particles_sizeText": {
-        "order": 6100,
+        "order": 7100,
         "condition": "particles_isParticles.value == true",
         "text": "ui_particles_sizeText",
         "type": "text"
       },
       "particles_shapeType": {
-        "order": 6101,
+        "order": 7101,
         "condition": "particles_isParticles.value == true",
         "text": "ui_particles_shapeType",
         "type": "combo",
@@ -2264,15 +2396,15 @@
         "value": 1
       },
       "particles_image": {
-        "order": 6102,
+        "order": 7102,
         "condition": "particles_isParticles.value == true && particles_shapeType.value == 5",
         "text": "ui_particles_image",
         "type": "file"
       },
-      "particles_rotationAngle": {
-        "order": 6103,
+      "particles_initialAngle": {
+        "order": 7103,
         "condition": "particles_isParticles.value == true",
-        "text": "ui_particles_rotationAngle",
+        "text": "ui_particles_initialAngle",
         "type": "slider",
         "editable": true,
         "max": 90,
@@ -2280,14 +2412,14 @@
         "value": 0
       },
       "particles_angleRandom": {
-        "order": 6104,
+        "order": 7104,
         "condition": "particles_isParticles.value == true",
         "text": "ui_particles_angleRandom",
         "type": "bool",
         "value": true
       },
       "particles_sizeValue": {
-        "order": 6105,
+        "order": 7105,
         "condition": "particles_isParticles.value == true",
         "text": "ui_particles_sizeValue",
         "type": "slider",
@@ -2297,14 +2429,14 @@
         "value": 5
       },
       "particles_isSizeFollow": {
-        "order": 6106,
+        "order": 7106,
         "condition": "particles_isParticles.value == true",
         "text": "ui_particles_isSizeFollow",
         "type": "bool",
         "value": false
       },
       "particles_sizeRate": {
-        "order": 6107,
+        "order": 7107,
         "condition": "particles_isParticles.value == true && particles_isSizeFollow.value == true",
         "text": "ui_particles_sizeRate",
         "type": "slider",
@@ -2314,34 +2446,34 @@
         "value": 5
       },
       "particles_sizeRandom": {
-        "order": 6108,
+        "order": 7108,
         "condition": "particles_isParticles.value == true",
         "text": "ui_particles_sizeRandom",
         "type": "bool",
         "value": true
       },
       "particles_lineText": {
-        "order": 6200,
+        "order": 7200,
         "condition": "particles_isParticles.value == true",
         "text": "ui_particles_lineText",
         "type": "text"
       },
       "particles_linkEnable": {
-        "order": 6201,
+        "order": 7201,
         "condition": "particles_isParticles.value == true",
         "text": "ui_particles_linkEnable",
         "type": "bool",
         "value": false
       },
       "particles_mouseInteraction": {
-        "order": 6202,
+        "order": 7202,
         "condition": "particles_isParticles.value == true && particles_linkEnable.value == true",
         "text": "ui_particles_mouseInteraction",
         "type": "bool",
         "value": false
       },
       "particles_linkDistance": {
-        "order": 6203,
+        "order": 7203,
         "condition": "particles_isParticles.value == true && particles_linkEnable.value == true",
         "text": "ui_particles_linkDistance",
         "type": "slider",
@@ -2351,7 +2483,7 @@
         "value": 100
       },
       "particles_linkWidth": {
-        "order": 6204,
+        "order": 7204,
         "condition": "particles_isParticles.value == true && particles_linkEnable.value == true",
         "text": "ui_particles_linkWidth",
         "type": "slider",
@@ -2361,21 +2493,21 @@
         "value": 2
       },
       "particles_linkColor": {
-        "order": 6205,
+        "order": 7205,
         "condition": "particles_isParticles.value == true && particles_linkEnable.value == true && particles_linkColorRandom.value == false",
         "text": "ui_particles_linkColor",
         "type": "color",
         "value": "1 1 1"
       },
       "particles_linkColorRandom": {
-        "order": 6206,
+        "order": 7206,
         "condition": "particles_isParticles.value == true && particles_linkEnable.value == true",
         "text": "ui_particles_linkColorRandom",
         "type": "bool",
         "value": false
       },
       "particles_linkOpacity": {
-        "order": 6207,
+        "order": 7207,
         "condition": "particles_isParticles.value == true && particles_linkEnable.value == true",
         "text": "ui_particles_linkOpacity",
         "type": "slider",
@@ -2385,20 +2517,20 @@
         "value": 75
       },
       "particles_moveText": {
-        "order": 6300,
+        "order": 7300,
         "condition": "particles_isParticles.value == true",
         "text": "ui_particles_moveText",
         "type": "text"
       },
       "particles_isMove": {
-        "order": 6301,
+        "order": 7301,
         "condition": "particles_isParticles.value == true",
         "text": "ui_particles_isMove",
         "type": "bool",
         "value": true
       },
       "particles_speed": {
-        "order": 6302,
+        "order": 7302,
         "condition": "particles_isParticles.value == true",
         "text": "ui_particles_speed",
         "type": "slider",
@@ -2408,14 +2540,14 @@
         "value": 10
       },
       "particles_isMoveFollow": {
-        "order": 6303,
+        "order": 7303,
         "condition": "particles_isParticles.value == true",
         "text": "ui_particles_isMoveFollow",
         "type": "bool",
         "value": false
       },
       "particles_moveRate": {
-        "order": 6304,
+        "order": 7304,
         "condition": "particles_isParticles.value == true && particles_isMoveFollow.value == true",
         "text": "ui_particles_moveRate",
         "type": "slider",
@@ -2425,14 +2557,14 @@
         "value": 5
       },
       "particles_speedRandom": {
-        "order": 6305,
+        "order": 7305,
         "condition": "particles_isParticles.value == true && particles_isMoveFollow.value == false",
         "text": "ui_particles_speedRandom",
         "type": "bool",
         "value": true
       },
       "particles_direction": {
-        "order": 6306,
+        "order": 7306,
         "condition": "particles_isParticles.value == true",
         "text": "ui_particles_direction",
         "type": "combo",
@@ -2477,21 +2609,21 @@
         "value": 4
       },
       "particles_isStraight": {
-        "order": 6307,
+        "order": 7307,
         "condition": "particles_isParticles.value == true",
         "text": "ui_particles_isStraight",
         "type": "bool",
         "value": false
       },
       "particles_isBounce": {
-        "order": 6308,
+        "order": 7308,
         "condition": "particles_isParticles.value == true",
         "text": "ui_particles_isBounce",
         "type": "bool",
         "value": false
       },
       "particles_moveOutMode": {
-        "order": 6309,
+        "order": 7309,
         "condition": "particles_isParticles.value == true",
         "text": "ui_particles_moveOutMode",
         "type": "combo",
@@ -2507,8 +2639,8 @@
         ],
         "value": 1
       },
-      "Text_line06": {
-        "order": 6999,
+      "Text_line07": {
+        "order": 7999,
         "text": "<br/>_______________________________<br/><br/><br/>",
         "type": "text"
       },
@@ -2722,6 +2854,22 @@
         "ui_bars_lineWidth": "<br/>Line Width<br/><br/>",
         "ui_bars_milliSec": "<br/>Redraw Interval<br/><br/>",
         "Dividing_line8": "------------------------------------------------------------------------------------------------------------------------",
+        "ui_logo_Text": "<h3><b>Logo Settings</b></h3><small>The parameters related to the logo are set, and basic parameters, coordinate parameters and logo parameters are adjusted.</small>",
+        "ui_logo_isLogo": "<br/>Show Logo?<br/><br/>",
+        "ui_logo_image": "<br/>Logo Image<br/><br/>",
+        "ui_logo_isCircular": "<br/>Circular Logo?<br/><br/>",
+        "ui_logo_opacity": "<br/>Opacity<br/><br/>",
+        "ui_logo_offsetX": "<br/>Position X(%)<br/><br/>",
+        "ui_logo_offsetY": "<br/>Position Y(%)<br/><br/>",
+        "ui_logo_isClickOffset": "<br/>Mouse Coordinate Offset?<br/><br/>",
+        "ui_logo_zoom": "<br/>Zoom<br/><br/>",
+        "ui_logo_widthRatio": "<br/>Width Ratio<br/><br/>",
+        "ui_logo_heightRatio": "<br/>Height Ratio<br/><br/>",
+        "ui_logo_initialAngle": "<br/>Initial Angle<br/><br/>",
+        "ui_logo_isRotation": "<br/>Rotation?<br/><br/>",
+        "ui_logo_rotationAngle": "<br/>Rotation Angle<br/><br/>",
+        "ui_logo_milliSec": "<br/>Redraw Interval<br/><br/>",
+        "Dividing_line9": "------------------------------------------------------------------------------------------------------------------------",
         "ui_date_Text": "<h3><b>Date Settings</b></h3><small>The parameters related to the date are set, and basic parameters, coordinate parameters, date parameters and weather parameters are adjusted. The weather shows only support for China.</small>",
         "ui_date_basicText": "<br/><b>Date - Basic Settings</b><br/><br/>",
         "ui_date_opacity": "<br/>Opacity<br/><br/>",
@@ -2744,17 +2892,17 @@
         "ui_date_userTimeStyle": "<br/>Time Style<br/><br/>",
         "ui_date_dateStyle": "<br/>Date Style<br/><br/>",
         "ui_date_userDateStyle": "<br/>Date Style<br/><br/>",
-        "Dividing_line9": "------------------------------------------------------------------------------------------------------------------------",
+        "Dividing_line10": "------------------------------------------------------------------------------------------------------------------------",
         "ui_date_weatherText": "<br/><b>Date - Weather Setting</b><br/>",
         "ui_date_weatherProvider": "<br/>Weather Interface：<br/><br/>",
         "ui_date_city": "<br/>Chinese City：<br/><br/>",
         "ui_date_isInputCity": "<br/>Query City Weather<br/><br/>",
-        "Dividing_line10": "------------------------------------------------------------------------------------------------------------------------",
+        "Dividing_line11": "------------------------------------------------------------------------------------------------------------------------",
         "ui_date_fontSize": "<br/>Font Size<br/><br/>",
         "ui_date_timeFontSize": "<br/>Time Font Size<br/><br/>",
         "ui_date_dateFontSize": "<br/>Date Font Size<br/><br/>",
         "ui_date_distance": "<br/>Distance<br/><br/>",
-        "Dividing_line11": "------------------------------------------------------------------------------------------------------------------------",
+        "Dividing_line12": "------------------------------------------------------------------------------------------------------------------------",
         "ui_particles_Text": "<h3><b>Particle Settings</b></h3><small>The parameters related to the particle are set, and basic parameters, type parameters, line parameters and move parameters are adjusted.</small>",
         "ui_particles_isParticles": "<br/>Show Particle?<br/><br/>",
         "ui_particles_basicText": "<br/><b>Particle - Basic Settings</b><br/><br/>",
@@ -2775,7 +2923,7 @@
         "ui_particles_sizeText": "<br/><b>Particle - Type Settings</b><br/><br/>",
         "ui_particles_shapeType": "<br/>Particle Shape Type<br/><br/>",
         "ui_particles_image": "<br/>Particle Image<br/><br/>",
-        "ui_particles_rotationAngle": "<br/>Rotation Angle<br/><br/>",
+        "ui_particles_initialAngle": "<br/>Rotation Angle<br/><br/>",
         "ui_particles_angleRandom": "<br/>Random Angle?<br/><br/>",
         "ui_particles_sizeValue": "<br/>Particle Size<br/><br/>",
         "ui_particles_sizeRandom": "<br/>Random Size?<br/><br/>",
@@ -2799,7 +2947,7 @@
         "ui_particles_isStraight": "<br/>Move Straight?<br/><br/>",
         "ui_particles_isBounce": "<br/>Bounce?<br/><br/>",
         "ui_particles_moveOutMode": "<br/>Move-Out<br/><br/>",
-        "Dividing_line12": "------------------------------------------------------------------------------------------------------------------------",
+        "Dividing_line13": "------------------------------------------------------------------------------------------------------------------------",
         "ui_about_isAbout": "<h3><b>About Wallpapers</b></h3><span>Shoshin wasuru bekarazu</span>",
         "ui_about_authorText": "<br/>Author：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
@@ -2956,6 +3104,22 @@
         "ui_bars_lineWidth": "<br/>线条粗细<br/><br/>",
         "ui_bars_milliSec": "<br/>重绘间隔<br/><br/>",
         "Dividing_line8": "------------------------------------------------------------------------------------------------------------------------",
+        "ui_logo_Text": "<h3><b>标志设置</b></h3><h6>设置标志相关的参数，对其基本参数、坐标参</h6><h6>数和标志参数进行调节。</h6>",
+        "ui_logo_isLogo": "<br/>显示标志<br/><br/>",
+        "ui_logo_image": "<br/>标志文件<br/><br/>",
+        "ui_logo_isCircular": "<br/>圆形标志<br/><br/>",
+        "ui_logo_opacity": "<br/>不透明度<br/><br/>",
+        "ui_logo_offsetX": "<br/>X轴偏移<br/><br/>",
+        "ui_logo_offsetY": "<br/>Y轴偏移<br/><br/>",
+        "ui_logo_isClickOffset": "<br/>鼠标坐标偏移<br/><br/>",
+        "ui_logo_zoom": "<br/>比例缩放<br/><br/>",
+        "ui_logo_widthRatio": "<br/>宽度比例<br/><br/>",
+        "ui_logo_heightRatio": "<br/>高度比例<br/><br/>",
+        "ui_logo_initialAngle": "<br/>初始角度<br/><br/>",
+        "ui_logo_isRotation": "<br/>旋转标志<br/><br/>",
+        "ui_logo_rotationAngle": "<br/>旋转速度<br/><br/>",
+        "ui_logo_milliSec": "<br/>重绘间隔<br/><br/>",
+        "Dividing_line9": "------------------------------------------------------------------------------------------------------------------------",
         "ui_date_Text": "<h3><b>日期设置</b></h3><h6>设置日期相关的参数，对其基本参数、坐标参数、</h6><h6>日期参数和天气参数进行调节。天气显示仅支持中</h6><h6>国地区。</h6>",
         "ui_date_basicText": "<br/><b>日期 - 基本设置</b><br/><br/>",
         "ui_date_opacity": "<br/>不透明度<br/><br/>",
@@ -2978,17 +3142,17 @@
         "ui_date_userTimeStyle": "<br/>自定义时间<br/><br/>",
         "ui_date_dateStyle": "<br/>日期风格<br/><br/>",
         "ui_date_userDateStyle": "<br/>自定义日期<br/><br/>",
-        "Dividing_line9": "------------------------------------------------------------------------------------------------------------------------",
+        "Dividing_line10": "------------------------------------------------------------------------------------------------------------------------",
         "ui_date_weatherText": "<br/><b>日期 - 天气设置</b><br/>",
         "ui_date_weatherProvider": "<br/>天气接口：<br/><br/>",
         "ui_date_city": "<br/>中国城市名：<br/><br/>",
         "ui_date_isInputCity": "<br/>查询城市天气<br/><br/>",
-        "Dividing_line10": "------------------------------------------------------------------------------------------------------------------------",
+        "Dividing_line11": "------------------------------------------------------------------------------------------------------------------------",
         "ui_date_fontSize": "<br/>字体大小<br/><br/>",
         "ui_date_timeFontSize": "<br/>时间字体大小<br/><br/>",
         "ui_date_dateFontSize": "<br/>日期字体大小<br/><br/>",
         "ui_date_distance": "<br/>距离<br/><br/>",
-        "Dividing_line11": "------------------------------------------------------------------------------------------------------------------------",
+        "Dividing_line12": "------------------------------------------------------------------------------------------------------------------------",
         "ui_particles_Text": "<h3><b>粒子设置</b></h3><h6>设置粒子特效相关的参数，对其基本参数、类型参</h6><h6>数、连线参数和移动参数进行调节。</h6>",
         "ui_particles_isParticles": "<br/>显示粒子<br/><br/>",
         "ui_particles_basicText": "<br/><b>粒子 - 基础设置</b><br/><br/>",
@@ -3009,7 +3173,7 @@
         "ui_particles_sizeText": "<br/><b>粒子 - 类型设置</b><br/><br/>",
         "ui_particles_shapeType": "<br/>粒子形状<br/><br/>",
         "ui_particles_image": "<br/>粒子图片<br/><br/>",
-        "ui_particles_rotationAngle": "<br/>粒子旋转角度<br/><br/>",
+        "ui_particles_initialAngle": "<br/>粒子旋转角度<br/><br/>",
         "ui_particles_angleRandom": "<br/>随机角度<br/><br/>",
         "ui_particles_sizeValue": "<br/>粒子大小<br/><br/>",
         "ui_particles_sizeRandom": "<br/>随机大小<br/><br/>",
@@ -3033,7 +3197,7 @@
         "ui_particles_isStraight": "<br/>笔直移动<br/><br/>",
         "ui_particles_isBounce": "<br/>粒子反弹<br/><br/>",
         "ui_particles_moveOutMode": "<br/>离屏模式<br/><br/>",
-        "Dividing_line12": "------------------------------------------------------------------------------------------------------------------------",
+        "Dividing_line13": "------------------------------------------------------------------------------------------------------------------------",
         "ui_about_isAbout": "<h3><b>关于壁纸</b></h3><span>Shoshin wasuru bekarazu</span>",
         "ui_about_authorText": "<br/>作者：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
@@ -3190,6 +3354,22 @@
         "ui_bars_lineWidth": "<br/>線條粗細<br/><br/>",
         "ui_bars_milliSec": "<br/>重繪間隔<br/><br/>",
         "Dividing_line8": "------------------------------------------------------------------------------------------------------------------------",
+        "ui_logo_Text": "<h3><b>標誌設置</b></h3><h6>設置標誌相關的參數，對其基本參數、坐標參</h6><h6>數和標誌參數進行調節。</h6>",
+        "ui_logo_isLogo": "<br/>顯示標誌<br/><br/>",
+        "ui_logo_image": "<br/>標誌文件<br/><br/>",
+        "ui_logo_isCircular": "<br/>圓形標誌<br/><br/>",
+        "ui_logo_opacity": "<br/>不透明度<br/><br/>",
+        "ui_logo_offsetX": "<br/>X軸偏移<br/><br/>",
+        "ui_logo_offsetY": "<br/>Y軸偏移<br/><br/>",
+        "ui_logo_isClickOffset": "<br/>鼠標坐標偏移<br/><br/>",
+        "ui_logo_zoom": "<br/>比例縮放<br/><br/>",
+        "ui_logo_widthRatio": "<br/>寬度比例<br/><br/>",
+        "ui_logo_heightRatio": "<br/>高度比例<br/><br/>",
+        "ui_logo_initialAngle": "<br/>初始角度<br/><br/>",
+        "ui_logo_isRotation": "<br/>旋轉標誌<br/><br/>",
+        "ui_logo_rotationAngle": "<br/>旋轉速度<br/><br/>",
+        "ui_logo_milliSec": "<br/>重繪間隔<br/><br/>",
+        "Dividing_line9": "------------------------------------------------------------------------------------------------------------------------",
         "ui_date_Text": "<h3><b>日期設置</b></h3><h6>設置日期相關的參數，對其基本參數、坐標參數、</h6><h6>日期參數和天氣參數進行調節。天氣顯示僅支持中</h6><h6>國地區。</h6>",
         "ui_date_basicText": "<br/><b>日期 - 基本設置</b><br/><br/>",
         "ui_date_opacity": "<br/>不透明度<br/><br/>",
@@ -3212,17 +3392,17 @@
         "ui_date_userTimeStyle": "<br/>自定義時間<br/><br/>",
         "ui_date_dateStyle": "<br/>日期風格<br/><br/>",
         "ui_date_userDateStyle": "<br/>自定義日期<br/><br/>",
-        "Dividing_line9": "------------------------------------------------------------------------------------------------------------------------",
+        "Dividing_line10": "------------------------------------------------------------------------------------------------------------------------",
         "ui_date_weatherText": "<br/><b>日期 - 天氣設置</b><br/>",
         "ui_date_weatherProvider": "<br/>天氣接口：<br/><br/>",
         "ui_date_city": "<br/>中國城市名：<br/><br/>",
         "ui_date_isInputCity": "<br/>查詢城市天氣<br/><br/>",
-        "Dividing_line10": "------------------------------------------------------------------------------------------------------------------------",
+        "Dividing_line11": "------------------------------------------------------------------------------------------------------------------------",
         "ui_date_fontSize": "<br/>字體大小<br/><br/>",
         "ui_date_timeFontSize": "<br/>時間字體大小<br/><br/>",
         "ui_date_dateFontSize": "<br/>日期字體大小<br/><br/>",
         "ui_date_distance": "<br/>距離<br/><br/>",
-        "Dividing_line11": "------------------------------------------------------------------------------------------------------------------------",
+        "Dividing_line12": "------------------------------------------------------------------------------------------------------------------------",
         "ui_particles_Text": "<h3><b>粒子設置</b></h3><h6>設置粒子特效相關的參數，對其基本參數、類型參</h6><h6>數、連線參數、移動參數進行調節。</h6>",
         "ui_particles_isParticles": "<br/>顯示粒子<br/><br/>",
         "ui_particles_basicText": "<br/><b>粒子 - 基礎設置</b><br/><br/>",
@@ -3243,7 +3423,7 @@
         "ui_particles_sizeText": "<br/><b>粒子 - 類型設置</b><br/><br/>",
         "ui_particles_shapeType": "<br/>粒子形狀<br/><br/>",
         "ui_particles_image": "<br/>粒子圖片<br/><br/>",
-        "ui_particles_rotationAngle": "<br/>粒子旋轉角度<br/><br/>",
+        "ui_particles_initialAngle": "<br/>粒子旋轉角度<br/><br/>",
         "ui_particles_angleRandom": "<br/>隨機角度<br/><br/>",
         "ui_particles_sizeValue": "<br/>粒子大小<br/><br/>",
         "ui_particles_sizeRandom": "<br/>隨機大小<br/><br/>",
@@ -3267,7 +3447,7 @@
         "ui_particles_isStraight": "<br/>筆直移動<br/><br/>",
         "ui_particles_isBounce": "<br/>粒子反彈<br/><br/>",
         "ui_particles_moveOutMode": "<br/>離屏模式<br/><br/>",
-        "Dividing_line12": "------------------------------------------------------------------------------------------------------------------------",
+        "Dividing_line13": "------------------------------------------------------------------------------------------------------------------------",
         "ui_about_isAbout": "<h3><b>關於壁紙</b></h3><span>Shoshin wasuru bekarazu</span>",
         "ui_about_authorText": "<br/>作者：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",

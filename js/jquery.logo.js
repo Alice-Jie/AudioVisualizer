@@ -1,12 +1,12 @@
 /*!
- * jQuery time plugin v0.0.1
+ * jQuery time plugin v0.0.2
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
  * - https://git.oschina.net/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/09/26
+ * @date 2017/09/29
  */
 
 (function (global, factory) {
@@ -67,8 +67,6 @@
     let canvasWidth, canvasHeight;  // canvas宽度和高度
     let originX, originY;           // 原点位置
 
-    let timer = null;               // Logo计时器
-
     // 图像、canvas
     let currantImg = new Image();   // 当前图片对象
     let currantCanvas;              // 离屏Canvas
@@ -77,6 +75,8 @@
     let userImg = '';               // 用户自定义图片路径
 
     let currantAngle = 0;           // 当前角度
+
+    let timer = null;               // Logo计时器
 
     //私有方法
     //--------------------------------------------------------------------------------------------------------------
@@ -110,21 +110,22 @@
     let Logo = function (el, options) {
         this.$el = $(el);
 
-        // 坐标参数
-        this.offsetX = options.offsetX;                  // X坐标偏移
-        this.offsetY = options.offsetY;                  // Y坐标偏移
-        this.isClickOffset = options.isClickOffset;      // 鼠标坐标偏移
         // 基础参数
-        this.zoom = options.zoom;                        // 比例缩放
-        this.widthRatio = options.widthRatio;            // 宽度比例
-        this.heightRatio = options.heightRatio;          // 高度比例
-        this.rotationAngle = options.rotationAngle;      // 旋转角度
-        this.isRotation = options.isRotation;            // 是否旋转
-        this.rotationalSpeed = options.rotationalSpeed;  // 旋转速度
-        this.milliSec = options.milliSec;                // 重绘间隔
-
-        // 初始化图片源
-        currantImg.src = 'img/logo.png';
+        this.isLogo = options.isLogo;                // 显示标志
+        this.opacity = options.opacity;              // 不透明度
+        this.isCircular = options.isCircular;        // 圆形标志
+        // 坐标参数
+        this.offsetX = options.offsetX;              // X坐标偏移
+        this.offsetY = options.offsetY;              // Y坐标偏移
+        this.isClickOffset = options.isClickOffset;  // 鼠标坐标偏移
+        // 标志参数
+        this.zoom = options.zoom;                    // 比例缩放
+        this.widthRatio = options.widthRatio;        // 宽度比例
+        this.heightRatio = options.heightRatio;      // 高度比例
+        this.initialAngle = options.initialAngle;    // 初始角度
+        this.isRotation = options.isRotation;        // 是否旋转
+        this.rotationAngle = options.rotationAngle;  // 旋转角度
+        this.milliSec = options.milliSec;            // 重绘间隔
 
         // 创建并初始化canvas
         canvas = document.createElement('canvas');
@@ -133,8 +134,8 @@
             'position': 'fixed',
             'top': 0,
             'left': 0,
-            'z-index': 4,
-            'opacity': 1.0
+            'z-index': 1,
+            'opacity': this.opacity
         });  // canvas CSS
         canvasWidth = canvas.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
         canvasHeight = canvas.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
@@ -152,6 +153,9 @@
         currantCanvas.height = canvasHeight;
         currantContext = currantCanvas.getContext('2d');
 
+        // 初始化图片源
+        currantImg.src = 'img/logo.png';
+
         $(this.$el).append(canvas);  // 添加canvas
 
         // 默认开启
@@ -161,17 +165,21 @@
 
     // 默认参数
     Logo.DEFAULTS = {
+        // 基础参数
+        isLogo: false,         // 显示标志
+        opacity: 0.9,          // 不透明度
+        isCircular: true,      // 圆形标志
         // 坐标参数
         offsetX: 0.5,          // X坐标偏移
         offsetY: 0.5,          // Y坐标偏移
         isClickOffset: false,  // 鼠标坐标偏移
-        // 基础参数
+        // LOGO参数
         zoom: 1.0,             // 比例缩放
         widthRatio: 1.0,       // 宽度比例
         heightRatio: 1.0,      // 高度比例
-        rotationAngle: 20,     // 旋转角度
+        initialAngle: 20,      // 初始角度
         isRotation: false,     // 是否旋转
-        rotationalSpeed: 0.5,  // 旋转速度
+        rotationAngle: 0.5,    // 旋转角度
         milliSec: 30           // 重绘间隔
     };
 
@@ -195,8 +203,7 @@
                     let y = e.clientY;
                     that.offsetX = x / canvasWidth;
                     that.offsetY = y / canvasHeight;
-                    that.updateLogo();
-                    that.drawLogo();
+                    that.drawCanvas();
                 }
             });
 
@@ -208,8 +215,7 @@
                 // 获取原点
                 originX = canvasWidth * this.offsetX;
                 originY = canvasHeight * this.offsetY;
-                that.updateLogo();
-                that.drawLogo();
+                that.drawCanvas();
             });
 
         },
@@ -229,45 +235,62 @@
          * @param {string} img Logo路径
          */
         setUserImg: function (img) {
-            let that = this;
-            if (img) {
-                userImg = img;
-                currantImg.scr = 'file:///' + userImg;
-            } else {
-                userImg = '';
-                currantImg.scr = 'img/logo.png';
-            }
-            currantImg.onload = function () {
-                // 绘制离屏currantCanvas
-                currantCanvas.width = currantImg.width;
-                currantCanvas.height = currantImg.height;
-                currantContext.drawImage(currantImg, 0, 0, currantImg.width, currantImg.height);
-                // 绘制canvas
-                // that.updateLogo();
-                that.drawLogo();
-            };
+            userImg = img || '';
+            currantImg.src = userImg ? 'file:///' + userImg : 'img/logo.png';
+            // 绘制离屏canvas并绘制logo
+            let imgTimer = setInterval(
+                ()=> {
+                    if (currantImg.complete) {
+                        currantCanvas.width = currantImg.width;
+                        currantCanvas.height = currantImg.height;
+                        currantContext.drawImage(currantImg, 0, 0, currantImg.width, currantImg.height);
+                        this.drawLogo();  // 绘制canvas
+                        clearInterval(imgTimer);
+                    }
+                }, 500);
         },
 
         /** 更新相关数据 */
         updateLogo: function () {
             originX = canvasWidth * this.offsetX;
             originY = canvasHeight * this.offsetY;
-            currantAngle += this.rotationalSpeed;
+            if (this.isRotation) {
+                currantAngle += this.rotationAngle;
+            }
         },
 
         /** 绘制Logo */
         drawLogo: function () {
-            let width = currantCanvas.width * this.zoom * this.widthRatio;
-            let height = currantCanvas.height * this.zoom * this.heightRatio;
-            let x = getXY(originX, originY, width, height).x;
-            let y = getXY(originX, originY, width, height).y;
-            let angle = (this.rotationAngle + (this.isRotation ? currantAngle : 0)) * (Math.PI / 180);
-            context.clearRect(0, 0, canvasWidth, canvasHeight);
-            context.save();
-            context.translate(x + width / 2, y + height / 2);
-            context.rotate(angle);
-            context.drawImage(currantCanvas, -width / 2, -height / 2, width, height);
-            context.restore();
+            if (this.isLogo) {
+                let width = currantCanvas.width * this.zoom * this.widthRatio;
+                let height = currantCanvas.height * this.zoom * this.heightRatio;
+                let x = getXY(originX, originY, width, height).x;
+                let y = getXY(originX, originY, width, height).y;
+                let angle = (this.initialAngle + (this.isRotation ? currantAngle : 0)) * (Math.PI / 180);
+                context.clearRect(0, 0, canvasWidth, canvasHeight);
+                context.save();
+                context.translate(x + width / 2, y + height / 2);
+                context.rotate(angle);
+                // LOGO圆形化
+                if (this.isCircular) {
+                    let radius = Math.min(width, height);
+                    context.beginPath();
+                    context.arc(0, 0, radius / 2, 0, Math.PI * 2, false);
+                    context.closePath();
+                    context.clip();
+                }
+                context.drawImage(currantCanvas, -width / 2, -height / 2, width, height);
+                // context.strokeStyle = 'rgb(255, 0, 0)';
+                // context.lineWidth = 2;
+                // context.stroke();
+                context.restore();
+            }
+        },
+
+        /** 绘制canvas */
+        drawCanvas: function () {
+            this.updateLogo();
+            this.drawLogo();
         },
 
         /** 停止Logo计时器 */
@@ -282,8 +305,7 @@
             this.stopLogoTimer();
             timer = setTimeout(
                 ()=> {
-                    this.updateLogo();
-                    this.drawLogo();
+                    this.drawCanvas();
                     this.runLogoTimer();
                 }, this.milliSec);
         },
@@ -303,16 +325,39 @@
          */
         set: function (property, value) {
             switch (property) {
-                case 'isRotation':
-                case 'rotationalSpeed':
+                case 'opacity':
+                    $(canvas).css('opacity', value);
+                    break;
+                case 'isCircular':
+                case 'rotationAngle':
+                case 'isClickOffset':
+                case 'milliSec':
                     this[property] = value;
                     break;
                 case 'zoom':
                 case 'widthRatio':
                 case 'heightRatio':
-                case 'rotationAngle':
+                case 'initialAngle':
                     this[property] = value;
                     this.drawLogo();
+                    break;
+                case 'offsetX':
+                case 'offsetY':
+                    this[property] = value;
+                    this.drawCanvas();
+                    break;
+                case 'isRotation':
+                    this.isRotation = value;
+                    this.isRotation ? this.runLogoTimer() : this.stopLogoTimer();
+                    break;
+                case 'isLogo':
+                    this.isLogo = value;
+                    if (this.isLogo) {
+                        this.isRotation ? this.runLogoTimer() : this.drawLogo();
+                    } else {
+                        this.stopLogoTimer();
+                        this.clearCanvas();
+                    }
                     break;
                 // no default
             }
