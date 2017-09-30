@@ -1502,20 +1502,27 @@
         "type": "bool",
         "value": false
       },
-      "logo_image": {
+      "logo_basicText": {
         "order": 5002,
+        "condition": "logo_isLogo.value == true",
+        "text": "ui_logo_basicText",
+        "type": "text"
+      },
+      "logo_image": {
+        "order": 5003,
         "condition": "logo_isLogo.value == true",
         "text": "ui_logo_image",
         "type": "file"
       },
       "logo_isCircular": {
-        "order": 5003,
+        "order": 5004,
+        "condition": "logo_isLogo.value == true",
         "text": "ui_logo_isCircular",
         "type": "bool",
-        "value": true
+        "value": false
       },
       "logo_opacity": {
-        "order": 5003,
+        "order": 5005,
         "condition": "logo_isLogo.value == true",
         "text": "ui_logo_opacity",
         "type": "slider",
@@ -1524,8 +1531,55 @@
         "min": 0,
         "value": 90
       },
+      "logo_shadowColor": {
+        "order": 5006,
+        "condition": "logo_isLogo.value == true && logo_isCircular.value == false",
+        "text": "ui_logo_shadowColor",
+        "type": "color",
+        "value": "1 1 1"
+      },
+      "logo_shadowBlur": {
+        "order": 5007,
+        "condition": "logo_isLogo.value == true && logo_isCircular.value == false",
+        "text": "ui_logo_shadowBlur",
+        "type": "slider",
+        "editable": true,
+        "max": 50,
+        "min": 0,
+        "value": 0
+      },
+      "logo_isStroke": {
+        "order": 5008,
+        "condition": "logo_isLogo.value == true && logo_isCircular.value == true",
+        "text": "ui_logo_isStroke",
+        "type": "bool",
+        "value": false
+      },
+      "logo_strokeColor": {
+        "order": 5009,
+        "condition": "logo_isLogo.value == true && logo_isCircular.value == true && logo_isStroke.value == true",
+        "text": "ui_logo_strokeColor",
+        "type": "color",
+        "value": "1 1 1"
+      },
+      "logo_lineWidth": {
+        "order": 5010,
+        "condition": "logo_isLogo.value == true && logo_isCircular.value == true && logo_isStroke.value == true",
+        "text": "ui_logo_lineWidth",
+        "type": "slider",
+        "editable": true,
+        "max": 20,
+        "min": 0,
+        "value": 5
+      },
+      "logo_coordinateText": {
+        "order": 5011,
+        "condition": "logo_isLogo.value == true",
+        "text": "ui_logo_coordinateText",
+        "type": "text"
+      },
       "logo_offsetX": {
-        "order": 5004,
+        "order": 5012,
         "condition": "logo_isLogo.value == true",
         "text": "ui_logo_offsetX",
         "type": "slider",
@@ -1535,7 +1589,7 @@
         "value": 50
       },
       "logo_offsetY": {
-        "order": 5005,
+        "order": 5013,
         "condition": "logo_isLogo.value == true",
         "text": "ui_logo_offsetY",
         "type": "slider",
@@ -1545,11 +1599,17 @@
         "value": 50
       },
       "logo_isClickOffset": {
-        "order": 5006,
+        "order": 5014,
         "condition": "logo_isLogo.value == true",
         "text": "ui_logo_isClickOffset",
         "type": "bool",
         "value": false
+      },
+      "logo_logoText": {
+        "order": 5100,
+        "condition": "logo_isLogo.value == true",
+        "text": "ui_logo_logoText",
+        "type": "text"
       },
       "logo_zoom": {
         "order": 5101,
@@ -1561,8 +1621,25 @@
         "min": 0,
         "value": 100
       },
-      "logo_widthRatio": {
+      "logo_isZoomFollow": {
         "order": 5102,
+        "condition": "logo_isLogo.value == true",
+        "text": "ui_logo_isZoomFollow",
+        "type": "bool",
+        "value": false
+      },
+      "logo_zoomRate": {
+        "order": 5103,
+        "condition": "logo_isLogo.value == true && logo_isZoomFollow.value == true",
+        "text": "ui_logo_zoomRate",
+        "type": "slider",
+        "editable": true,
+        "max": 20,
+        "min": 0,
+        "value": 1
+      },
+      "logo_widthRatio": {
+        "order": 5104,
         "condition": "logo_isLogo.value == true",
         "text": "ui_logo_widthRatio",
         "type": "slider",
@@ -1572,7 +1649,7 @@
         "value": 100
       },
       "logo_heightRatio": {
-        "order": 5103,
+        "order": 5105,
         "condition": "logo_isLogo.value == true",
         "text": "ui_logo_heightRatio",
         "type": "slider",
@@ -1582,7 +1659,7 @@
         "value": 100
       },
       "logo_initialAngle": {
-        "order": 5104,
+        "order": 5106,
         "condition": "logo_isLogo.value == true",
         "text": "ui_logo_initialAngle",
         "type": "slider",
@@ -1592,14 +1669,14 @@
         "value": 0
       },
       "logo_isRotation": {
-        "order": 5105,
+        "order": 5107,
         "condition": "logo_isLogo.value == true",
         "text": "ui_logo_isRotation",
         "type": "bool",
         "value": false
       },
       "logo_rotationAngle": {
-        "order": 5106,
+        "order": 5108,
         "condition": "logo_isLogo.value == true && logo_isRotation.value == true",
         "text": "ui_logo_rotationAngle",
         "type": "slider",
@@ -1609,7 +1686,7 @@
         "value": 10
       },
       "logo_milliSec": {
-        "order": 5107,
+        "order": 5109,
         "condition": "logo_isLogo.value == true && logo_isRotation.value == true",
         "text": "ui_logo_milliSec",
         "type": "slider",
@@ -2855,14 +2932,24 @@
         "ui_bars_milliSec": "<br/>Redraw Interval<br/><br/>",
         "Dividing_line8": "------------------------------------------------------------------------------------------------------------------------",
         "ui_logo_Text": "<h3><b>Logo Settings</b></h3><small>The parameters related to the logo are set, and basic parameters, coordinate parameters and logo parameters are adjusted.</small>",
+        "ui_logo_basicText": "<br/><b>Logo - Basic Settings</b><br/><br/>",
         "ui_logo_isLogo": "<br/>Show Logo?<br/><br/>",
         "ui_logo_image": "<br/>Logo Image<br/><br/>",
         "ui_logo_isCircular": "<br/>Circular Logo?<br/><br/>",
         "ui_logo_opacity": "<br/>Opacity<br/><br/>",
+        "ui_logo_shadowColor": "<br/>Glow Color<br/><br/>",
+        "ui_logo_shadowBlur": "<br/>Glow Size(px)<br/><br/>",
+        "ui_logo_isStroke":"<br/>Stroke?<br/><br/>",
+        "ui_logo_strokeColor":"<br/>Stroke Color<br/><br/>",
+        "ui_logo_lineWidth":"<br/>Stroke Width(px)<br/><br/>",
+        "ui_logo_coordinateText": "<br/><b>Logo - Coordinate Settings</b><br/><br/>",
         "ui_logo_offsetX": "<br/>Position X(%)<br/><br/>",
         "ui_logo_offsetY": "<br/>Position Y(%)<br/><br/>",
         "ui_logo_isClickOffset": "<br/>Mouse Coordinate Offset?<br/><br/>",
+        "ui_logo_logoText": "<br/><b>Logo - Logo Settings</b><br/><br/>",
         "ui_logo_zoom": "<br/>Zoom<br/><br/>",
+        "ui_logo_isZoomFollow": "<br/>Zoom Follow Audio?<br/><br/>",
+        "ui_logo_zoomRate": "<br/>Change Rate<br/><br/>",
         "ui_logo_widthRatio": "<br/>Width Ratio<br/><br/>",
         "ui_logo_heightRatio": "<br/>Height Ratio<br/><br/>",
         "ui_logo_initialAngle": "<br/>Initial Angle<br/><br/>",
@@ -3105,14 +3192,24 @@
         "ui_bars_milliSec": "<br/>重绘间隔<br/><br/>",
         "Dividing_line8": "------------------------------------------------------------------------------------------------------------------------",
         "ui_logo_Text": "<h3><b>标志设置</b></h3><h6>设置标志相关的参数，对其基本参数、坐标参</h6><h6>数和标志参数进行调节。</h6>",
+        "ui_logo_basicText": "<br/><b>标志 - 基本设置</b><br/><br/>",
         "ui_logo_isLogo": "<br/>显示标志<br/><br/>",
         "ui_logo_image": "<br/>标志文件<br/><br/>",
         "ui_logo_isCircular": "<br/>圆形标志<br/><br/>",
         "ui_logo_opacity": "<br/>不透明度<br/><br/>",
+        "ui_logo_shadowColor": "<br/>模糊颜色<br/><br/>",
+        "ui_logo_shadowBlur": "<br/>模糊程度<br/><br/>",
+        "ui_logo_isStroke":"<br/>描边<br/><br/>",
+        "ui_logo_strokeColor":"<br/>描边颜色<br/><br/>",
+        "ui_logo_lineWidth":"<br/>描边宽度<br/><br/>",
+        "ui_logo_coordinateText": "<br/><b>标志 - 坐标设置</b><br/><br/>",
         "ui_logo_offsetX": "<br/>X轴偏移<br/><br/>",
         "ui_logo_offsetY": "<br/>Y轴偏移<br/><br/>",
         "ui_logo_isClickOffset": "<br/>鼠标坐标偏移<br/><br/>",
+        "ui_logo_logoText": "<br/><b>标志 - 标志设置</b><br/><br/>",
         "ui_logo_zoom": "<br/>比例缩放<br/><br/>",
+        "ui_logo_isZoomFollow": "<br/>缩放跟随音频<br/><br/>",
+        "ui_logo_zoomRate": "<br/>缩放变化率<br/><br/>",
         "ui_logo_widthRatio": "<br/>宽度比例<br/><br/>",
         "ui_logo_heightRatio": "<br/>高度比例<br/><br/>",
         "ui_logo_initialAngle": "<br/>初始角度<br/><br/>",
@@ -3355,14 +3452,24 @@
         "ui_bars_milliSec": "<br/>重繪間隔<br/><br/>",
         "Dividing_line8": "------------------------------------------------------------------------------------------------------------------------",
         "ui_logo_Text": "<h3><b>標誌設置</b></h3><h6>設置標誌相關的參數，對其基本參數、坐標參</h6><h6>數和標誌參數進行調節。</h6>",
+        "ui_logo_basicText": "<br/><b>標誌 - 基本設置</b><br/><br/>",
         "ui_logo_isLogo": "<br/>顯示標誌<br/><br/>",
         "ui_logo_image": "<br/>標誌文件<br/><br/>",
         "ui_logo_isCircular": "<br/>圓形標誌<br/><br/>",
         "ui_logo_opacity": "<br/>不透明度<br/><br/>",
+        "ui_logo_shadowColor": "<br/>模糊顏色<br/><br/>",
+        "ui_logo_shadowBlur": "<br/>模糊程度<br/><br/>",
+        "ui_logo_isStroke":"<br/>描邊<br/><br/>",
+        "ui_logo_strokeColor":"<br/>描邊顏色<br/><br/>",
+        "ui_logo_lineWidth":"<br/>描邊寬度<br/><br/>",
+        "ui_logo_coordinateText": "<br/><b>標誌 - 坐標設置</b><br/><br/>",
         "ui_logo_offsetX": "<br/>X軸偏移<br/><br/>",
         "ui_logo_offsetY": "<br/>Y軸偏移<br/><br/>",
         "ui_logo_isClickOffset": "<br/>鼠標坐標偏移<br/><br/>",
+        "ui_logo_logoText": "<br/><b>標誌 - 標誌設置</b><br/><br/>",
         "ui_logo_zoom": "<br/>比例縮放<br/><br/>",
+        "ui_logo_isZoomFollow": "<br/>縮放跟隨音頻<br/><br/>",
+        "ui_logo_zoomRate": "<br/>縮放變化率<br/><br/>",
         "ui_logo_widthRatio": "<br/>寬度比例<br/><br/>",
         "ui_logo_heightRatio": "<br/>高度比例<br/><br/>",
         "ui_logo_initialAngle": "<br/>初始角度<br/><br/>",

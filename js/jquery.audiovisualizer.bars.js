@@ -2,7 +2,7 @@
  * jQuery AudioVisualizer Bars plugin v0.0.6
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
- * - https://git.oschina.net/Alice_Jie/circleaudiovisualizer
+ * - https://gitee.com/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
@@ -237,7 +237,7 @@
         // 颜色模式-单色
         this.color = options.color;                            // 颜色
         this.shadowColor = options.shadowColor;                // 阴影颜色
-        this.shadowBlur = options.shadowBlur;                  // 模糊大小
+        this.shadowBlur = options.shadowBlur;                  // 阴影大小
         // 颜色模式-颜色变换
         this.isRandomColor = options.isRandomColor;            // 随机颜色开关
         this.firstColor = options.firstColor;                  // 起始颜色
@@ -327,7 +327,7 @@
         // 颜色模式-单色
         color: '255,255,255',        // 颜色
         shadowColor: '255,255,255',  // 阴影颜色
-        shadowBlur: 0,               // 模糊大小
+        shadowBlur: 0,               // 阴影大小
         // 颜色模式-颜色变换
         isRandomColor: true,         // 随机颜色变换
         firstColor: '255,255,255',   // 起始颜色

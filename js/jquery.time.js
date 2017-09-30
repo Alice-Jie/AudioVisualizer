@@ -3,7 +3,7 @@
  * moment.js: http://momentjs.cn/
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
- * - https://git.oschina.net/Alice_Jie/circleaudiovisualizer
+ * - https://gitee.com/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
