@@ -2007,6 +2007,10 @@
             if (properties.logo_milliSec) {
                 wallpaper.logo('set', 'milliSec', properties.logo_milliSec.value);
             }
+            // 模糊特效
+            if (properties.logo_blur) {
+                wallpaper.logo('set', 'blur', properties.logo_blur.value);
+            }
 
 
             // 时间日期参数

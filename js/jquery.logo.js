@@ -79,7 +79,7 @@
     let timer = null;               // Logo计时器
 
     let audioAverage = 0,           // 音频平均值
-        audioZoom = 1;              // 音频缩放
+        audioZoom = 1;              // 标志缩放值
 
     //私有方法
     //--------------------------------------------------------------------------------------------------------------
@@ -154,6 +154,8 @@
         this.isRotation = options.isRotation;        // 是否旋转
         this.rotationAngle = options.rotationAngle;  // 旋转角度
         this.milliSec = options.milliSec;            // 重绘间隔
+        // 标志滤镜
+        this.blur = options.blur;                    // 模糊效果
 
         // 创建并初始化canvas
         canvas = document.createElement('canvas');
@@ -163,7 +165,8 @@
             'top': 0,
             'left': 0,
             'z-index': 1,
-            'opacity': this.opacity
+            'opacity': this.opacity,
+            'filter': 'none'
         });  // canvas CSS
         canvasWidth = canvas.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
         canvasHeight = canvas.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
@@ -212,7 +215,7 @@
         offsetX: 0.5,                // X坐标偏移
         offsetY: 0.5,                // Y坐标偏移
         isClickOffset: false,        // 鼠标坐标偏移
-        // LOGO参数
+        // 标志参数
         zoom: 0.1,                   // 比例缩放
         isZoomFollow: false,         // 跟随音频
         zoomRate: 5,                 // 变化速率
@@ -221,7 +224,9 @@
         initialAngle: 20,            // 初始角度
         isRotation: false,           // 是否旋转
         rotationAngle: 0.5,          // 旋转角度
-        milliSec: 30                 // 重绘间隔
+        milliSec: 30,                // 重绘间隔
+        // 标志滤镜
+        blur: 0                      // 模糊效果
     };
 
     // 公共方法
@@ -318,7 +323,7 @@
             if (this.isLogo) {
                 let width = currantCanvas.width * this.zoom * audioZoom * this.widthRatio;
                 let height = currantCanvas.height * this.zoom * audioZoom * this.heightRatio;
-                let radius = Math.min(width, height);
+                let size = Math.min(width, height);
                 let x = getXY(originX, originY, width, height).x;
                 let y = getXY(originX, originY, width, height).y;
                 let angle = (this.initialAngle + (this.isRotation ? currantAngle : 0)) * (Math.PI / 180);
@@ -329,7 +334,7 @@
                 // LOGO圆形化
                 if (this.isCircular) {
                     context.beginPath();
-                    context.arc(0, 0, radius / 2, 0, Math.PI * 2, false);
+                    context.arc(0, 0, size / 2, 0, Math.PI * 2, false);
                     context.closePath();
                     context.clip();
                 }
@@ -398,6 +403,9 @@
                 case 'lineWidth':
                     context.lineWidth = value;
                     this.drawLogo();
+                    break;
+                case 'blur':
+                    $(canvas).css('filter', 'blur(' + value + 'px)');
                     break;
                 case 'zoomRate':
                 case 'rotationAngle':

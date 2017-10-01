@@ -1695,6 +1695,16 @@
         "min": 30,
         "value": 30
       },
+      "logo_blur": {
+        "order": 5110,
+        "condition": "logo_isLogo.value == true",
+        "text": "ui_logo_blur",
+        "type": "slider",
+        "editable": true,
+        "max": 10,
+        "min": 0,
+        "value": 0
+      },
       "Text_line05": {
         "order": 5999,
         "text": "<br/>_______________________________<br/><br/><br/>",
@@ -2956,6 +2966,7 @@
         "ui_logo_isRotation": "<br/>Rotation?<br/><br/>",
         "ui_logo_rotationAngle": "<br/>Rotation Angle<br/><br/>",
         "ui_logo_milliSec": "<br/>Redraw Interval<br/><br/>",
+        "ui_logo_blur": "<br/>Blur<br/><br/>",
         "Dividing_line9": "------------------------------------------------------------------------------------------------------------------------",
         "ui_date_Text": "<h3><b>Date Settings</b></h3><small>The parameters related to the date are set, and basic parameters, coordinate parameters, date parameters and weather parameters are adjusted. The weather shows only support for China.</small>",
         "ui_date_basicText": "<br/><b>Date - Basic Settings</b><br/><br/>",
@@ -3039,8 +3050,8 @@
         "ui_about_authorText": "<br/>Author：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
         "ui_about_emailText": "<br/>Email：909011298@qq.com<br/>",
-        "ui_about_versionText": "<br/>Version Number：0.5.6<br/>",
-        "ui_about_updateText": "<br/><span>Update Description：</span><br/><span>01、Fixed particles glow color failure BUG</span><br/><span>02、Bars settings add wave mode</span><br/><span>03、Fixed some potential BUG</span><br/><span>                           -- From Baidu translate.</span><br/>",
+        "ui_about_versionText": "<br/>Version Number：0.5.7<br/>",
+        "ui_about_updateText": "<br/><span>Update Description：</span><br/><span>Add the LOGO plug-in (bate)</span><br/><span>                           -- From Baidu translate.</span><br/>",
         "ui_about_describeText": "<br/><span>Relevant Instructions：</span><br/><span>If you have better text translation, please contact me.</span><br/>",
         "ui_about_isQRcode": "<br/>Show QRcode?<br/><br/>"
       },
@@ -3216,6 +3227,7 @@
         "ui_logo_isRotation": "<br/>旋转标志<br/><br/>",
         "ui_logo_rotationAngle": "<br/>旋转速度<br/><br/>",
         "ui_logo_milliSec": "<br/>重绘间隔<br/><br/>",
+        "ui_logo_blur": "<br/>模糊<br/><br/>",
         "Dividing_line9": "------------------------------------------------------------------------------------------------------------------------",
         "ui_date_Text": "<h3><b>日期设置</b></h3><h6>设置日期相关的参数，对其基本参数、坐标参数、</h6><h6>日期参数和天气参数进行调节。天气显示仅支持中</h6><h6>国地区。</h6>",
         "ui_date_basicText": "<br/><b>日期 - 基本设置</b><br/><br/>",
@@ -3299,8 +3311,8 @@
         "ui_about_authorText": "<br/>作者：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
         "ui_about_emailText": "<br/>Email：909011298@qq.com<br/>",
-        "ui_about_versionText": "<br/>版本号：0.5.6<br/>",
-        "ui_about_updateText": "<br/><span>更新说明：</span><br/><span>01、修复粒子模糊颜色失效BUG</span><br/><span>02、条形设置加入波浪模式</span><br/><span>03、修复部分潜在BUG</span><br/>",
+        "ui_about_versionText": "<br/>版本号：0.5.7<br/>",
+        "ui_about_updateText": "<br/><span>更新说明：</span><br/><span>添加LOGO插件(bate)</span><br/>",
         "ui_about_describeText": "<br/><span>相关说明：</span><br/><span>由于项目工作量较大，难免会有部分BUG没有排查到。如果你发现了BUG，请移步到创意工坊描述BUG发生原因以及产生的结果。感谢大家长期以来的支持。</span><br/>",
         "ui_about_isQRcode": "<br/>显示二维码<br/><br/>"
       },
@@ -3476,6 +3488,7 @@
         "ui_logo_isRotation": "<br/>旋轉標誌<br/><br/>",
         "ui_logo_rotationAngle": "<br/>旋轉速度<br/><br/>",
         "ui_logo_milliSec": "<br/>重繪間隔<br/><br/>",
+        "ui_logo_blur": "<br/>模糊<br/><br/>",
         "Dividing_line9": "------------------------------------------------------------------------------------------------------------------------",
         "ui_date_Text": "<h3><b>日期設置</b></h3><h6>設置日期相關的參數，對其基本參數、坐標參數、</h6><h6>日期參數和天氣參數進行調節。天氣顯示僅支持中</h6><h6>國地區。</h6>",
         "ui_date_basicText": "<br/><b>日期 - 基本設置</b><br/><br/>",
@@ -3559,8 +3572,8 @@
         "ui_about_authorText": "<br/>作者：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
         "ui_about_emailText": "<br/>Email：909011298@qq.com<br/>",
-        "ui_about_versionText": "<br/>版本號：0.5.6<br/>",
-        "ui_about_updateText": "<br/><span>更新說明：</span><br/><span>01、修復粒子模糊顏色失效BUG</span><br/><span>02、條形設置加入波浪模式</span><br/><span>03、修復部分潛在BUG</span><br/>",
+        "ui_about_versionText": "<br/>版本號：0.5.7<br/>",
+        "ui_about_updateText": "<br/><span>更新說明：</span><br/><span>添加LOGO插件(bate)</span><br/>",
         "ui_about_describeText": "<br/><span>相關說明：</span><br/><span>由於項目工作量較大，難免會有部分BUG沒有排查到。如果妳發現了BUG，請移步到創意工坊描述BUG發生原因以及產生的結果。感謝大家長期以來的支持。</span><br/>",
         "ui_about_isQRcode": "<br/>顯示二維碼<br/><br/>"
       }
@@ -3571,7 +3584,7 @@
   "tags": [
     "Relaxing"
   ],
-  "title": "[4K]Audio Visualizer v0.5.6(音频可视化)",
+  "title": "[4K]Audio Visualizer v0.5.7(音频可视化)",
   "type": "web",
   "visibility": "public",
   "workshopid": 921617616
