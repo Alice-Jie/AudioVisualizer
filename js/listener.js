@@ -427,7 +427,7 @@
      * 设置音频条形
      *
      * @param  {int} n 音频条形对应值
-     * @return {string} 音频圆环标识串
+     * @return {string} 音频条形标识串
      */
     function setBarsDirection(n) {
         switch (n) {
@@ -439,6 +439,67 @@
                 return 'two bars';
             default:
                 return 'upper bars';
+        }
+    }
+
+    /**
+     * 设置混合选项
+     *
+     * @param  {int} n 混合选项对应值
+     * @return {string} 混合选项标识串
+     */
+    function setMixBlendMode(n) {
+        switch (n) {
+            case 1:
+                // 正常
+                return 'normal';
+            case 2:
+                // 正片叠底
+                return 'multiply';
+            case 3:
+                // 滤色
+                return 'screen';
+            case 4:
+                // 叠加
+                return 'overlay';
+            case 5:
+                // 变暗
+                return 'darken';
+            case 6:
+                // 变亮
+                return 'lighten';
+            case 7:
+                // 颜色减淡
+                return 'color-dodge';
+            case 8:
+                // 颜色加深
+                return 'color-burn';
+            case 9:
+                // 强光
+                return 'hard-light';
+            case 10:
+                // 柔光
+                return 'soft-light';
+            case 11:
+                // 差值
+                return 'difference';
+            case 12:
+                // 排除
+                return 'exclusion';
+            case 13:
+                // 色相
+                return 'hue';
+            case 14:
+                // 饱和度
+                return 'saturation';
+            case 15:
+                // 颜色
+                return 'color';
+            case 16:
+                // 亮度
+                return 'luminosity';
+            default:
+                return 'normal';
         }
     }
 
@@ -2007,11 +2068,51 @@
             if (properties.logo_milliSec) {
                 wallpaper.logo('set', 'milliSec', properties.logo_milliSec.value);
             }
-            // 模糊特效
+
+
+            // # 滤镜参数
+            //-----------
+
+            // 模糊
             if (properties.logo_blur) {
                 wallpaper.logo('set', 'blur', properties.logo_blur.value);
             }
+            // 亮度
+            if (properties.logo_brightness) {
+                wallpaper.logo('set', 'brightness', properties.logo_brightness.value);
+            }
+            // 对比度
+            if (properties.logo_contrast) {
+                wallpaper.logo('set', 'contrast', properties.logo_contrast.value);
+            }
+            // 灰度
+            if (properties.logo_grayScale) {
+                wallpaper.logo('set', 'grayScale', properties.logo_grayScale.value);
+            }
+            // 色相翻转
+            if (properties.logo_hueRotate) {
+                wallpaper.logo('set', 'hueRotate', properties.logo_hueRotate.value);
+            }
+            // 反相
+            if (properties.logo_invert) {
+                wallpaper.logo('set', 'invert', properties.logo_invert.value);
+            }
+            // 饱和度
+            if (properties.logo_saturate) {
+                wallpaper.logo('set', 'saturate', properties.logo_saturate.value);
+            }
+            // 深褐色
+            if (properties.logo_sepia) {
+                wallpaper.logo('set', 'sepia', properties.logo_sepia.value);
+            }
 
+            // # 混合选项
+            //-----------
+
+            // 混合选项
+            if (properties.logo_mixBlendMode) {
+                wallpaper.logo('set', 'mixBlendMode', setMixBlendMode(properties.logo_mixBlendMode.value));
+            }
 
             // 时间日期参数
             //-----------------------------------------------------------

@@ -1,12 +1,12 @@
 /*!
- * jQuery time plugin v0.0.3
+ * jQuery time plugin v0.0.4
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
  * - https://gitee.com/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/09/30
+ * @date 2017/10/02
  */
 
 (function (global, factory) {
@@ -155,7 +155,16 @@
         this.rotationAngle = options.rotationAngle;  // 旋转角度
         this.milliSec = options.milliSec;            // 重绘间隔
         // 标志滤镜
-        this.blur = options.blur;                    // 模糊效果
+        this.blur = options.blur;                    // 模糊
+        this.brightness = options.brightness;        // 亮度
+        this.contrast = options.contrast;            // 对比度
+        this.grayScale = options.grayScale;          // 灰度
+        this.hueRotate = options.hueRotate;          // 色相翻转
+        this.invert = options.invert;                // 反色
+        this.saturate = options.saturate;            // 饱和度
+        this.sepia = options.sepia;                  // 深褐色
+        // 混合选项
+        this.mixBlendMode = options.mixBlendMode;    // 混合选项
 
         // 创建并初始化canvas
         canvas = document.createElement('canvas');
@@ -166,6 +175,7 @@
             'left': 0,
             'z-index': 1,
             'opacity': this.opacity,
+            'mix-blend-mode': 'normal',
             'filter': 'none'
         });  // canvas CSS
         canvasWidth = canvas.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
@@ -226,7 +236,18 @@
         rotationAngle: 0.5,          // 旋转角度
         milliSec: 30,                // 重绘间隔
         // 标志滤镜
-        blur: 0                      // 模糊效果
+        blur: 0,                     // 模糊
+        brightness: 100,             // 亮度
+        contrast: 100,               // 对比度
+        grayScale: 0,                // 灰度
+        hueRotate: 0,                // 色相翻转
+        invert: 0,                   // 反色
+        saturate: 100,               // 饱和度
+        sepia: 0,                    // 深褐色
+        // 混合模式
+        mixBlendMode: 'normal'       // 混合模式
+
+
     };
 
     // 公共方法
@@ -404,9 +425,6 @@
                     context.lineWidth = value;
                     this.drawLogo();
                     break;
-                case 'blur':
-                    $(canvas).css('filter', 'blur(' + value + 'px)');
-                    break;
                 case 'zoomRate':
                 case 'rotationAngle':
                 case 'isClickOffset':
@@ -448,6 +466,29 @@
                         this.stopLogoTimer();
                         this.clearCanvas();
                     }
+                    break;
+                case 'blur':
+                case 'brightness':
+                case 'contrast':
+                case 'grayScale':
+                case 'hueRotate':
+                case 'invert':
+                case 'saturate':
+                case 'sepia':
+                    this[property] = value;
+                    $(canvas).css('filter', 'blur(' + this.blur + 'px) '
+                        + 'brightness(' + this.brightness + '%) '
+                        + 'contrast(' + this.contrast + '%) '
+                        + 'grayscale(' + this.grayScale + '%) '
+                        + 'hue-rotate(' + this.hueRotate + 'deg) '
+                        + 'invert(' + this.invert + '%) '
+                        + 'saturate(' + this.saturate + '%) '
+                        + 'sepia(' + this.sepia + '%) '
+                    );
+                    break;
+                case 'mixBlendMode':
+                    this.mixBlendMode = value;
+                    $(canvas).css('mix-blend-mode', value);
                     break;
                 // no default
             }

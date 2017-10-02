@@ -1695,15 +1695,170 @@
         "min": 30,
         "value": 30
       },
+      "logo_filterText": {
+        "order": 5200,
+        "condition": "logo_isLogo.value == true",
+        "text": "ui_logo_filterText",
+        "type": "text"
+      },
       "logo_blur": {
-        "order": 5110,
+        "order": 5201,
         "condition": "logo_isLogo.value == true",
         "text": "ui_logo_blur",
         "type": "slider",
         "editable": true,
-        "max": 10,
+        "max": 20,
         "min": 0,
         "value": 0
+      },
+      "logo_brightness": {
+        "order": 5202,
+        "condition": "logo_isLogo.value == true",
+        "text": "ui_logo_brightness",
+        "type": "slider",
+        "editable": true,
+        "max": 300,
+        "min": 0,
+        "value": 100
+      },
+      "logo_contrast": {
+        "order": 5204,
+        "condition": "logo_isLogo.value == true",
+        "text": "ui_logo_contrast",
+        "type": "slider",
+        "editable": true,
+        "max": 500,
+        "min": 0,
+        "value": 100
+      },
+      "logo_grayScale": {
+        "order": 5205,
+        "condition": "logo_isLogo.value == true",
+        "text": "ui_logo_grayScale",
+        "type": "slider",
+        "editable": true,
+        "max": 100,
+        "min": 0,
+        "value": 0
+      },
+      "logo_hueRotate": {
+        "order": 5206,
+        "condition": "logo_isLogo.value == true",
+        "text": "ui_logo_hueRotate",
+        "type": "slider",
+        "editable": true,
+        "max": 360,
+        "min": 0,
+        "value": 0
+      },
+      "logo_invert": {
+        "order": 5207,
+        "condition": "logo_isLogo.value == true",
+        "text": "ui_logo_invert",
+        "type": "slider",
+        "editable": true,
+        "max": 100,
+        "min": 0,
+        "value": 0
+      },
+      "logo_saturate": {
+        "order": 5207,
+        "condition": "logo_isLogo.value == true",
+        "text": "ui_logo_saturate",
+        "type": "slider",
+        "editable": true,
+        "max": 500,
+        "min": 0,
+        "value": 100
+      },
+      "logo_sepia": {
+        "order": 5208,
+        "condition": "logo_isLogo.value == true",
+        "text": "ui_logo_sepia",
+        "type": "slider",
+        "editable": true,
+        "max": 100,
+        "min": 0,
+        "value": 0
+      },
+      "logo_mixBlendModeText": {
+        "order": 5300,
+        "condition": "logo_isLogo.value == true",
+        "text": "ui_logo_mixBlendModeText",
+        "type": "text"
+      },
+      "logo_mixBlendMode": {
+        "order": 5301,
+        "condition": "logo_isLogo.value == true",
+        "text": "ui_logo_mixBlendMode",
+        "type": "combo",
+        "options": [
+          {
+            "label": "正常/normal",
+            "value": 1
+          },
+          {
+            "label": "正片叠底/multiply",
+            "value": 2
+          },
+          {
+            "label": "滤色/screen",
+            "value": 3
+          },
+          {
+            "label": "叠加/overlay",
+            "value": 4
+          },
+          {
+            "label": "变暗/darken",
+            "value": 5
+          },
+          {
+            "label": "变亮/lighten",
+            "value": 6
+          },
+          {
+            "label": "颜色减淡/color-dodge",
+            "value": 7
+          },
+          {
+            "label": "颜色加深/color-burn",
+            "value": 8
+          },
+          {
+            "label": "强光/hard-light",
+            "value": 9
+          },
+          {
+            "label": "柔光/soft-light",
+            "value": 10
+          },
+          {
+            "label": "差值/difference",
+            "value": 11
+          },
+          {
+            "label": "排除/exclusion",
+            "value": 12
+          },
+          {
+            "label": "色相/hue",
+            "value": 13
+          },
+          {
+            "label": "饱和度/saturation",
+            "value": 14
+          },
+          {
+            "label": "颜色/color",
+            "value": 15
+          },
+          {
+            "label": "亮度/luminosity",
+            "value": 16
+          }
+        ],
+        "value": 1
       },
       "Text_line05": {
         "order": 5999,
@@ -2949,9 +3104,9 @@
         "ui_logo_opacity": "<br/>Opacity<br/><br/>",
         "ui_logo_shadowColor": "<br/>Glow Color<br/><br/>",
         "ui_logo_shadowBlur": "<br/>Glow Size(px)<br/><br/>",
-        "ui_logo_isStroke":"<br/>Stroke?<br/><br/>",
-        "ui_logo_strokeColor":"<br/>Stroke Color<br/><br/>",
-        "ui_logo_lineWidth":"<br/>Stroke Width(px)<br/><br/>",
+        "ui_logo_isStroke": "<br/>Stroke?<br/><br/>",
+        "ui_logo_strokeColor": "<br/>Stroke Color<br/><br/>",
+        "ui_logo_lineWidth": "<br/>Stroke Width(px)<br/><br/>",
         "ui_logo_coordinateText": "<br/><b>Logo - Coordinate Settings</b><br/><br/>",
         "ui_logo_offsetX": "<br/>Position X(%)<br/><br/>",
         "ui_logo_offsetY": "<br/>Position Y(%)<br/><br/>",
@@ -2966,7 +3121,17 @@
         "ui_logo_isRotation": "<br/>Rotation?<br/><br/>",
         "ui_logo_rotationAngle": "<br/>Rotation Angle<br/><br/>",
         "ui_logo_milliSec": "<br/>Redraw Interval<br/><br/>",
+        "ui_logo_filterText": "<br/><b>Logo - Filter Settings</b><br/><br/>",
         "ui_logo_blur": "<br/>Blur<br/><br/>",
+        "ui_logo_brightness": "<br/>Brightness<br/><br/>",
+        "ui_logo_contrast": "<br/>Contrast<br/><br/>",
+        "ui_logo_grayScale": "<br/>GrayScale<br/><br/>",
+        "ui_logo_hueRotate": "<br/>HueRotate<br/><br/>",
+        "ui_logo_invert": "<br/>Invert<br/><br/>",
+        "ui_logo_saturate": "<br/>Saturate<br/><br/>",
+        "ui_logo_sepia": "<br/>Sepia<br/><br/>",
+        "ui_logo_mixBlendModeText": "<br/><b>Logo - Mix Blend Mode</b><br/><br/>",
+        "ui_logo_mixBlendMode": "<br/>Mix Blend Mode<br/><br/>",
         "Dividing_line9": "------------------------------------------------------------------------------------------------------------------------",
         "ui_date_Text": "<h3><b>Date Settings</b></h3><small>The parameters related to the date are set, and basic parameters, coordinate parameters, date parameters and weather parameters are adjusted. The weather shows only support for China.</small>",
         "ui_date_basicText": "<br/><b>Date - Basic Settings</b><br/><br/>",
@@ -3210,9 +3375,9 @@
         "ui_logo_opacity": "<br/>不透明度<br/><br/>",
         "ui_logo_shadowColor": "<br/>模糊颜色<br/><br/>",
         "ui_logo_shadowBlur": "<br/>模糊程度<br/><br/>",
-        "ui_logo_isStroke":"<br/>描边<br/><br/>",
-        "ui_logo_strokeColor":"<br/>描边颜色<br/><br/>",
-        "ui_logo_lineWidth":"<br/>描边宽度<br/><br/>",
+        "ui_logo_isStroke": "<br/>描边<br/><br/>",
+        "ui_logo_strokeColor": "<br/>描边颜色<br/><br/>",
+        "ui_logo_lineWidth": "<br/>描边宽度<br/><br/>",
         "ui_logo_coordinateText": "<br/><b>标志 - 坐标设置</b><br/><br/>",
         "ui_logo_offsetX": "<br/>X轴偏移<br/><br/>",
         "ui_logo_offsetY": "<br/>Y轴偏移<br/><br/>",
@@ -3227,7 +3392,17 @@
         "ui_logo_isRotation": "<br/>旋转标志<br/><br/>",
         "ui_logo_rotationAngle": "<br/>旋转速度<br/><br/>",
         "ui_logo_milliSec": "<br/>重绘间隔<br/><br/>",
+        "ui_logo_filterText": "<br/><b>标志 - 滤镜设置</b><br/><br/>",
         "ui_logo_blur": "<br/>模糊<br/><br/>",
+        "ui_logo_brightness": "<br/>亮度<br/><br/>",
+        "ui_logo_contrast": "<br/>对比度<br/><br/>",
+        "ui_logo_grayScale": "<br/>灰度<br/><br/>",
+        "ui_logo_hueRotate": "<br/>色相翻转<br/><br/>",
+        "ui_logo_invert": "<br/>反相<br/><br/>",
+        "ui_logo_saturate": "<br/>饱和度<br/><br/>",
+        "ui_logo_sepia": "<br/>深褐色<br/><br/>",
+        "ui_logo_mixBlendModeText": "<br/><b>标志 - 混合选项</b><br/><br/>",
+        "ui_logo_mixBlendMode": "<br/>混合选项<br/><br/>",
         "Dividing_line9": "------------------------------------------------------------------------------------------------------------------------",
         "ui_date_Text": "<h3><b>日期设置</b></h3><h6>设置日期相关的参数，对其基本参数、坐标参数、</h6><h6>日期参数和天气参数进行调节。天气显示仅支持中</h6><h6>国地区。</h6>",
         "ui_date_basicText": "<br/><b>日期 - 基本设置</b><br/><br/>",
@@ -3471,9 +3646,9 @@
         "ui_logo_opacity": "<br/>不透明度<br/><br/>",
         "ui_logo_shadowColor": "<br/>模糊顏色<br/><br/>",
         "ui_logo_shadowBlur": "<br/>模糊程度<br/><br/>",
-        "ui_logo_isStroke":"<br/>描邊<br/><br/>",
-        "ui_logo_strokeColor":"<br/>描邊顏色<br/><br/>",
-        "ui_logo_lineWidth":"<br/>描邊寬度<br/><br/>",
+        "ui_logo_isStroke": "<br/>描邊<br/><br/>",
+        "ui_logo_strokeColor": "<br/>描邊顏色<br/><br/>",
+        "ui_logo_lineWidth": "<br/>描邊寬度<br/><br/>",
         "ui_logo_coordinateText": "<br/><b>標誌 - 坐標設置</b><br/><br/>",
         "ui_logo_offsetX": "<br/>X軸偏移<br/><br/>",
         "ui_logo_offsetY": "<br/>Y軸偏移<br/><br/>",
@@ -3488,7 +3663,17 @@
         "ui_logo_isRotation": "<br/>旋轉標誌<br/><br/>",
         "ui_logo_rotationAngle": "<br/>旋轉速度<br/><br/>",
         "ui_logo_milliSec": "<br/>重繪間隔<br/><br/>",
+        "ui_logo_filterText": "<br/><b>標誌 - 濾鏡設置</b><br/><br/>",
         "ui_logo_blur": "<br/>模糊<br/><br/>",
+        "ui_logo_brightness": "<br/>亮度<br/><br/>",
+        "ui_logo_contrast": "<br/>對比度<br/><br/>",
+        "ui_logo_grayScale": "<br/>灰度<br/><br/>",
+        "ui_logo_hueRotate": "<br/>色相翻轉<br/><br/>",
+        "ui_logo_invert": "<br/>反相<br/><br/>",
+        "ui_logo_saturate": "<br/>飽和度<br/><br/>",
+        "ui_logo_sepia": "<br/>深褐色<br/><br/>",
+        "ui_logo_mixBlendModeText": "<br/><b>標誌 - 混合選項</b><br/><br/>",
+        "ui_logo_mixBlendMode": "<br/>混合選項<br/><br/>",
         "Dividing_line9": "------------------------------------------------------------------------------------------------------------------------",
         "ui_date_Text": "<h3><b>日期設置</b></h3><h6>設置日期相關的參數，對其基本參數、坐標參數、</h6><h6>日期參數和天氣參數進行調節。天氣顯示僅支持中</h6><h6>國地區。</h6>",
         "ui_date_basicText": "<br/><b>日期 - 基本設置</b><br/><br/>",
