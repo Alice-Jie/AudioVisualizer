@@ -1,12 +1,12 @@
 /*！
- * jQuery AudioVisualizer Circle plugin v0.0.13
+ * jQuery AudioVisualizer Circle plugin v0.0.14
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
  * - https://gitee.com/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/09/20
+ * @date 2017/10/02
  */
 
 (function (global, factory) {
@@ -572,33 +572,36 @@
             return pointArray;
         },
 
+
         /**
-         * 绘制音频圆环
-         * 根据坐标数组绘制音频圆环
+         * 生成音频圆环路径
+         * 根据坐标数组生成音频圆环路径
+         * - 调用该函数前必须调用context.beginPath();
+         * - 结束路径绘制后调用context.closePath();
+         * - 调用context.stroke();描边路径
          * @private
          *
          *  @param {Array<Object>} pointArray 坐标数组
          */
         drawRing: function (pointArray) {
-            context.save();
-            context.beginPath();
-            // 首尾之间的连线
             let end = pointArray.length - 1;
-            context.beginPath();
+            context.save();
+            // 首尾之间的连线
             context.moveTo(pointArray[end].x, pointArray[end].y);
             context.lineTo(pointArray[0].x, pointArray[0].y);
             // 坐标数组之间连线
             for (let i = 1; i < pointArray.length; i++) {
                 context.lineTo(pointArray[i].x, pointArray[i].y);
             }
-            context.closePath();
-            context.stroke();
             context.restore();
         },
 
         /**
-         * 绘制环与环连线
-         * 根据坐标数组绘制内环、外环以及静态环之间连线
+         * 绘制环与环连线路径
+         * 根据坐标数组绘制内环、外环以及静态环之间连线路径
+         * - 调用该函数前必须调用context.beginPath();
+         * - 结束路径绘制后调用context.closePath();
+         * - 调用context.stroke();描边路径
          * @private
          *
          *  @param {!Object} pointArray1 坐标数组1
@@ -606,32 +609,12 @@
          */
         drawLine: function (pointArray1, pointArray2) {
             context.save();
-            context.beginPath();
             let max = Math.min(pointArray1.length, pointArray2.length);
             for (let i = 0; i < max; i++) {
                 context.moveTo(pointArray1[i].x, pointArray1[i].y);
                 context.lineTo(pointArray2[i].x, pointArray2[i].y);
             }
             context.closePath();
-            context.stroke();
-            context.restore();
-        },
-
-        /**
-         * 绘制音频小球
-         * 根据坐标数组绘制音频小球
-         * @private
-         *
-         * @param {Array<Object>} pointArray 坐标数组
-         */
-        drawBall: function (pointArray) {
-            context.save();
-            for (let i = 0; i < pointArray.length; i++) {
-                context.beginPath();
-                context.arc(pointArray[i].x - 0.5, pointArray[i].y - 0.5, this.ballSize, 0, 360, false);
-                context.closePath();
-                context.fill();
-            }
             context.restore();
         },
 
@@ -644,7 +627,6 @@
          */
         drawWave: function (pointArray1, pointArray2) {
             context.save();
-            context.beginPath();
             // 圆环1首尾之间的连线
             let end1 = pointArray1.length - 1;
             context.beginPath();
@@ -666,6 +648,24 @@
             context.closePath();
             // 填充内部区域
             context.fill();
+            context.restore();
+        },
+
+        /**
+         * 绘制音频小球
+         * 根据坐标数组绘制音频小球
+         * @private
+         *
+         * @param {Array<Object>} pointArray 坐标数组
+         */
+        drawBall: function (pointArray) {
+            context.save();
+            for (let i = 0; i < pointArray.length; i++) {
+                context.beginPath();
+                context.arc(pointArray[i].x - 0.5, pointArray[i].y - 0.5, this.ballSize, 0, 360, false);
+                context.closePath();
+                context.fill();
+            }
             context.restore();
         },
 
@@ -763,6 +763,7 @@
             return rainBowGradient;
         },
 
+
         /**
          * 绘制环与环彩虹连线
          * 根据坐标数组绘制内环、外环以及静态环之间彩虹连线
@@ -807,6 +808,7 @@
             }
             context.restore();
         },
+
 
         /**
          * 设置交互事件
@@ -885,28 +887,38 @@
 
         /** 绘制音频圆环和小球 */
         drawVisualizerCircle: function () {
-            context.clearRect(0, 0, canvasWidth, canvasHeight);
-            // 绘制音频波浪
             let firstRingArray = getPointArray(this.firstRing);
             let secondRingArray = getPointArray(this.secondRing);
-            if (this.isWave && this.firstRing !== this.secondRing && this.colorMode !== 'rainBow') {
-                this.drawWave(firstRingArray, secondRingArray);
-            }
-            // 绘制双环连线
             let firstPointArray = getPointArray(this.firstPoint);
             let secondPointArray = getPointArray(this.secondPoint);
-            if (this.isLineTo && this.firstPoint !== this.secondPoint) {
-                this.colorMode === 'rainBow' ? this.drawRainBowLine(firstPointArray, secondPointArray) : this.drawLine(firstPointArray, secondPointArray);
-            }
-            // 绘制音频圆环
-            if (this.isRing && this.colorMode !== 'rainBow') {
-                this.isStaticRing && this.drawRing(staticPointsArray);
-                this.isInnerRing && this.drawRing(pointArray1);
-                this.isOuterRing && this.drawRing(pointArray2);
-            }
-            // 绘制音频小球
-            if (this.isBall) {
-                this.colorMode === 'rainBow' ? this.drawRainBowBall(ballPointArray) : this.drawBall(ballPointArray);
+            context.clearRect(0, 0, canvasWidth, canvasHeight);
+            if (this.colorMode !== 'rainBow') {
+                context.beginPath();
+                // 绘制音频圆环
+                if (this.isRing) {
+                    this.isStaticRing && this.drawRing(staticPointsArray);
+                    this.isInnerRing && this.drawRing(pointArray1);
+                    this.isOuterRing && this.drawRing(pointArray2);
+                }
+                // 绘制双环连线
+                if (this.isLineTo && this.firstPoint !== this.secondPoint) {
+                    this.drawLine(firstPointArray, secondPointArray);
+                }
+                context.closePath();
+                context.stroke();
+                // 绘制音频波浪
+                if (this.isWave && this.firstRing !== this.secondRing) {
+                    this.drawWave(firstRingArray, secondRingArray);
+                }
+                // 绘制音频小球
+                this.isBall && this.drawBall(ballPointArray);
+            } else {
+                // 绘制彩虹双环连线
+                if (this.isLineTo && this.firstPoint !== this.secondPoint) {
+                    this.drawRainBowLine(firstPointArray, secondPointArray);
+                }
+                // 绘制彩虹音频小球
+                this.isBall && this.drawRainBowBall(ballPointArray);
             }
         },
 

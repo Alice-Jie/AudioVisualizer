@@ -1,12 +1,12 @@
 /*！
- * jQuery AudioVisualizer Bars plugin v0.0.6
+ * jQuery AudioVisualizer Bars plugin v0.0.7
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
  * - https://gitee.com/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/09/20
+ * @date 2017/10/02
  */
 
 (function (global, factory) {
@@ -442,27 +442,30 @@
         },
 
         /**
-         * 绘制音频连线
-         * 根据坐标数组绘制音频条形
+         * 绘制音频连线路径
+         * 根据坐标数组绘制音频条形路径
+         * - 调用该函数前必须调用context.beginPath();
+         * - 结束路径绘制后调用context.closePath();
+         * - 调用context.stroke();描边路径
          * @private
          *
          * @param {Array<Object>} pointArray 坐标数组
          */
         drawLine: function (pointArray) {
             context.save();
-            context.beginPath();
             context.moveTo(pointArray[0].x, pointArray[0].y);
             for (let i = 1; i < pointArray.length; i++) {
                 context.lineTo(pointArray[i].x, pointArray[i].y);
             }
-            context.stroke();
-            context.closePath();
             context.restore();
         },
 
         /**
-         * 绘制音频条形
-         * 根据坐标数组绘制上条形、下条形以及静态条形之间连线
+         * 绘制音频条形路径
+         * 根据坐标数组绘制上条形、下条形以及静态条形之间连线路径
+         * - 调用该函数前必须调用context.beginPath();
+         * - 结束路径绘制后调用context.closePath();
+         * - 调用context.stroke();描边路径
          * @private
          *
          * @param {Array<Object>} pointArray1 坐标数组1
@@ -470,14 +473,11 @@
          */
         drawBars: function (pointArray1, pointArray2) {
             context.save();
-            context.beginPath();
             let max = Math.min(pointArray1.length, pointArray2.length);
             for (let i = 0; i < max; i++) {
                 context.moveTo(pointArray1[i].x, pointArray1[i].y);
                 context.lineTo(pointArray2[i].x, pointArray2[i].y);
             }
-            context.closePath();
-            context.stroke();
             context.restore();
         },
 
@@ -510,7 +510,7 @@
 
 
         /**
-         * 音频圆环和小球颜色变换
+         * 音频条形和小球颜色变换
          * @private
          */
         colorTransformation: function () {
@@ -723,57 +723,103 @@
         /** 绘制音频条形 */
         drawVisualizerBars: function () {
             context.clearRect(0, 0, canvasWidth, canvasHeight);
-            // 旋转canvas内容
+            let firstArray = pointArray1;
+            let secondArray = pointArray2;
+            let firstLineArray = getPointArray(this.firstLine);
+            let secondLineArray = getPointArray(this.secondLine);
             context.save();
+            // 旋转canvas内容
             context.translate(startX + minLength / 2, startY);
             context.rotate((Math.PI / 180) * this.barsRotation);
             context.translate(-startX - minLength / 2, -startY);
-            // 绘制连线
-            if (this.isLineTo) {
-                switch (this.barsDirection) {
-                    case  'upper bars':
-                        this.colorMode === 'rainBow' ? this.drawRainBowLine(pointArray1) : this.drawLine(pointArray1);
-                        break;
-                    case 'lower bars':
-                        this.colorMode === 'rainBow' ? this.drawRainBowLine(pointArray2) : this.drawLine(pointArray2);
-                        break;
-                    case 'two bars':
-                        this.colorMode === 'rainBow' ? this.drawRainBowLine(pointArray1) : this.drawLine(pointArray1);
-                        this.colorMode === 'rainBow' ? this.drawRainBowLine(pointArray2) : this.drawLine(pointArray2);
-                        break;
-                    default:
-                        this.colorMode === 'rainBow' ? this.drawRainBowLine(pointArray1) : this.drawLine(pointArray1);
-                        this.colorMode === 'rainBow' ? this.drawRainBowLine(pointArray2) : this.drawLine(pointArray2);
+            // 绘制音频条形、连线和波浪
+            if (this.colorMode !== 'rainBow') {
+                context.beginPath();
+                // 绘制条形
+                if (this.isLineTo) {
+                    switch (this.barsDirection) {
+                        case  'upper bars':
+                            this.drawLine(pointArray1);
+                            break;
+                        case 'lower bars':
+                            this.drawLine(pointArray2);
+                            break;
+                        case 'two bars':
+                            this.drawLine(pointArray1);
+                            this.drawLine(pointArray2);
+                            break;
+                        default:
+                            this.drawLine(pointArray1);
+                            this.drawLine(pointArray2);
+                    }
                 }
-            }
-            // 绘制条形
-            if (this.isBars) {
-                let firstArray = pointArray1;
-                let secondArray = pointArray2;
-                switch (this.barsDirection) {
-                    case  'upper bars':
-                        firstArray = pointArray1;
-                        secondArray = staticPointsArray;
-                        break;
-                    case 'lower bars':
-                        firstArray = staticPointsArray;
-                        secondArray = pointArray2;
-                        break;
-                    case 'two bars':
-                        firstArray = pointArray1;
-                        secondArray = pointArray2;
-                        break;
-                    default:
-                        firstArray = pointArray1;
-                        secondArray = pointArray2;
+                // 绘制条形
+                if (this.isBars) {
+                    switch (this.barsDirection) {
+                        case  'upper bars':
+                            firstArray = pointArray1;
+                            secondArray = staticPointsArray;
+                            break;
+                        case 'lower bars':
+                            firstArray = staticPointsArray;
+                            secondArray = pointArray2;
+                            break;
+                        case 'two bars':
+                            firstArray = pointArray1;
+                            secondArray = pointArray2;
+                            break;
+                        default:
+                            firstArray = pointArray1;
+                            secondArray = pointArray2;
+                    }
+                    this.drawBars(firstArray, secondArray);
                 }
-                this.colorMode === 'rainBow' ? this.drawRainBowBars(firstArray, secondArray) : this.drawBars(firstArray, secondArray);
-            }
-            // 绘制音频波浪
-            let firstLineArray = getPointArray(this.firstLine);
-            let secondLineArray = getPointArray(this.secondLine);
-            if (this.isWave && this.firstLine !== this.secondLine && this.colorMode !== 'rainBow') {
-                this.drawWave(firstLineArray, secondLineArray);
+                context.closePath();
+                context.stroke();
+                // 绘制音频波浪
+                if (this.isWave && this.firstLine !== this.secondLine) {
+                    this.drawWave(firstLineArray, secondLineArray);
+                }
+            } else {
+                // 绘制彩虹连线
+                if (this.isLineTo) {
+                    switch (this.barsDirection) {
+                        case  'upper bars':
+                            this.drawRainBowLine(pointArray1);
+                            break;
+                        case 'lower bars':
+                            this.drawRainBowLine(pointArray2);
+                            break;
+                        case 'two bars':
+                            this.drawRainBowLine(pointArray1);
+                            this.drawRainBowLine(pointArray2);
+                            break;
+                        default:
+                            this.drawRainBowLine(pointArray1);
+                            this.drawRainBowLine(pointArray2);
+                    }
+                }
+                // 绘制彩虹条形
+                if (this.isBars) {
+                    switch (this.barsDirection) {
+                        case  'upper bars':
+                            firstArray = pointArray1;
+                            secondArray = staticPointsArray;
+                            break;
+                        case 'lower bars':
+                            firstArray = staticPointsArray;
+                            secondArray = pointArray2;
+                            break;
+                        case 'two bars':
+                            firstArray = pointArray1;
+                            secondArray = pointArray2;
+                            break;
+                        default:
+                            firstArray = pointArray1;
+                            secondArray = pointArray2;
+                    }
+                    this.drawRainBowBars(firstArray, secondArray);
+                }
             }
             context.restore();
         },
