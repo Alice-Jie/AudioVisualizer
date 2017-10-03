@@ -1,12 +1,12 @@
 /*!
- * jQuery time plugin v0.0.4
+ * jQuery time plugin v0.0.5
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
  * - https://gitee.com/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/10/02
+ * @date 2017/10/03
  */
 
 (function (global, factory) {
@@ -357,11 +357,16 @@
                     context.beginPath();
                     context.arc(0, 0, size / 2, 0, Math.PI * 2, false);
                     context.closePath();
-                    context.clip();
+                    // context.clip();
+                    context.strokeStyle = 'rgb(255, 255, 255)';
+                    context.fill();
+                    context.globalCompositeOperation = 'source-in';
                 }
                 context.drawImage(currantCanvas, -width / 2, -height / 2, width, height);
                 // LOGO圆形描边
                 if (this.isCircular && this.isStroke) {
+                    context.globalCompositeOperation = 'lighter';
+                    context.strokeStyle = 'rgb(' + this.strokeColor + ')';
                     context.stroke();
                 }
                 context.restore();
@@ -407,21 +412,26 @@
         set: function (property, value) {
             switch (property) {
                 case 'opacity':
+                    this.opacity = value;
                     $(canvas).css('opacity', value);
                     break;
                 case 'shadowColor':
+                    this.shadowColor = value;
                     context.shadowColor = 'rgb(' + value + ')';
                     this.drawLogo();
                     break;
                 case 'shadowBlur':
+                    this.shadowBlur = value;
                     context.shadowBlur = value;
                     this.drawLogo();
                     break;
                 case 'strokeColor':
+                    this.strokeColor = value;
                     context.strokeStyle = 'rgb(' + value + ')';
                     this.drawLogo();
                     break;
                 case 'lineWidth':
+                    this.lineWidth = value;
                     context.lineWidth = value;
                     this.drawLogo();
                     break;

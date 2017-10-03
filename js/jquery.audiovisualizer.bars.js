@@ -1,12 +1,12 @@
 /*！
- * jQuery AudioVisualizer Bars plugin v0.0.7
+ * jQuery AudioVisualizer Bars plugin v0.0.8
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
  * - https://gitee.com/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/10/02
+ * @date 2017/10/03
  */
 
 (function (global, factory) {
@@ -489,6 +489,11 @@
          * @param {!Object} pointArray2 坐标数组2
          */
         drawWave: function (pointArray1, pointArray2) {
+            // 偏移开始坐标和结束坐标
+            pointArray1[0].x -= this.lineWidth / 2;
+            pointArray2[0].x -= this.lineWidth / 2;
+            pointArray1[pointArray1.length - 1].x += this.lineWidth / 2;
+            pointArray2[pointArray1.length - 1].x += this.lineWidth / 2;
             context.save();
             // 线段1开头和线段2结尾
             context.beginPath();
@@ -506,6 +511,11 @@
             // 填充内部区域
             context.fill();
             context.restore();
+            // 还原开始坐标和结束坐标
+            pointArray1[0].x += this.lineWidth / 2;
+            pointArray2[0].x += this.lineWidth / 2;
+            pointArray1[pointArray1.length - 1].x -= this.lineWidth / 2;
+            pointArray2[pointArray1.length - 1].x -= this.lineWidth / 2;
         },
 
 
@@ -722,11 +732,11 @@
 
         /** 绘制音频条形 */
         drawVisualizerBars: function () {
-            context.clearRect(0, 0, canvasWidth, canvasHeight);
             let firstArray = pointArray1;
             let secondArray = pointArray2;
             let firstLineArray = getPointArray(this.firstLine);
             let secondLineArray = getPointArray(this.secondLine);
+            context.clearRect(0, 0, canvasWidth, canvasHeight);
             context.save();
             // 旋转canvas内容
             context.translate(startX + minLength / 2, startY);
@@ -734,6 +744,8 @@
             context.translate(-startX - minLength / 2, -startY);
             // 绘制音频条形、连线和波浪
             if (this.colorMode !== 'rainBow') {
+                context.save();
+                context.globalCompositeOperation = 'lighter';
                 context.beginPath();
                 // 绘制条形
                 if (this.isLineTo) {
@@ -780,6 +792,7 @@
                 if (this.isWave && this.firstLine !== this.secondLine) {
                     this.drawWave(firstLineArray, secondLineArray);
                 }
+                context.restore();
             } else {
                 // 绘制彩虹连线
                 if (this.isLineTo) {

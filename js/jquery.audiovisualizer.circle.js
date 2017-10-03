@@ -1,12 +1,12 @@
 /*！
- * jQuery AudioVisualizer Circle plugin v0.0.14
+ * jQuery AudioVisualizer Circle plugin v0.0.15
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
  * - https://gitee.com/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/10/02
+ * @date 2017/10/03
  */
 
 (function (global, factory) {
@@ -892,6 +892,8 @@
             let firstPointArray = getPointArray(this.firstPoint);
             let secondPointArray = getPointArray(this.secondPoint);
             context.clearRect(0, 0, canvasWidth, canvasHeight);
+            context.save();
+            context.globalCompositeOperation = 'lighter';
             if (this.colorMode !== 'rainBow') {
                 context.beginPath();
                 // 绘制音频圆环
@@ -912,6 +914,7 @@
                 }
                 // 绘制音频小球
                 this.isBall && this.drawBall(ballPointArray);
+                context.restore();
             } else {
                 // 绘制彩虹双环连线
                 if (this.isLineTo && this.firstPoint !== this.secondPoint) {
