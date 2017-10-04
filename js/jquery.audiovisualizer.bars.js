@@ -75,11 +75,12 @@
         pointArray2 = [],
         staticPointsArray = [];
 
-    // 上次音频数组记录
-    let lastAudioSamples = [];
+    let lastAudioArray = [],
+        currantAudioArray = [];
     for (let i = 0; i < 128; i++) {
-        lastAudioSamples[i] = 0;
+        currantAudioArray[i] = lastAudioArray[i] = 0;
     }
+    let audioAverage = 0;  // 音频平均值
 
     // 颜色变换
     let color1 = {
@@ -112,18 +113,36 @@
     //--------------------------------------------------------------------------------------------------------------
 
     /**
+     * 均值函数
+     *
+     * @param  {Array|float} array 数组
+     * @return {(int | float)} 平均值
+     */
+    function mean(array) {
+        if (!array) {
+            return 0.0;
+        }
+        let count = 0.0;
+        for (let i = 0; i < array.length; i++) {
+            count += array[i];
+        }
+        count /= array.length;
+        return count;
+    }
+
+    /**
      *  检测音频数组静默状态
      *  数组所有值皆为0返回true,反之返回false
-     * @method 检测音频数组静默状态
-     * @param  {Array<float>} audioSamples 音频数组
+     *
+     * @param  {Array<float>} audioArray 音频数组
      * @return {boolean} 静默状态布尔值
      */
-    function isSilence(audioSamples) {
-        if (!audioSamples) {
+    function isSilence(audioArray) {
+        if (!audioArray) {
             return false;
         }
-        for (let i = 0; i < audioSamples.length; i++) {
-            if (audioSamples[i]) {
+        for (let i = 0; i < audioArray.length; i++) {
+            if (audioArray[i]) {
                 return true;
             }
         }
@@ -134,33 +153,27 @@
      * 根据点的数量提取音频数组
      * 获取数组长度等于点的数量的音频数组
      *
-     * @param  {Array<float>} audioSamples 音频数组
+     * @param  {Array<float>} audioArray 音频数组
      * @param  {int}          num          点的数量
      * @return {Array<float>} AudioArray   抽取后的音频数组
      */
-    function getBarsArray(audioSamples, num) {
-        if (!audioSamples) {
-            return [];
-        }
-        if (!num || num <= 0) {
-            return [];
-        } else if (num > audioSamples.length) {
-            return audioSamples;
-        }
-        let AudioArray = [].concat(audioSamples);
-        let max = AudioArray.length - num;
-        let isfirst = true;  // 头尾元素指示器
+    function getBarsArray(audioArray, num) {
+        let audioArray1 = [].concat(audioArray) || [];
+        let num1 = Math.min(num || 0, audioArray.length);
+        let max = audioArray1.length - num1;
+        let isFirst = true;  // 头尾元素指示器
         for (let i = 0; i < max; i++) {
-            if (isfirst) {
-                AudioArray.shift();
-                isfirst = false;
+            if (isFirst) {
+                audioArray1.shift();
+                isFirst = false;
             } else {
-                AudioArray.pop();
-                isfirst = true;
+                audioArray1.pop();
+                isFirst = true;
             }
         }
-        return AudioArray;
+        return audioArray1;
     }
+
 
     /**
      * 获取点对应的坐标数组
@@ -315,7 +328,7 @@
 
         // 默认开启
         this.setupPointerEvents();
-        this.updateVisualizerBars(lastAudioSamples);
+        this.updateVisualizerBars(currantAudioArray);
         this.drawVisualizerBars();
     };
 
@@ -370,30 +383,16 @@
         // 面向内部方法
         //-----------------------------------------------------------
 
-        /**
-         * 比较并获取音频数组索引对应值
-         * 若小于上一个点的音频数组索引对应值，则取上次记录对应值，反之取当前索引对应值
-         * decline保证音频数组衰退时，音频圆环能平缓收缩。
-         * decline越小过渡越缓慢，越大过渡越迅速（甚至失效）
-         * @private
-         *
-         * @param  {Array<float>}   audioSamples 音频数组
-         * @param  {int}            index        音频数组索引
-         * @param  {boolean<float>} isUpdate     是否更新上次音频数组记录
-         * @return {Array<float>} 音频取样值
-         */
-        getAudioSamples: function (audioSamples, index, isUpdate) {
-            if (!audioSamples) {
-                return [];
-            }
+        /** 比较当前数组和上次音频数组 */
+        compareAudioArray: function () {
             this.decline = this.decline || 0.01;
-            let audioValue = audioSamples[index] ? audioSamples[index] : 0;
-            audioValue = Math.max(audioValue, lastAudioSamples[index] - this.decline);
-            audioValue = Math.min(audioValue, this.peak);
-            if (isUpdate) {
-                lastAudioSamples[index] = audioValue;
+            // 逐个对比当前音频数组值和上次音频数组 - 音频衰退值
+            for (let i = 0; i < lastAudioArray.length; i++) {
+                currantAudioArray[i] = Math.max(currantAudioArray[i], lastAudioArray[i] - this.decline);
+                currantAudioArray[i] = Math.min(currantAudioArray[i], this.peak);
             }
-            return audioValue;
+            // 更新上次音频数组和当前音频均值
+            lastAudioArray = [].concat(currantAudioArray);
         },
 
 
@@ -402,12 +401,12 @@
          * 生成静态音频条形坐标数组
          * @private
          *
-         * @param  {Array<float>}   audioSamples 音频数组
+         * @param  {Array<float>}   audioArray 音频数组
          * @return {Array<Object>} 坐标数组
          */
-        setStaticPoint: function (audioSamples) {
+        setStaticPoint: function (audioArray) {
             let pointArray = [];
-            let barsArray = getBarsArray(audioSamples, this.pointNum);
+            let barsArray = getBarsArray(audioArray, this.pointNum);
             let spacing = minLength / (barsArray.length - 1);
             // 将barsArray.length点数组转换成中央左侧坐标数组
             for (let i = 0; i < barsArray.length; i++) {
@@ -422,50 +421,47 @@
          * 根据音频数组值生成对应点坐标，并储存在坐标数组中
          * @private
          *
-         * @param  {Array<float>}   audioSamples 音频数组
-         * @param  {int}            direction    方向（1或则-1）
-         * @param  {boolean<float>} isChange     更新lastAudioSamples[index]布尔值
+         * @param  {Array<float>}   audioArray 音频数组
+         * @param  {int}            direction  方向（1或则-1）
          * @return {Array<Object>} 坐标数组
          */
-        setPoint: function (audioSamples, direction, isChange) {
+        setPoint: function (audioArray, direction) {
             let pointArray = [];
-            let barsArray = getBarsArray(audioSamples, this.pointNum);
+            let barsArray = getBarsArray(audioArray, this.pointNum);
             let spacing = minLength / (barsArray.length - 1);
             // 将barsArray.length点数组转换成坐标数组
             for (let i = 0; i < barsArray.length; i++) {
-                let audioValue = this.getAudioSamples(audioSamples, i, isChange);
+                let audioValue = audioArray[i] * this.amplitude;
                 let x = startX + i * spacing;
-                let y = originY + direction * (this.height + audioValue * this.amplitude * 15);
+                let y = originY + direction * (audioValue + this.height);
                 pointArray.push({x: x, y: y});
             }
             return pointArray;
         },
 
+
         /**
-         * 绘制音频连线路径
-         * 根据坐标数组绘制音频条形路径
-         * - 调用该函数前必须调用context.beginPath();
-         * - 结束路径绘制后调用context.closePath();
-         * - 调用context.stroke();描边路径
+         * 绘制音频连线
+         * 根据坐标数组绘制音频条形
          * @private
          *
          * @param {Array<Object>} pointArray 坐标数组
          */
         drawLine: function (pointArray) {
             context.save();
+            context.beginPath();
             context.moveTo(pointArray[0].x, pointArray[0].y);
             for (let i = 1; i < pointArray.length; i++) {
                 context.lineTo(pointArray[i].x, pointArray[i].y);
             }
+            context.stroke();
+            context.closePath();
             context.restore();
         },
 
         /**
-         * 绘制音频条形路径
-         * 根据坐标数组绘制上条形、下条形以及静态条形之间连线路径
-         * - 调用该函数前必须调用context.beginPath();
-         * - 结束路径绘制后调用context.closePath();
-         * - 调用context.stroke();描边路径
+         * 绘制音频条形
+         * 根据坐标数组绘制上条形、下条形以及静态条形之间连线
          * @private
          *
          * @param {Array<Object>} pointArray1 坐标数组1
@@ -473,11 +469,14 @@
          */
         drawBars: function (pointArray1, pointArray2) {
             context.save();
+            context.beginPath();
             let max = Math.min(pointArray1.length, pointArray2.length);
             for (let i = 0; i < max; i++) {
                 context.moveTo(pointArray1[i].x, pointArray1[i].y);
                 context.lineTo(pointArray2[i].x, pointArray2[i].y);
             }
+            context.closePath();
+            context.stroke();
             context.restore();
         },
 
@@ -671,7 +670,7 @@
                     let y = e.clientY;
                     that.offsetX = x / canvasWidth;
                     that.offsetY = y / canvasHeight;
-                    that.updateVisualizerBars(lastAudioSamples);
+                    that.updateVisualizerBars(currantAudioArray);
                     that.drawVisualizerBars();
                 }
             });
@@ -685,7 +684,7 @@
                 minLength = Math.min(canvasWidth, canvasHeight);
                 originX = canvasWidth * this.offsetX;
                 originY = canvasHeight * this.offsetY;
-                that.updateVisualizerBars(lastAudioSamples);
+                that.updateVisualizerBars(currantAudioArray);
                 that.drawVisualizerBars();
             });
 
@@ -703,19 +702,24 @@
          * 更新音频条形参数
          * 更新条形坐标数组、偏移角度、原点坐标和音频条形颜色
          *
-         * @param {Array<float>} audioSamples 音频数组
+         * @param {Array<float>} audioArray 音频数组
          */
-        updateVisualizerBars: function (audioSamples) {
+        updateVisualizerBars: function (audioArray) {
+
             // 更新宽度、原点坐标坐标以及初始XY坐标
             minLength = canvasWidth * this.width;
             originX = canvasWidth * this.offsetX;
             originY = canvasHeight * this.offsetY;
             startX = originX - minLength / 2;
             startY = originY;
+            // 更新并处理音频数组
+            currantAudioArray = [].concat(audioArray) || new Array(128);
+            // audioAverage = mean(audioArray);
+            this.compareAudioArray();  // 更新lastAudioArray
             // 更新坐标数组
-            staticPointsArray = this.setStaticPoint(audioSamples);
-            pointArray1 = this.setPoint(audioSamples, -1, true);
-            pointArray2 = this.setPoint(audioSamples, 1, false);
+            staticPointsArray = this.setStaticPoint(currantAudioArray);
+            pointArray1 = this.setPoint(currantAudioArray, -1);
+            pointArray2 = this.setPoint(currantAudioArray, 1);
             // 更新音频圆环小球颜色
             if (this.colorMode === 'colorTransformation') {
                 this.colorTransformation();
@@ -746,7 +750,6 @@
             if (this.colorMode !== 'rainBow') {
                 context.save();
                 context.globalCompositeOperation = 'lighter';
-                context.beginPath();
                 // 绘制条形
                 if (this.isLineTo) {
                     switch (this.barsDirection) {
@@ -786,8 +789,6 @@
                     }
                     this.drawBars(firstArray, secondArray);
                 }
-                context.closePath();
-                context.stroke();
                 // 绘制音频波浪
                 if (this.isWave && this.firstLine !== this.secondLine) {
                     this.drawWave(firstLineArray, secondLineArray);
@@ -841,12 +842,12 @@
          * 根据音频数组绘制音频条形
          * 当上次音频数组记录和当前音频数组不处于静默状态、颜色变换状态、绘制条形
          *
-         * @param  {Array<float>} audioSamples 音频数组
+         * @param  {Array<float>} audioArray 音频数组
          */
-        drawCanvas: function (audioSamples) {
-            this.updateVisualizerBars(audioSamples);
-            if (isSilence(audioSamples)
-                || isSilence(lastAudioSamples)
+        drawCanvas: function (audioArray) {
+            this.updateVisualizerBars(audioArray);
+            if (isSilence(audioArray)
+                || isSilence(currantAudioArray)
                 || this.colorMode === 'colorTransformation'
                 || (this.colorMode === 'rainBow' && this.gradientOffset !== 0)) {
                 this.drawVisualizerBars();
@@ -956,14 +957,14 @@
                 case 'firstLine':
                 case 'secondLine':
                     this[property] = value;
-                    this.updateVisualizerBars(lastAudioSamples);
+                    this.updateVisualizerBars(currantAudioArray);
                     this.drawVisualizerBars();
                     break;
                 case 'hueRange':
                 case 'pointNum':
                     this[property] = value;
                     rainBowArray = this.setRainBow(this.pointNum);
-                    this.updateVisualizerBars(lastAudioSamples);
+                    this.updateVisualizerBars(currantAudioArray);
                     this.drawVisualizerBars();
                     break;
                 // no default

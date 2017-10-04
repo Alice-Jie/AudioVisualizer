@@ -613,9 +613,9 @@
         "text": "ui_circle_amplitude",
         "type": "slider",
         "editable": true,
-        "max": 10,
+        "max": 150,
         "min": 1,
-        "value": 5
+        "value": 75
       },
       "circle_decline": {
         "order": 3002,

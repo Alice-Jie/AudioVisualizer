@@ -74,11 +74,13 @@
         staticPointsArray = [],
         ballPointArray = [];
 
-    // 上次音频数组记录
-    let lastAudioSamples = [];
+    // 音频数组
+    let lastAudioArray = [],
+        currantAudioArray = [];
     for (let i = 0; i < 128; i++) {
-        lastAudioSamples[i] = 0;
+        currantAudioArray[i] = lastAudioArray[i] = 0;
     }
+    let audioAverage = 0;  // 音频平均值
 
     // 旋转角度
     let rotationAngle1 = 0,
@@ -116,18 +118,36 @@
     //--------------------------------------------------------------------------------------------------------------
 
     /**
+     * 均值函数
+     *
+     * @param  {Array|float} array 数组
+     * @return {(int | float)} 平均值
+     */
+    function mean(array) {
+        if (!array) {
+            return 0.0;
+        }
+        let count = 0.0;
+        for (let i = 0; i < array.length; i++) {
+            count += array[i];
+        }
+        count /= array.length;
+        return count;
+    }
+
+    /**
      *  检测音频数组静默状态
      *  数组所有值皆为0返回true,反之返回false
      *
-     * @param  {Array<float>} audioSamples 音频数组
+     * @param  {Array<float>} audioArray 音频数组
      * @return {boolean} 静默状态布尔值
      */
-    function isSilence(audioSamples) {
-        if (!audioSamples) {
+    function isSilence(audioArray) {
+        if (!audioArray) {
             return false;
         }
-        for (let i = 0; i < audioSamples.length; i++) {
-            if (audioSamples[i]) {
+        for (let i = 0; i < audioArray.length; i++) {
+            if (audioArray[i]) {
                 return true;
             }
         }
@@ -138,58 +158,45 @@
      * 根据点的数量提取音频数组
      * 获取数组长度等于点的数量的音频数组
      *
-     * @param  {Array<float>} audioSamples 音频数组
+     * @param  {Array<float>} audioArray   音频数组
      * @param  {int}          num          点的数量
      * @return {Array<float>} AudioArray   抽取后的音频数组
      */
-    function getRingArray(audioSamples, num) {
-        if (!audioSamples) {
-            return [];
-        }
-        if (!num || num <= 0) {
-            return [];
-        } else if (num > audioSamples.length) {
-            return audioSamples;
-        }
-        let AudioArray = [].concat(audioSamples);
-        let max = AudioArray.length - num;
-        let isfirst = true;  // 头尾元素指示器
+    function getRingArray(audioArray, num) {
+        let audioArray1 = [].concat(audioArray) || [];
+        let num1 = Math.min(num || 0, audioArray.length);
+        let max = audioArray1.length - num1;
+        let isFirst = true;  // 头尾元素指示器
         for (let i = 0; i < max; i++) {
-            if (isfirst) {
-                AudioArray.shift();
-                isfirst = false;
+            if (isFirst) {
+                audioArray1.shift();
+                isFirst = false;
             } else {
-                AudioArray.pop();
-                isfirst = true;
+                audioArray1.pop();
+                isFirst = true;
             }
         }
-        return AudioArray;
+        return audioArray1;
     }
 
     /**
      * 根据小球间隔提取音频取样值
      * 获取数组长度等于audioSamples/spacer的音频数组
      *
-     * @param  {Array<float>} audioSamples 音频数组
+     * @param  {Array<float>} audioArray 音频数组
      * @param  {int}          spacer       小球间隔
      * @return {Array<float>} AudioArray   抽取后的音频数组
      */
-    function getBallArray(audioSamples, spacer) {
-        if (!audioSamples) {
-            return [];
+    function getBallArray(audioArray, spacer) {
+        let audioArray1 = [].concat(audioArray) || [],
+            audioArray2 = [];
+        let spacer1 = spacer || 1;
+        for (let i = 0; i < 120; i += spacer1) {
+            audioArray2.push(audioArray1[i] || 0);
         }
-        spacer = spacer || 1;
-        if (!spacer || spacer <= 0) {
-            spacer = 1;
-        } else if (spacer > audioSamples) {
-            return [];
-        }
-        let AudioArray = [];
-        for (let i = 0; i < 120; i += spacer) {
-            AudioArray.push(audioSamples[i] || 0);
-        }
-        return AudioArray;
+        return audioArray2;
     }
+
 
     /**
      * 角度偏移
@@ -257,6 +264,7 @@
                 console.error('ring is undefined.');
         }
     }
+
 
     /** 设置RGB增量 */
     function setRGBIncrement() {
@@ -401,7 +409,7 @@
 
         // 默认开启
         this.setupPointerEvents();
-        this.updateVisualizerCircle(lastAudioSamples);
+        this.updateVisualizerCircle(currantAudioArray);
         this.drawVisualizerCircle();
     };
 
@@ -470,44 +478,58 @@
         // 面向内部方法
         //-----------------------------------------------------------
 
-        /**
-         * 比较并获取音频数组索引对应值
-         * 若小于上一个点的音频数组索引对应值，则取上次记录对应值，反之取当前索引对应值
-         * decline保证音频数组衰退时，音频圆环能平缓收缩。
-         * decline越小过渡越缓慢，越大过渡越迅速（甚至失效）
-         * @private
-         *
-         * @param  {Array<float>}   audioSamples 音频数组
-         * @param  {int}            index        音频数组索引
-         * @param  {boolean<float>} isUpdate     是否更新上次音频数组记录
-         * @return {Array<float>} 音频取样值
-         */
-        getAudioSamples: function (audioSamples, index, isUpdate) {
-            if (!audioSamples) {
-                return [];
+        /** 更新音频数组 */
+        updateAudioArray: function (audioArray) {
+            let audioArray1 = new Array(audioArray.length / 2),
+                audioArray2 = new Array(audioArray.length / 2),
+                audioArray3 = new Array(audioArray.length / 2);
+            // 左右声道叠加
+            for (let i = 0; i < audioArray1.length; i++) {
+                audioArray1[i] = audioArray[i];
+                audioArray2[i] = audioArray[audioArray.length - 1 - i];
+                audioArray3[i] = audioArray1[i] + audioArray2[i];
             }
-            this.decline = this.decline || 0.01;
-            let audioValue = audioSamples[index] ? audioSamples[index] : 0;
-            audioValue = Math.max(audioValue, lastAudioSamples[index] - this.decline);
-            audioValue = Math.min(audioValue, this.peak);
-            if (isUpdate) {
-                lastAudioSamples[index] = audioValue;
+            // 生成补间声道
+            let audioArray4 = [];
+            for (let i = 0; i < audioArray1.length - 1; i++) {
+                audioArray4.push(audioArray3[i]);
+                audioArray4.push((audioArray3[i] + audioArray3[i + 1]) / 2);
             }
-            return audioValue;
+            audioArray4.push((audioArray3[audioArray3.length - 1]) / 2);
+            audioArray4.push((audioArray3[0] + audioArray3[audioArray3.length - 1]) / 2);
+            return audioArray4;
         },
 
+        /** 比较当前数组和上次音频数组 */
+        compareAudioArray: function () {
+            this.decline = this.decline || 0.01;
+            // 逐个对比当前音频数组值和上次音频数组 - 音频衰退值
+            for (let i = 0; i < lastAudioArray.length; i++) {
+                currantAudioArray[i] = Math.max(currantAudioArray[i], lastAudioArray[i] - this.decline);
+                currantAudioArray[i] = Math.min(currantAudioArray[i], this.peak);
+            }
+            // 更新上次音频数组和当前音频均值
+            lastAudioArray = [].concat(currantAudioArray);
+        },
+
+        /** 更新音频值 */
+        updateAudioValue: function (audioValue) {
+            // 对音频数值的处理
+        },
+
+        /** 更新音频值 */
 
         /**
          * 生成静态点的坐标集合
          * 生成静态音频圆环坐标数组
          * @private
          *
-         * @param  {Array<float>}   audioSamples 音频数组
+         * @param  {Array<float>}   audioArray 音频数组
          * @return {Array<Object>} 坐标数组
          */
-        setStaticPoint: function (audioSamples) {
+        setStaticPoint: function (audioArray) {
             let pointArray = [];
-            let ringArray = getRingArray(audioSamples, this.pointNum);
+            let ringArray = getRingArray(audioArray, this.pointNum);
             // 将点数组转换成坐标数组
             for (let i = 0; i < ringArray.length; i++) {
                 let deg = getDeg(ringArray.length, i, rotationAngle1);
@@ -524,21 +546,20 @@
          * 根据音频数组值生成对应点坐标，并储存在坐标数组中
          * @private
          *
-         * @param  {Array<float>}   audioSamples 音频数组
-         * @param  {int}            direction    方向（1或则-1）
-         * @param  {int}            distance     与静态环之间距离
-         * @param  {boolean<float>} isChange     更新lastAudioSamples[index]布尔值
+         * @param  {Array<float>}   audioArray 音频数组
+         * @param  {int}            direction  方向（1或则-1）
+         * @param  {int}            distance   与静态环之间距离
          * @return {Array<Object>} 坐标数组
          */
-        setPoint: function (audioSamples, direction, distance, isChange) {
+        setPoint: function (audioArray, direction, distance) {
             let pointArray = [];
-            let ringArray = getRingArray(audioSamples, this.pointNum);
+            let ringArray = getRingArray(audioArray, this.pointNum);
             // 将点数组转换成坐标数组
             for (let i = 0; i < ringArray.length; i++) {
                 let deg = getDeg(ringArray.length, i, rotationAngle1);
-                let audioValue = this.getAudioSamples(audioSamples, i, isChange);
+                let audioValue = audioArray[i] * this.amplitude;
                 let radius = this.radius * (minLength / 2)
-                    + direction * (distance + audioValue * (this.amplitude * 15));
+                    + direction * (audioValue + distance);
                 // 根据半径、角度、原点坐标获得坐标数组
                 let point = getXY(radius, deg, originX, originY);
                 pointArray.push(point);
@@ -551,20 +572,20 @@
          * 根据音频数组值生成对应小球坐标，并储存在坐标数组中
          * @private
          *
-         * @param  {Array<float>} audioSamples 音频数组
-         * @param  {int}          direction    方向（1或则-1）
+         * @param  {Array<float>} audioArray 音频数组
+         * @param  {int}          direction  方向（1或则-1）
          * @return {Array<Object>} 坐标数组
          */
-        setBall: function (audioSamples, direction) {
+        setBall: function (audioArray, direction) {
             let pointArray = [];
-            let ballArray = getBallArray(audioSamples, this.ballSpacer);
+            let ballArray = getBallArray(audioArray, this.ballSpacer);
             // 将点数组转换成坐标数组
             for (let i = 0; i < ballArray.length; i++) {
                 let deg = getDeg(ballArray.length, i, rotationAngle2);
-                let audioValue = Math.min(audioSamples[i] ? audioSamples[i] : 0, 1);
+                let audioValue = audioArray[i] * this.amplitude;
                 let radius = this.radius * (minLength / 2)
                     + (this.outerDistance + this.ballDistance)
-                    + direction * (audioValue * 75);
+                    + direction * audioValue;
                 // 根据半径、角度、原点坐标获得坐标数组
                 let point = getXY(radius, deg, originX, originY);
                 pointArray.push(point);
@@ -824,7 +845,7 @@
                     let y = e.clientY;
                     that.offsetX = x / canvasWidth;
                     that.offsetY = y / canvasHeight;
-                    that.updateVisualizerCircle(lastAudioSamples);
+                    that.updateVisualizerCircle(currantAudioArray);
                     that.drawVisualizerCircle();
                 }
             });
@@ -838,7 +859,7 @@
                 minLength = Math.min(canvasWidth, canvasHeight);
                 originX = canvasWidth * this.offsetX;
                 originY = canvasHeight * this.offsetY;
-                that.updateVisualizerCircle(lastAudioSamples);
+                that.updateVisualizerCircle(currantAudioArray);
                 that.drawVisualizerCircle();
             });
 
@@ -856,17 +877,22 @@
          * 更新音频圆环参数
          * 更新内外圆环、音频小球坐标数组、偏移角度、原点坐标和音频圆环小球颜色
          *
-         * @param {Array<float>} audioSamples 音频数组
+         * @param {Array<float>} audioArray 音频数组
          */
-        updateVisualizerCircle: function (audioSamples) {
+        updateVisualizerCircle: function (audioArray) {
             // 更新原点XY坐标
             originX = canvasWidth * this.offsetX;
             originY = canvasHeight * this.offsetY;
+            // 更新并处理音频数组
+            currantAudioArray = [].concat(audioArray) || new Array(128);
+            // currantAudioArray = this.updateAudioArray(audioArray) || new Array(128);
+            // audioAverage = mean(currantAudioArray);
+            this.compareAudioArray();  // 更新lastAudioArray
             // 更新坐标数组
-            staticPointsArray = this.setStaticPoint(audioSamples);
-            pointArray1 = this.setPoint(audioSamples, -1, this.innerDistance, true);
-            pointArray2 = this.setPoint(audioSamples, 1, this.outerDistance, false);
-            ballPointArray = this.setBall(audioSamples, this.ballDirection);
+            staticPointsArray = this.setStaticPoint(currantAudioArray);
+            pointArray1 = this.setPoint(currantAudioArray, -1, this.innerDistance);
+            pointArray2 = this.setPoint(currantAudioArray, 1, this.outerDistance);
+            ballPointArray = this.setBall(currantAudioArray, this.ballDirection);
             // 更新偏移角度
             rotationAngle1 = rotation(rotationAngle1, this.ringRotation);
             rotationAngle2 = rotation(rotationAngle2, this.bindRingRotation ? this.ringRotation : this.ballRotation);
@@ -929,12 +955,12 @@
          * 根据音频数组绘制音频圆环和音频小球
          * 当上次音频数组记录和当前音频数组不处于静默状态、颜色变换状态、旋转状态时，绘制音频圆环和音频小球
          *
-         * @param  {Array<float>} audioSamples 音频数组
+         * @param  {Array<float>} audioArray 音频数组
          */
-        drawCanvas: function (audioSamples) {
-            this.updateVisualizerCircle(audioSamples);
-            if (isSilence(audioSamples)
-                || isSilence(lastAudioSamples)
+        drawCanvas: function (audioArray) {
+            this.updateVisualizerCircle(audioArray);
+            if (isSilence(audioArray)
+                || isSilence(currantAudioArray)
                 || this.colorMode === 'colorTransformation'
                 || (this.colorMode === 'rainBow' && this.gradientOffset !== 0)
                 || (this.ringRotation && this.isLineTo)
@@ -1056,20 +1082,20 @@
                 case 'ballSize':
                 case 'ballRotation':
                     this[property] = value;
-                    this.updateVisualizerCircle(lastAudioSamples);
+                    this.updateVisualizerCircle(currantAudioArray);
                     this.drawVisualizerCircle();
                     break;
                 case 'hueRange':
                 case 'pointNum':
                     this[property] = value;
                     ringRainBowArray = this.setRainBow(this.pointNum);
-                    this.updateVisualizerCircle(lastAudioSamples);
+                    this.updateVisualizerCircle(currantAudioArray);
                     this.drawVisualizerCircle();
                     break;
                 case 'ballSpacer':
                     this.ballSpacer = value;
                     ballRainBowArray = this.setRainBow(120 / this.ballSpacer);
-                    this.updateVisualizerCircle(lastAudioSamples);
+                    this.updateVisualizerCircle(currantAudioArray);
                     this.drawVisualizerCircle();
                     break;
                 case 'bindRingRotation':
