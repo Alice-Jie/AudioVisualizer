@@ -1,5 +1,5 @@
 /*!
- * jQuery time plugin v0.0.9
+ * jQuery time plugin v0.0.10
  * moment.js: http://momentjs.cn/
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
@@ -7,7 +7,7 @@
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/09/20
+ * @date 2017/10/06
  */
 
 (function (global, factory) {
@@ -97,10 +97,10 @@
             weather: '阴',                      // 天气情况
             temperature: '15℃',                // 温度情况
             wind: {
-                deg: '40',                      // 风向（360度）
+                deg: '40',                      // 风向(360度)
                 dir: '东北风',                  // 风向
                 sc: '4-5',                      // 风力
-                spd: '24'                       // 风速（kmph）
+                spd: '24'                       // 风速(kmph)
             }
         }
     };
@@ -133,65 +133,17 @@
     let timer = null,         // 时间计时器
         weatherTimer = null;  // 天气计时器
 
-    let milliSec = 1000;  // 重绘间隔（ms）
+    let milliSec = 1000;  // 重绘间隔(ms)
 
     //私有方法
     //--------------------------------------------------------------------------------------------------------------
 
     /**
      * 时间格式说明：
-     * YYYY：年 MMM：月（非数字） MM：月（数字） Do：日（非数字） DD：日（数字）
+     * YYYY：年 MMM：月(非数字)MM：月(数字)Do：日(非数字)DD：日(数字)
      * HH：小时(二十四小时制) hh：小时(十二小时制) mm：分钟 ss：秒
      * a：时间段 dddd：星期
      */
-
-    /**
-     * 获取当前时间信息
-     * 格式化效果详见：http://momentjs.cn/docs/#/displaying/
-     *
-     * @param  {string} timeStyle 时间格式字符串
-     * @return {string} 时间字符串
-     */
-    function getTime(timeStyle) {
-        switch (timeStyle) {
-            case 'hh:mm:ss a':
-            case 'hh:mm:ss':
-            case 'HH:mm:ss a':
-            case 'HH:mm:ss':
-            case 'hh:mm a':
-            case 'hh:mm':
-            case 'HH:mm a':
-            case 'HH:mm':
-                return moment().format(timeStyle).toUpperCase();
-            default:
-                return moment().format(timeStyle).toUpperCase();
-        }
-    }
-
-    /**
-     * 获取当前日期信息
-     * 格式化效果详见：http://momentjs.cn/docs/#/displaying/
-     *
-     * @param  {int} dateStyle  日期格式字符串
-     * @return {string} 日期字符串
-     */
-    function getDate(dateStyle) {
-        switch (dateStyle) {
-            case 'LL':
-            case 'LL dddd':
-            case 'MM - DD dddd':
-            case 'MM - DD':
-            case 'MMM Do dddd':
-            case 'MMM Do':
-            case '[Days] DDDD':
-                return moment().format(dateStyle);
-            case 'weather':
-                return weatherStr;
-            default:
-                return moment().format(dateStyle);
-        }
-    }
-
 
     /**
      * 生成weatherStr信息
@@ -236,7 +188,7 @@
      * - 访问成功后将天气信息写入对应天气对象
      *
      * @param {string} provider API提供者
-     * @param {string} city     城市（China）
+     * @param {string} city     城市(China)
      */
     function getWeather(provider, city) {
         switch (provider) {
@@ -393,13 +345,18 @@
         // 日期参数
         this.isDate = options.isDate;                    // 是否显示日期
         this.timeStyle = options.timeStyle;              // 时间显示风格
-        this.userTimeStyle = options.userTimeStyle;      // 自定义时间显示风格
-        this.dateStyle = options.dateStyle;              // 日期显示风格
-        this.userDateStyle = options.userDateStyle;      // 自定义日期显示风格
-        this.timeFontSize = options.timeFontSize;        // 字体大小
-        this.dateFontSize = options.dateFontSize;        // 字体大小
-        this.distance = options.distance;                // 时间和日期之间距离
         this.language = options.language;                // 日期语言
+        this.isFormat = options.isFormat;                // 是否格式化
+        this.dateStyle = options.dateStyle;              // 日期显示风格
+        this.userTimeStyle = options.userTimeStyle;      // 自定义时间显示风格
+        this.userDateStyle = options.userDateStyle;      // 自定义日期显示风格
+        this.fontFamily = options.fontFamily;            // 字体样式
+        this.timeFontSize = options.timeFontSize;        // 时间字体大小
+        this.dateFontSize = options.dateFontSize;        // 日期字体大小
+        this.distance = options.distance;                // 时间和日期之间距离
+        this.isStroke = options.isStroke;                // 是否描边
+        this.lineWidth = options.lineWidth;              // 描边宽度
+        this.isFill = options.isFill;                    // 是否填充
         // 天气参数
         this.weatherProvider = options.weatherProvider;  // 天气API提供者
         this.currentCity = options.currentCity;          // 天气信息
@@ -425,12 +382,13 @@
         context = canvas.getContext('2d');
         context.fillStyle = 'rgb(' + this.color + ')';
         // 线条属性
+        context.lineWidth = this.lineWidth;
         context.strokeStyle = 'rgb(' + this.color + ')';
         // 阴影属性
         context.shadowColor = 'rgb(' + this.shadowColor + ')';
         context.shadowBlur = this.shadowBlur;
         // 文字属性
-        context.font = this.timeFontSize + 'px 微软雅黑';
+        context.font = this.timeFontSize + 'px ' + this.fontFamily;
         context.textAlign = 'center';
         context.textBaseline = 'middle';
         // 颜色对象
@@ -449,32 +407,36 @@
     // 默认参数
     Time.DEFAULTS = {
         // 全局参数
-        opacity: 0.90,                 // 不透明度
-        color: '255,255,255',          // 颜色
-        colorMode: 'monochrome',       // 颜色模式
-        shadowColor: '255,255,255',    // 阴影颜色
-        shadowBlur: 15,                // 模糊大小
-        isRandomColor: true,           // 随机颜色变换
-        firstColor: '255,255,255',     // 起始颜色
-        secondColor: '255,0,0',        // 最终颜色
-        isChangeBlur: false,           // 模糊颜色变换开关
+        opacity: 0.90,                  // 不透明度
+        color: '255,255,255',           // 颜色
+        colorMode: 'monochrome',        // 颜色模式
+        shadowColor: '255,255,255',     // 阴影颜色
+        shadowBlur: 15,                 // 模糊大小
+        isRandomColor: true,            // 随机颜色变换
+        firstColor: '255,255,255',      // 起始颜色
+        secondColor: '255,0,0',         // 最终颜色
+        isChangeBlur: false,            // 模糊颜色变换开关
         // 坐标参数
-        offsetX: 0.5,                  // X坐标偏移
-        offsetY: 0.5,                  // Y坐标偏移
-        isClickOffset: false,          // 鼠标坐标偏移
+        offsetX: 0.5,                   // X坐标偏移
+        offsetY: 0.5,                   // Y坐标偏移
+        isClickOffset: false,           // 鼠标坐标偏移
         // 日期参数
-        isDate: true,                  // 是否显示日期
-        timeStyle: 'hh:mm:ss a',       // 时间显示风格
-        userTimeStyle: '',             // 自定义时间显示风格
-        dateStyle: 'LL dddd',          // 日期显示风格
-        userDateStyle: '',             // 自定义日期显示风格
-        timeFontSize: 60,              // 时间字体大小
-        dateFontSize: 30,              // 日期字体大小
-        distance: 0,                   // 时间与日期之间距离
-        language: 'zh_cn',             // 日期语言
+        isDate: true,                   // 是否显示日期
+        language: 'zh_cn',              // 日期语言
+        timeStyle: 'hh:mm:ss a',        // 时间显示风格
+        isFormat: true,                 // 是否格式化
+        dateStyle: 'LL dddd',           // 日期显示风格
+        userTimeStyle: '',              // 自定义时间显示风格
+        userDateStyle: '',              // 自定义日期显示风格
+        fontFamily: 'Microsoft YaHei',  // 字体样式
+        timeFontSize: 60,               // 时间字体大小
+        dateFontSize: 30,               // 日期字体大小
+        distance: 0,                    // 时间与日期之间距离
+        isStroke: false,                // 是否描边
+        isFill: true,                   // 是否填充
         // 天气参数
-        weatherProvider: 'sina',       // 天气API提供者
-        currentCity: ''                // 当前城市
+        weatherProvider: 'sina',        // 天气API提供者
+        currentCity: ''                 // 当前城市
     };
 
     // 公共方法
@@ -482,6 +444,55 @@
 
         // 面向内部方法
         //-----------------------------------------------------------
+
+        /**
+         * 获取当前时间信息
+         * 格式化效果详见：http://momentjs.cn/docs/#/displaying/
+         * @private
+         *
+         * @param  {string} timeStyle 时间格式字符串
+         * @return {string} 时间字符串
+         */
+        getTime: function (timeStyle) {
+            switch (timeStyle) {
+                case 'hh:mm:ss a':
+                case 'hh:mm:ss':
+                case 'HH:mm:ss a':
+                case 'HH:mm:ss':
+                case 'hh:mm a':
+                case 'hh:mm':
+                case 'HH:mm a':
+                case 'HH:mm':
+                    return moment().format(timeStyle).toUpperCase();
+                default:
+                    return this.isFormat ? moment().format(timeStyle).toUpperCase() : timeStyle;
+            }
+        },
+
+        /**
+         * 获取当前日期信息
+         * 格式化效果详见：http://momentjs.cn/docs/#/displaying/
+         * @private
+         *
+         * @param  {string} dateStyle 日期格式字符串
+         * @return {string} 日期字符串
+         */
+        getDate: function (dateStyle) {
+            switch (dateStyle) {
+                case 'LL':
+                case 'LL dddd':
+                case 'MM - DD dddd':
+                case 'MM - DD':
+                case 'MMM Do dddd':
+                case 'MMM Do':
+                case '[Days] DDDD':
+                    return moment().format(dateStyle);
+                case 'weather':
+                    return weatherStr;
+                default:
+                    return this.isFormat ? moment().format(dateStyle) : dateStyle;
+            }
+        },
 
         /**
          * 时间日期颜色变换
@@ -576,10 +587,40 @@
             context.clearRect(0, 0, canvasWidth, canvasHeight);
             // 更新时间和日期
             if (this.isDate) {
-                context.font = this.timeFontSize + 'px 微软雅黑';
-                context.fillText(getTime(this.userTimeStyle || this.timeStyle), originX, originY - this.timeFontSize / 2 - this.distance);
-                context.font = this.dateFontSize + 'px 微软雅黑';
-                context.fillText(getDate(this.userDateStyle || this.dateStyle), originX, originY + this.dateFontSize / 2 + this.distance);
+                context.save();
+                // 设置时间属性并绘制
+                context.font = this.timeFontSize + 'px ' + this.fontFamily;
+                if (this.isStroke) {
+                    context.strokeText(
+                        this.getTime(this.userTimeStyle || this.timeStyle),
+                        originX,
+                        originY - this.timeFontSize / 2 - this.distance
+                    );
+                }
+                if (this.isFill) {
+                    context.fillText(
+                        this.getTime(this.userTimeStyle || this.timeStyle),
+                        originX,
+                        originY - this.timeFontSize / 2 - this.distance
+                    );
+                }
+                // 设置日期属性并绘制
+                context.font = this.dateFontSize + 'px ' + this.fontFamily;
+                if (this.isStroke) {
+                    context.strokeText(
+                        this.getDate(this.userDateStyle || this.dateStyle),
+                        originX,
+                        originY + this.dateFontSize / 2 + this.distance
+                    );
+                }
+                if (this.isFill) {
+                    context.fillText(
+                        this.getDate(this.userDateStyle || this.dateStyle),
+                        originX,
+                        originY + this.dateFontSize / 2 + this.distance
+                    );
+                }
+                context.restore();
             }
         },
 
@@ -657,19 +698,27 @@
         set: function (property, value) {
             switch (property) {
                 case 'opacity':
-                    $(canvas).css('opacity', value);
+                    this.opacity = value;
+                    $(canvas).css('opacity', this.opacity);
                     break;
                 case 'color':
-                    context.fillStyle = 'rgb(' + value + ')';
-                    context.strokeStyle = 'rgb(' + value + ')';
+                    this.color = value;
+                    context.fillStyle = 'rgb(' + this.color + ')';
+                    context.strokeStyle = 'rgb(' + this.color + ')';
                     this.drawDate();
                     break;
+                case 'lineWidth':
+                    this.lineWidth = value;
+                    context.lineWidth = this.lineWidth;
+                    break;
                 case 'shadowColor':
-                    context.shadowColor = 'rgb(' + value + ')';
+                    this.shadowColor = value;
+                    context.shadowColor = 'rgb(' + this.shadowColor + ')';
                     this.drawDate();
                     break;
                 case 'shadowBlur':
-                    context.shadowBlur = value;
+                    this.shadowBlur = value;
+                    context.shadowBlur = this.shadowBlur;
                     this.drawDate();
                     break;
                 case 'isRandomColor':
@@ -698,13 +747,17 @@
                     this.updateWeather();
                     break;
                 case 'isDate':
+                case 'isFormat':
                 case 'timeStyle':
-                case 'userTimeStyle':
                 case 'dateStyle':
+                case 'userTimeStyle':
                 case 'userDateStyle':
+                case 'fontFamily':
                 case 'timeFontSize':
                 case 'dateFontSize':
                 case 'distance':
+                case 'isStroke':
+                case 'isFill':
                     this[property] = value;
                     this.drawDate();
                     break;

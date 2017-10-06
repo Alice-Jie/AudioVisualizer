@@ -504,10 +504,10 @@
     }
 
     /**
-     * 设置日期风格
+     * 设置时间风格
      *
-     * @param  {int} n 日期风格对应值
-     * @return {string} 日期风格标识串
+     * @param  {int} n 时间风格对应值
+     * @return {string} 时间风格标识串
      */
     function setTimeStyle(n) {
         switch (n) {
@@ -800,6 +800,90 @@
                 return 'vi';
             default:
                 return 'zh-cn';
+        }
+    }
+
+    /**
+     * 设置字体风格
+     *
+     * @param  {(int | string)} n 字体风格对应值/字符串
+     * @return {string} 字体风格标识串
+     */
+    function setFontFamily(n) {
+        switch (n) {
+            // 英文&&自定义字体
+            case 1:
+                return 'Tahoma';
+            case 2:
+                return 'Helvetica';
+            case 3:
+                return 'Arial';
+            case 4:
+                return 'sans-serif';
+            case 5:
+                return 'Curlz';
+            case 6:
+                return 'Harngton';
+            case 7:
+                return 'Oldengl';
+            case 8:
+                return 'PixelSplitter';
+            case 9:
+                return 'Superg';
+            case 10:
+                return 'Trancefm';
+            // windows常见内置中文字体
+            case 11:
+                return 'SimSun';
+            case 12:
+                return 'SimHei';
+            case 13:
+                return 'Microsoft Yahei';
+            case 14:
+                return 'Microsoft JhengHei';
+            case 15:
+                return 'KaiTi';
+            case 16:
+                return 'NSimSun';
+            case 17:
+                return 'FangSong';
+            // office安装后新增字体
+            case 18:
+                return 'YouYuan';
+            case 19:
+                return 'LiSu';
+            case 20:
+                return 'STXihei';
+            case 21:
+                return 'STKaiti';
+            case 22:
+                return 'STSong';
+            case 23:
+                return 'STFangsong';
+            case 24:
+                return 'STZhongsong';
+            case 25:
+                return 'STCaiyun';
+            case 26:
+                return 'STHupo';
+            case 27:
+                return 'STXinwei';
+            case 28:
+                return 'STLiti';
+            case 29:
+                return 'STXingkai';
+            case 30:
+                return 'FZShuTi';
+            case 31:
+                return 'FZYaoti';
+            default:
+                if (n && typeof(n) === 'string') {
+                    return n;
+                } else if (typeof(n) === 'number') {
+                    return 'Microsoft JhengHei';
+                } else {
+                    console.err('undefined.');
+                }
         }
     }
 
@@ -2000,17 +2084,21 @@
             if (properties.logo_shadowBlur) {
                 wallpaper.logo('set', 'shadowBlur', properties.logo_shadowBlur.value);
             }
-            // 标志圆形描边开关
+            // 圆形描边开关
             if (properties.logo_isStroke) {
                 wallpaper.logo('set', 'isStroke', properties.logo_isStroke.value);
             }
-            // 标志圆形描边颜色
+            // 圆形描边颜色
             if (properties.logo_strokeColor) {
                 wallpaper.logo('set', 'strokeColor', getColor(properties.logo_strokeColor.value));
             }
-            // 标志圆形描边宽度
+            // 圆形描边宽度
             if (properties.logo_lineWidth) {
                 wallpaper.logo('set', 'lineWidth', properties.logo_lineWidth.value);
+            }
+            // 圆形虚线描边
+            if (properties.logo_dottedLine) {
+                wallpaper.logo('set', 'dottedLine', properties.logo_dottedLine.value);
             }
 
             // # 坐标参数
@@ -2134,10 +2222,6 @@
             if (properties.date_timeStyle) {
                 wallpaper.time('set', 'timeStyle', setTimeStyle(properties.date_timeStyle.value));
             }
-            // 自定义时间样式
-            if (properties.date_userTimeStyle) {
-                wallpaper.time('set', 'userTimeStyle', properties.date_userTimeStyle.value);
-            }
             // 日期样式
             if (properties.date_dateStyle) {
                 wallpaper.time('set', 'dateStyle', setDateStyle(properties.date_dateStyle.value));
@@ -2147,6 +2231,14 @@
                 } else {
                     wallpaper.time('stopWeatherTimer');
                 }
+            }
+            // 格式化
+            if (properties.date_isFormat) {
+                wallpaper.time('set', 'isFormat', properties.date_isFormat.value);
+            }
+            // 自定义时间样式
+            if (properties.date_userTimeStyle) {
+                wallpaper.time('set', 'userTimeStyle', properties.date_userTimeStyle.value);
             }
             // 自定义日期样式
             if (properties.date_userDateStyle) {
@@ -2187,6 +2279,16 @@
             // # 时间日期参数
             //---------------
 
+            // 字体风格
+            if (properties.date_fontFamily) {
+                wallpaper.time('set', 'fontFamily', setFontFamily(properties.date_fontFamily.value));
+            }
+            // 自定义字体风格
+            if (properties.date_userFontFamily) {
+                if (properties.date_userFontFamily.value) {
+                    wallpaper.time('set', 'fontFamily', setFontFamily(properties.date_userFontFamily.value));
+                }
+            }
             // 字体大小
             if (properties.date_fontSize) {
                 wallpaper.time('set', 'timeFontSize', properties.date_fontSize.value)
@@ -2203,6 +2305,18 @@
             // 时间和日期之间距离
             if (properties.date_distance) {
                 wallpaper.time('set', 'distance', properties.date_distance.value);
+            }
+            // 描边
+            if (properties.date_isStroke) {
+                wallpaper.time('set', 'isStroke', properties.date_isStroke.value);
+            }
+            // 描边宽度
+            if (properties.date_lineWidth) {
+                wallpaper.time('set', 'lineWidth', properties.date_lineWidth.value);
+            }
+            // 填充
+            if (properties.date_isFill) {
+                wallpaper.time('set', 'isFill', properties.date_isFill.value);
             }
 
             // # 基础参数

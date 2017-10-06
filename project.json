@@ -1572,14 +1572,24 @@
         "min": 0,
         "value": 5
       },
-      "logo_coordinateText": {
+      "logo_dottedLine": {
         "order": 5011,
+        "condition": "logo_isLogo.value == true && logo_isCircular.value == true && logo_isStroke.value == true",
+        "text": "ui_logo_dottedLine",
+        "type": "slider",
+        "editable": true,
+        "max": 100,
+        "min": 0,
+        "value": 50
+      },
+      "logo_coordinateText": {
+        "order": 5012,
         "condition": "logo_isLogo.value == true",
         "text": "ui_logo_coordinateText",
         "type": "text"
       },
       "logo_offsetX": {
-        "order": 5012,
+        "order": 5013,
         "condition": "logo_isLogo.value == true",
         "text": "ui_logo_offsetX",
         "type": "slider",
@@ -1589,7 +1599,7 @@
         "value": 50
       },
       "logo_offsetY": {
-        "order": 5013,
+        "order": 5014,
         "condition": "logo_isLogo.value == true",
         "text": "ui_logo_offsetY",
         "type": "slider",
@@ -1599,7 +1609,7 @@
         "value": 50
       },
       "logo_isClickOffset": {
-        "order": 5014,
+        "order": 5015,
         "condition": "logo_isLogo.value == true",
         "text": "ui_logo_isClickOffset",
         "type": "bool",
@@ -2329,15 +2339,8 @@
         ],
         "value": 1
       },
-      "date_userTimeStyle": {
-        "order": 6104,
-        "condition": "date_isDate.value == true",
-        "text": "ui_date_userTimeStyle",
-        "type": "textinput",
-        "value": ""
-      },
       "date_dateStyle": {
-        "order": 6105,
+        "order": 6104,
         "condition": "date_isDate.value == true",
         "text": "ui_date_dateStyle",
         "type": "combo",
@@ -2377,21 +2380,41 @@
         ],
         "value": 2
       },
-      "date_userDateStyle": {
+      "date_isFormat": {
+        "order": 6105,
+        "condition": "date_isDate.value == true",
+        "text": "ui_date_isFormat",
+        "type": "bool",
+        "value": true
+      },
+      "date_formatText": {
         "order": 6106,
+        "condition": "date_isDate.value == true && date_isFormat.value == true",
+        "text": "ui_date_formatText",
+        "type": "text"
+      },
+      "date_userTimeStyle": {
+        "order": 6107,
+        "condition": "date_isDate.value == true",
+        "text": "ui_date_userTimeStyle",
+        "type": "textinput",
+        "value": ""
+      },
+      "date_userDateStyle": {
+        "order": 6108,
         "condition": "date_isDate.value == true",
         "text": "ui_date_userDateStyle",
         "type": "textinput",
         "value": ""
       },
       "date_weatherText": {
-        "order": 6107,
+        "order": 6109,
         "condition": "date_isDate.value == true && date_dateStyle.value == 8",
         "text": "ui_date_weatherText",
         "type": "text"
       },
       "date_weatherProvider": {
-        "order": 6108,
+        "order": 6110,
         "condition": "date_isDate.value == true && date_dateStyle.value == 8",
         "text": "ui_date_weatherProvider",
         "type": "combo",
@@ -2412,21 +2435,167 @@
         "value": 3
       },
       "date_city": {
-        "order": 6109,
+        "order": 6111,
         "condition": "date_isDate.value == true && date_dateStyle.value == 8 && date_isInputCity.value == true",
         "text": "ui_date_city",
         "type": "textinput",
         "value": ""
       },
       "date_isInputCity": {
-        "order": 6110,
+        "order": 6112,
         "condition": "date_isDate.value == true && date_dateStyle.value == 8",
         "text": "ui_date_isInputCity",
         "type": "bool",
         "value": false
       },
+      "date_fontFamily": {
+        "order": 6113,
+        "condition": "date_isDate.value == true",
+        "text": "ui_date_fontFamily",
+        "type": "combo",
+        "options": [
+          {
+            "label": "Tahoma",
+            "value": 1
+          },
+          {
+            "label": "Helvetica",
+            "value": 2
+          },
+          {
+            "label": "Arial",
+            "value": 3
+          },
+          {
+            "label": "sans-serif",
+            "value": 4
+          },
+          {
+            "label": "Curlz",
+            "value": 5
+          },
+          {
+            "label": "Harngton",
+            "value": 6
+          },
+          {
+            "label": "Oldengl",
+            "value": 7
+          },
+          {
+            "label": "PixelSplitter",
+            "value": 8
+          },
+          {
+            "label": "Superg",
+            "value": 9
+          },
+          {
+            "label": "Trancefm",
+            "value": 10
+          },
+          {
+            "label": "宋体",
+            "value": 11
+          },
+          {
+            "label": "黑体",
+            "value": 12
+          },
+          {
+            "label": "微软雅黑",
+            "value": 13
+          },
+          {
+            "label": "微软正黑体",
+            "value": 14
+          },
+          {
+            "label": "楷体",
+            "value": 15
+          },
+          {
+            "label": "新宋体",
+            "value": 16
+          },
+          {
+            "label": "仿宋",
+            "value": 17
+          },
+          {
+            "label": "幼圆",
+            "value": 18
+          },
+          {
+            "label": "隶书",
+            "value": 19
+          },
+          {
+            "label": "华文细黑",
+            "value": 20
+          },
+          {
+            "label": "华文楷体",
+            "value": 21
+          },
+          {
+            "label": "华文宋体",
+            "value": 22
+          },
+          {
+            "label": "华文仿宋",
+            "value": 23
+          },
+          {
+            "label": "华文中宋",
+            "value": 24
+          },
+          {
+            "label": "华文彩云",
+            "value": 25
+          },
+          {
+            "label": "华文琥珀",
+            "value": 26
+          },
+          {
+            "label": "华文新魏",
+            "value": 27
+          },
+          {
+            "label": "华文隶书",
+            "value": 28
+          },
+          {
+            "label": "华文行楷",
+            "value": 29
+          },
+          {
+            "label": "方正舒体",
+            "value": 30
+          },
+          {
+            "label": "方正姚体",
+            "value": 31
+          }
+        ],
+        "value": 13
+      },
+      "date_userFontFamily": {
+        "order": 6114,
+        "condition": "date_isDate.value == true",
+        "text": "ui_date_userFontFamily",
+        "type": "textinput",
+        "value": ""
+      },
+      "date_userFontFamilyText": {
+        "order": 6115,
+        "condition": "date_isDate.value == true",
+        "text": "ui_date_userFontFamilyText",
+        "type": "text"
+      },
       "date_fontSize": {
-        "order": 6111,
+        "order": 6116,
         "condition": "date_isDate.value == true",
         "text": "ui_date_fontSize",
         "type": "slider",
@@ -2436,7 +2605,7 @@
         "value": 60
       },
       "date_timeFontSize": {
-        "order": 6112,
+        "order": 6117,
         "condition": "date_isDate.value == true",
         "text": "ui_date_timeFontSize",
         "type": "slider",
@@ -2446,7 +2615,7 @@
         "value": 60
       },
       "date_dateFontSize": {
-        "order": 6113,
+        "order": 6118,
         "condition": "date_isDate.value == true",
         "text": "ui_date_dateFontSize",
         "type": "slider",
@@ -2456,7 +2625,7 @@
         "value": 30
       },
       "date_distance": {
-        "order": 6114,
+        "order": 6119,
         "condition": "date_isDate.value == true",
         "text": "ui_date_distance",
         "type": "slider",
@@ -2464,6 +2633,30 @@
         "max": 500,
         "min": 0,
         "value": 0
+      },
+      "date_isStroke": {
+        "order": 6120,
+        "condition": "date_isDate.value == true",
+        "text": "ui_date_isStroke",
+        "type": "bool",
+        "value": false
+      },
+      "date_lineWidth": {
+        "order": 6121,
+        "condition": "date_isDate.value == true == true && date_isStroke.value == true",
+        "text": "ui_date_lineWidth",
+        "type": "slider",
+        "editable": true,
+        "max": 10,
+        "min": 0,
+        "value": 1
+      },
+      "date_isFill": {
+        "order": 6122,
+        "condition": "date_isDate.value == true",
+        "text": "ui_date_isFill",
+        "type": "bool",
+        "value": true
       },
       "Text_line06": {
         "order": 6999,
@@ -2938,13 +3131,13 @@
       "about_kunxiText": {
         "order": 90008,
         "condition": "about_isAbout.value == true && about_isQRcode.value == false",
-        "text": "<br/><img src='https://steamuserimages-a.akamaihd.net/ugc/858355614970362859/B1B750CD8CF6A0EDFEABE31B0D0B3E258E3212B4/' alt='昆西昆西昆~Quincy 0v0' width='250' height='250' />",
+        "text": "<br/><img src='https://steamuserimages-a.akamaihd.net/ugc/867364985516960835/25E66788B753AF546E52ACF92D1499B4FC37E32F/' alt='昆西昆西昆~Quincy 0v0' width='250' height='250' />",
         "type": "text"
       },
       "about_QRcodeText": {
         "order": 90009,
         "condition": "about_isAbout.value == true && about_isQRcode.value == true",
-        "text": "<br/><img src='https://steamuserimages-a.akamaihd.net/ugc/858355614970363968/2909FEA34B0575BF781920747338EFA8E6C759D8/' alt='https://www.bilibili.com/video/av13510319/' width='250' height='250' />",
+        "text": "<br/><img src='https://steamuserimages-a.akamaihd.net/ugc/867364985516963790/121012D44114A9CD98699D2D9E6EDC58242FD9D5/' alt='https://www.bilibili.com/video/av6389317/' width='250' height='250' />",
         "type": "text"
       }
     },
@@ -3096,7 +3289,7 @@
         "ui_bars_lineWidth": "<br/>Line Width<br/><br/>",
         "ui_bars_milliSec": "<br/>Redraw Interval<br/><br/>",
         "Dividing_line8": "------------------------------------------------------------------------------------------------------------------------",
-        "ui_logo_Text": "<h3><b>Logo Settings</b></h3><small>The parameters related to the logo are set, and basic parameters, coordinate parameters and logo parameters are adjusted.</small>",
+        "ui_logo_Text": "<h3><b>Logo Settings</b></h3><small>The parameters related to the logo are set, and basic parameters, coordinate parameters, logo parameters, filter parameters and mix blend mode are adjusted.</small>",
         "ui_logo_basicText": "<br/><b>Logo - Basic Settings</b><br/><br/>",
         "ui_logo_isLogo": "<br/>Show Logo?<br/><br/>",
         "ui_logo_image": "<br/>Logo Image<br/><br/>",
@@ -3107,6 +3300,7 @@
         "ui_logo_isStroke": "<br/>Stroke?<br/><br/>",
         "ui_logo_strokeColor": "<br/>Stroke Color<br/><br/>",
         "ui_logo_lineWidth": "<br/>Stroke Width(px)<br/><br/>",
+        "ui_logo_dottedLine": "<br/>Dotted Line<br/><br/>",
         "ui_logo_coordinateText": "<br/><b>Logo - Coordinate Settings</b><br/><br/>",
         "ui_logo_offsetX": "<br/>Position X(%)<br/><br/>",
         "ui_logo_offsetY": "<br/>Position Y(%)<br/><br/>",
@@ -3152,8 +3346,10 @@
         "ui_date_isDate": "<br/>Show Date?<br/><br/>",
         "ui_date_language": "<br/>Date Language<br/><br/>",
         "ui_date_timeStyle": "<br/>Time Style<br/><br/>",
-        "ui_date_userTimeStyle": "<br/>Time Style<br/><br/>",
         "ui_date_dateStyle": "<br/>Date Style<br/><br/>",
+        "ui_date_isFormat": "<br/>Format?<br/>",
+        "ui_date_formatText": "<br/><span>Time format specification:</span><br/><span>YYYY: year MMM: month(non numeric) MM: month(number)</span><br/><span>Do: Day(non numeric) DD: Day(number)</span><br/><span>HH: hour(twenty-four hour system)</span><br/><span> hh: hour(twelve hour system)</span><br/><span>mm: Min ss: sec</span><br/><span>A: time period dddd: Week</span><br/>",
+        "ui_date_userTimeStyle": "<br/>Time Style<br/><br/>",
         "ui_date_userDateStyle": "<br/>Date Style<br/><br/>",
         "Dividing_line10": "------------------------------------------------------------------------------------------------------------------------",
         "ui_date_weatherText": "<br/><b>Date - Weather Setting</b><br/>",
@@ -3161,10 +3357,16 @@
         "ui_date_city": "<br/>Chinese City：<br/><br/>",
         "ui_date_isInputCity": "<br/>Query City Weather<br/><br/>",
         "Dividing_line11": "------------------------------------------------------------------------------------------------------------------------",
+        "ui_date_fontFamily": "<br/>Font Family<br/><br/>",
+        "ui_date_userFontFamily": "<br/>Font Name<br/><br/>",
+        "ui_date_userFontFamilyText": "<br/>Your font folder(C:\\Windows\\Fonts)<br/><br/>",
         "ui_date_fontSize": "<br/>Font Size<br/><br/>",
         "ui_date_timeFontSize": "<br/>Time Font Size<br/><br/>",
         "ui_date_dateFontSize": "<br/>Date Font Size<br/><br/>",
         "ui_date_distance": "<br/>Distance<br/><br/>",
+        "ui_date_isStroke": "<br/>Stroke<br/><br/>",
+        "ui_date_lineWidth": "<br/>Stroke Width<br/><br/>",
+        "ui_date_isFill": "<br/>Fill<br/><br/>",
         "Dividing_line12": "------------------------------------------------------------------------------------------------------------------------",
         "ui_particles_Text": "<h3><b>Particle Settings</b></h3><small>The parameters related to the particle are set, and basic parameters, type parameters, line parameters and move parameters are adjusted.</small>",
         "ui_particles_isParticles": "<br/>Show Particle?<br/><br/>",
@@ -3215,8 +3417,8 @@
         "ui_about_authorText": "<br/>Author：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
         "ui_about_emailText": "<br/>Email：909011298@qq.com<br/>",
-        "ui_about_versionText": "<br/>Version Number：0.5.7<br/>",
-        "ui_about_updateText": "<br/><span>Update Description：</span><br/><span>Add the LOGO plug-in (bate)</span><br/><span>                           -- From Baidu translate.</span><br/>",
+        "ui_about_versionText": "<br/>Version Number：0.5.8<br/>",
+        "ui_about_updateText": "<br/><span>Update Description：</span><br/><span>1. LOGO plug-in (bate): add filter settings and mix blend mode</span><br/><span>2. Rewrite the visualizer plug-in drawing algorithm</span><br/><span>                           -- From Baidu translate.</span><br/>",
         "ui_about_describeText": "<br/><span>Relevant Instructions：</span><br/><span>If you have better text translation, please contact me.</span><br/>",
         "ui_about_isQRcode": "<br/>Show QRcode?<br/><br/>"
       },
@@ -3367,7 +3569,7 @@
         "ui_bars_lineWidth": "<br/>线条粗细<br/><br/>",
         "ui_bars_milliSec": "<br/>重绘间隔<br/><br/>",
         "Dividing_line8": "------------------------------------------------------------------------------------------------------------------------",
-        "ui_logo_Text": "<h3><b>标志设置</b></h3><h6>设置标志相关的参数，对其基本参数、坐标参</h6><h6>数和标志参数进行调节。</h6>",
+        "ui_logo_Text": "<h3><b>标志设置</b></h3><h6>设置标志相关的参数，对其基本参数、坐标参</h6><h6>数、标志参数、滤镜参数和混合模式进行调节。</h6>",
         "ui_logo_basicText": "<br/><b>标志 - 基本设置</b><br/><br/>",
         "ui_logo_isLogo": "<br/>显示标志<br/><br/>",
         "ui_logo_image": "<br/>标志文件<br/><br/>",
@@ -3378,6 +3580,7 @@
         "ui_logo_isStroke": "<br/>描边<br/><br/>",
         "ui_logo_strokeColor": "<br/>描边颜色<br/><br/>",
         "ui_logo_lineWidth": "<br/>描边宽度<br/><br/>",
+        "ui_logo_dottedLine": "<br/>虚线效果<br/><br/>",
         "ui_logo_coordinateText": "<br/><b>标志 - 坐标设置</b><br/><br/>",
         "ui_logo_offsetX": "<br/>X轴偏移<br/><br/>",
         "ui_logo_offsetY": "<br/>Y轴偏移<br/><br/>",
@@ -3423,8 +3626,10 @@
         "ui_date_isDate": "<br/>显示日期<br/><br/>",
         "ui_date_language": "<br/>日期语言<br/><br/>",
         "ui_date_timeStyle": "<br/>时间风格<br/><br/>",
-        "ui_date_userTimeStyle": "<br/>自定义时间<br/><br/>",
         "ui_date_dateStyle": "<br/>日期风格<br/><br/>",
+        "ui_date_isFormat": "<br/>格式化<br/>",
+        "ui_date_formatText": "<br/><span>时间格式说明：</span><br/><span>YYYY：年</span><br/><span>MMM：月(非数字) MM：月(数字)</span><br/><span>Do：日(非数字) DD：日(数字)</span><br/><span>HH：小时(二十四小时制)</span><br/><span>hh：小时(十二小时制)</span><br/><span>mm：分钟 ss：秒</span><br/><span>a：时间段 dddd：星期</span><br/>",
+        "ui_date_userTimeStyle": "<br/>自定义时间<br/><br/>",
         "ui_date_userDateStyle": "<br/>自定义日期<br/><br/>",
         "Dividing_line10": "------------------------------------------------------------------------------------------------------------------------",
         "ui_date_weatherText": "<br/><b>日期 - 天气设置</b><br/>",
@@ -3432,10 +3637,16 @@
         "ui_date_city": "<br/>中国城市名：<br/><br/>",
         "ui_date_isInputCity": "<br/>查询城市天气<br/><br/>",
         "Dividing_line11": "------------------------------------------------------------------------------------------------------------------------",
+        "ui_date_fontFamily": "<br/>字体风格<br/><br/>",
+        "ui_date_userFontFamily": "<br/>字体名字<br/><br/>",
+        "ui_date_userFontFamilyText": "<br/>字体文件夹(C:\\Windows\\Fonts)<br/><br/>",
         "ui_date_fontSize": "<br/>字体大小<br/><br/>",
         "ui_date_timeFontSize": "<br/>时间字体大小<br/><br/>",
         "ui_date_dateFontSize": "<br/>日期字体大小<br/><br/>",
         "ui_date_distance": "<br/>距离<br/><br/>",
+        "ui_date_isStroke": "<br/>描边<br/><br/>",
+        "ui_date_lineWidth": "<br/>描边宽度<br/><br/>",
+        "ui_date_isFill": "<br/>填充<br/><br/>",
         "Dividing_line12": "------------------------------------------------------------------------------------------------------------------------",
         "ui_particles_Text": "<h3><b>粒子设置</b></h3><h6>设置粒子特效相关的参数，对其基本参数、类型参</h6><h6>数、连线参数和移动参数进行调节。</h6>",
         "ui_particles_isParticles": "<br/>显示粒子<br/><br/>",
@@ -3486,8 +3697,8 @@
         "ui_about_authorText": "<br/>作者：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
         "ui_about_emailText": "<br/>Email：909011298@qq.com<br/>",
-        "ui_about_versionText": "<br/>版本号：0.5.7<br/>",
-        "ui_about_updateText": "<br/><span>更新说明：</span><br/><span>添加LOGO插件(bate)</span><br/>",
+        "ui_about_versionText": "<br/>版本号：0.5.8<br/>",
+        "ui_about_updateText": "<br/><span>更新说明：</span><br/><span>1、LOGO插件(bate)：添加滤镜设置和混合模式</span><br/><span>2、重写可视化插件绘制算法</span><br/>",
         "ui_about_describeText": "<br/><span>相关说明：</span><br/><span>由于项目工作量较大，难免会有部分BUG没有排查到。如果你发现了BUG，请移步到创意工坊描述BUG发生原因以及产生的结果。感谢大家长期以来的支持。</span><br/>",
         "ui_about_isQRcode": "<br/>显示二维码<br/><br/>"
       },
@@ -3638,7 +3849,7 @@
         "ui_bars_lineWidth": "<br/>線條粗細<br/><br/>",
         "ui_bars_milliSec": "<br/>重繪間隔<br/><br/>",
         "Dividing_line8": "------------------------------------------------------------------------------------------------------------------------",
-        "ui_logo_Text": "<h3><b>標誌設置</b></h3><h6>設置標誌相關的參數，對其基本參數、坐標參</h6><h6>數和標誌參數進行調節。</h6>",
+        "ui_logo_Text": "<h3><b>標誌設置</b></h3><h6>設置標誌相關的參數，對其基本參數、坐標參</h6><h6>數、標誌參數、濾鏡參數和混合模式進行調節。</h6>",
         "ui_logo_basicText": "<br/><b>標誌 - 基本設置</b><br/><br/>",
         "ui_logo_isLogo": "<br/>顯示標誌<br/><br/>",
         "ui_logo_image": "<br/>標誌文件<br/><br/>",
@@ -3649,6 +3860,7 @@
         "ui_logo_isStroke": "<br/>描邊<br/><br/>",
         "ui_logo_strokeColor": "<br/>描邊顏色<br/><br/>",
         "ui_logo_lineWidth": "<br/>描邊寬度<br/><br/>",
+        "ui_logo_dottedLine": "<br/>虛線效果<br/><br/>",
         "ui_logo_coordinateText": "<br/><b>標誌 - 坐標設置</b><br/><br/>",
         "ui_logo_offsetX": "<br/>X軸偏移<br/><br/>",
         "ui_logo_offsetY": "<br/>Y軸偏移<br/><br/>",
@@ -3694,8 +3906,10 @@
         "ui_date_isDate": "<br/>顯示日期<br/><br/>",
         "ui_date_language": "<br/>日期語言<br/><br/>",
         "ui_date_timeStyle": "<br/>時間風格<br/><br/>",
-        "ui_date_userTimeStyle": "<br/>自定義時間<br/><br/>",
         "ui_date_dateStyle": "<br/>日期風格<br/><br/>",
+        "ui_date_isFormat": "<br/>格式化<br/>",
+        "ui_date_formatText": "<br/><span>時間格式說明：</span><br/><span>YYYY：年</span><br/><span>MMM：月(非數字) MM：月(數字)</span><br/><span>Do：日(非數字) DD：日(數字)</span><br/><span>HH：小時(二十四小時制)</span><br/><span>hh：小時(十二小時制)</span><br/><span>mm：分鐘 ss：秒</span><br/><span>a：時間段 dddd：星期</span><br/>",
+        "ui_date_userTimeStyle": "<br/>自定義時間<br/><br/>",
         "ui_date_userDateStyle": "<br/>自定義日期<br/><br/>",
         "Dividing_line10": "------------------------------------------------------------------------------------------------------------------------",
         "ui_date_weatherText": "<br/><b>日期 - 天氣設置</b><br/>",
@@ -3703,10 +3917,16 @@
         "ui_date_city": "<br/>中國城市名：<br/><br/>",
         "ui_date_isInputCity": "<br/>查詢城市天氣<br/><br/>",
         "Dividing_line11": "------------------------------------------------------------------------------------------------------------------------",
+        "ui_date_fontFamily": "<br/>字體風格<br/><br/>",
+        "ui_date_userFontFamily": "<br/>字體名字<br/><br/>",
+        "ui_date_userFontFamilyText": "<br/>字體文件夾(C:\\Windows\\Fonts)<br/><br/>",
         "ui_date_fontSize": "<br/>字體大小<br/><br/>",
         "ui_date_timeFontSize": "<br/>時間字體大小<br/><br/>",
         "ui_date_dateFontSize": "<br/>日期字體大小<br/><br/>",
         "ui_date_distance": "<br/>距離<br/><br/>",
+        "ui_date_isStroke": "<br/>描邊<br/><br/>",
+        "ui_date_lineWidth": "<br/>描邊寬度<br/><br/>",
+        "ui_date_isFill": "<br/>填充<br/><br/>",
         "Dividing_line12": "------------------------------------------------------------------------------------------------------------------------",
         "ui_particles_Text": "<h3><b>粒子設置</b></h3><h6>設置粒子特效相關的參數，對其基本參數、類型參</h6><h6>數、連線參數、移動參數進行調節。</h6>",
         "ui_particles_isParticles": "<br/>顯示粒子<br/><br/>",
@@ -3757,8 +3977,8 @@
         "ui_about_authorText": "<br/>作者：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
         "ui_about_emailText": "<br/>Email：909011298@qq.com<br/>",
-        "ui_about_versionText": "<br/>版本號：0.5.7<br/>",
-        "ui_about_updateText": "<br/><span>更新說明：</span><br/><span>添加LOGO插件(bate)</span><br/>",
+        "ui_about_versionText": "<br/>版本號：0.5.8<br/>",
+        "ui_about_updateText": "<br/><span>更新說明：</span><br/><span>1、LOGO插件(bate)：添加濾鏡設置和混合模式</span><br/><span>2、重寫可視化插件繪制算法</span><br/>",
         "ui_about_describeText": "<br/><span>相關說明：</span><br/><span>由於項目工作量較大，難免會有部分BUG沒有排查到。如果妳發現了BUG，請移步到創意工坊描述BUG發生原因以及產生的結果。感謝大家長期以來的支持。</span><br/>",
         "ui_about_isQRcode": "<br/>顯示二維碼<br/><br/>"
       }
@@ -3769,7 +3989,7 @@
   "tags": [
     "Relaxing"
   ],
-  "title": "[4K]Audio Visualizer v0.5.7(音频可视化)",
+  "title": "[4K]Audio Visualizer v0.5.8(音频可视化)",
   "type": "web",
   "visibility": "public",
   "workshopid": 921617616

@@ -1,12 +1,12 @@
 /*！
- * jQuery AudioVisualizer Bars plugin v0.0.8
+ * jQuery AudioVisualizer Bars plugin v0.0.9
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
  * - https://gitee.com/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/10/03
+ * @date 2017/10/06
  */
 
 (function (global, factory) {
@@ -383,7 +383,37 @@
         // 面向内部方法
         //-----------------------------------------------------------
 
-        /** 比较当前数组和上次音频数组 */
+        /**
+         * 更新音频数组（待议）
+         * @private
+         *
+         * @param  {Array<float>} audioArray 音频数组
+         */
+        updateAudioArray: function (audioArray) {
+            let audioArray1 = new Array(audioArray.length / 2),
+                audioArray2 = new Array(audioArray.length / 2),
+                audioArray3 = new Array(audioArray.length / 2);
+            // 左右声道叠加
+            for (let i = 0; i < audioArray1.length; i++) {
+                audioArray1[i] = audioArray[i];
+                audioArray2[i] = audioArray[audioArray.length - 1 - i];
+                audioArray3[i] = audioArray1[i] + audioArray2[i];
+            }
+            // 生成补间声道
+            let audioArray4 = [];
+            for (let i = 0; i < audioArray1.length - 1; i++) {
+                audioArray4.push(audioArray3[i]);
+                audioArray4.push((audioArray3[i] + audioArray3[i + 1]) / 2);
+            }
+            audioArray4.push((audioArray3[audioArray3.length - 1]) / 2);
+            audioArray4.push((audioArray3[0] + audioArray3[audioArray3.length - 1]) / 2);
+            return audioArray4;
+        },
+
+        /**
+         * 比较当前数组和上次音频数组
+         * @private
+         */
         compareAudioArray: function () {
             this.decline = this.decline || 0.01;
             // 逐个对比当前音频数组值和上次音频数组 - 音频衰退值
@@ -393,6 +423,14 @@
             }
             // 更新上次音频数组和当前音频均值
             lastAudioArray = [].concat(currantAudioArray);
+        },
+
+        /**
+         * 更新音频值（未完成）
+         * @private
+         */
+        updateAudioValue: function (audioValue) {
+            // 对音频数值的处理
         },
 
 
@@ -714,7 +752,8 @@
             startY = originY;
             // 更新并处理音频数组
             currantAudioArray = [].concat(audioArray) || new Array(128);
-            // audioAverage = mean(audioArray);
+            // currantAudioArray = this.updateAudioArray(audioArray) || new Array(128);
+            // audioAverage = mean(currantAudioArray);
             this.compareAudioArray();  // 更新lastAudioArray
             // 更新坐标数组
             staticPointsArray = this.setStaticPoint(currantAudioArray);
@@ -895,31 +934,38 @@
         set: function (property, value) {
             switch (property) {
                 case 'opacity':
-                    $(canvas).css('opacity', value);
+                    this.opacity = value;
+                    $(canvas).css('opacity', this.opacity);
                     break;
                 case 'color':
-                    context.fillStyle = 'rgb(' + value + ')';
-                    context.strokeStyle = 'rgb(' + value + ')';
+                    this.color = value;
+                    context.fillStyle = 'rgb(' + this.color + ')';
+                    context.strokeStyle = 'rgb(' + this.color + ')';
                     this.drawVisualizerBars();
                     break;
                 case 'shadowColor':
-                    context.shadowColor = 'rgb(' + value + ')';
+                    this.shdowColor = value;
+                    context.shadowColor = 'rgb(' + this.shdowColor + ')';
                     this.drawVisualizerBars();
                     break;
                 case 'shadowBlur':
-                    context.shadowBlur = value;
+                    this.shadowBlur = value;
+                    context.shadowBlur = this.shadowBlur;
                     this.drawVisualizerBars();
                     break;
                 case 'lineCap':
-                    context.lineCap = value;
+                    this.lineCap = value;
+                    context.lineCap = this.lineCap;
                     this.drawVisualizerBars();
                     break;
                 case 'lineJoin':
-                    context.lineJoin = value;
+                    this.lineJoin = value;
+                    context.lineJoin = this.lineJoin;
                     this.drawVisualizerBars();
                     break;
                 case 'lineWidth':
-                    context.lineWidth = value;
+                    this.lineWidth = value;
+                    context.lineWidth = this.lineWidth;
                     this.drawVisualizerBars();
                     break;
                 case 'colorMode':

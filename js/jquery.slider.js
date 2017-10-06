@@ -1,12 +1,12 @@
 /*!
- * jQuery Slider plugin v0.0.15
+ * jQuery Slider plugin v0.0.16
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
  * - https://gitee.com/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/09/20
+ * @date 2017/10/06
  */
 
 (function (global, factory) {
@@ -1932,22 +1932,22 @@
         set: function (property, value) {
             switch (property) {
                 case 'imgFit':
-                    this[property] = value;
-                    $(prevImg).css('object-fit', this[property]);
-                    $(currantImg).css('object-fit', this[property]);
+                    this.imgFit = value;
+                    $(prevImg).css('object-fit', this.imgFit);
+                    $(currantImg).css('object-fit', this.imgFit);
                     break;
                 case 'videoFit':
-                    this[property] = value;
-                    $(video).css('object-fit', this[property]);
+                    this.videoFit = value;
+                    $(video).css('object-fit', this.videoFit);
                     break;
                 case 'imgBGColor':
-                    this[property] = value;
-                    $(prevImg).css('background-color', 'rgb(' + this[property] + ')');
-                    $(currantImg).css('background-color', 'rgb(' + this[property] + ')');
+                    this.imgBGColor = value;
+                    $(prevImg).css('background-color', 'rgb(' + this.imgBGColor + ')');
+                    $(currantImg).css('background-color', 'rgb(' + this.imgBGColor + ')');
                     break;
                 case 'videoBGColor':
-                    this[property] = value;
-                    $(video).css('background-color', 'rgb(' + this[property] + ')');
+                    this.videoBGColor = value;
+                    $(video).css('background-color', 'rgb(' + this.videoBGColor + ')');
                     break;
                 case 'readStyle':
                 case 'effect':

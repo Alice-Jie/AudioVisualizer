@@ -1,0 +1,59 @@
+@font-face {
+    font-family: 'Curlz';
+    src: url('../css/fonts/CURLZ/CURLZ.eot');
+    src: url('../css/fonts/CURLZ/CURLZ.eot') format('embedded-opentype'),
+    url('../css/fonts/CURLZ/CURLZ.woff2') format('woff2'),
+    url('../css/fonts/CURLZ/CURLZ.woff') format('woff'),
+    url('../css/fonts/CURLZ/CURLZ.ttf') format('truetype'),
+    url('../css/fonts/CURLZ/CURLZ.svg#CURLZ') format('svg');
+}
+
+@font-face {
+    font-family: 'Harngton';
+    src: url('../css/fonts/HARNGTON/HARNGTON.eot');
+    src: url('../css/fonts/HARNGTON/HARNGTON.eot') format('embedded-opentype'),
+    url('../css/fonts/HARNGTON/HARNGTON.woff2') format('woff2'),
+    url('../css/fonts/HARNGTON/HARNGTON.woff') format('woff'),
+    url('../css/fonts/HARNGTON/HARNGTON.ttf') format('truetype'),
+    url('../css/fonts/HARNGTON/HARNGTON.svg#HARNGTON') format('svg');
+}
+
+@font-face {
+    font-family: 'Oldengl';
+    src: url('../css/fonts/OLDENGL/OLDENGL.eot');
+    src: url('../css/fonts/OLDENGL/OLDENGL.eot') format('embedded-opentype'),
+    url('../css/fonts/OLDENGL/OLDENGL.woff2') format('woff2'),
+    url('../css/fonts/OLDENGL/OLDENGL.woff') format('woff'),
+    url('../css/fonts/OLDENGL/OLDENGL.ttf') format('truetype'),
+    url('../css/fonts/OLDENGL/OLDENGL.svg#OLDENGL') format('svg');
+}
+
+@font-face {
+    font-family: 'PixelSplitter';
+    src: url('../css/fonts/PixelSplitterBold/PixelSplitterBold.eot');
+    src: url('../css/fonts/PixelSplitterBold/PixelSplitterBold.eot') format('embedded-opentype'),
+    url('../css/fonts/PixelSplitterBold/PixelSplitterBold.woff2') format('woff2'),
+    url('../css/fonts/PixelSplitterBold/PixelSplitterBold.woff') format('woff'),
+    url('../css/fonts/PixelSplitterBold/PixelSplitterBold.ttf') format('truetype'),
+    url('../css/fonts/PixelSplitterBold/PixelSplitterBold.svg#PixelSplitterBold') format('svg');
+}
+
+@font-face {
+    font-family: 'Superg';
+    src: url('../css/fonts/SUPERG/SUPERG.eot');
+    src: url('../css/fonts/SUPERG/SUPERG.eot') format('embedded-opentype'),
+    url('../css/fonts/SUPERG/SUPERG.woff2') format('woff2'),
+    url('../css/fonts/SUPERG/SUPERG.woff') format('woff'),
+    url('../css/fonts/SUPERG/SUPERG.ttf') format('truetype'),
+    url('../css/fonts/SUPERG/SUPERG.svg#SUPERG') format('svg');
+}
+
+@font-face {
+    font-family: 'Trancefm';
+    src: url('../css/fonts/trancefm/trancefm.eot');
+    src: url('../css/fonts/trancefm/trancefm.eot') format('embedded-opentype'),
+    url('../css/fonts/trancefm/trancefm.woff2') format('woff2'),
+    url('../css/fonts/trancefm/trancefm.woff') format('woff'),
+    url('../css/fonts/trancefm/trancefm.ttf') format('truetype'),
+    url('../css/fonts/trancefm/trancefm.svg#trancefm') format('svg');
+}

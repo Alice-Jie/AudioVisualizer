@@ -1,12 +1,12 @@
 /*！
- * jQuery AudioVisualizer Circle plugin v0.0.15
+ * jQuery AudioVisualizer Circle plugin v0.0.16
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
  * - https://gitee.com/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/10/03
+ * @date 2017/10/06
  */
 
 (function (global, factory) {
@@ -478,7 +478,12 @@
         // 面向内部方法
         //-----------------------------------------------------------
 
-        /** 更新音频数组 */
+        /**
+         * 更新音频数组（待议）
+         * @private
+         *
+         * @param  {Array<float>} audioArray 音频数组
+         */
         updateAudioArray: function (audioArray) {
             let audioArray1 = new Array(audioArray.length / 2),
                 audioArray2 = new Array(audioArray.length / 2),
@@ -500,7 +505,10 @@
             return audioArray4;
         },
 
-        /** 比较当前数组和上次音频数组 */
+        /**
+         * 比较当前数组和上次音频数组
+         * @private
+         */
         compareAudioArray: function () {
             this.decline = this.decline || 0.01;
             // 逐个对比当前音频数组值和上次音频数组 - 音频衰退值
@@ -512,12 +520,14 @@
             lastAudioArray = [].concat(currantAudioArray);
         },
 
-        /** 更新音频值 */
+        /**
+         * 更新音频值（未完成）
+         * @private
+         */
         updateAudioValue: function (audioValue) {
             // 对音频数值的处理
         },
 
-        /** 更新音频值 */
 
         /**
          * 生成静态点的坐标集合
@@ -1010,31 +1020,38 @@
         set: function (property, value) {
             switch (property) {
                 case 'opacity':
-                    $(canvas).css('opacity', value);
+                    this.opacity = value;
+                    $(canvas).css('opacity', this.opacity);
                     break;
                 case 'color':
-                    context.fillStyle = 'rgb(' + value + ')';
-                    context.strokeStyle = 'rgb(' + value + ')';
+                    this.color = value;
+                    context.fillStyle = 'rgb(' + this.color + ')';
+                    context.strokeStyle = 'rgb(' + this.color + ')';
                     this.drawVisualizerCircle();
                     break;
                 case 'shadowColor':
-                    context.shadowColor = 'rgb(' + value + ')';
+                    this.shadowColor = value;
+                    context.shadowColor = 'rgb(' + this.shadowColor + ')';
                     this.drawVisualizerCircle();
                     break;
                 case 'shadowBlur':
-                    context.shadowBlur = value;
+                    this.shadowBlur = value;
+                    context.shadowBlur = this.shadowBlur;
                     this.drawVisualizerCircle();
                     break;
                 case 'lineCap':
-                    context.lineCap = value;
+                    this.lineCap = value;
+                    context.lineCap = this.lineCap;
                     this.drawVisualizerCircle();
                     break;
                 case 'lineJoin':
-                    context.lineJoin = value;
+                    this.lineJoin = value;
+                    context.lineJoin = this.lineJoin;
                     this.drawVisualizerCircle();
                     break;
                 case 'lineWidth':
-                    context.lineWidth = value;
+                    this.lineWidth = value;
+                    context.lineWidth = this.lineWidth;
                     this.drawVisualizerCircle();
                     break;
                 case 'colorMode':

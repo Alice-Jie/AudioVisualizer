@@ -1,12 +1,12 @@
 /*!
- * jQuery time plugin v0.0.5
+ * jQuery time plugin v0.0.6
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
  * - https://gitee.com/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/10/03
+ * @date 2017/10/06
  */
 
 (function (global, factory) {
@@ -140,6 +140,7 @@
         this.isStroke = options.isStroke;            // 描边开关
         this.strokeColor = options.strokeColor;      // 描边颜色
         this.lineWidth = options.lineWidth;          // 描边宽度
+        this.dottedLine = options.dottedLine;        // 虚线效果
         // 坐标参数
         this.offsetX = options.offsetX;              // X坐标偏移
         this.offsetY = options.offsetY;              // Y坐标偏移
@@ -221,6 +222,7 @@
         isStroke: false,             // 描边开关
         strokeColor: '255,255,255',  // 描边颜色
         lineWidth: 1,                // 描边宽度
+        dottedLine: 0,               // 虚线效果
         // 坐标参数
         offsetX: 0.5,                // X坐标偏移
         offsetY: 0.5,                // Y坐标偏移
@@ -366,6 +368,10 @@
                 // LOGO圆形描边
                 if (this.isCircular && this.isStroke) {
                     context.globalCompositeOperation = 'lighter';
+                    // 虚线效果
+                    if (this.dottedLine > 0) {
+                        context.setLineDash([this.dottedLine]);
+                    }
                     context.strokeStyle = 'rgb(' + this.strokeColor + ')';
                     context.stroke();
                 }
@@ -413,26 +419,26 @@
             switch (property) {
                 case 'opacity':
                     this.opacity = value;
-                    $(canvas).css('opacity', value);
+                    $(canvas).css('opacity', this.opacity);
                     break;
                 case 'shadowColor':
                     this.shadowColor = value;
-                    context.shadowColor = 'rgb(' + value + ')';
+                    context.shadowColor = 'rgb(' + this.shadowColor + ')';
                     this.drawLogo();
                     break;
                 case 'shadowBlur':
                     this.shadowBlur = value;
-                    context.shadowBlur = value;
+                    context.shadowBlur = this.shadowBlur;
                     this.drawLogo();
                     break;
                 case 'strokeColor':
                     this.strokeColor = value;
-                    context.strokeStyle = 'rgb(' + value + ')';
+                    context.strokeStyle = 'rgb(' + this.strokeColor + ')';
                     this.drawLogo();
                     break;
                 case 'lineWidth':
                     this.lineWidth = value;
-                    context.lineWidth = value;
+                    context.lineWidth = this.lineWidth;
                     this.drawLogo();
                     break;
                 case 'zoomRate':
@@ -443,6 +449,7 @@
                     break;
                 case 'isCircular':
                 case 'isStroke':
+                case 'dottedLine':
                 case 'zoom':
                 case 'widthRatio':
                 case 'heightRatio':
