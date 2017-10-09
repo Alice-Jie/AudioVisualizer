@@ -177,6 +177,7 @@
             'z-index': 1,
             'opacity': this.opacity,
             'mix-blend-mode': 'normal',
+            'transform': 'none',
             'filter': 'none'
         });  // canvas CSS
         canvasWidth = canvas.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;

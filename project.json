@@ -537,42 +537,49 @@
         "min": 0,
         "value": 0
       },
-      "global_isRandomColor": {
+      "global_shadowOverlay": {
         "order": 2008,
+        "condition": "global_GlobalSettings.value == true && global_colorMode.value != 3",
+        "text": "ui_global_shadowOverlay",
+        "type": "bool",
+        "value": false
+      },
+      "global_isRandomColor": {
+        "order": 2009,
         "condition": "global_GlobalSettings.value == true && global_colorMode.value == 2",
         "text": "ui_global_isRandomColor",
         "type": "bool",
         "value": false
       },
       "global_firstColor": {
-        "order": 2009,
+        "order": 2010,
         "condition": "global_GlobalSettings.value == true && global_colorMode.value == 2 && global_isRandomColor.value == false",
         "text": "ui_global_firstColor",
         "type": "color",
         "value": "1 1 1"
       },
       "global_secondColor": {
-        "order": 2010,
+        "order": 2011,
         "condition": "global_GlobalSettings.value == true && global_colorMode.value == 2 && global_isRandomColor.value == false",
         "text": "ui_global_secondColor",
         "type": "color",
         "value": "1 0 0"
       },
       "global_isChangeBlur": {
-        "order": 2011,
+        "order": 2012,
         "condition": "global_GlobalSettings.value == true && global_colorMode.value == 2",
         "text": "ui_global_isChangeBlur",
         "type": "bool",
         "value": false
       },
       "global_coordinateText": {
-        "order": 2012,
+        "order": 2013,
         "condition": "global_GlobalSettings.value == true",
         "text": "ui_global_coordinateText",
         "type": "text"
       },
       "global_offsetX": {
-        "order": 2013,
+        "order": 2014,
         "condition": "global_GlobalSettings.value == true",
         "text": "ui_global_offsetX",
         "type": "slider",
@@ -582,7 +589,7 @@
         "value": 50
       },
       "global_offsetY": {
-        "order": 2014,
+        "order": 2015,
         "condition": "global_GlobalSettings.value == true",
         "text": "ui_global_offsetY",
         "type": "slider",
@@ -592,7 +599,7 @@
         "value": 50
       },
       "global_isClickOffset": {
-        "order": 2015,
+        "order": 2016,
         "condition": "global_GlobalSettings.value == true",
         "text": "ui_global_isClickOffset",
         "type": "bool",
@@ -701,36 +708,43 @@
         "min": 0,
         "value": 0
       },
-      "circle_isRandomColor": {
+      "circle_shadowOverlay": {
         "order": 3107,
+        "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isWave.value == true || circle_isLineTo.value == true || circle_isBall.value == true) && circle_colorMode.value != 3",
+        "text": "ui_circle_shadowOverlay",
+        "type": "bool",
+        "value": false
+      },
+      "circle_isRandomColor": {
+        "order": 3108,
         "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isWave.value == true || circle_isLineTo.value == true || circle_isBall.value == true) && circle_colorMode.value == 2",
         "text": "ui_circle_isRandomColor",
         "type": "bool",
         "value": false
       },
       "circle_firstColor": {
-        "order": 3108,
+        "order": 3109,
         "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isWave.value == true || circle_isLineTo.value == true || circle_isBall.value == true) && circle_colorMode.value == 2 && circle_isRandomColor.value == false",
         "text": "ui_circle_firstColor",
         "type": "color",
         "value": "1 1 1"
       },
       "circle_secondColor": {
-        "order": 3109,
+        "order": 3110,
         "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isWave.value == true || circle_isLineTo.value == true || circle_isBall.value == true) && circle_colorMode.value == 2 && circle_isRandomColor.value == false",
         "text": "ui_circle_secondColor",
         "type": "color",
         "value": "1 0 0"
       },
       "circle_isChangeBlur": {
-        "order": 3110,
+        "order": 3111,
         "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isWave.value == true || circle_isLineTo.value == true || circle_isBall.value == true) && circle_colorMode.value == 2",
         "text": "ui_circle_isChangeBlur",
         "type": "bool",
         "value": false
       },
       "circle_hueRange": {
-        "order": 3111,
+        "order": 3112,
         "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isWave.value == true || circle_isLineTo.value == true || circle_isBall.value == true) && circle_colorMode.value == 3",
         "text": "ui_circle_hueRange",
         "type": "slider",
@@ -740,7 +754,7 @@
         "value": 360
       },
       "circle_saturationRange": {
-        "order": 3112,
+        "order": 3113,
         "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isWave.value == true || circle_isLineTo.value == true || circle_isBall.value == true) && circle_colorMode.value == 3",
         "text": "ui_circle_saturationRange",
         "type": "slider",
@@ -750,7 +764,7 @@
         "value": 100
       },
       "circle_lightnessRange": {
-        "order": 3113,
+        "order": 3114,
         "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isWave.value == true || circle_isLineTo.value == true || circle_isBall.value == true) && circle_colorMode.value == 3",
         "text": "ui_circle_lightnessRange",
         "type": "slider",
@@ -760,7 +774,7 @@
         "value": 50
       },
       "circle_gradientOffset": {
-        "order": 3114,
+        "order": 3115,
         "condition": "global_GlobalSettings.value == false && (circle_isRing.value == true || circle_isWave.value == true || circle_isLineTo.value == true || circle_isBall.value == true) && circle_colorMode.value == 3",
         "text": "ui_circle_gradientOffset",
         "type": "slider",
@@ -770,13 +784,13 @@
         "value": 0
       },
       "circle_coordinateText": {
-        "order": 3115,
+        "order": 3200,
         "condition": "global_GlobalSettings.value == false && ((global_GlobalSettings.value == true || circle_colorMode.value != 3) && circle_isRing.value == true || circle_isWave.value == true || circle_isLineTo.value == true || circle_isBall.value == true)",
         "text": "ui_circle_coordinateText",
         "type": "text"
       },
       "circle_offsetX": {
-        "order": 3116,
+        "order": 3201,
         "condition": "global_GlobalSettings.value == false && ((global_GlobalSettings.value == true || circle_colorMode.value != 3) && circle_isRing.value == true || circle_isWave.value == true || circle_isLineTo.value == true || circle_isBall.value == true)",
         "text": "ui_circle_offsetX",
         "type": "slider",
@@ -786,7 +800,7 @@
         "value": 50
       },
       "circle_offsetY": {
-        "order": 3117,
+        "order": 3202,
         "condition": "global_GlobalSettings.value == false && ((global_GlobalSettings.value == true || circle_colorMode.value != 3) && circle_isRing.value == true || circle_isWave.value == true || circle_isLineTo.value == true || circle_isBall.value == true)",
         "text": "ui_circle_offsetY",
         "type": "slider",
@@ -796,55 +810,182 @@
         "value": 50
       },
       "circle_isClickOffset": {
-        "order": 3118,
+        "order": 3203,
         "condition": "global_GlobalSettings.value == false && ((global_GlobalSettings.value == true || circle_colorMode.value != 3) && circle_isRing.value == true || circle_isWave.value == true || circle_isLineTo.value == true || circle_isBall.value == true)",
         "text": "ui_circle_isClickOffset",
         "type": "bool",
         "value": false
       },
+      "circle_transform": {
+        "order": 3204,
+        "condition": "circle_isRing.value == true || circle_isWave.value == true || circle_isLineTo.value == true || circle_isBall.value == true",
+        "text": "ui_circle_transform",
+        "type": "text"
+      },
+      "circle_isMasking": {
+        "order": 3205,
+        "condition": "circle_isRing.value == true || circle_isWave.value == true || circle_isLineTo.value == true || circle_isBall.value == true",
+        "text": "ui_circle_isMasking",
+        "type": "bool",
+        "value": false
+      },
+      "circle_maskOpacity": {
+        "order": 3206,
+        "condition": "(circle_isRing.value == true || circle_isWave.value == true || circle_isLineTo.value == true || circle_isBall.value == true) && circle_isMasking.value == true",
+        "text": "ui_circle_maskOpacity",
+        "type": "slider",
+        "editable": true,
+        "max": 100,
+        "min": 0,
+        "value": 25
+      },
+      "circle_topLeft": {
+        "order": 3207,
+        "condition": "circle_isRing.value == true || circle_isWave.value == true || circle_isLineTo.value == true || circle_isBall.value == true",
+        "text": "ui_circle_topLeft",
+        "type": "text"
+      },
+      "circle_topLeftX": {
+        "order": 3208,
+        "condition": "circle_isRing.value == true || circle_isWave.value == true || circle_isLineTo.value == true || circle_isBall.value == true",
+        "text": "ui_circle_topLeftX",
+        "type": "slider",
+        "editable": true,
+        "max": 1000,
+        "min": 0,
+        "value": 0
+      },
+      "circle_topLeftY": {
+        "order": 3209,
+        "condition": "circle_isRing.value == true || circle_isWave.value == true || circle_isLineTo.value == true || circle_isBall.value == true",
+        "text": "ui_circle_topLeftY",
+        "type": "slider",
+        "editable": true,
+        "max": 1000,
+        "min": 0,
+        "value": 0
+      },
+      "circle_topRight": {
+        "order": 3210,
+        "condition": "circle_isRing.value == true || circle_isWave.value == true || circle_isLineTo.value == true || circle_isBall.value == true",
+        "text": "ui_circle_topRight",
+        "type": "text"
+      },
+      "circle_topRightX": {
+        "order": 3211,
+        "condition": "circle_isRing.value == true || circle_isWave.value == true || circle_isLineTo.value == true || circle_isBall.value == true",
+        "text": "ui_circle_topRightX",
+        "type": "slider",
+        "editable": true,
+        "max": 1000,
+        "min": 0,
+        "value": 0
+      },
+      "circle_topRightY": {
+        "order": 3212,
+        "condition": "circle_isRing.value == true || circle_isWave.value == true || circle_isLineTo.value == true || circle_isBall.value == true",
+        "text": "ui_circle_topRightY",
+        "type": "slider",
+        "editable": true,
+        "max": 1000,
+        "min": 0,
+        "value": 0
+      },
+      "circle_bottomRight": {
+        "order": 3213,
+        "condition": "circle_isRing.value == true || circle_isWave.value == true || circle_isLineTo.value == true || circle_isBall.value == true",
+        "text": "ui_circle_bottomRight",
+        "type": "text"
+      },
+      "circle_bottomRightX": {
+        "order": 3214,
+        "condition": "circle_isRing.value == true || circle_isWave.value == true || circle_isLineTo.value == true || circle_isBall.value == true",
+        "text": "ui_circle_bottomRightX",
+        "type": "slider",
+        "editable": true,
+        "max": 1000,
+        "min": 0,
+        "value": 0
+      },
+      "circle_bottomRightY": {
+        "order": 3215,
+        "condition": "circle_isRing.value == true || circle_isWave.value == true || circle_isLineTo.value == true || circle_isBall.value == true",
+        "text": "ui_circle_bottomRightY",
+        "type": "slider",
+        "editable": true,
+        "max": 1000,
+        "min": 0,
+        "value": 0
+      },
+      "circle_bottomLeft": {
+        "order": 3216,
+        "condition": "circle_isRing.value == true || circle_isWave.value == true || circle_isLineTo.value == true || circle_isBall.value == true",
+        "text": "ui_circle_bottomLeft",
+        "type": "text"
+      },
+      "circle_bottomLeftX": {
+        "order": 3217,
+        "condition": "circle_isRing.value == true || circle_isWave.value == true || circle_isLineTo.value == true || circle_isBall.value == true",
+        "text": "ui_circle_bottomLeftX",
+        "type": "slider",
+        "editable": true,
+        "max": 1000,
+        "min": 0,
+        "value": 0
+      },
+      "circle_bottomLeftY": {
+        "order": 3218,
+        "condition": "circle_isRing.value == true || circle_isWave.value == true || circle_isLineTo.value == true || circle_isBall.value == true",
+        "text": "ui_circle_bottomLeftY",
+        "type": "slider",
+        "editable": true,
+        "max": 1000,
+        "min": 0,
+        "value": 0
+      },
       "circle_ringText": {
-        "order": 3200,
+        "order": 3300,
         "condition": "global_GlobalSettings.value == true || circle_colorMode.value != 3 || circle_isLineTo.value == true || circle_isBall.value == true",
         "text": "ui_circle_ringText",
         "type": "text"
       },
       "circle_isRing": {
-        "order": 3201,
+        "order": 3301,
         "condition": "global_GlobalSettings.value == true || circle_colorMode.value != 3",
         "text": "ui_circle_isRing",
         "type": "bool",
         "value": true
       },
       "circle_isStaticRing": {
-        "order": 3202,
+        "order": 3302,
         "condition": "(global_GlobalSettings.value == true || circle_colorMode.value != 3) && circle_isRing.value == true",
         "text": "ui_circle_isStaticRing",
         "type": "bool",
         "value": false
       },
       "circle_isInnerRing": {
-        "order": 3203,
+        "order": 3303,
         "condition": "(global_GlobalSettings.value == true || circle_colorMode.value != 3) && circle_isRing.value == true",
         "text": "ui_circle_isInnerRing",
         "type": "bool",
         "value": true
       },
       "circle_isOuterRing": {
-        "order": 3204,
+        "order": 3304,
         "condition": "(global_GlobalSettings.value == true || circle_colorMode.value != 3) && circle_isRing.value == true",
         "text": "ui_circle_isOuterRing",
         "type": "bool",
         "value": true
       },
       "circle_isWave": {
-        "order": 3205,
+        "order": 3305,
         "condition": "global_GlobalSettings.value == true || circle_colorMode.value != 3",
         "text": "ui_circle_isWave",
         "type": "bool",
         "value": false
       },
       "circle_firstRing": {
-        "order": 3206,
+        "order": 3306,
         "condition": "(global_GlobalSettings.value == true || circle_colorMode.value != 3) && circle_isWave.value == true",
         "text": "ui_circle_firstRing",
         "type": "combo",
@@ -865,7 +1006,7 @@
         "value": 1
       },
       "circle_secondRing": {
-        "order": 3207,
+        "order": 3307,
         "condition": "(global_GlobalSettings.value == true || circle_colorMode.value != 3) && circle_isWave.value == true",
         "text": "ui_circle_secondRing",
         "type": "combo",
@@ -886,7 +1027,7 @@
         "value": 2
       },
       "circle_radius": {
-        "order": 3208,
+        "order": 3308,
         "condition": "((global_GlobalSettings.value == true || circle_colorMode.value != 3) && circle_isRing.value == true) || circle_isLineTo.value == true || circle_isBall.value == true",
         "text": "ui_circle_radius",
         "type": "slider",
@@ -896,7 +1037,7 @@
         "value": 5
       },
       "circle_ringRotation": {
-        "order": 3209,
+        "order": 3309,
         "condition": "((global_GlobalSettings.value == true || circle_colorMode.value != 3) && circle_isRing.value == true) || circle_isLineTo.value == true",
         "text": "ui_circle_ringRotation",
         "type": "slider",
@@ -906,7 +1047,7 @@
         "value": 0
       },
       "circle_milliSec": {
-        "order": 3210,
+        "order": 3310,
         "condition": "((global_GlobalSettings.value == true || circle_colorMode.value != 3) && circle_isRing.value == true) || circle_isLineTo.value == true || circle_isBall.value == true",
         "text": "ui_circle_milliSec",
         "type": "slider",
@@ -916,18 +1057,18 @@
         "value": 30
       },
       "circle_LineText": {
-        "order": 3300,
+        "order": 3400,
         "text": "ui_circle_lineText",
         "type": "text"
       },
       "circle_isLineTo": {
-        "order": 3301,
+        "order": 3401,
         "text": "ui_circle_isLineTo",
         "type": "bool",
         "value": false
       },
       "circle_firstPoint": {
-        "order": 3302,
+        "order": 3402,
         "condition": "circle_isLineTo.value == true",
         "text": "ui_circle_firstPoint",
         "type": "combo",
@@ -948,7 +1089,7 @@
         "value": 2
       },
       "circle_secondPoint": {
-        "order": 3304,
+        "order": 3404,
         "condition": "circle_isLineTo.value == true",
         "text": "ui_circle_secondPoint",
         "type": "combo",
@@ -969,7 +1110,7 @@
         "value": 3
       },
       "circle_pointNum": {
-        "order": 3305,
+        "order": 3405,
         "condition": "((global_GlobalSettings.value == true || circle_colorMode.value != 3) && circle_isRing.value == true) || circle_isLineTo.value == true",
         "text": "ui_circle_pointNum",
         "type": "slider",
@@ -979,7 +1120,7 @@
         "value": 120
       },
       "circle_innerDistance": {
-        "order": 3306,
+        "order": 3406,
         "condition": "((global_GlobalSettings.value == true || circle_colorMode.value != 3) && circle_isRing.value == true) || circle_isLineTo.value == true",
         "text": "ui_circle_innerDistance",
         "type": "slider",
@@ -989,7 +1130,7 @@
         "value": 0
       },
       "circle_outerDistance": {
-        "order": 3307,
+        "order": 3407,
         "condition": "((global_GlobalSettings.value == true || circle_colorMode.value != 3) && circle_isRing.value == true) || circle_isLineTo.value == true",
         "text": "ui_circle_outerDistance",
         "type": "slider",
@@ -999,7 +1140,7 @@
         "value": 0
       },
       "circle_lineCap": {
-        "order": 3308,
+        "order": 3408,
         "condition": "((global_GlobalSettings.value == true || circle_colorMode.value != 3) && circle_isRing.value == true) || circle_isLineTo.value == true",
         "text": "ui_circle_lineCap",
         "type": "combo",
@@ -1020,7 +1161,7 @@
         "value": 1
       },
       "circle_lineJoin": {
-        "order": 3309,
+        "order": 3409,
         "condition": "((global_GlobalSettings.value == true || circle_colorMode.value != 3) && circle_isRing.value == true) || circle_isLineTo.value == true",
         "text": "ui_circle_lineJoin",
         "type": "combo",
@@ -1041,7 +1182,7 @@
         "value": 1
       },
       "circle_lineWidth": {
-        "order": 3310,
+        "order": 3410,
         "condition": "((global_GlobalSettings.value == true || circle_colorMode.value != 3) && circle_isRing.value == true) || circle_isLineTo.value == true",
         "text": "ui_circle_lineWidth",
         "type": "slider",
@@ -1051,18 +1192,18 @@
         "value": 5
       },
       "circle_BallText": {
-        "order": 3400,
+        "order": 3500,
         "text": "ui_circle_BallText",
         "type": "text"
       },
       "circle_isBall": {
-        "order": 3401,
+        "order": 3501,
         "text": "ui_circle_isBall",
         "type": "bool",
         "value": true
       },
       "circle_ballSpacer": {
-        "order": 3402,
+        "order": 3502,
         "condition": "circle_isBall.value == true",
         "text": "ui_circle_ballSpacer",
         "type": "slider",
@@ -1072,7 +1213,7 @@
         "value": 4
       },
       "circle_ballDistance": {
-        "order": 3403,
+        "order": 3503,
         "condition": "circle_isBall.value == true",
         "text": "ui_circle_ballDistance",
         "type": "slider",
@@ -1082,7 +1223,7 @@
         "value": 50
       },
       "circle_ballSize": {
-        "order": 3404,
+        "order": 3504,
         "condition": "circle_isBall.value == true",
         "text": "ui_circle_ballSize",
         "type": "slider",
@@ -1092,7 +1233,7 @@
         "value": 3
       },
       "circle_ballDirection": {
-        "order": 3405,
+        "order": 3505,
         "condition": "circle_isBall.value == true",
         "text": "ui_circle_ballDirection",
         "type": "combo",
@@ -1109,14 +1250,14 @@
         "value": 1
       },
       "circle_bindRingRotation": {
-        "order": 3406,
+        "order": 3506,
         "condition": "circle_isBall.value == true",
         "text": "ui_circle_bindRingRotation",
         "type": "bool",
         "value": false
       },
       "circle_ballRotation": {
-        "order": 3407,
+        "order": 3507,
         "condition": "circle_isBall.value == true && circle_bindRingRotation.value == false",
         "text": "ui_circle_ballRotation",
         "type": "slider",
@@ -1196,29 +1337,36 @@
         "min": 0,
         "value": 0
       },
-      "bars_isRandomColor": {
+      "bars_shadowOverlay": {
         "order": 4007,
+        "condition": "(bars_isWave.value == true || bars_isBars.value == true || bars_isLineTo.value == true) && bars_colorMode.value != 3",
+        "text": "ui_bars_shadowOverlay",
+        "type": "bool",
+        "value": false
+      },
+      "bars_isRandomColor": {
+        "order": 4008,
         "condition": "(bars_isWave.value == true || bars_isBars.value == true || bars_isLineTo.value == true) && bars_colorMode.value == 2",
         "text": "ui_bars_isRandomColor",
         "type": "bool",
         "value": true
       },
       "bars_firstColor": {
-        "order": 4008,
+        "order": 4009,
         "condition": "(bars_isWave.value == true || bars_isBars.value == true || bars_isLineTo.value == true) && bars_colorMode.value == 2 == true && bars_isRandomColor.value == false",
         "text": "ui_bars_firstColor",
         "type": "color",
         "value": "1 1 1"
       },
       "bars_secondColor": {
-        "order": 4009,
+        "order": 4010,
         "condition": "(bars_isWave.value == true || bars_isBars.value == true || bars_isLineTo.value == true) && bars_colorMode.value == 2 && bars_isRandomColor.value == false",
         "text": "ui_bars_secondColor",
         "type": "color",
         "value": "1 0 0"
       },
       "bars_isChangeBlur": {
-        "order": 4010,
+        "order": 4011,
         "condition": "(bars_isWave.value == true || bars_isBars.value == true || bars_isLineTo.value == true) && bars_colorMode.value == 2",
         "text": "ui_bars_isChangeBlur",
         "type": "bool",
@@ -1580,7 +1728,7 @@
         "editable": true,
         "max": 100,
         "min": 0,
-        "value": 50
+        "value": 0
       },
       "logo_coordinateText": {
         "order": 5012,
@@ -1937,42 +2085,49 @@
         "min": 0,
         "value": 0
       },
-      "date_isRandomColor": {
+      "date_shadowOverlay": {
         "order": 6007,
+        "condition": "global_GlobalSettings.value == false && date_isDate.value == true && date_colorMode.value != 3",
+        "text": "ui_date_shadowOverlay",
+        "type": "bool",
+        "value": false
+      },
+      "date_isRandomColor": {
+        "order": 6008,
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true && date_colorMode.value == 2",
         "text": "ui_date_isRandomColor",
         "type": "bool",
         "value": false
       },
       "date_firstColor": {
-        "order": 6008,
+        "order": 6009,
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true && date_colorMode.value == 2 && date_isRandomColor.value == false",
         "text": "ui_date_firstColor",
         "type": "color",
         "value": "1 1 1"
       },
       "date_secondColor": {
-        "order": 6009,
+        "order": 6010,
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true && date_colorMode.value == 2 && date_isRandomColor.value == false",
         "text": "ui_date_secondColor",
         "type": "color",
         "value": "1 0 0"
       },
       "date_isChangeBlur": {
-        "order": 6010,
+        "order": 6011,
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true && date_colorMode.value == 2",
         "text": "ui_date_isChangeBlur",
         "type": "bool",
         "value": false
       },
       "date_coordinateText": {
-        "order": 6011,
+        "order": 6012,
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true",
         "text": "ui_date_coordinateText",
         "type": "text"
       },
       "date_offsetX": {
-        "order": 6012,
+        "order": 6013,
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true",
         "text": "ui_date_offsetX",
         "type": "slider",
@@ -1982,7 +2137,7 @@
         "value": 50
       },
       "date_offsetY": {
-        "order": 6013,
+        "order": 6014,
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true",
         "text": "ui_date_offsetY",
         "type": "slider",
@@ -1992,7 +2147,7 @@
         "value": 50
       },
       "date_isClickOffset": {
-        "order": 6014,
+        "order": 6015,
         "condition": "global_GlobalSettings.value == false && date_isDate.value == true",
         "text": "ui_date_isClickOffset",
         "type": "bool",
@@ -2836,10 +2991,10 @@
         "text": "ui_particles_image",
         "type": "file"
       },
-      "particles_initialAngle": {
+      "particles_rotationAngle": {
         "order": 7103,
         "condition": "particles_isParticles.value == true",
-        "text": "ui_particles_initialAngle",
+        "text": "ui_particles_rotationAngle",
         "type": "slider",
         "editable": true,
         "max": 90,
@@ -3192,6 +3347,7 @@
         "ui_global_color": "<br/>Color<br/><br/>",
         "ui_global_shadowColor": "<br/>Glow Color<br/><br/>",
         "ui_global_shadowBlur": "<br/>Glow Size(px)<br/><br/>",
+        "ui_global_shadowOverlay": "<br/>Shadow Overlay?<br/><br/>",
         "ui_global_isRandomColor": "<br/>Random Color?<br/><br/>",
         "ui_global_firstColor": "<br/>First Color<br/><br/>",
         "ui_global_secondColor": "<br/>Second Color<br/><br/>",
@@ -3212,6 +3368,7 @@
         "ui_circle_color": "<br/>Color<br/><br/>",
         "ui_circle_shadowColor": "<br/>Glow Color<br/><br/>",
         "ui_circle_shadowBlur": "<br/>Glow Size(px)<br/><br/>",
+        "ui_circle_shadowOverlay": "<br/>Shadow Overlay?<br/><br/>",
         "ui_circle_isRandomColor": "<br/>Random Color?<br/><br/>",
         "ui_circle_firstColor": "<br/>First Color<br/><br/>",
         "ui_circle_secondColor": "<br/>Second Color<br/><br/>",
@@ -3224,6 +3381,21 @@
         "ui_circle_offsetX": "<br/>Position X(%)<br/><br/>",
         "ui_circle_offsetY": "<br/>Position Y(%)<br/><br/>",
         "ui_circle_isClickOffset": "<br/>Mouse Coordinate Offset?<br/><br/>",
+        "ui_circle_transform": "<br/><b>Ring - Transform</b><br/><br/>",
+        "ui_circle_isMasking": "<br/>Show Masking?<br/><br/>",
+        "ui_circle_maskOpacity": "<br/>Masking Opacity<br/><br/>",
+        "ui_circle_topLeft": "<br/>Top-Left<br/><br/>",
+        "ui_circle_topLeftX": "<br/>X(%)：<br/><br/>",
+        "ui_circle_topLeftY": "<br/>Y(%)：<br/><br/>",
+        "ui_circle_topRight": "<br/>Top-Right<br/><br/>",
+        "ui_circle_topRightX": "<br/>X(%)：<br/><br/>",
+        "ui_circle_topRightY": "<br/>Y(%)：<br/><br/>",
+        "ui_circle_bottomRight": "<br/>Bottom-Right<br/><br/>",
+        "ui_circle_bottomRightX": "<br/>X(%)：<br/><br/>",
+        "ui_circle_bottomRightY": "<br/>Y(%)：<br/><br/>",
+        "ui_circle_bottomLeft": "<br/>Bottom-Left<br/><br/>",
+        "ui_circle_bottomLeftX": "<br/>X(%)：<br/><br/>",
+        "ui_circle_bottomLeftY": "<br/>Y(%)：<br/><br/>",
         "ui_circle_ringText": "<br/><b>Ring - Ring Settings</b><br/><br/>",
         "ui_circle_isRing": "<br/>Show Ring?<br/><br/>",
         "ui_circle_isStaticRing": "<br/>Show Static Ring?<br/><br/>",
@@ -3261,6 +3433,7 @@
         "ui_bars_color": "<br/>Color<br/><br/>",
         "ui_bars_shadowColor": "<br/>Glow Color<br/><br/>",
         "ui_bars_shadowBlur": "<br/>Glow Size(px)<br/><br/>",
+        "ui_bars_shadowOverlay": "<br/>Shadow Overlay?<br/><br/>",
         "ui_bars_isRandomColor": "<br/>Random Color?<br/><br/>",
         "ui_bars_firstColor": "<br/>First Color<br/><br/>",
         "ui_bars_secondColor": "<br/>Second Color<br/><br/>",
@@ -3334,6 +3507,7 @@
         "ui_date_color": "<br/>Color<br/><br/>",
         "ui_date_shadowColor": "<br/>Glow Color<br/><br/>",
         "ui_date_shadowBlur": "<br/>Glow Size(px)<br/><br/>",
+        "ui_date_shadowOverlay": "<br/>Shadow Overlay?<br/><br/>",
         "ui_date_isRandomColor": "<br/>Random Color?<br/><br/>",
         "ui_date_firstColor": "<br/>First Color<br/><br/>",
         "ui_date_secondColor": "<br/>Second Color<br/><br/>",
@@ -3347,8 +3521,8 @@
         "ui_date_language": "<br/>Date Language<br/><br/>",
         "ui_date_timeStyle": "<br/>Time Style<br/><br/>",
         "ui_date_dateStyle": "<br/>Date Style<br/><br/>",
-        "ui_date_isFormat": "<br/>Format?<br/>",
-        "ui_date_formatText": "<br/><span>Time format specification:</span><br/><span>YYYY: year MMM: month(non numeric) MM: month(number)</span><br/><span>Do: Day(non numeric) DD: Day(number)</span><br/><span>HH: hour(twenty-four hour system)</span><br/><span> hh: hour(twelve hour system)</span><br/><span>mm: Min ss: sec</span><br/><span>A: time period dddd: Week</span><br/>",
+        "ui_date_isFormat": "<br/>Format?<br/><br/>",
+        "ui_date_formatText": "<br/><span>Time format specification:</span><br/><span>YYYY: year MMM: month(non-numeric) </span><br/><span>MM: month(number)</span><br/><span>Do: day(non-numeric) DD: day(number)</span><br/><span>HH: hour(twenty-four-hour system)</span><br/><span> hh: hour(twelve-hour system)</span><br/><span>mm: Min ss: sec</span><br/><span>A: period of time dddd: week</span><br/><span>weather: China weather(cast)</span><br/><br/>",
         "ui_date_userTimeStyle": "<br/>Time Style<br/><br/>",
         "ui_date_userDateStyle": "<br/>Date Style<br/><br/>",
         "Dividing_line10": "------------------------------------------------------------------------------------------------------------------------",
@@ -3388,7 +3562,7 @@
         "ui_particles_sizeText": "<br/><b>Particle - Type Settings</b><br/><br/>",
         "ui_particles_shapeType": "<br/>Particle Shape Type<br/><br/>",
         "ui_particles_image": "<br/>Particle Image<br/><br/>",
-        "ui_particles_initialAngle": "<br/>Rotation Angle<br/><br/>",
+        "ui_particles_rotationAngle": "<br/>Rotation Angle<br/><br/>",
         "ui_particles_angleRandom": "<br/>Random Angle?<br/><br/>",
         "ui_particles_sizeValue": "<br/>Particle Size<br/><br/>",
         "ui_particles_sizeRandom": "<br/>Random Size?<br/><br/>",
@@ -3417,8 +3591,8 @@
         "ui_about_authorText": "<br/>Author：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
         "ui_about_emailText": "<br/>Email：909011298@qq.com<br/>",
-        "ui_about_versionText": "<br/>Version Number：0.5.8<br/>",
-        "ui_about_updateText": "<br/><span>Update Description：</span><br/><span>1. LOGO plug-in (bate): add filter settings and mix blend mode</span><br/><span>2. Rewrite the visualizer plug-in drawing algorithm</span><br/><span>                           -- From Baidu translate.</span><br/>",
+        "ui_about_versionText": "<br/>Version Number：0.5.9<br/>",
+        "ui_about_updateText": "<br/><span>Update Description：</span><br/><span>1. The LOGO plugin (bate): add dotted stroke lines effect</span><br/><span>2. Time plug-in: add user-defined font styles</span><br/><span>3. Particles plug-in: fixed particles rotation failure BUG</span><br/><span>                           -- From Baidu translate.</span><br/>",
         "ui_about_describeText": "<br/><span>Relevant Instructions：</span><br/><span>If you have better text translation, please contact me.</span><br/>",
         "ui_about_isQRcode": "<br/>Show QRcode?<br/><br/>"
       },
@@ -3472,6 +3646,7 @@
         "ui_global_color": "<br/>颜色<br/><br/>",
         "ui_global_shadowColor": "<br/>模糊颜色<br/><br/>",
         "ui_global_shadowBlur": "<br/>模糊程度<br/><br/>",
+        "ui_global_shadowOverlay": "<br/>阴影叠加<br/><br/>",
         "ui_global_isRandomColor": "<br/>随机颜色<br/><br/>",
         "ui_global_firstColor": "<br/>初始颜色<br/><br/>",
         "ui_global_secondColor": "<br/>最终颜色<br/><br/>",
@@ -3492,6 +3667,7 @@
         "ui_circle_color": "<br/>颜色<br/><br/>",
         "ui_circle_shadowColor": "<br/>模糊颜色<br/><br/>",
         "ui_circle_shadowBlur": "<br/>模糊程度<br/><br/>",
+        "ui_circle_shadowOverlay": "<br/>阴影叠加<br/><br/>",
         "ui_circle_isRandomColor": "<br/>随机颜色<br/><br/>",
         "ui_circle_firstColor": "<br/>初始颜色<br/><br/>",
         "ui_circle_secondColor": "<br/>最终颜色<br/><br/>",
@@ -3504,6 +3680,21 @@
         "ui_circle_offsetX": "<br/>X轴偏移<br/><br/>",
         "ui_circle_offsetY": "<br/>Y轴偏移<br/><br/>",
         "ui_circle_isClickOffset": "<br/>鼠标坐标偏移<br/><br/>",
+        "ui_circle_transform": "<br/><b>圆环 - 变换</b><br/><br/>",
+        "ui_circle_isMasking": "<br/>显示蒙版<br/><br/>",
+        "ui_circle_maskOpacity": "<br/>蒙版不透明度<br/><br/>",
+        "ui_circle_topLeft": "<br/>左上角<br/><br/>",
+        "ui_circle_topLeftX": "<br/>X(%)：<br/><br/>",
+        "ui_circle_topLeftY": "<br/>Y(%)：<br/><br/>",
+        "ui_circle_topRight": "<br/>右上角<br/><br/>",
+        "ui_circle_topRightX": "<br/>X(%)：<br/><br/>",
+        "ui_circle_topRightY": "<br/>Y(%)：<br/><br/>",
+        "ui_circle_bottomRight": "<br/>右下角<br/><br/>",
+        "ui_circle_bottomRightX": "<br/>X(%)：<br/><br/>",
+        "ui_circle_bottomRightY": "<br/>Y(%)：<br/><br/>",
+        "ui_circle_bottomLeft": "<br/>左下角<br/><br/>",
+        "ui_circle_bottomLeftX": "<br/>X(%)：<br/><br/>",
+        "ui_circle_bottomLeftY": "<br/>Y(%)：<br/><br/>",
         "ui_circle_ringText": "<br/><b>圆环 - 圆环设置</b><br/><br/>",
         "ui_circle_isRing": "<br/>显示圆环<br/><br/>",
         "ui_circle_isStaticRing": "<br/>显示静态圆环<br/><br/>",
@@ -3541,6 +3732,7 @@
         "ui_bars_color": "<br/>颜色<br/><br/>",
         "ui_bars_shadowColor": "<br/>模糊颜色<br/><br/>",
         "ui_bars_shadowBlur": "<br/>模糊程度<br/><br/>",
+        "ui_bars_shadowOverlay": "<br/>阴影叠加<br/><br/>",
         "ui_bars_isRandomColor": "<br/>随机颜色<br/><br/>",
         "ui_bars_firstColor": "<br/>初始颜色<br/><br/>",
         "ui_bars_secondColor": "<br/>最终颜色<br/><br/>",
@@ -3614,6 +3806,7 @@
         "ui_date_color": "<br/>颜色<br/><br/>",
         "ui_date_shadowColor": "<br/>模糊颜色<br/><br/>",
         "ui_date_shadowBlur": "<br/>模糊程度<br/><br/>",
+        "ui_date_shadowOverlay": "<br/>阴影叠加<br/><br/>",
         "ui_date_isRandomColor": "<br/>随机颜色<br/><br/>",
         "ui_date_firstColor": "<br/>初始颜色<br/><br/>",
         "ui_date_secondColor": "<br/>最终颜色<br/><br/>",
@@ -3627,8 +3820,8 @@
         "ui_date_language": "<br/>日期语言<br/><br/>",
         "ui_date_timeStyle": "<br/>时间风格<br/><br/>",
         "ui_date_dateStyle": "<br/>日期风格<br/><br/>",
-        "ui_date_isFormat": "<br/>格式化<br/>",
-        "ui_date_formatText": "<br/><span>时间格式说明：</span><br/><span>YYYY：年</span><br/><span>MMM：月(非数字) MM：月(数字)</span><br/><span>Do：日(非数字) DD：日(数字)</span><br/><span>HH：小时(二十四小时制)</span><br/><span>hh：小时(十二小时制)</span><br/><span>mm：分钟 ss：秒</span><br/><span>a：时间段 dddd：星期</span><br/>",
+        "ui_date_isFormat": "<br/>格式化<br/><br/>",
+        "ui_date_formatText": "<br/><span>时间格式说明：</span><br/><span>YYYY：年</span><br/><span>MMM：月(非数字) MM：月(数字)</span><br/><span>Do：日(非数字) DD：日(数字)</span><br/><span>HH：小时(二十四小时制)</span><br/><span>hh：小时(十二小时制)</span><br/><span>mm：分钟 ss：秒</span><br/><span>a：时间段 dddd：星期</span><br/><span>weather: 中国天气(强制)</span><br/><br/>",
         "ui_date_userTimeStyle": "<br/>自定义时间<br/><br/>",
         "ui_date_userDateStyle": "<br/>自定义日期<br/><br/>",
         "Dividing_line10": "------------------------------------------------------------------------------------------------------------------------",
@@ -3668,7 +3861,7 @@
         "ui_particles_sizeText": "<br/><b>粒子 - 类型设置</b><br/><br/>",
         "ui_particles_shapeType": "<br/>粒子形状<br/><br/>",
         "ui_particles_image": "<br/>粒子图片<br/><br/>",
-        "ui_particles_initialAngle": "<br/>粒子旋转角度<br/><br/>",
+        "ui_particles_rotationAngle": "<br/>粒子旋转角度<br/><br/>",
         "ui_particles_angleRandom": "<br/>随机角度<br/><br/>",
         "ui_particles_sizeValue": "<br/>粒子大小<br/><br/>",
         "ui_particles_sizeRandom": "<br/>随机大小<br/><br/>",
@@ -3697,8 +3890,8 @@
         "ui_about_authorText": "<br/>作者：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
         "ui_about_emailText": "<br/>Email：909011298@qq.com<br/>",
-        "ui_about_versionText": "<br/>版本号：0.5.8<br/>",
-        "ui_about_updateText": "<br/><span>更新说明：</span><br/><span>1、LOGO插件(bate)：添加滤镜设置和混合模式</span><br/><span>2、重写可视化插件绘制算法</span><br/>",
+        "ui_about_versionText": "<br/>版本号：0.5.9<br/>",
+        "ui_about_updateText": "<br/><span>更新说明：</span><br/><span>1、LOGO插件(bate)：添加虚线描边效果</span><br/><span>2、Time插件：添加自定义字体风格</span><br/><span>2、Particles插件：修复粒子旋转失效BUG</span><br/>",
         "ui_about_describeText": "<br/><span>相关说明：</span><br/><span>由于项目工作量较大，难免会有部分BUG没有排查到。如果你发现了BUG，请移步到创意工坊描述BUG发生原因以及产生的结果。感谢大家长期以来的支持。</span><br/>",
         "ui_about_isQRcode": "<br/>显示二维码<br/><br/>"
       },
@@ -3752,6 +3945,7 @@
         "ui_global_color": "<br/>顏色<br/><br/>",
         "ui_global_shadowColor": "<br/>模糊顏色<br/><br/>",
         "ui_global_shadowBlur": "<br/>模糊程度<br/><br/>",
+        "ui_global_shadowOverlay": "<br/>陰影疊加<br/><br/>",
         "ui_global_isRandomColor": "<br/>隨機顏色<br/><br/>",
         "ui_global_firstColor": "<br/>初始顏色<br/><br/>",
         "ui_global_secondColor": "<br/>最終顏色<br/><br/>",
@@ -3772,6 +3966,7 @@
         "ui_circle_color": "<br/>顏色<br/><br/>",
         "ui_circle_shadowColor": "<br/>模糊顏色<br/><br/>",
         "ui_circle_shadowBlur": "<br/>模糊程度<br/><br/>",
+        "ui_circle_shadowOverlay": "<br/>陰影疊加<br/><br/>",
         "ui_circle_isRandomColor": "<br/>隨機顏色<br/><br/>",
         "ui_circle_firstColor": "<br/>初始顏色<br/><br/>",
         "ui_circle_secondColor": "<br/>最終顏色<br/><br/>",
@@ -3784,6 +3979,21 @@
         "ui_circle_offsetX": "<br/>X軸偏移<br/><br/>",
         "ui_circle_offsetY": "<br/>Y軸偏移<br/><br/>",
         "ui_circle_isClickOffset": "<br/>鼠標坐標偏移<br/><br/>",
+        "ui_circle_transform": "<br/><b>圓環 - 變換</b><br/><br/>",
+        "ui_circle_isMasking": "<br/>顯示蒙版<br/><br/>",
+        "ui_circle_maskOpacity": "<br/>蒙版不透明度<br/><br/>",
+        "ui_circle_topLeft": "<br/>左上角<br/><br/>",
+        "ui_circle_topLeftX": "<br/>X(%)：<br/><br/>",
+        "ui_circle_topLeftY": "<br/>Y(%)：<br/><br/>",
+        "ui_circle_topRight": "<br/>右上角<br/><br/>",
+        "ui_circle_topRightX": "<br/>X(%)：<br/><br/>",
+        "ui_circle_topRightY": "<br/>Y(%)：<br/><br/>",
+        "ui_circle_bottomRight": "<br/>右下角<br/><br/>",
+        "ui_circle_bottomRightX": "<br/>X(%)：<br/><br/>",
+        "ui_circle_bottomRightY": "<br/>Y(%)：<br/><br/>",
+        "ui_circle_bottomLeft": "<br/>左下角<br/><br/>",
+        "ui_circle_bottomLeftX": "<br/>X(%)：<br/><br/>",
+        "ui_circle_bottomLeftY": "<br/>Y(%)：<br/><br/>",
         "ui_circle_ringText": "<br/><b>圓環 - 圓環設置</b><br/><br/>",
         "ui_circle_isRing": "<br/>顯示圓環<br/><br/>",
         "ui_circle_isStaticRing": "<br/>顯示靜態圓環<br/><br/>",
@@ -3821,6 +4031,7 @@
         "ui_bars_color": "<br/>顏色<br/><br/>",
         "ui_bars_shadowColor": "<br/>模糊顏色<br/><br/>",
         "ui_bars_shadowBlur": "<br/>模糊程度<br/><br/>",
+        "ui_bars_shadowOverlay": "<br/>陰影疊加<br/><br/>",
         "ui_bars_isRandomColor": "<br/>隨機顏色<br/><br/>",
         "ui_bars_firstColor": "<br/>初始顏色<br/><br/>",
         "ui_bars_secondColor": "<br/>最終顏色<br/><br/>",
@@ -3894,6 +4105,7 @@
         "ui_date_color": "<br/>顏色<br/><br/>",
         "ui_date_shadowColor": "<br/>模糊顏色<br/><br/>",
         "ui_date_shadowBlur": "<br/>模糊程度<br/><br/>",
+        "ui_date_shadowOverlay": "<br/>陰影疊加<br/><br/>",
         "ui_date_isRandomColor": "<br/>隨機顏色<br/><br/>",
         "ui_date_firstColor": "<br/>初始顏色<br/><br/>",
         "ui_date_secondColor": "<br/>最終顏色<br/><br/>",
@@ -3906,9 +4118,9 @@
         "ui_date_isDate": "<br/>顯示日期<br/><br/>",
         "ui_date_language": "<br/>日期語言<br/><br/>",
         "ui_date_timeStyle": "<br/>時間風格<br/><br/>",
-        "ui_date_dateStyle": "<br/>日期風格<br/><br/>",
+        "ui_date_dateStyle": "<br/>日期風格<br/><br/><br/>",
         "ui_date_isFormat": "<br/>格式化<br/>",
-        "ui_date_formatText": "<br/><span>時間格式說明：</span><br/><span>YYYY：年</span><br/><span>MMM：月(非數字) MM：月(數字)</span><br/><span>Do：日(非數字) DD：日(數字)</span><br/><span>HH：小時(二十四小時制)</span><br/><span>hh：小時(十二小時制)</span><br/><span>mm：分鐘 ss：秒</span><br/><span>a：時間段 dddd：星期</span><br/>",
+        "ui_date_formatText": "<br/><span>時間格式說明：</span><br/><span>YYYY：年</span><br/><span>MMM：月(非數字) MM：月(數字)</span><br/><span>Do：日(非數字) DD：日(數字)</span><br/><span>HH：小時(二十四小時制)</span><br/><span>hh：小時(十二小時制)</span><br/><span>mm：分鐘 ss：秒</span><br/><span>a：時間段 dddd：星期</span><br/><span>weather: 中國天氣(強制)</span><br/><br/>",
         "ui_date_userTimeStyle": "<br/>自定義時間<br/><br/>",
         "ui_date_userDateStyle": "<br/>自定義日期<br/><br/>",
         "Dividing_line10": "------------------------------------------------------------------------------------------------------------------------",
@@ -3948,7 +4160,7 @@
         "ui_particles_sizeText": "<br/><b>粒子 - 類型設置</b><br/><br/>",
         "ui_particles_shapeType": "<br/>粒子形狀<br/><br/>",
         "ui_particles_image": "<br/>粒子圖片<br/><br/>",
-        "ui_particles_initialAngle": "<br/>粒子旋轉角度<br/><br/>",
+        "ui_particles_rotationAngle": "<br/>粒子旋轉角度<br/><br/>",
         "ui_particles_angleRandom": "<br/>隨機角度<br/><br/>",
         "ui_particles_sizeValue": "<br/>粒子大小<br/><br/>",
         "ui_particles_sizeRandom": "<br/>隨機大小<br/><br/>",
@@ -3977,8 +4189,8 @@
         "ui_about_authorText": "<br/>作者：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
         "ui_about_emailText": "<br/>Email：909011298@qq.com<br/>",
-        "ui_about_versionText": "<br/>版本號：0.5.8<br/>",
-        "ui_about_updateText": "<br/><span>更新說明：</span><br/><span>1、LOGO插件(bate)：添加濾鏡設置和混合模式</span><br/><span>2、重寫可視化插件繪制算法</span><br/>",
+        "ui_about_versionText": "<br/>版本號：0.5.9<br/>",
+        "ui_about_updateText": "<br/><span>更新說明：</span><br/><span>1、LOGO插件(bate)：添加虛線描邊效果</span><br/><span>2、Time插件：添加自定義字體風格</span><br/><span>2、Particles插件：修復粒子旋轉失效BUG</span><br/>",
         "ui_about_describeText": "<br/><span>相關說明：</span><br/><span>由於項目工作量較大，難免會有部分BUG沒有排查到。如果妳發現了BUG，請移步到創意工坊描述BUG發生原因以及產生的結果。感謝大家長期以來的支持。</span><br/>",
         "ui_about_isQRcode": "<br/>顯示二維碼<br/><br/>"
       }
@@ -3989,7 +4201,7 @@
   "tags": [
     "Relaxing"
   ],
-  "title": "[4K]Audio Visualizer v0.5.8(音频可视化)",
+  "title": "[4K]Audio Visualizer v0.5.9(音频可视化)",
   "type": "web",
   "visibility": "public",
   "workshopid": 921617616

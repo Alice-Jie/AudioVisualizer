@@ -251,6 +251,7 @@
         this.color = options.color;                            // 颜色
         this.shadowColor = options.shadowColor;                // 阴影颜色
         this.shadowBlur = options.shadowBlur;                  // 阴影大小
+        this.shadowOverlay = options.shadowOverlay;            // 显示阴影
         // 颜色模式-颜色变换
         this.isRandomColor = options.isRandomColor;            // 随机颜色开关
         this.firstColor = options.firstColor;                  // 起始颜色
@@ -294,7 +295,8 @@
             'top': 0,
             'left': 0,
             'z-index': 4,
-            'opacity': this.opacity
+            'opacity': this.opacity,
+            'transform': 'none'
         });  // canvas CSS
         canvasWidth = canvas.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
         canvasHeight = canvas.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
@@ -341,6 +343,7 @@
         color: '255,255,255',        // 颜色
         shadowColor: '255,255,255',  // 阴影颜色
         shadowBlur: 0,               // 阴影大小
+        shadowOverlay: false,        // 显示阴影
         // 颜色模式-颜色变换
         isRandomColor: true,         // 随机颜色变换
         firstColor: '255,255,255',   // 起始颜色
@@ -788,7 +791,9 @@
             // 绘制音频条形、连线和波浪
             if (this.colorMode !== 'rainBow') {
                 context.save();
-                context.globalCompositeOperation = 'lighter';
+                if (!this.shadowOverlay) {
+                    context.globalCompositeOperation = 'lighter';
+                }
                 // 绘制条形
                 if (this.isLineTo) {
                     switch (this.barsDirection) {
@@ -989,6 +994,7 @@
                     setColorObj(color2, this.secondColor);
                     setRGBIncrement();
                     break;
+                case 'shadowOverlay':
                 case 'saturationRange':
                 case 'lightnessRange':
                 case 'offsetX':

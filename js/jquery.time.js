@@ -140,7 +140,7 @@
 
     /**
      * 时间格式说明：
-     * YYYY：年 MMM：月(非数字)MM：月(数字)Do：日(非数字)DD：日(数字)
+     * YYYY：年 MMM：月(非数字) MM：月(数字) Do：日(非数字) DD：日(数字)
      * HH：小时(二十四小时制) hh：小时(十二小时制) mm：分钟 ss：秒
      * a：时间段 dddd：星期
      */
@@ -334,6 +334,8 @@
         this.color = options.color;                      // 颜色
         this.shadowColor = options.shadowColor;          // 阴影颜色
         this.shadowBlur = options.shadowBlur;            // 模糊大小
+        this.shadowOverlay = options.shadowOverlay;      // 显示阴影
+        // 颜色模式-颜色变换
         this.isRandomColor = options.isRandomColor;      // 随机颜色开关
         this.firstColor = options.firstColor;            // 起始颜色
         this.secondColor = options.secondColor;          // 最终颜色
@@ -369,7 +371,8 @@
             'top': 0,
             'left': 0,
             'z-index': 5,
-            'opacity': this.opacity
+            'opacity': this.opacity,
+            'transform': 'none'
         });  // canvas CSS
         canvasWidth = canvas.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
         canvasHeight = canvas.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
@@ -412,6 +415,8 @@
         colorMode: 'monochrome',        // 颜色模式
         shadowColor: '255,255,255',     // 阴影颜色
         shadowBlur: 15,                 // 模糊大小
+        shadowOverlay: false,           // 显示阴影
+        // 颜色模式-颜色变换
         isRandomColor: true,            // 随机颜色变换
         firstColor: '255,255,255',      // 起始颜色
         secondColor: '255,0,0',         // 最终颜色
@@ -588,6 +593,9 @@
             // 更新时间和日期
             if (this.isDate) {
                 context.save();
+                if (!this.shadowOverlay) {
+                    context.globalCompositeOperation = 'lighter';
+                }
                 // 设置时间属性并绘制
                 context.font = this.timeFontSize + 'px ' + this.fontFamily;
                 if (this.isStroke) {
@@ -746,6 +754,7 @@
                     this[property] = value;
                     this.updateWeather();
                     break;
+                case 'shadowOverlay':
                 case 'isDate':
                 case 'isFormat':
                 case 'timeStyle':
