@@ -4,7 +4,7 @@
 一个在Wallpaper Engine创意工坊上的开源项目:
 http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
 
-目前Circle Audio Visualizer使用了4个jquery插件，分别是`jquery.audiovisualizer.bars`、`jquery.audiovisualizer.circle`、`jquery.time`、`juqery.slider`和`jquery.particles`。
+目前Circle Audio Visualizer使用了4个jquery插件，分别是`jquery.audiovisualizer.bars`、`jquery.audiovisualizer.circle`、`jquery.time`、`juqery.slider`、`jquery.particles`和`jquery.logo`。
 
 visualizerbars插件
 ---
@@ -44,7 +44,8 @@ opacity | float | 0.90 | canvas的不透明度
 colorMode | string | 'monochrome' | 颜色模式标识字符串：'monochrome'、'colorTransformation'、'rainBow'
 color | string | '255,255,255' | RGB格式颜色，用于设置context.fillStyle、strokeStyle
 shadowColor | string | '255,255,255' | RGB格式颜色，用于设置context.shadowColor
-shadowBlur | int | 15 | 用于设置shadowBlur
+shadowBlur | int | 0 | 用于设置shadowBlur
+shadowOverlay | boolean | false | 设置canvas叠加属性为'lighter'
 isRandomColor | boolean | true | 随机颜色变换开关
 firstColor | string | '255,255,255' | 初始颜色
 secondColor | string | '255,0,0' | 最终颜色
@@ -171,7 +172,8 @@ opacity | float | 0.90 | canvas的不透明度
 colorMode | string | 'monochrome' | 颜色模式标识字符串：'monochrome'、'colorTransformation'、'rainBow'
 color | string | '255,255,255' | RGB格式颜色，用于设置context.fillStyle、strokeStyle
 shadowColor | string | '255,255,255' | RGB格式颜色，用于设置context.shadowColor
-shadowBlur | int | 15 | 用于设置shadowBlur
+shadowBlur | int | 0 | 用于设置shadowBlur
+shadowOverlay | boolean | false | 设置canvas叠加属性为'lighter'
 isRandomColor | boolean | true | 随机颜色变换开关
 firstColor | string | '255,255,255' | 初始颜色
 secondColor | string | '255,0,0' | 最终颜色
@@ -306,19 +308,21 @@ opacity | float | 0.90 | canvas的不透明度
 colorMode | string | 'monochrome' |  颜色模式标识字符串：'monochrome'、'colorTransformation'、'rainBow'
 color | string | '255,255,255' |  RGB格式颜色，用于设置context.fillStyle、strokeStyle
 shadowColor | string | '255,255,255' |  RGB格式颜色，用于设置context.shadowColor
-shadowBlur | int | 15 | 用于设置shadowBlur
+shadowBlur | int | 0 | 用于设置shadowBlur
 isRandomColor | boolean | true | 随机颜色变换开关
 firstColor | string | '255,255,255' | 初始颜色
 secondColor | string | '255,0,0' | 最终颜色
 isChangeBlur | boolean | false | 颜色变换shadowBlur绑定
 offsetX | float | 0.5 | X坐标偏移系数，范围在0~1之间
 offsetY | float | 0.5 | Y坐标偏移系数，范围在0~1之间
-isClickOffset | boolean | false | 开启后，根据鼠标点击位置确定XY坐标偏移系数 |
+isClickOffset | boolean | false | 开启后，根据鼠标点击位置确定XY坐标偏移系数
 isDate | boolean | true | 显示日期日期
 timeStyle | string | 'hh:mm:ss a' | 时间显示风格
-userTimeStyle | string | 'hh:mm:ss a' | 自定义时间显示风格
 dateStyle | string | 'LL dddd' | 日期显示风格
-userDateStyle | string | 'LL dddd' | 自定义日期显示风格
+isFormat | true | false | 是否按时间格式规范转换字符串
+userTimeStyle | string | '' | 自定义时间显示字符串
+userDateStyle | string | '' | 自定义日期显示字符串
+fontFamily | string | 'Microsoft YaHei' | 字体样式
 timeFontSize | int | 60 | 时间字体大小
 dateFontSize | int | 30 | 日期字体大小
 language | string | 'zh_cn' | 日期语言
@@ -375,23 +379,23 @@ string | cityStr | 城市名（仅限中国）
 
 调用`$(selector).time('set', property, value);`设置date插件相关参数，具体参数详见参数列表。
 
-参数类型 | 参数名 | 参数描述 
+参数类型 | 参数名 | 参数描述
 ---------|--------|----------
-string | property | 属性名 
-任意 | value | 属性对应值 
+string | property | 属性名
+任意 | value | 属性对应值
 
 #### 时间格式
 
-- YYYY：年 
-- MMM：月（非数字） 
-- MM：月（数字） 
-- Do：日（非数字） 
+- YYYY：年
+- MMM：月（非数字）
+- MM：月（数字）
+- Do：日（非数字）
 - DD：日（数字）
-- HH：小时(二十四小时制) 
-- hh：小时(十二小时制) 
-- mm：分钟 
+- HH：小时（二十四小时制）
+- hh：小时（十二小时制）
+- mm：分钟
 - ss：秒
-- a：时间段 
+- a：时间段
 - dddd：星期
 
 
@@ -428,7 +432,7 @@ slider插件用于背景切换，从`window.wallpaperPropertyListener`扩展方�
 
 #### 参数列表：
 
-| 名称 | 类型 | 默认| 描述 
+| 名称 | 类型 | 默认| 描述
 |------|------|-----|------
 sliderStyle | string | 'css' | 背景切换模式
 readStyle | string | 'sequential' | 读取模式
@@ -542,7 +546,7 @@ string | audio | 用户音频路径
 
 调用`$(selector).slider('updateImgList', currentFiles);`更新图片列表。
 
-参数类型 | 参数名 | 参数描述 
+参数类型 | 参数名 | 参数描述
 ---------|--------|----------
 {Array}<string> | currentFiles | 文件名数组
 
@@ -578,7 +582,7 @@ string | audio | 用户音频路径
 
 调用`$(selector).slider('getVideoList', index);`从videoList读取索引对应值并转换成视频源。
 
-参数类型 | 参数名 | 参数描述 
+参数类型 | 参数名 | 参数描述
 ---------|--------|----------
 {int} | index | 视频列表索引
 
@@ -606,7 +610,7 @@ string | audio | 用户音频路径
 
 调用`$(selector).slider('setVideoProgress', progress);`按进度百分比设置视频当前读取位置。
 
-参数类型 | 参数名 | 参数描述 
+参数类型 | 参数名 | 参数描述
 ---------|--------|----------
 {float} | progress | 视频进度（%）
 
@@ -614,7 +618,7 @@ string | audio | 用户音频路径
 
 调用`$(selector).slider('setVideoProgress', backRate);`设置视频当前的播放速度。
 
-参数类型 | 参数名 | 参数描述 
+参数类型 | 参数名 | 参数描述
 ---------|--------|----------
 {float} | backRate | 视频播放速度（0.0 - 5.0）
 
@@ -630,7 +634,7 @@ string | audio | 用户音频路径
 
 调用`$(selector).slider('setVideoVolume', volume);`设置音量大小（%）。
 
-参数类型 | 参数名 | 参数描述 
+参数类型 | 参数名 | 参数描述
 ---------|--------|----------
 {float} | volume | 音量大小（%）
 
@@ -642,7 +646,7 @@ string | audio | 用户音频路径
 
 调用`$(selector).slider('getAudioList', index);`从audioList读取索引对应值并转换成音频源。
 
-参数类型 | 参数名 | 参数描述 
+参数类型 | 参数名 | 参数描述
 ---------|--------|----------
 {int} | index | 音频列表索引
 
@@ -670,7 +674,7 @@ string | audio | 用户音频路径
 
 调用`$(selector).slider('setAudioProgress', progress);`按进度百分比设置音频当前读取位置。
 
-参数类型 | 参数名 | 参数描述 
+参数类型 | 参数名 | 参数描述
 ---------|--------|----------
 {float} | progress | 音频进度（%）
 
@@ -686,7 +690,7 @@ string | audio | 用户音频路径
 
 调用`$(selector).slider('setAudioVolume', volume);`设置音量大小（%）。
 
-参数类型 | 参数名 | 参数描述 
+参数类型 | 参数名 | 参数描述
 ---------|--------|----------
 {float} | volume | 音量大小（%）
 
@@ -698,10 +702,10 @@ string | audio | 用户音频路径
 
 调用`$(selector).slider('set', property, value);`设置slider插件相关参数，具体参数详见参数列表。
 
-参数类型 | 参数名 | 参数描述 
+参数类型 | 参数名 | 参数描述
 ---------|--------|----------
-string | property | 属性名 
-任意 | value | 属性对应值 
+string | property | 属性名
+任意 | value | 属性对应值
 
 #### 使用wallpaper图片文件夹监视器：
 
@@ -715,7 +719,7 @@ string | property | 属性名
         }
         wallpaper.slider('updateImgList', files[propertyName]);
     },
-    
+
     userDirectoryFilesRemoved: function (propertyName, removedFiles) {
         for (var i = 0; i < removedFiles.length; ++i) {
             var index = files[propertyName].indexOf(removedFiles[i]);
@@ -757,7 +761,7 @@ particles插件用于创建一个canvas,并随机在canvas上生成粒子并按�
 
 #### 参数列表：
 
-| 名称 | 类型 | 默认| 描述 
+| 名称 | 类型 | 默认| 描述
 |------|------|-----|------
 number | int | 100 | 粒子的数量
 isDensity | boolean | false | 启用粒子密度区域
@@ -775,7 +779,7 @@ shadowColor | string | '255,255,255' | RGB格式颜色，粒子的阴影颜色
 shadowBlur | int | 0 | 粒子的阴影大小
 shapeType | string | 'circle' | 粒子的形状
 rotationAngle| int | 0 | 旋转粒子，负数为逆时针旋转，正数为顺时针旋转
-angleRandom | boolean | false | 粒子的旋转角度是否随机 
+angleRandom | boolean | false | 粒子的旋转角度是否随机
 sizeValue | int | 5 | 粒子的最大半径
 isSizeFollow | boolean | false | 粒子的大小是否跟随音频
 sizeRate | int | 5 | 大小变化速率
@@ -802,7 +806,7 @@ moveOutMode | string | 'out' | 粒子离开canvas所发生的行为
 
 调用`$(selector).particles('addParticles', num);`向canvsa添加粒子。
 
-参数类型 | 参数名 | 参数描述 
+参数类型 | 参数名 | 参数描述
 ---------|--------|----------
 int | num | 添加/删除粒子的数量
 
@@ -814,7 +818,7 @@ int | num | 添加/删除粒子的数量
 
 调用`$(selector).particles('updateAudioAverage',  audioSamples);`更新音频均值。
 
-参数类型 | 参数名 | 参数描述 
+参数类型 | 参数名 | 参数描述
 ---------|--------|----------
 float | audioSamples | 音频数组
 
@@ -830,7 +834,7 @@ float | audioSamples | 音频数组
 
 调用`$(selector).particles('particlesImage', imgSrc);`改变图片粒子的图片路径。
 
-参数类型 | 参数名 | 参数描述 
+参数类型 | 参数名 | 参数描述
 ---------|--------|----------
 string | imgSrc | 图片粒子路径
 
@@ -838,7 +842,7 @@ string | imgSrc | 图片粒子路径
 
 调用`$(selector).particles('drawParticles', particles);`绘制粒子。
 
-参数类型 | 参数名 | 参数描述 
+参数类型 | 参数名 | 参数描述
 ---------|--------|----------
 Object | particles | 粒子对象
 
@@ -846,7 +850,7 @@ Object | particles | 粒子对象
 
 调用`$(selector).particles('drawLine', index);`绘制索引对应的粒子与其它粒子的连线。
 
-参数类型 | 参数名 | 参数描述 
+参数类型 | 参数名 | 参数描述
 ---------|--------|----------
 index | particles | 粒子对象
 
@@ -866,13 +870,131 @@ index | particles | 粒子对象
 
 调用`$(selector).particles('setParticles', property);`设置粒子数组粒子属性。
 
-参数类型 | 参数名 | 参数描述 
+参数类型 | 参数名 | 参数描述
 ---------|--------|----------
-string | property | 属性名 
+string | property | 属性名
 
 **set：**
 
 调用`$(selector).particles('set', property, value);`设置particles插件相关参数，具体参数详见参数列表。
+
+参数类型 | 参数名 | 参数描述
+---------|--------|----------
+string | property | 属性名
+任意 | value | 属性对应值
+
+logo插件
+---
+
+
+#### 说明：
+logo插件用于创建一个canvas,并随机在canvas上生成LOGO图像并按照某种方式移动旋转。
+
+
+#### 使用：
+
+初始化logo插件如下：
+
+
+```javascript
+    $(selector).logo();
+```
+
+你也可以传递一些参数初始化particles插件(具体参数详见参数列表):
+
+
+```javascript
+    $(selector).logo({
+        isLogo: ...,
+        isCircular: ...,
+        ...
+    });
+```
+
+#### 参数列表：
+
+| 名称 | 类型 | 默认| 描述
+|------|------|-----|------
+isLogo | boolean | flase | 显示LOGO开关
+isCircular | boolean | true | LOGO圆形显示开关
+opacity | float | 0.9 | canvas不透明度
+shadowColor | int | '255,255,255' | RGB格式颜色，用于设置context.shadowColor
+shadowBlur | int | 0 | 用于设置shadowBlur
+isStroke | boolean | false | 圆形外描边开关
+strokeColor |'string' | '255,255,255' | RGB格式颜色，用于设置context.strokeStyle
+lineWidth | int | 1 | 连线宽度
+dottedLine | int | 0 | 虚线间隔
+offsetX | float | 0.5 | X坐标偏移系数，范围在0~1之间
+offsetY | float | 0.5 | Y坐标偏移系数，范围在0~1之间
+isClickOffset | boolean | false | 开启后，根据鼠标点击位置确定XY坐标偏移系数
+zoom | float | 0.1 | 按比例缩放图像
+isZoomFollow | boolean | false | 图像是否跟随音频缩放
+zoomRate | int | 5 | 缩放变化速率
+widthRatio | float | 1.0 | 图像宽度按比例拉伸
+heightRatio | float | 1.0 | 图像高度按比例拉伸
+initialAngle | int | 0 | 图像初始旋转角度
+isRotation | boolean | false | 图像是否旋转
+rotationAngle | float | 0.5 | 图像旋转角度
+milliSec | int | 30 | 重绘图像所需间隔
+blur | int | 0 | CSS3滤镜效果：模糊
+brightness | int | 100 | CSS3滤镜效果：亮度
+contrast | int | 100 | CSS3滤镜效果：对比度
+grayScale | int | 0 | CSS3滤镜效果：灰度
+hueRotate | int | 0 | CSS3滤镜效果：色相
+invert | int | 0 | CSS3滤镜效果：反色
+saturate | int | 100 | CSS3滤镜效果：饱和度
+sepia | int | 0 | 深褐色
+mixBlendMode | 'string' | 'normal' | CSS3混合选项
+
+#### 方法列表：
+
+**updateAudioAverage：**
+
+调用`$(selector).logo('updateAudioAverage',  audioSamples);`更新音频均值。
+
+参数类型 | 参数名 | 参数描述
+---------|--------|----------
+float | audioSamples | 音频数组
+
+**clearCanvas：**
+
+调用`$(selector).logo('clearCanvas');`清空Canvas内容。
+
+**setUserImg：**
+
+调用`$(selector).logo('setUserImg', img);`获取用户自定义的Logo地址，如果路径不存在默认为空字符串。
+
+参数类型 | 参数名 | 参数描述
+---------|--------|----------
+string | img | 用户logo路径
+
+**updateLogo：**
+
+调用`$(selector).logo('updateLogo');`更新相关数据。
+
+**drawLogo：**
+
+调用`$(selector).logo('drawLogo');`绘制Logo。
+
+**drawCanvas：**
+
+调用`$(selector).logo('drawCanvas');`更新相关数据并绘制Logo。
+
+**stopLogoTimer：**
+
+调用`$(selector).logo('stopLogoTimer');`停止Logo计时器。
+
+**runLogoTimer：**
+
+调用`$(selector).logo('runLogoTimer');`开始Logo计时器。
+
+**destroy：**
+
+调用`$(selector).logo('destroy');`销毁logo所在canvas。
+
+**set：**
+
+调用`$(selector).logo('set', property, value);`设置logo插件相关参数，具体参数详见参数列表。
 
 参数类型 | 参数名 | 参数描述 
 ---------|--------|----------
