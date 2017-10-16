@@ -1,5 +1,5 @@
 /*!
- * jQuery time plugin v0.0.10
+ * jQuery time plugin v0.0.12
  * moment.js: http://momentjs.cn/
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
@@ -7,7 +7,7 @@
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/10/06
+ * @date 2017/10/16
  */
 
 (function (global, factory) {
@@ -90,196 +90,215 @@
     // 和风天气信息
     let heWeather = {
         basic: {
-            cnty: '中国',                       // 国家
-            city: '北京'                        // 城市
+            cnty: '未知',          // 国家
+            city: '未知'           // 城市
         },
         weatherData: {
-            weather: '阴',                      // 天气情况
-            temperature: '15℃',                // 温度情况
+            weather: '未知',       // 天气情况
+            temperature: '-1℃',   // 温度情况
             wind: {
-                deg: '40',                      // 风向(360度)
-                dir: '东北风',                  // 风向
-                sc: '4-5',                      // 风力
-                spd: '24'                       // 风速(kmph)
+                deg: '-1',         // 风向(360度)
+                dir: '东北风',     // 风向
+                sc: '-1',          // 风力
+                spd: '-1'          // 风速(kmph)
             }
         }
     };
     // 百度天气信息
     let baiduWeather = {
         basic: {
-            city: '北京',                       // 城市
-            pm25: '144'                         // PM25
+            city: '未知',          // 城市
+            pm25: '-1'             // PM25
         },
         weatherData: {
-            date: '周六 03月05日 (实时：12℃)',  // 星期-日期-温度
-            weather: '浮尘转晴',                // 天气情况
-            temperature: '12-1℃',             // 温度情况
-            wind: '北风4-5级'                   // 风向风力
+            date: '未知',          // 星期-日期-温度
+            weather: '未知',       // 天气情况
+            temperature: '-1℃',   // 温度情况
+            wind: '未知'           // 风向风力
         }
     };
     // 新浪天气信息
     let sinaWeather = {
         basic: {
-            city: '桂林'                         // 城市
+            city: '未知'          // 城市
         },
         weatherData: {
-            weather: '阵风',                     // 天气情况
-            temperature: '30℃～25℃',           // 温度情况
-            wind: '南风≤3级'                     // 风向风力
+            weather: '未知',      // 天气情况
+            temperature: '-1℃',  // 温度情况
+            wind: '未知'          // 风向风力
         }
     };
-    let weatherStr = '读取天气数据中...';  // 天气信息
+
+    let city = '';
+
+    // 天气信息
+    let weatherStr = '读取天气数据中...';
 
     let timer = null,         // 时间计时器
         weatherTimer = null;  // 天气计时器
 
     let milliSec = 1000;  // 重绘间隔(ms)
 
+    let originalPos = [],
+        targetPos = [];
+
     //私有方法
     //--------------------------------------------------------------------------------------------------------------
 
     /**
-     * 时间格式说明：
-     * YYYY：年 MMM：月(非数字) MM：月(数字) Do：日(非数字) DD：日(数字)
-     * HH：小时(二十四小时制) hh：小时(十二小时制) mm：分钟 ss：秒
-     * a：时间段 dddd：星期
+     * 获取IP所在城市
+     *
+     * @param {Function} callback 回调函数
      */
+    function getCity(callback) {
+        $.ajax({
+            url: 'http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js',
+            dataType: "script",
+            success: function () {
+                /* global remote_ip_info:true */
+                if (remote_ip_info.ret === 1) {
+                    if (!city) {
+                        // 若city为空则取IP所在城市
+                        city = remote_ip_info.city;
+                    }
+                    (callback && typeof(callback) === "function") && callback();
+                }
+            },
+            error: function (XMLHttpRequest) {
+                weatherStr = '错误' + XMLHttpRequest.status + ' ' + XMLHttpRequest.statusText;
+            }
+        });
+    }
 
     /**
      * 生成weatherStr信息
      * 根据天气API提供者设置weatherStr信息
      *
      * @param {string} provider API提供者
+     * @return {string} 天气信息字符串
      */
     function setWeatherStr(provider) {
         // 写入weatherStr
         switch (provider) {
             // 和风天气
             case 'heWeather':
-                weatherStr = heWeather.basic.city
+                return heWeather.basic.city
                     + ' ' + heWeather.weatherData.weather
                     + ' ' + heWeather.weatherData.temperature
                     + ' ' + heWeather.weatherData.wind.dir
                     + ' ' + heWeather.weatherData.wind.sc;
-                break;
             // 百度天气
             case 'baidu':
                 // RegExp (\([^\)]+\))
-                weatherStr = baiduWeather.basic.city
+                return baiduWeather.basic.city
                     + ' ' + baiduWeather.weatherData.weather
                     + ' ' + baiduWeather.weatherData.temperature
                     + ' ' + baiduWeather.weatherData.wind;
-                break;
             // 新浪天气
             case 'sina':
-                weatherStr = sinaWeather.basic.city
+                return sinaWeather.basic.city
                     + ' ' + sinaWeather.weatherData.weather
                     + ' ' + sinaWeather.weatherData.temperature
                     + ' ' + sinaWeather.weatherData.wind;
-                break;
             default:
                 weatherStr = '读取天气数据中...';
         }
     }
 
     /**
-     * 获取天气信息
-     * - 目前支持访问和风天气、百度天气、新浪天气
-     * - 访问成功后将天气信息写入对应天气对象
-     *
-     * @param {string} provider API提供者
-     * @param {string} city     城市(China)
+     * 获取和风天气信息
+     * @param {string}   city     城市(China)
+     * @param {Function} callback 回调函数
      */
-    function getWeather(provider, city) {
-        switch (provider) {
-            // 和风天气接口
-            case 'heWeather':
-                $.ajax({
-                    dataType: 'json',
-                    type: 'GET',
-                    url: 'https://free-api.heweather.com/v5/now?city=' + city + '&key=71f9989659254be9a991375a04511d54',
-                    success: function (result) {
-                        // 获取接口状态
-                        if (result.HeWeather5[0].status === 'ok') {
-                            // 获取天气信息
-                            heWeather.basic.cnty = result.HeWeather5[0].basic.cnty;
-                            heWeather.basic.city = result.HeWeather5[0].basic.city;
-                            heWeather.weatherData.weather = result.HeWeather5[0].now.cond.txt;
-                            heWeather.weatherData.temperature = result.HeWeather5[0].now.tmp + '℃';
-                            heWeather.weatherData.wind.deg = result.HeWeather5[0].now.wind.deg;
-                            heWeather.weatherData.wind.dir = result.HeWeather5[0].now.wind.dir;
-                            heWeather.weatherData.wind.sc = result.HeWeather5[0].now.wind.sc + '级';
-                            heWeather.weatherData.wind.spd = result.HeWeather5[0].now.wind.spd;
-                            setWeatherStr(provider);  // 写入weatherStr
-                        } else {
-                            weatherStr = '天气接口异常 ' + result.HeWeather5[0].status;
-                        }
-                    },
-                    error: function (XMLHttpRequest) {
-                        if (XMLHttpRequest.status === 401) {
-                            weatherStr = '错误' + XMLHttpRequest.status + XMLHttpRequest.statusText;
-                        } else if (XMLHttpRequest.status === 412) {
-                            weatherStr = '错误' + XMLHttpRequest.status + '本日和风天气访问次数达到上限';
-                        } else {
-                            weatherStr = '错误' + XMLHttpRequest.status + ' ' + XMLHttpRequest.statusText;
-                        }
-                    }
-                });
-                break;
-            // 百度天气接口
-            case 'baidu':
-                $.ajax({
-                    dataType: 'jsonp',
-                    type: 'GET',
-                    url: 'http://api.map.baidu.com/telematics/v3/weather?location=' + city + '&output=json&ak=E909e759b4dcc019acf2b8d61abb80fa',
-                    success: function (result) {
-                        // 获取接口状态
-                        if (result.status === 'success') {
-                            // 获取天气信息
-                            baiduWeather.basic.city = result.results[0].currentCity;
-                            baiduWeather.basic.pm25 = result.results[0].pm25;
-                            baiduWeather.weatherData.date = result.results[0].weatherData[0].date;
-                            baiduWeather.weatherData.weather = result.results[0].weatherData[0].weather;
-                            baiduWeather.weatherData.wind = result.results[0].weatherData[0].wind;
-                            baiduWeather.weatherData.temperature = result.results[0].weatherData[0].temperature;
-                            setWeatherStr(provider);  // 写入weatherStr
-                        } else {
-                            weatherStr = '天气接口异常 ' + result.HeWeather5[0].status;
-                        }
-                    },
-                    error: function (XMLHttpRequest) {
-                        if (XMLHttpRequest.status === 401) {
-                            weatherStr = '错误' + XMLHttpRequest.status + XMLHttpRequest.statusText;
-                        } else if (XMLHttpRequest.status === 412) {
-                            weatherStr = '错误' + XMLHttpRequest.status + '本日百度天气访问次数达到上限';
-                        } else {
-                            weatherStr = '错误' + XMLHttpRequest.status + ' ' + XMLHttpRequest.statusText;
-                        }
-                    }
-                });
-                break;
-            // 新浪天气接口
-            case 'sina':
-                $.ajax({
-                    dataType: 'script',
-                    scriptCharset: 'gbk',
-                    url: 'http://php.weather.sina.com.cn/iframe/index/w_cl.php?code=js&city=' + city + '&day=0&dfc=3',
-                    success: function () {
-                        let weather = window.SWther.w[city][0];
-                        sinaWeather.basic.city = city;
-                        sinaWeather.weatherData.weather = weather.s1;
-                        sinaWeather.weatherData.temperature = weather.t1 + '℃～' + weather.t2 + '℃';
-                        sinaWeather.weatherData.wind = weather.d1 + weather.p1 + '级';
-                        setWeatherStr(provider);  // 写入weatherStr
-                    },
-                    error: function (XMLHttpRequest) {
-                        weatherStr = '错误' + XMLHttpRequest.status + ' ' + XMLHttpRequest.statusText;
-                    }
-                });
-                break;
-            default:
-                weatherStr = '读取天气数据中...';
-        }
+    function getHeWeather(city, callback) {
+        $.ajax({
+            dataType: 'json',
+            type: 'GET',
+            url: 'https://free-api.heweather.com/v5/now?city=' + city + '&key=71f9989659254be9a991375a04511d54',
+            success: (result)=> {
+                // 获取接口状态
+                if (result.HeWeather5[0].status === 'ok') {
+                    // 获取天气信息
+                    heWeather.basic.cnty = result.HeWeather5[0].basic.cnty;
+                    heWeather.basic.city = result.HeWeather5[0].basic.city;
+                    heWeather.weatherData.weather = result.HeWeather5[0].now.cond.txt;
+                    heWeather.weatherData.temperature = result.HeWeather5[0].now.tmp + '℃';
+                    heWeather.weatherData.wind.deg = result.HeWeather5[0].now.wind.deg;
+                    heWeather.weatherData.wind.dir = result.HeWeather5[0].now.wind.dir;
+                    heWeather.weatherData.wind.sc = result.HeWeather5[0].now.wind.sc + '级';
+                    heWeather.weatherData.wind.spd = result.HeWeather5[0].now.wind.spd;
+                    (callback && typeof(callback) === "function") && callback();
+                } else {
+                    weatherStr = '天气接口异常 ' + result.HeWeather5[0].status;
+                }
+            },
+            error: function (XMLHttpRequest) {
+                if (XMLHttpRequest.status === 412) {
+                    weatherStr = '错误' + XMLHttpRequest.status + '本日和风天气访问次数达到上限';
+                } else {
+                    weatherStr = '错误' + XMLHttpRequest.status + ' ' + XMLHttpRequest.statusText;
+                }
+            }
+        });
+    }
+
+    /**
+     * 获取百度天气信息
+     * @param {string} city     城市(China)
+     * @param {Function} callback 回调函数
+     */
+    function getBaiduWeather(city, callback) {
+        $.ajax({
+            dataType: 'jsonp',
+            type: 'GET',
+            url: 'http://api.map.baidu.com/telematics/v3/weather?location=' + city + '&output=json&ak=E909e759b4dcc019acf2b8d61abb80fa',
+            success: (result)=> {
+                // 获取接口状态
+                if (result.status === 'success') {
+                    // 获取天气信息
+                    baiduWeather.basic.city = result.results[0].currentCity;
+                    baiduWeather.basic.pm25 = result.results[0].pm25;
+                    baiduWeather.weatherData.date = result.results[0].weather_data[0].date;
+                    baiduWeather.weatherData.weather = result.results[0].weather_data[0].weather;
+                    baiduWeather.weatherData.wind = result.results[0].weather_data[0].wind;
+                    baiduWeather.weatherData.temperature = result.results[0].weather_data[0].temperature;
+                    (callback && typeof(callback) === "function") && callback();
+                } else {
+                    weatherStr = '天气接口异常 ' + result.HeWeather5[0].status;
+                }
+            },
+            error: function (XMLHttpRequest) {
+                if (XMLHttpRequest.status === 412) {
+                    weatherStr = '错误' + XMLHttpRequest.status + '本日百度天气访问次数达到上限';
+                } else {
+                    weatherStr = '错误' + XMLHttpRequest.status + ' ' + XMLHttpRequest.statusText;
+                }
+            }
+        });
+    }
+
+    /**
+     * 获取新浪天气信息
+     * @param {string} city     城市(China)
+     * @param {Function} callback 回调函数
+     */
+    function getSinaWeather(city, callback) {
+        $.ajax({
+            dataType: 'script',
+            scriptCharset: 'gbk',
+            url: 'http://php.weather.sina.com.cn/iframe/index/w_cl.php?code=js&city=' + city + '&day=0&dfc=3',
+            success: ()=> {
+                let weather = window.SWther.w[city][0];
+                sinaWeather.basic.city = city;
+                sinaWeather.weatherData.weather = weather.s1;
+                sinaWeather.weatherData.temperature = weather.t1 + '℃～' + weather.t2 + '℃';
+                sinaWeather.weatherData.wind = weather.d1 + weather.p1 + '级';
+                (callback && typeof(callback) === "function") && callback();
+            },
+            error: function (XMLHttpRequest) {
+                weatherStr = '错误' + XMLHttpRequest.status + ' ' + XMLHttpRequest.statusText;
+            }
+        });
     }
 
 
@@ -316,6 +335,186 @@
         colorObj.B = Math.floor(255 * Math.random());
     }
 
+
+    /**
+     * 获取4x4仿射变换矩阵
+     * http://franklinta.com/2014/09/08/computing-css-matrix3d-transforms/
+     * https://codepen.io/fta/pen/ifnqH
+     * http://www.numericjs.com/documentation.html
+     * http://steamcommunity.com/sharedfiles/filedetails/?id=837056186
+     *
+     * @param  {Array.<!Object>} from 初始平面四角坐标XY对象数组
+     * @param  {Array.<!Object>} to   目标平面四角坐标XY对象数组
+     * @return {Array.<[float]>} 4x4放射变换矩阵二维数组
+     */
+    function getTransform(from, to) {
+        /* global numeric: true */
+        console.assert(from.length === to.length && from.length === 4);
+
+        let A = [];
+        for (let i = 0; i < 4; i++) {
+            A.push([
+                from[i].x,
+                from[i].y,
+                1,
+                0,
+                0,
+                0,
+                -from[i].x * to[i].x,
+                -from[i].y * to[i].x
+            ]);
+            A.push([
+                0,
+                0,
+                0,
+                from[i].x,
+                from[i].y,
+                1,
+                -from[i].x * to[i].y,
+                -from[i].y * to[i].y
+            ]);
+        }
+
+        /**
+         * 矩阵A：
+         * [from[i].x, from[i].y, 1, 0        , 0        , 0, -from[i].x * to[1].x, -from[i].y * to[i].x]
+         * [0        , 0        , 0, from[i].x, from[i].y, 1,  from[i].x          ,  from[i].y          ]
+         * ... (x4)
+         * console.log('A:');
+         * console.table(A);
+         */
+
+        let b = [];
+        for (let i = 0; i < 4; i++) {
+            b.push(to[i].x);
+            b.push(to[i].y);
+        }
+
+        /**
+         * 行矩阵B：
+         * [to[0].x, to[0].y, to[1].x, to[1].y, to[2].x, to[2].y, to[3].x, to[3].y
+         * console.log('b:');
+         * console.table(b);
+         */
+
+        // numeric.solve: Solve Ax=b
+        let h = numeric.solve(A, b);
+        // console.log('h:');
+        // console.table(h);
+
+        let H = [
+            [
+                h[0],
+                h[1],
+                0,
+                h[2]
+            ],
+            [
+                h[3],
+                h[4],
+                0,
+                h[5]
+            ],
+            [
+                0,
+                0,
+                1,
+                0
+            ],
+            [
+                h[6],
+                h[7],
+                0,
+                1
+            ]
+        ];
+
+        /**
+         * 矩阵H：                   转置矩阵HT:
+         * [ h[0], h[1], 0, h[2] ]  [ h[0], h[3], 0, h[6] ]
+         * [ h[3], h[4], 0, h[5] ]  [ h[1], h[4], 0, h[7] ]
+         * [ 0   , 0   , 1, 0    ]  [ 0   , 0   , 1, 0    ]
+         * [ h[6], h[7], 0, 1    ]  [ h[2], h[5], 0, 1    ]
+         * console.log('H:');
+         * console.table(H);
+         */
+
+        // 检测是否匹配
+        for (let i = 0; i < 4; i++) {
+            // numeric.dot: Matrix-Matrix, Matrix-Vector and Vector-Matrix product
+            let lhs = numeric.dot(H, [
+                from[i].x,
+                from[i].y,
+                0,
+                1
+            ]);
+            let k = lhs[3];
+            let rhs = numeric.dot(k, [
+                to[i].x,
+                to[i].y,
+                0,
+                1
+            ]);
+            console.assert(numeric.norm2(numeric.sub(lhs, rhs)) < 1e-9, 'Not equal:', lhs, rhs);
+        }
+        return H;
+    }
+
+    /**
+     * 应用仿射变换矩阵至canvas
+     * http://steamcommunity.com/sharedfiles/filedetails/?id=837056186
+     *
+     * @param {Array.<[float]>} originalPos 初始平面四角XY坐标二维数组
+     * @param {Array.<[float]>} targetPos   目标平面四角XY坐标二维数组
+     */
+    function applyTransform(originalPos, targetPos) {
+        let from = function () {
+            let results = [];
+            for (let i = 0; i < originalPos.length; i++) {
+                let p = originalPos[i];
+                results.push({
+                    // 当前坐标 - 初始左上角XY坐标
+                    x: p[0] - originalPos[0][0],
+                    y: p[1] - originalPos[0][1]
+                });
+            }
+            return results;
+        }();  // 初始四角XY坐标对象数组
+        let to = function () {
+            let results = [];
+            for (let i = 0; i < originalPos.length; i++) {
+                let p = targetPos[i];
+                results.push({
+                    // 当前坐标 - 初始左上角XY坐标
+                    x: p[0] - originalPos[0][0],
+                    y: p[1] - originalPos[0][1]
+                });
+            }
+            return results;
+        }();  // 变换四角XY坐标对象数组
+
+        let matrix = getTransform(from, to);  // 4x4仿射变换矩阵
+        let matrix3D = 'matrix3d(' + function () {
+                let results = [];
+                // XYZ按顺序输出四个参数
+                for (let i = 0; i < 4; i++) {
+                    results.push(function () {
+                        let results1 = [];
+                        for (let j = 0; j < 4; j++) {
+                            results1.push(matrix[j][i].toFixed(20));
+                        }
+                        return results1;
+                    }());
+                }
+                return results;
+            }().join(',') + ')';
+
+        $(canvas).css({
+            'transform': matrix3D,
+            'transform-origin': '0 0'
+        });
+    }
+
     //构造函数和公共方法
     //--------------------------------------------------------------------------------------------------------------
 
@@ -328,40 +527,51 @@
     let Time = function (el, options) {
         this.$el = $(el);
 
-        // 全局参数
-        this.opacity = options.opacity;                  // 不透明度
+        // 日期参数
+        this.isDate = options.isDate;                    // 是否显示日期
+        this.isStroke = options.isStroke;                // 是否描边
+        this.lineWidth = options.lineWidth;              // 描边宽度
+        this.isFill = options.isFill;                    // 是否填充
+        // 颜色参数
         this.colorMode = options.colorMode;              // 颜色模式
         this.color = options.color;                      // 颜色
         this.shadowColor = options.shadowColor;          // 阴影颜色
         this.shadowBlur = options.shadowBlur;            // 模糊大小
         this.shadowOverlay = options.shadowOverlay;      // 显示阴影
-        // 颜色模式-颜色变换
         this.isRandomColor = options.isRandomColor;      // 随机颜色开关
         this.firstColor = options.firstColor;            // 起始颜色
         this.secondColor = options.secondColor;          // 最终颜色
         this.isChangeBlur = options.isChangeBlur;        // 模糊变换开关
-        // 坐标参数
-        this.offsetX = options.offsetX;                  // X坐标偏移
-        this.offsetY = options.offsetY;                  // Y坐标偏移
-        this.isClickOffset = options.isClickOffset;      // 鼠标坐标偏移
-        // 日期参数
-        this.isDate = options.isDate;                    // 是否显示日期
-        this.timeStyle = options.timeStyle;              // 时间显示风格
+        // 基础参数
+        this.opacity = options.opacity;                  // 不透明度
         this.language = options.language;                // 日期语言
-        this.isFormat = options.isFormat;                // 是否格式化
+        this.timeStyle = options.timeStyle;              // 时间显示风格
         this.dateStyle = options.dateStyle;              // 日期显示风格
+        this.isFormat = options.isFormat;                // 是否格式化
         this.userTimeStyle = options.userTimeStyle;      // 自定义时间显示风格
         this.userDateStyle = options.userDateStyle;      // 自定义日期显示风格
         this.fontFamily = options.fontFamily;            // 字体样式
         this.timeFontSize = options.timeFontSize;        // 时间字体大小
         this.dateFontSize = options.dateFontSize;        // 日期字体大小
         this.distance = options.distance;                // 时间和日期之间距离
-        this.isStroke = options.isStroke;                // 是否描边
-        this.lineWidth = options.lineWidth;              // 描边宽度
-        this.isFill = options.isFill;                    // 是否填充
         // 天气参数
         this.weatherProvider = options.weatherProvider;  // 天气API提供者
         this.currentCity = options.currentCity;          // 天气信息
+        // 坐标参数
+        this.offsetX = options.offsetX;                  // X坐标偏移
+        this.offsetY = options.offsetY;                  // Y坐标偏移
+        this.isClickOffset = options.isClickOffset;      // 鼠标坐标偏移
+        // 扭曲参数
+        this.isMasking = options.isMasking;               // 蒙版开关
+        this.maskOpacity = options.maskOpacity;           // 蒙版不透明度
+        this.topLeftX = options.topLeftX;                 // 左上角X(%)
+        this.topLeftY = options.topLeftY;                 // 左上角Y
+        this.topRightX = options.topRightX;               // 右上角X
+        this.topRightY = options.topRightY;               // 右上角Y
+        this.bottomRightX = options.bottomRightX;         // 右下角X
+        this.bottomRightY = options.bottomRightY;         // 右下角Y
+        this.bottomLeftX = options.bottomLeftX;           // 左下角X
+        this.bottomLeftY = options.bottomLeftY;           // 左下角Y
 
         // 创建并初始化canvas
         canvas = document.createElement('canvas');
@@ -380,6 +590,14 @@
         // 获取原点
         originX = canvasWidth * this.offsetX;
         originY = canvasHeight * this.offsetY;
+
+        // 初始化originalPos、targetPos
+        targetPos = originalPos = [
+            [0, 0],
+            [canvasWidth, 0],
+            [canvasWidth, canvasHeight],
+            [0, canvasHeight]
+        ];
 
         // 创建并初始化绘图的环境
         context = canvas.getContext('2d');
@@ -400,7 +618,7 @@
 
         $(this.$el).append(canvas);  // 添加canvas
 
-        moment.lang('zh-cn');  // 默认日期语言为中文
+        moment.locale('zh-cn');  // 默认日期语言为汉语
 
         // 默认开启
         this.setupPointerEvents();
@@ -409,24 +627,23 @@
 
     // 默认参数
     Time.DEFAULTS = {
-        // 全局参数
-        opacity: 0.90,                  // 不透明度
+        // 日期参数
+        isDate: true,                   // 是否显示日期
+        isStroke: false,                // 是否描边
+        lineWidth: 1,                   // 描边宽度
+        isFill: true,                   // 是否填充
+        // 颜色模式
         color: '255,255,255',           // 颜色
         colorMode: 'monochrome',        // 颜色模式
         shadowColor: '255,255,255',     // 阴影颜色
         shadowBlur: 15,                 // 模糊大小
         shadowOverlay: false,           // 显示阴影
-        // 颜色模式-颜色变换
         isRandomColor: true,            // 随机颜色变换
         firstColor: '255,255,255',      // 起始颜色
         secondColor: '255,0,0',         // 最终颜色
         isChangeBlur: false,            // 模糊颜色变换开关
-        // 坐标参数
-        offsetX: 0.5,                   // X坐标偏移
-        offsetY: 0.5,                   // Y坐标偏移
-        isClickOffset: false,           // 鼠标坐标偏移
-        // 日期参数
-        isDate: true,                   // 是否显示日期
+        // 基础参数
+        opacity: 0.90,                  // 不透明度
         language: 'zh_cn',              // 日期语言
         timeStyle: 'hh:mm:ss a',        // 时间显示风格
         isFormat: true,                 // 是否格式化
@@ -437,11 +654,24 @@
         timeFontSize: 60,               // 时间字体大小
         dateFontSize: 30,               // 日期字体大小
         distance: 0,                    // 时间与日期之间距离
-        isStroke: false,                // 是否描边
-        isFill: true,                   // 是否填充
         // 天气参数
         weatherProvider: 'sina',        // 天气API提供者
-        currentCity: ''                 // 当前城市
+        currentCity: '',            // 当前城市
+        // 坐标参数
+        offsetX: 0.5,                   // X坐标偏移
+        offsetY: 0.5,                   // Y坐标偏移
+        isClickOffset: false,           // 鼠标坐标偏移
+        // 扭曲参数
+        isMasking: false,               // 显示蒙版
+        maskOpacity: 0.25,              // 蒙版不透明度
+        topLeftX: 0,                    // 左上角X(%)
+        topLeftY: 0,                    // 左上角Y(%)
+        topRightX: 0,                   // 右上角X(%)
+        topRightY: 0,                   // 右上角Y(%)
+        bottomRightX: 0,                // 右下角X(%)
+        bottomRightY: 0,                // 右下角Y(%)
+        bottomLeftX: 0,                 // 左下角X(%)
+        bottomLeftY: 0                  // 左下角Y(%)
     };
 
     // 公共方法
@@ -451,39 +681,60 @@
         //-----------------------------------------------------------
 
         /**
+         * 设置目标坐标
+         * @private
+         */
+        setTargetPos: function () {
+            targetPos = [
+                // X: 0 + （左上坐标X百分比 * 平面宽度）
+                // Y: 0 + （左上坐标Y百分比 * 平面高度）
+                [
+                    this.topLeftX * canvasWidth,
+                    this.topLeftY * canvasHeight
+                ],
+                // X: 平面宽度 - （右上坐标X百分比 * 平面宽度）
+                // Y: 0       + （右上坐标Y百分比 * 平面高度）
+                [
+                    canvasWidth - this.topRightX * canvasWidth,
+                    this.topRightY * canvasHeight
+                ],
+                // X: 平面宽度 - （右下坐标X百分比 * 平面宽度）
+                // Y: 平面高度 - （右下坐标Y百分比 * 平面高度）
+                [
+                    canvasWidth - this.bottomRightX * canvasWidth,
+                    canvasHeight - this.bottomRightY * canvasHeight
+                ],
+                // X: 0       + （右下坐标X百分比 * 平面宽度）
+                // Y: 平面高度 - （右下坐标Y百分比 * 平面高度）
+                [
+                    this.bottomLeftX * canvasWidth,
+                    canvasHeight - this.bottomLeftY * canvasHeight
+                ]
+            ];
+        },
+
+
+        /**
+         * 时间格式说明：
+         * YYYY：年 MMM：月(非数字) MM：月(数字) Do：日(非数字) DD：日(数字)
+         * HH：小时(二十四小时制) hh：小时(十二小时制) mm：分钟 ss：秒
+         * a：时间段 dddd：星期
+         */
+
+        /**
          * 获取当前时间信息
          * 格式化效果详见：http://momentjs.cn/docs/#/displaying/
          * @private
          *
-         * @param  {string} timeStyle 时间格式字符串
+         * @param  {string} formatStr 时间格式字符串
          * @return {string} 时间字符串
          */
-        getTime: function (timeStyle) {
-            switch (timeStyle) {
-                case 'hh:mm:ss a':
+        getFormatStr: function (formatStr) {
+            switch (formatStr) {
                 case 'hh:mm:ss':
-                case 'HH:mm:ss a':
                 case 'HH:mm:ss':
-                case 'hh:mm a':
                 case 'hh:mm':
-                case 'HH:mm a':
                 case 'HH:mm':
-                    return moment().format(timeStyle).toUpperCase();
-                default:
-                    return this.isFormat ? moment().format(timeStyle).toUpperCase() : timeStyle;
-            }
-        },
-
-        /**
-         * 获取当前日期信息
-         * 格式化效果详见：http://momentjs.cn/docs/#/displaying/
-         * @private
-         *
-         * @param  {string} dateStyle 日期格式字符串
-         * @return {string} 日期字符串
-         */
-        getDate: function (dateStyle) {
-            switch (dateStyle) {
                 case 'LL':
                 case 'LL dddd':
                 case 'MM - DD dddd':
@@ -491,13 +742,19 @@
                 case 'MMM Do dddd':
                 case 'MMM Do':
                 case '[Days] DDDD':
-                    return moment().format(dateStyle);
+                    return moment().format(formatStr);
+                case 'hh:mm:ss a':
+                case 'HH:mm:ss a':
+                case 'hh:mm a':
+                case 'HH:mm a':
+                    return moment().format(formatStr).toUpperCase();
                 case 'weather':
                     return weatherStr;
                 default:
-                    return this.isFormat ? moment().format(dateStyle) : dateStyle;
+                    return this.isFormat ? moment().format(formatStr).toUpperCase() : formatStr;
             }
         },
+
 
         /**
          * 时间日期颜色变换
@@ -592,7 +849,9 @@
             context.clearRect(0, 0, canvasWidth, canvasHeight);
             // 更新时间和日期
             if (this.isDate) {
+
                 context.save();
+
                 if (!this.shadowOverlay) {
                     context.globalCompositeOperation = 'lighter';
                 }
@@ -600,14 +859,14 @@
                 context.font = this.timeFontSize + 'px ' + this.fontFamily;
                 if (this.isStroke) {
                     context.strokeText(
-                        this.getTime(this.userTimeStyle || this.timeStyle),
+                        this.getFormatStr(this.userTimeStyle || this.timeStyle),
                         originX,
                         originY - this.timeFontSize / 2 - this.distance
                     );
                 }
                 if (this.isFill) {
                     context.fillText(
-                        this.getTime(this.userTimeStyle || this.timeStyle),
+                        this.getFormatStr(this.userTimeStyle || this.timeStyle),
                         originX,
                         originY - this.timeFontSize / 2 - this.distance
                     );
@@ -616,18 +875,25 @@
                 context.font = this.dateFontSize + 'px ' + this.fontFamily;
                 if (this.isStroke) {
                     context.strokeText(
-                        this.getDate(this.userDateStyle || this.dateStyle),
+                        this.getFormatStr(this.userDateStyle || this.dateStyle),
                         originX,
                         originY + this.dateFontSize / 2 + this.distance
                     );
                 }
                 if (this.isFill) {
                     context.fillText(
-                        this.getDate(this.userDateStyle || this.dateStyle),
+                        this.getFormatStr(this.userDateStyle || this.dateStyle),
                         originX,
                         originY + this.dateFontSize / 2 + this.distance
                     );
                 }
+
+                // 蒙版效果
+                if (this.isMasking) {
+                    context.fillStyle = 'rgba(255, 0, 0, ' + this.maskOpacity + ')';
+                    context.fillRect(0, 0, canvasWidth, canvasHeight);
+                }
+
                 context.restore();
             }
         },
@@ -657,19 +923,46 @@
         },
 
 
+        /**
+         * 获取天气信息
+         * - 目前支持访问和风天气、百度天气、新浪天气
+         * - 访问成功后将天气信息写入对应天气对象
+         *
+         * @param {string} city     城市(China)
+         * @param {string} provider API提供者
+         */
+        getWeather: function (city, provider) {
+            switch (provider) {
+                // 和风天气接口
+                case 'heWeather':
+                    getHeWeather(city, ()=> {
+                        weatherStr = setWeatherStr(provider);
+                    });
+                    break;
+                // 百度天气接口
+                case 'baidu':
+                    getBaiduWeather(city, ()=> {
+                        weatherStr = setWeatherStr(provider);
+                    });
+                    break;
+                // 新浪天气接口
+                case 'sina':
+                    getSinaWeather(city, ()=> {
+                        weatherStr = setWeatherStr(provider);
+                    });
+                    break;
+                default:
+                    weatherStr = '读取天气数据中...';
+            }
+            console.log(city, weatherStr);
+        },
+
         /** 更新天气 */
         updateWeather: function () {
-            if (!this.currentCity) {
-                // 根据IP获取城市
-                let cityUrl = 'http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js';  // 获取IP
-                $.getScript(cityUrl, ()=> {
-                    /* global remote_ip_info:true */
-                    let currentCity = remote_ip_info.city;  // 获取城市
-                    getWeather(this.weatherProvider, currentCity);
-                });
-            } else {
-                getWeather(this.weatherProvider, this.currentCity);
-            }
+            city = this.currentCity;
+            getCity(()=> {
+                this.getWeather(city, this.weatherProvider);
+            });
         },
 
         /** 停止天气计时器 */
@@ -755,6 +1048,8 @@
                     this.updateWeather();
                     break;
                 case 'shadowOverlay':
+                case 'isMasking':
+                case 'maskOpacity':
                 case 'isDate':
                 case 'isFormat':
                 case 'timeStyle':
@@ -775,8 +1070,20 @@
                     this[property] = value;
                     this.drawCanvas();
                     break;
+                case 'topLeftX':
+                case 'topLeftY':
+                case 'topRightX':
+                case 'topRightY':
+                case 'bottomRightX':
+                case 'bottomRightY':
+                case 'bottomLeftX':
+                case 'bottomLeftY':
+                    this[property] = value;
+                    this.setTargetPos();
+                    applyTransform(originalPos, targetPos);
+                    break;
                 case 'language':
-                    moment.lang(value);
+                    moment.locale(value);
                     this.drawDate();
                     break;
                 // no default

@@ -6,7 +6,7 @@
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/09/29
+ * @date 2017/10/13
  */
 
 (function ($, window, document, Math) {
@@ -17,7 +17,7 @@
     //--------------------------------------------------------------------------------------------------------------
 
     // 临时储存变量
-    let files = {};         // 文件路径对象
+    let files = {};  // 文件路径对象
 
     // 背景/幻灯片/视频配置
     let BG = {
@@ -54,29 +54,9 @@
         volume: 0.75
     };
 
-    // 全局/局部配置
-    let isGlobalSettings = true;
-    let globalSettings = {
-        // 基础参数
-        opacity: 0.90,               // 不透明度
-        colorMode: 'monochrome',     // 颜色模式
-        color: '255,255,255',        // 颜色
-        shadowColor: '255,255,255',  // 阴影颜色
-        shadowBlur: 0,               // 阴影大小
-        shadowOverlay: false,        // 阴影叠加
-        // 颜色变换参数
-        isRandomColor: true,
-        firstColor: '255,255,255',
-        secondColor: '255,0,0',
-        isChangeBlur: false,
-        // 坐标参数
-        offsetX: 0.5,                // X坐标偏移
-        offsetY: 0.5,                // Y坐标偏移
-        isClickOffset: false         // 鼠标坐标偏移
-    };
+    // 局部配置
     let circle = {
-        // 基础参数
-        opacity: 0.90,               // 不透明度
+        // 颜色模式
         colorMode: 'monochrome',     // 颜色模式
         // 颜色模式-单色
         color: '255,255,255',        // 颜色
@@ -87,22 +67,15 @@
         isRandomColor: true,         // 随机颜色变换
         firstColor: '255,255,255',   // 起始颜色
         secondColor: '255,0,0',      // 最终颜色
-        isChangeBlur: false,         // 阴影颜色变换开关
         // 颜色模式-彩虹
         hueRange: 360,               // 色相范围
         saturationRange: 100,        // 饱和度范围(%)
         lightnessRange: 50,          // 亮度范围(%)
         gradientOffset: 0,           // 渐变效果偏移
-        // 坐标参数
-        offsetX: 0.5,                // X坐标偏移
-        offsetY: 0.5,                // Y坐标偏移
-        isClickOffset: false,        // 鼠标坐标偏移
-        // 环参数
+        // 基础参数
         redraw: 30                   // 重绘间隔(ms)
     };
     let bars = {
-        // 基础参数
-        opacity: 0.90,               // 不透明度
         colorMode: 'monochrome',     // 颜色模式
         // 颜色模式-单色
         color: '255,255,255',        // 颜色
@@ -113,36 +86,25 @@
         isRandomColor: true,         // 随机颜色变换
         firstColor: '255,255,255',   // 起始颜色
         secondColor: '255,0,0',      // 最终颜色
-        isChangeBlur: false,         // 阴影颜色变换开关
         // 颜色模式-彩虹
         hueRange: 360,               // 色相范围
         saturationRange: 100,        // 饱和度范围(%)
         lightnessRange: 50,          // 亮度范围(%)
         gradientOffset: 0,           // 渐变效果偏移
-        // 坐标参数
-        offsetX: 0.5,                // X坐标偏移
-        offsetY: 0.9,                // Y坐标偏移
-        isClickOffset: false,        // 鼠标坐标偏移
         // 条形参数
         redraw: 30                   // 重绘间隔(ms)
     };
     let date = {
-        // 基础参数
-        opacity: 0.90,               // 不透明度
         colorMode: 'monochrome',     // 颜色模式
+        // 颜色模式-单色
         color: '255,255,255',        // 颜色
         shadowColor: '255,255,255',  // 阴影颜色
         shadowBlur: 0,               // 发光程度
-        shadowOverlay: false,        // 阴影叠加
         // 颜色变换参数
-        isRandomColor: true,
-        firstColor: '255,255,255',
-        secondColor: '255,0,0',
-        isChangeBlur: false,
-        // 坐标参数
-        offsetX: 0.5,                // X坐标偏移
-        offsetY: 0.5,                // Y坐标偏移
-        isClickOffset: false,        // 鼠标坐标偏移
+        isRandomColor: true,         // 随机颜色变换
+        firstColor: '255,255,255',   // 起始颜色
+        secondColor: '255,0,0',      // 最终颜色
+        isChangeBlur: false,         // 阴影颜色变换开关
         // 天气参数
         isInputCity: false,          // 查询城市天气
         weatherProvider: '',         // 天气提供者
@@ -357,54 +319,16 @@
      * @param  {int} n 音频圆环对应值
      * @return {string} 音频圆环标识串
      */
-    function setPoint(n) {
+    function setRing(n) {
         switch (n) {
             case 1:
-                return 'staticRing';
-            case 2:
                 return 'innerRing';
-            case 3:
+            case 2:
                 return 'outerRing';
-            default:
-                return 'staticRing';
-        }
-    }
-
-    /**
-     * 设置音频线条
-     *
-     * @param  {int} n 音频线条对应值
-     * @return {string} 音频线条标识串
-     */
-    function setLine(n) {
-        switch (n) {
-            case 1:
-                return 'staticLine';
-            case 2:
-                return 'upperLine';
             case 3:
-                return 'lowerLine';
+                return 'twoRing';
             default:
-                return 'staticLine';
-        }
-    }
-
-    /**
-     * 设置线帽样式
-     *
-     * @param  {int} n 线帽样式对应值
-     * @return {string} 线帽样式标识串
-     */
-    function setLineCap(n) {
-        switch (n) {
-            case 1:
-                return 'butt';
-            case 2:
-                return 'round';
-            case 3:
-                return 'square';
-            default:
-                return 'butt';
+                return 'twoRing';
         }
     }
 
@@ -417,13 +341,13 @@
     function setLineJoin(n) {
         switch (n) {
             case 1:
-                return 'miter';
+                return 'butt';
             case 2:
-                return 'round';
+                return 'square';
             case 3:
-                return 'bevel';
+                return 'round';
             default:
-                return 'miter';
+                return 'butt';
         }
     }
 
@@ -436,13 +360,13 @@
     function setBarsDirection(n) {
         switch (n) {
             case 1:
-                return 'upper bars';
+                return 'upperBars';
             case 2:
-                return 'lower bars';
+                return 'lowerBars';
             case 3:
-                return 'two bars';
+                return 'twoBars';
             default:
-                return 'upper bars';
+                return 'upperBars';
         }
     }
 
@@ -1316,355 +1240,75 @@
                 wallpaper.slider('set', 'audioVolume', audio.volume);
             }
 
-            // 全局设置
-            //-----------------------------------------------------------
-
-            // 全局模式
-            if (properties.global_GlobalSettings) {
-                if (properties.global_GlobalSettings.value) {
-                    isGlobalSettings = true;  // 开启全局模式
-
-                    // 音频圆环+日期参数设置
-                    //----------------------
-
-                    // 基础参数
-                    wallpaper.visualizerCircle('set', 'opacity', globalSettings.opacity)
-                        .visualizerCircle('set', 'colorMode', globalSettings.colorMode)
-                        .visualizerCircle('set', 'color', globalSettings.color)
-                        .visualizerCircle('set', 'shadowColor', globalSettings.shadowColor)
-                        .visualizerCircle('set', 'shadowBlur', globalSettings.shadowBlur)
-                        .visualizerCircle('set', 'shadowOverlay', globalSettings.shadowOverlay)
-                        // 颜色变换参数
-                        .visualizerCircle('set', 'firstColor', globalSettings.firstColor)
-                        .visualizerCircle('set', 'secondColor', globalSettings.secondColor)
-                        .visualizerCircle('set', 'isRandomColor', globalSettings.isRandomColor)
-                        .visualizerCircle('set', 'isChangeBlur', globalSettings.isChangeBlur)
-                        // 坐标参数
-                        .visualizerCircle('set', 'offsetX', globalSettings.offsetX)
-                        .visualizerCircle('set', 'offsetY', globalSettings.offsetY)
-                        .visualizerCircle('set', 'isClickOffset', globalSettings.isClickOffset)
-                        // 全局参数
-                        .time('set', 'opacity', globalSettings.opacity)
-                        .time('set', 'colorMode', globalSettings.colorMode)
-                        .time('set', 'color', globalSettings.color)
-                        .time('set', 'shadowColor', globalSettings.shadowColor)
-                        .time('set', 'shadowBlur', globalSettings.shadowBlur)
-                        .time('set', 'shadowOverlay', globalSettings.shadowOverlay)
-                        // 颜色变换参数
-                        .time('set', 'firstColor', globalSettings.firstColor)
-                        .time('set', 'secondColor', globalSettings.secondColor)
-                        .time('set', 'isRandomColor', globalSettings.isRandomColor)
-                        .time('set', 'isChangeBlur', globalSettings.isChangeBlur)
-                        // 坐标参数
-                        .time('set', 'offsetX', globalSettings.offsetX)
-                        .time('set', 'offsetY', globalSettings.offsetY)
-                        .time('set', 'isClickOffset', globalSettings.isClickOffset);
-                    // 彩虹模式下关闭阴影效果
-                    if (globalSettings.colorMode === 'rainBow') {
-                        wallpaper.visualizerCircle('set', 'shadowBlur', 0);
-
-                    }
-                } else {
-                    isGlobalSettings = false;  // 开启非全局模式
-
-                    // 音频圆环参数设置
-                    //-----------------
-
-                    // 基础参数
-                    wallpaper.visualizerCircle('set', 'opacity', circle.opacity)
-                        .visualizerCircle('set', 'colorMode', circle.colorMode)
-                        .visualizerCircle('set', 'color', circle.color)
-                        .visualizerCircle('set', 'shadowColor', circle.shadowColor)
-                        .visualizerCircle('set', 'shadowBlur', circle.shadowBlur)
-                        .visualizerCircle('set', 'shadowOverlay', globalSettings.shadowOverlay)
-                        // 颜色变换参数
-                        .visualizerCircle('set', 'firstColor', circle.firstColor)
-                        .visualizerCircle('set', 'secondColor', circle.secondColor)
-                        .visualizerCircle('set', 'isRandomColor', circle.isRandomColor)
-                        .visualizerCircle('set', 'isChangeBlur', circle.isChangeBlur)
-                        // 坐标参数
-                        .visualizerCircle('set', 'offsetX', circle.offsetX)
-                        .visualizerCircle('set', 'offsetY', circle.offsetY)
-                        .visualizerCircle('set', 'isClickOffset', circle.isClickOffset);
-                    // 彩虹模式下关闭阴影效果
-                    if (circle.colorMode === 'rainBow') {
-                        wallpaper.visualizerCircle('set', 'shadowBlur', 0);
-
-                    }
-
-                    // 日期参数设置
-                    //-------------
-
-                    // 全局参数
-                    wallpaper.time('set', 'opacity', date.opacity)
-                        .time('set', 'colorMode', date.colorMode)
-                        .time('set', 'color', date.color)
-                        .time('set', 'shadowColor', date.shadowColor)
-                        .time('set', 'shadowBlur', date.shadowBlur)
-                        .time('set', 'shadowOverlay', globalSettings.shadowOverlay)
-                        // 颜色变换参数
-                        .time('set', 'firstColor', date.firstColor)
-                        .time('set', 'secondColor', date.secondColor)
-                        .time('set', 'isRandomColor', date.isRandomColor)
-                        .time('set', 'isChangeBlur', date.isChangeBlur)
-                        // 坐标参数
-                        .time('set', 'offsetX', date.offsetX)
-                        .time('set', 'offsetY', date.offsetY)
-                        .time('set', 'isClickOffset', date.isClickOffset);
-                }
-            }
-
-            // # 基础参数
-            //-----------
-
-            // 全局不透明度
-            if (properties.global_opacity) {
-                globalSettings.opacity = properties.global_opacity.value / 100;
-                // 全局模式下开启
-                if (isGlobalSettings) {
-                    wallpaper.visualizerCircle('set', 'opacity', globalSettings.opacity)
-                        .time('set', 'opacity', globalSettings.opacity);
-                }
-            }
-            // 全局颜色模式
-            if (properties.global_colorMode) {
-                globalSettings.colorMode = setColorMode(properties.global_colorMode.value);
-                // 全局模式下开启
-                if (isGlobalSettings) {
-                    wallpaper.visualizerCircle('set', 'colorMode', globalSettings.colorMode)
-                        .time('set', 'colorMode', globalSettings.colorMode);
-                    // 初始化对应颜色模式环境
-                    switch (globalSettings.colorMode) {
-                        case 'monochrome':
-                            wallpaper.visualizerCircle('set', 'color', globalSettings.color)
-                                .visualizerCircle('set', 'shadowColor', globalSettings.shadowColor)
-                                .visualizerCircle('set', 'shadowBlur', globalSettings.shadowBlur)
-                                .time('set', 'color', globalSettings.color)
-                                .time('set', 'shadowColor', globalSettings.shadowColor);
-                            break;
-                        case 'colorTransformation':
-                            wallpaper.visualizerCircle('set', 'shadowBlur', globalSettings.shadowBlur);
-                            break;
-                        case 'rainBow':
-                            // 彩虹模式下关闭阴影效果
-                            wallpaper.visualizerCircle('set', 'shadowBlur', 0);
-                            break;
-                        // no default
-                    }
-                }
-            }
-            // 全局颜色
-            if (properties.global_color) {
-                globalSettings.color = getColor(properties.global_color.value);
-                // 全局模式下开启
-                if (isGlobalSettings) {
-                    wallpaper.visualizerCircle('set', 'color', globalSettings.color)
-                        .time('set', 'color', globalSettings.color);
-                }
-            }
-            // 全局阴影颜色
-            if (properties.global_shadowColor) {
-                globalSettings.shadowColor = getColor(properties.global_shadowColor.value);
-                // 全局模式下开启
-                if (isGlobalSettings) {
-                    wallpaper.visualizerCircle('set', 'shadowColor', globalSettings.shadowColor)
-                        .time('set', 'shadowColor', globalSettings.shadowColor);
-                }
-            }
-            // 全局阴影程度
-            if (properties.global_shadowBlur) {
-                globalSettings.shadowBlur = properties.global_shadowBlur.value;
-                // 全局模式下开启
-                if (isGlobalSettings) {
-                    if (globalSettings.colorMode !== 'rainBow') {
-                        wallpaper.visualizerCircle('set', 'shadowBlur', globalSettings.shadowBlur)
-                            .time('set', 'shadowBlur', globalSettings.shadowBlur);
-                    }
-                    else {
-                        // 彩虹模式下关闭阴影效果
-                        wallpaper.visualizerCircle('set', 'shadowBlur', 0);
-                    }
-                }
-            }
-            // 全局阴影叠加
-            if (properties.global_shadowOverlay) {
-                globalSettings.shadowOverlay = properties.global_shadowOverlay.value;
-                // 全局模式下开启
-                if (isGlobalSettings) {
-                    wallpaper.visualizerCircle('set', 'shadowOverlay', globalSettings.shadowOverlay)
-                        .time('set', 'shadowOverlay', globalSettings.shadowOverlay);
-                }
-            }
-
-            // # 颜色变换参数
-            //---------------
-
-            // 全局随机颜色
-            if (properties.global_isRandomColor) {
-                globalSettings.isRandomColor = properties.global_isRandomColor.value;
-                // 全局模式下开启
-                if (isGlobalSettings) {
-                    wallpaper.visualizerCircle('set', 'isRandomColor', globalSettings.isRandomColor)
-                        .time('set', 'isRandomColor', globalSettings.isRandomColor);
-                }
-            }
-            // 全局开始颜色
-            if (properties.global_firstColor) {
-                globalSettings.firstColor = getColor(properties.global_firstColor.value);
-                // 全局模式下开启
-                if (isGlobalSettings) {
-                    wallpaper.visualizerCircle('set', 'firstColor', globalSettings.firstColor)
-                        .time('set', 'firstColor', globalSettings.firstColor);
-                }
-            }
-            // 全局结束颜色
-            if (properties.global_secondColor) {
-                globalSettings.secondColor = getColor(properties.global_secondColor.value);
-                // 全局模式下开启
-                if (isGlobalSettings) {
-                    wallpaper.visualizerCircle('set', 'secondColor', globalSettings.secondColor)
-                        .time('set', 'secondColor', globalSettings.secondColor);
-                }
-            }
-            // 全局绑定阴影颜色
-            if (properties.global_isChangeBlur) {
-                globalSettings.isChangeBlur = properties.global_isChangeBlur.value;
-                // 全局模式下开启
-                if (isGlobalSettings) {
-                    wallpaper.visualizerCircle('set', 'isChangeBlur', globalSettings.isChangeBlur)
-                        .time('set', 'isChangeBlur', globalSettings.isChangeBlur);
-                    // 若不绑定阴影颜色
-                    if (globalSettings.isChangeBlur === false) {
-                        wallpaper.visualizerCircle('set', 'shadowColor', globalSettings.shadowColor)
-                            .time('set', 'shadowColor', globalSettings.shadowColor);
-                    }
-                }
-            }
-
-            // # 坐标参数
-            //-----------
-
-            // 全局X轴偏移
-            if (properties.global_offsetX) {
-                globalSettings.offsetX = properties.global_offsetX.value / 100;
-                // 全局模式下开启
-                if (isGlobalSettings) {
-                    wallpaper.visualizerCircle('set', 'offsetX', globalSettings.offsetX)
-                        .time('set', 'offsetX', globalSettings.offsetX);
-                }
-            }
-            // 全局Y轴偏移
-            if (properties.global_offsetY) {
-                globalSettings.offsetY = properties.global_offsetY.value / 100;
-                // 全局模式下开启
-                if (isGlobalSettings) {
-                    wallpaper.visualizerCircle('set', 'offsetY', globalSettings.offsetY)
-                        .time('set', 'offsetY', globalSettings.offsetY);
-                }
-            }
-            // 全局鼠标坐标偏移
-            if (properties.global_isClickOffset) {
-                globalSettings.isClickOffset = properties.global_isClickOffset.value;
-                // 全局模式下开启
-                if (isGlobalSettings) {
-                    wallpaper.visualizerCircle('set', 'isClickOffset', globalSettings.isClickOffset)
-                        .time('set', 'isClickOffset', globalSettings.isClickOffset);
-                }
-            }
-
             // 音频设置
             //-----------------------------------------------------------
 
             // 音频振幅
-            if (properties.circle_amplitude) {
-                wallpaper.visualizerCircle('set', 'amplitude', properties.circle_amplitude.value)
-                    .visualizerBars('set', 'amplitude', properties.circle_amplitude.value);
+            if (properties.audioData_amplitude) {
+                wallpaper.visualizerCircle('set', 'amplitude', properties.audioData_amplitude.value)
+                    .visualizerBars('set', 'amplitude', properties.audioData_amplitude.value);
             }
             // 音频衰弱
-            if (properties.circle_decline) {
-                wallpaper.visualizerCircle('set', 'decline', properties.circle_decline.value / 100)
-                    .visualizerBars('set', 'decline', properties.circle_decline.value / 100);
+            if (properties.audioData_decline) {
+                wallpaper.visualizerCircle('set', 'decline', properties.audioData_decline.value / 100)
+                    .visualizerBars('set', 'decline', properties.audioData_decline.value / 100);
             }
             // 音频峰值
-            if (properties.circle_peak) {
-                wallpaper.visualizerCircle('set', 'peak', properties.circle_peak.value / 10)
-                    .visualizerBars('set', 'peak', properties.circle_peak.value / 10);
+            if (properties.audioData_peak) {
+                wallpaper.visualizerCircle('set', 'peak', properties.audioData_peak.value / 10)
+                    .visualizerBars('set', 'peak', properties.audioData_peak.value / 10);
             }
 
             // 圆环设置
             //-----------------------------------------------------------
 
-            // # 基础参数
+            // # 颜色参数
             //-----------
 
-            // 圆环和小球不透明度
-            if (properties.circle_opacity) {
-                circle.opacity = properties.circle_opacity.value / 100;
-                // 非全局模式下开启
-                if (!isGlobalSettings) {
-                    wallpaper.visualizerCircle('set', 'opacity', circle.opacity);
-                }
-            }
             // 圆环和小球颜色模式
             if (properties.circle_colorMode) {
                 circle.colorMode = setColorMode(properties.circle_colorMode.value);
-                // 非全局模式下开启
-                if (!isGlobalSettings) {
-                    wallpaper.visualizerCircle('set', 'colorMode', circle.colorMode);
-                    // 初始化对应颜色环境
-                    switch (circle.colorMode) {
-                        case 'monochrome':
-                            wallpaper.visualizerCircle('set', 'color', circle.color)
-                                .visualizerCircle('set', 'shadowColor', circle.shadowColor)
-                                .visualizerCircle('set', 'shadowBlur', circle.shadowBlur);
-                            break;
-                        case 'colorTransformation':
-                            wallpaper.visualizerCircle('set', 'shadowBlur', circle.shadowBlur);
-                            break;
-                        case 'rainBow':
-                            // 彩虹模式下关闭阴影效果
-                            wallpaper.visualizerCircle('set', 'shadowBlur', 0);
-                            break;
-                        // no default
-                    }
+                wallpaper.visualizerCircle('set', 'colorMode', circle.colorMode);
+                // 初始化对应颜色环境
+                switch (circle.colorMode) {
+                    case 'monochrome':
+                        wallpaper.visualizerCircle('set', 'color', circle.color)
+                            .visualizerCircle('set', 'shadowColor', circle.shadowColor)
+                            .visualizerCircle('set', 'shadowBlur', circle.shadowBlur);
+                        break;
+                    case 'colorTransformation':
+                        wallpaper.visualizerCircle('set', 'shadowBlur', circle.shadowBlur);
+                        break;
+                    case 'rainBow':
+                        // 彩虹模式下关闭阴影效果
+                        wallpaper.visualizerCircle('set', 'shadowBlur', 0);
+                        break;
+                    // no default
                 }
             }
             // 圆环和小球颜色
             if (properties.circle_color) {
                 circle.color = getColor(properties.circle_color.value);
-                // 非全局模式下开启
-                if (!isGlobalSettings) {
-                    wallpaper.visualizerCircle('set', 'color', circle.color);
-                }
+                wallpaper.visualizerCircle('set', 'color', circle.color);
             }
             // 圆环和小球阴影颜色
             if (properties.circle_shadowColor) {
                 circle.shadowColor = getColor(properties.circle_shadowColor.value);
-                // 非全局模式下开启
-                if (!isGlobalSettings) {
-                    wallpaper.visualizerCircle('set', 'shadowColor', circle.shadowColor);
-                }
+                wallpaper.visualizerCircle('set', 'shadowColor', circle.shadowColor);
             }
             // 圆环和小球阴影程度
             if (properties.circle_shadowBlur) {
                 circle.shadowBlur = properties.circle_shadowBlur.value;
-                // 非全局模式下开启
-                if (!isGlobalSettings) {
-                    if (circle.colorMode !== 'rainBow') {
-                        wallpaper.visualizerCircle('set', 'shadowBlur', circle.shadowBlur);
-                    } else {
-                        // 彩虹模式下关闭阴影效果
-                        wallpaper.visualizerCircle('set', 'shadowBlur', 0);
-                    }
+                if (circle.colorMode !== 'rainBow') {
+                    wallpaper.visualizerCircle('set', 'shadowBlur', circle.shadowBlur);
+                } else {
+                    // 彩虹模式下关闭阴影效果
+                    wallpaper.visualizerCircle('set', 'shadowBlur', 0);
                 }
             }
             // 圆环和小球阴影叠加
             if (properties.circle_shadowOverlay) {
-                circle.shadowOverlay = properties.circle_shadowOverlay.value;
-                // 非全局模式下开启
-                if (!isGlobalSettings) {
-                    wallpaper.visualizerCircle('set', 'shadowOverlay', circle.shadowOverlay);
-                }
+                wallpaper.visualizerCircle('set', 'shadowOverlay', properties.circle_shadowOverlay.value);
             }
 
             // # 颜色变换参数
@@ -1673,26 +1317,17 @@
             // 圆环和小球随机颜色
             if (properties.circle_isRandomColor) {
                 circle.isRandomColor = properties.circle_isRandomColor.value;
-                // 非全局模式下开启
-                if (!isGlobalSettings) {
-                    wallpaper.visualizerCircle('set', 'isRandomColor', circle.isRandomColor);
-                }
+                wallpaper.visualizerCircle('set', 'isRandomColor', circle.isRandomColor);
             }
             // 圆环和小球开始颜色
             if (properties.circle_firstColor) {
                 circle.firstColor = getColor(properties.circle_firstColor.value);
-                // 非全局模式下开启
-                if (!isGlobalSettings) {
-                    wallpaper.visualizerCircle('set', 'firstColor', circle.firstColor);
-                }
+                wallpaper.visualizerCircle('set', 'firstColor', circle.firstColor);
             }
             // 圆环和小球结束颜色
             if (properties.circle_secondColor) {
                 circle.secondColor = getColor(properties.circle_secondColor.value);
-                // 非全局模式下开启
-                if (!isGlobalSettings) {
-                    wallpaper.visualizerCircle('set', 'secondColor', circle.secondColor);
-                }
+                wallpaper.visualizerCircle('set', 'secondColor', circle.secondColor);
             }
 
             // # 彩虹渐变参数
@@ -1719,44 +1354,144 @@
                 wallpaper.visualizerCircle('set', 'gradientOffset', circle.gradientOffset);
             }
 
+            // # 圆环参数
+            //-----------
+
+            // 显示圆环
+            if (properties.circle_isRing) {
+                wallpaper.visualizerCircle('set', 'isRing', properties.circle_isRing.value);
+            }
+            // 显示静态环
+            if (properties.circle_isStaticRing) {
+                wallpaper.visualizerCircle('set', 'isStaticRing', properties.circle_isStaticRing.value);
+            }
+            // 显示内环
+            if (properties.circle_isInnerRing) {
+                wallpaper.visualizerCircle('set', 'isInnerRing', properties.circle_isInnerRing.value);
+            }
+            // 显示外环
+            if (properties.circle_isOuterRing) {
+                wallpaper.visualizerCircle('set', 'isOuterRing', properties.circle_isOuterRing.value);
+            }
+            // 是否连线
+            if (properties.circle_isLineTo) {
+                wallpaper.visualizerCircle('set', 'isLineTo', properties.circle_isLineTo.value);
+            }
+            // 连线方向
+            if (properties.circle_lineDirection) {
+                wallpaper.visualizerCircle('set', 'lineDirection', setRing(properties.circle_lineDirection.value));
+            }
+            // 波浪模式
+            if (properties.circle_isWave) {
+                wallpaper.visualizerCircle('set', 'isWave', properties.circle_isWave.value);
+            }
+            // 波浪方向
+            if (properties.circle_waveDirection) {
+                wallpaper.visualizerCircle('set', 'waveDirection', setRing(properties.circle_waveDirection.value));
+            }
+
+            // # 基础参数
+            //-----------
+
+            // 圆环和小球不透明度
+            if (properties.circle_opacity) {
+                wallpaper.visualizerCircle('set', 'opacity', properties.circle_opacity.value / 100);
+            }
+            // 圆环半径
+            if (properties.circle_radius) {
+                wallpaper.visualizerCircle('set', 'radius', properties.circle_radius.value / 10);
+            }
+            // 圆环点数
+            if (properties.circle_pointNum) {
+                wallpaper.visualizerCircle('set', 'pointNum', properties.circle_pointNum.value);
+            }
+            // 内环距离
+            if (properties.circle_innerDistance) {
+                wallpaper.visualizerCircle('set', 'innerDistance', properties.circle_innerDistance.value);
+            }
+            // 外环距离
+            if (properties.circle_outerDistance) {
+                wallpaper.visualizerCircle('set', 'outerDistance', properties.circle_outerDistance.value);
+            }
+            // 线条粗细
+            if (properties.circle_lineWidth) {
+                wallpaper.visualizerCircle('set', 'lineWidth', properties.circle_lineWidth.value);
+            }
+            // 线交汇样式
+            if (properties.circle_lineJoin) {
+                wallpaper.visualizerCircle('set', 'lineJoin', setLineJoin(properties.circle_lineJoin.value));
+            }
+            // 圆环旋转
+            if (properties.circle_ringRotation) {
+                wallpaper.visualizerCircle('set', 'ringRotation', properties.circle_ringRotation.value);
+            }
+            // 重绘间隔
+            if (properties.circle_milliSec) {
+                circle.redraw = properties.circle_milliSec.value;
+                wallpaper.visualizerCircle('set', 'milliSec', circle.redraw);
+                if (circle.redraw === 30) {
+                    wallpaper.visualizerCircle('stopVisualizerCircleTimer');
+                } else {
+                    wallpaper.visualizerCircle('runVisualizerCircleTimer');
+                }
+            }
+
+            // # 小球参数
+            //-----------
+
+            // 显示小球
+            if (properties.circle_isBall) {
+                wallpaper.visualizerCircle('set', 'isBall', properties.circle_isBall.value);
+            }
+            // 小球间隔
+            if (properties.circle_ballSpacer) {
+                wallpaper.visualizerCircle('set', 'ballSpacer', properties.circle_ballSpacer.value);
+            }
+            // 内环距离
+            if (properties.circle_ballDistance) {
+                wallpaper.visualizerCircle('set', 'ballDistance', properties.circle_ballDistance.value);
+            }
+            // 小球大小
+            if (properties.circle_ballSize) {
+                wallpaper.visualizerCircle('set', 'ballSize', properties.circle_ballSize.value);
+            }
+            // 小球方向
+            if (properties.circle_ballDirection) {
+                wallpaper.visualizerCircle('set', 'ballDirection', properties.circle_ballDirection.value);
+            }
+            // 绑定圆环旋转
+            if (properties.circle_bindRingRotation) {
+                wallpaper.visualizerCircle('set', 'bindRingRotation', properties.circle_bindRingRotation.value);
+            }
+            // 小球旋转
+            if (properties.circle_ballRotation) {
+                wallpaper.visualizerCircle('set', 'ballRotation', properties.circle_ballRotation.value);
+            }
+
             // # 坐标参数
             //-----------
 
             // 圆环和小球绑定阴影颜色
             if (properties.circle_isChangeBlur) {
                 circle.isChangeBlur = properties.circle_isChangeBlur.value;
-                // 非全局模式下开启
-                if (!isGlobalSettings) {
-                    wallpaper.visualizerCircle('set', 'isChangeBlur', circle.isChangeBlur);
-                    // 若不绑定阴影颜色
-                    if (circle.isChangeBlur === false) {
-                        wallpaper.visualizerCircle('set', 'shadowColor', circle.shadowColor);
-                    }
+                wallpaper.visualizerCircle('set', 'isChangeBlur', circle.isChangeBlur);
+                // 若不绑定阴影颜色
+                if (circle.isChangeBlur === false) {
+                    wallpaper.visualizerCircle('set', 'shadowColor', circle.shadowColor);
                 }
+
             }
             // 圆环和小球X轴偏移
             if (properties.circle_offsetX) {
-                // 非全局模式下开启
-                circle.offsetX = properties.circle_offsetX.value / 100;
-                if (!isGlobalSettings) {
-                    wallpaper.visualizerCircle('set', 'offsetX', circle.offsetX);
-                }
+                wallpaper.visualizerCircle('set', 'offsetX', properties.circle_offsetX.value / 100);
             }
             // 圆环和小球Y轴偏移
             if (properties.circle_offsetY) {
-                // 非全局模式下开启
-                circle.offsetY = properties.circle_offsetY.value / 100;
-                if (!isGlobalSettings) {
-                    wallpaper.visualizerCircle('set', 'offsetY', circle.offsetY);
-                }
+                wallpaper.visualizerCircle('set', 'offsetY', properties.circle_offsetY.value / 100);
             }
             // 圆环和小球鼠标坐标偏移
             if (properties.circle_isClickOffset) {
-                // 非全局模式下开启
-                circle.isClickOffset = properties.circle_isClickOffset.value;
-                if (!isGlobalSettings) {
-                    wallpaper.visualizerCircle('set', 'isClickOffset', circle.isClickOffset);
-                }
+                wallpaper.visualizerCircle('set', 'isClickOffset', properties.circle_isClickOffset.value);
             }
 
             // # 变化参数
@@ -1803,140 +1538,36 @@
                 wallpaper.visualizerCircle('set', 'bottomLeftY', properties.circle_bottomLeftY.value / 1000);
             }
 
-            // # 圆环参数
-            //-----------
-
-            // 显示圆环
-            if (properties.circle_isRing) {
-                wallpaper.visualizerCircle('set', 'isRing', properties.circle_isRing.value);
-            }
-            // 显示静态环
-            if (properties.circle_isStaticRing) {
-                wallpaper.visualizerCircle('set', 'isStaticRing', properties.circle_isStaticRing.value);
-            }
-            // 显示内环
-            if (properties.circle_isInnerRing) {
-                wallpaper.visualizerCircle('set', 'isInnerRing', properties.circle_isInnerRing.value);
-            }
-            // 显示外环
-            if (properties.circle_isOuterRing) {
-                wallpaper.visualizerCircle('set', 'isOuterRing', properties.circle_isOuterRing.value);
-            }
-            // 波浪模式
-            if (properties.circle_isWave) {
-                wallpaper.visualizerCircle('set', 'isWave', properties.circle_isWave.value);
-            }
-            // 第一环
-            if (properties.circle_firstRing) {
-                wallpaper.visualizerCircle('set', 'firstRing', setPoint(properties.circle_firstRing.value));
-            }
-            // 第二环
-            if (properties.circle_secondRing) {
-                wallpaper.visualizerCircle('set', 'secondRing', setPoint(properties.circle_secondRing.value));
-            }
-            // 圆环半径
-            if (properties.circle_radius) {
-                wallpaper.visualizerCircle('set', 'radius', properties.circle_radius.value / 10);
-            }
-            // 圆环旋转
-            if (properties.circle_ringRotation) {
-                wallpaper.visualizerCircle('set', 'ringRotation', properties.circle_ringRotation.value);
-            }
-            // 重绘间隔
-            if (properties.circle_milliSec) {
-                circle.redraw = properties.circle_milliSec.value;
-                wallpaper.visualizerCircle('set', 'milliSec', circle.redraw);
-                if (circle.redraw === 30) {
-                    wallpaper.visualizerCircle('stopVisualizerCircleTimer');
-                } else {
-                    wallpaper.visualizerCircle('runVisualizerCircleTimer');
-                }
-            }
-
-            // # 线条参数
-            //-----------
-
-            // 是否连线
-            if (properties.circle_isLineTo) {
-                wallpaper.visualizerCircle('set', 'isLineTo', properties.circle_isLineTo.value);
-            }
-            // 第一点
-            if (properties.circle_firstPoint) {
-                wallpaper.visualizerCircle('set', 'firstPoint', setPoint(properties.circle_firstPoint.value));
-            }
-            // 第二点
-            if (properties.circle_secondPoint) {
-                wallpaper.visualizerCircle('set', 'secondPoint', setPoint(properties.circle_secondPoint.value));
-            }
-            // 圆环点数
-            if (properties.circle_pointNum) {
-                wallpaper.visualizerCircle('set', 'pointNum', properties.circle_pointNum.value);
-            }
-            // 内环距离
-            if (properties.circle_innerDistance) {
-                wallpaper.visualizerCircle('set', 'innerDistance', properties.circle_innerDistance.value);
-            }
-            // 外环距离
-            if (properties.circle_outerDistance) {
-                wallpaper.visualizerCircle('set', 'outerDistance', properties.circle_outerDistance.value);
-            }
-            // 线帽样式
-            if (properties.circle_lineCap) {
-                wallpaper.visualizerCircle('set', 'lineCap', setLineCap(properties.circle_lineCap.value));
-            }
-            // 线交汇样式
-            if (properties.circle_lineJoin) {
-                wallpaper.visualizerCircle('set', 'lineJoin', setLineJoin(properties.circle_lineJoin.value));
-            }
-            // 线条粗细
-            if (properties.circle_lineWidth) {
-                wallpaper.visualizerCircle('set', 'lineWidth', properties.circle_lineWidth.value);
-            }
-
-            // # 小球参数
-            //-----------
-
-            // 显示小球
-            if (properties.circle_isBall) {
-                wallpaper.visualizerCircle('set', 'isBall', properties.circle_isBall.value);
-            }
-            // 小球间隔
-            if (properties.circle_ballSpacer) {
-                wallpaper.visualizerCircle('set', 'ballSpacer', properties.circle_ballSpacer.value);
-            }
-            // 内环距离
-            if (properties.circle_ballDistance) {
-                wallpaper.visualizerCircle('set', 'ballDistance', properties.circle_ballDistance.value);
-            }
-            // 小球大小
-            if (properties.circle_ballSize) {
-                wallpaper.visualizerCircle('set', 'ballSize', properties.circle_ballSize.value);
-            }
-            // 小球方向
-            if (properties.circle_ballDirection) {
-                wallpaper.visualizerCircle('set', 'ballDirection', properties.circle_ballDirection.value);
-            }
-            // 绑定圆环旋转
-            if (properties.circle_bindRingRotation) {
-                wallpaper.visualizerCircle('set', 'bindRingRotation', properties.circle_bindRingRotation.value);
-            }
-            // 小球旋转
-            if (properties.circle_ballRotation) {
-                wallpaper.visualizerCircle('set', 'ballRotation', properties.circle_ballRotation.value);
-            }
-
-
             // 条形设置
             //-----------------------------------------------------------
 
-            // # 基础参数
+            // # 条形参数
             //-----------
 
-            // 条形不透明度
-            if (properties.bars_opacity) {
-                bars.opacity = properties.bars_opacity.value / 100;
-                wallpaper.visualizerBars('set', 'opacity', bars.opacity);
+            // 显示线条
+            if (properties.bars_isLineTo) {
+                wallpaper.visualizerBars('set', 'isLineTo', properties.bars_isLineTo.value);
             }
+            // 显示条形
+            if (properties.bars_isBars) {
+                wallpaper.visualizerBars('set', 'isBars', properties.bars_isBars.value);
+            }
+            // 条形方向
+            if (properties.bars_barsDirection) {
+                wallpaper.visualizerBars('set', 'barsDirection', setBarsDirection(properties.bars_barsDirection.value));
+            }
+            // 波浪模式
+            if (properties.bars_isWave) {
+                wallpaper.visualizerBars('set', 'isWave', properties.bars_isWave.value);
+            }
+            // 波浪方向
+            if (properties.bars_waveDirection) {
+                wallpaper.visualizerBars('set', 'waveDirection', setBarsDirection(properties.bars_waveDirection.value));
+            }
+
+            // # 颜色模式
+            //---------------
+
             // 颜色模式
             if (properties.bars_colorMode) {
                 bars.colorMode = setColorMode(properties.bars_colorMode.value);
@@ -1980,13 +1611,8 @@
             }
             // 条形阴影叠加
             if (properties.bars_shadowOverlay) {
-                bars.shadowOverlay = properties.bars_shadowOverlay.value;
-                wallpaper.visualizerBars('set', 'shadowOverlay', bars.shadowOverlay);
+                wallpaper.visualizerBars('set', 'shadowOverlay', properties.bars_shadowOverlay.value);
             }
-
-            // # 颜色变换参数
-            //---------------
-
             // 条形随机颜色
             if (properties.bars_isRandomColor) {
                 bars.isRandomColor = properties.bars_isRandomColor.value;
@@ -2011,10 +1637,6 @@
                     wallpaper.visualizerBars('set', 'shadowColor', bars.shadowColor);
                 }
             }
-
-            // # 彩虹渐变参数
-            //---------------
-
             // 条形色相范围
             if (properties.bars_hueRange) {
                 bars.hueRange = properties.bars_hueRange.value;
@@ -2036,48 +1658,12 @@
                 wallpaper.visualizerBars('set', 'gradientOffset', bars.gradientOffset);
             }
 
-            // # 坐标参数
+            // # 基础参数
             //-----------
 
-            // 条形X轴偏移
-            if (properties.bars_offsetX) {
-                bars.offsetX = properties.bars_offsetX.value / 100;
-                wallpaper.visualizerBars('set', 'offsetX', bars.offsetX);
-            }
-            // 条形Y轴偏移
-            if (properties.bars_offsetY) {
-                bars.offsetY = properties.bars_offsetY.value / 100;
-                wallpaper.visualizerBars('set', 'offsetY', bars.offsetY);
-
-            }
-            // 条形鼠标坐标偏移
-            if (properties.bars_isClickOffset) {
-                bars.isClickOffset = properties.bars_isClickOffset.value;
-                wallpaper.visualizerBars('set', 'isClickOffset', bars.isClickOffset);
-            }
-
-            // # 条形参数
-            //-----------
-
-            // 波浪模式
-            if (properties.bars_isWave) {
-                wallpaper.visualizerBars('set', 'isWave', properties.bars_isWave.value);
-            }
-            // 第一线段
-            if (properties.bars_firstLine) {
-                wallpaper.visualizerBars('set', 'firstLine', setLine(properties.bars_firstLine.value));
-            }
-            // 第二线段
-            if (properties.bars_secondLine) {
-                wallpaper.visualizerBars('set', 'secondLine', setLine(properties.bars_secondLine.value));
-            }
-            // 显示条形
-            if (properties.bars_isBars) {
-                wallpaper.visualizerBars('set', 'isBars', properties.bars_isBars.value);
-            }
-            // 显示线条
-            if (properties.bars_isLineTo) {
-                wallpaper.visualizerBars('set', 'isLineTo', properties.bars_isLineTo.value);
+            // 条形不透明度
+            if (properties.bars_opacity) {
+                wallpaper.visualizerBars('set', 'opacity', properties.bars_opacity.value / 100);
             }
             // 基础宽度
             if (properties.bars_width) {
@@ -2091,25 +1677,17 @@
             if (properties.bars_pointNum) {
                 wallpaper.visualizerBars('set', 'pointNum', properties.bars_pointNum.value);
             }
-            // 旋转角度
-            if (properties.bars_barsRotation) {
-                wallpaper.visualizerBars('set', 'barsRotation', properties.bars_barsRotation.value);
-            }
-            // 条形方向
-            if (properties.bars_barsDirection) {
-                wallpaper.visualizerBars('set', 'barsDirection', setBarsDirection(properties.bars_barsDirection.value));
-            }
-            // 线帽样式
-            if (properties.bars_lineCap) {
-                wallpaper.visualizerBars('set', 'lineCap', setLineCap(properties.bars_lineCap.value));
+            // 线条粗细
+            if (properties.bars_lineWidth) {
+                wallpaper.visualizerBars('set', 'lineWidth', properties.bars_lineWidth.value);
             }
             // 线交汇样式
             if (properties.bars_lineJoin) {
                 wallpaper.visualizerBars('set', 'lineJoin', setLineJoin(properties.bars_lineJoin.value));
             }
-            // 线条粗细
-            if (properties.bars_lineWidth) {
-                wallpaper.visualizerBars('set', 'lineWidth', properties.bars_lineWidth.value);
+            // 旋转角度
+            if (properties.bars_barsRotation) {
+                wallpaper.visualizerBars('set', 'barsRotation', properties.bars_barsRotation.value);
             }
             // 重绘间隔
             if (properties.bars_milliSec) {
@@ -2122,17 +1700,76 @@
                 }
             }
 
+            // # 坐标参数
+            //-----------
+
+            // 条形X轴偏移
+            if (properties.bars_offsetX) {
+                wallpaper.visualizerBars('set', 'offsetX', properties.bars_offsetX.value / 100);
+            }
+            // 条形Y轴偏移
+            if (properties.bars_offsetY) {
+                wallpaper.visualizerBars('set', 'offsetY', properties.bars_offsetY.value / 100);
+            }
+            // 条形鼠标坐标偏移
+            if (properties.bars_isClickOffset) {
+                wallpaper.visualizerBars('set', 'isClickOffset', properties.bars_isClickOffset.value);
+            }
+
+            // # 变化参数
+            //-----------
+
+            // 显示蒙版
+            if (properties.bars_isMasking) {
+                wallpaper.visualizerBars('set', 'isMasking', properties.bars_isMasking.value);
+            }
+            // 蒙版不透明度
+            if (properties.bars_maskOpacity) {
+                wallpaper.visualizerBars('set', 'maskOpacity', properties.bars_maskOpacity.value / 100);
+            }
+            // 左上角X
+            if (properties.bars_topLeftX) {
+                wallpaper.visualizerBars('set', 'topLeftX', properties.bars_topLeftX.value / 1000);
+            }
+            // 左上角Y
+            if (properties.bars_topLeftY) {
+                wallpaper.visualizerBars('set', 'topLeftY', properties.bars_topLeftY.value / 1000);
+            }
+            // 右上角X
+            if (properties.bars_topRightX) {
+                wallpaper.visualizerBars('set', 'topRightX', properties.bars_topRightX.value / 1000);
+            }
+            // 右上角Y
+            if (properties.bars_topRightY) {
+                wallpaper.visualizerBars('set', 'topRightY', properties.bars_topRightY.value / 1000);
+            }
+            // 右下角X
+            if (properties.bars_bottomRightX) {
+                wallpaper.visualizerBars('set', 'bottomRightX', properties.bars_bottomRightX.value / 1000);
+            }
+            // 右下角Y
+            if (properties.bars_bottomRightY) {
+                wallpaper.visualizerBars('set', 'bottomRightY', properties.bars_bottomRightY.value / 1000);
+            }
+            // 左下角X
+            if (properties.bars_bottomLeftX) {
+                wallpaper.visualizerBars('set', 'bottomLeftX', properties.bars_bottomLeftX.value / 1000);
+            }
+            // 左下角Y
+            if (properties.bars_bottomLeftY) {
+                wallpaper.visualizerBars('set', 'bottomLeftY', properties.bars_bottomLeftY.value / 1000);
+            }
+
             // Logo设置
             //-----------------------------------------------------------
+
+            // # 基础参数
+            //-----------
 
             // 显示标志
             if (properties.logo_isLogo) {
                 wallpaper.logo('set', 'isLogo', properties.logo_isLogo.value);
             }
-
-            // # 基础参数
-            //-----------
-
             // 标志文件
             if (properties.logo_image) {
                 if (properties.logo_image.value) {
@@ -2148,14 +1785,6 @@
             // 标志不透明度
             if (properties.logo_opacity) {
                 wallpaper.logo('set', 'opacity', properties.logo_opacity.value / 100);
-            }
-            // 标志阴影颜色
-            if (properties.logo_shadowColor) {
-                wallpaper.logo('set', 'shadowColor', getColor(properties.logo_shadowColor.value));
-            }
-            // 标志阴影颜色
-            if (properties.logo_shadowBlur) {
-                wallpaper.logo('set', 'shadowBlur', properties.logo_shadowBlur.value);
             }
             // 圆形描边开关
             if (properties.logo_isStroke) {
@@ -2173,21 +1802,13 @@
             if (properties.logo_dottedLine) {
                 wallpaper.logo('set', 'dottedLine', properties.logo_dottedLine.value);
             }
-
-            // # 坐标参数
-            //-----------
-
-            // 标志X轴偏移
-            if (properties.logo_offsetX) {
-                wallpaper.logo('set', 'offsetX', properties.logo_offsetX.value / 100);
+            // 标志阴影颜色
+            if (properties.logo_shadowColor) {
+                wallpaper.logo('set', 'shadowColor', getColor(properties.logo_shadowColor.value));
             }
-            // 标志Y轴偏移
-            if (properties.logo_offsetY) {
-                wallpaper.logo('set', 'offsetY', properties.logo_offsetY.value / 100);
-            }
-            // 标志鼠标坐标偏移
-            if (properties.logo_isClickOffset) {
-                wallpaper.logo('set', 'isClickOffset', properties.logo_isClickOffset.value);
+            // 标志阴影颜色
+            if (properties.logo_shadowBlur) {
+                wallpaper.logo('set', 'shadowBlur', properties.logo_shadowBlur.value);
             }
 
             // # 标志参数
@@ -2275,8 +1896,72 @@
                 wallpaper.logo('set', 'mixBlendMode', setMixBlendMode(properties.logo_mixBlendMode.value));
             }
 
+            // # 坐标参数
+            //-----------
+
+            // 标志X轴偏移
+            if (properties.logo_offsetX) {
+                wallpaper.logo('set', 'offsetX', properties.logo_offsetX.value / 100);
+            }
+            // 标志Y轴偏移
+            if (properties.logo_offsetY) {
+                wallpaper.logo('set', 'offsetY', properties.logo_offsetY.value / 100);
+            }
+            // 标志鼠标坐标偏移
+            if (properties.logo_isClickOffset) {
+                wallpaper.logo('set', 'isClickOffset', properties.logo_isClickOffset.value);
+            }
+
+            // # 变化参数
+            //-----------
+
+            // 显示蒙版
+            if (properties.logo_isMasking) {
+                wallpaper.logo('set', 'isMasking', properties.logo_isMasking.value);
+            }
+            // 蒙版不透明度
+            if (properties.logo_maskOpacity) {
+                wallpaper.logo('set', 'maskOpacity', properties.logo_maskOpacity.value / 100);
+            }
+            // 左上角X
+            if (properties.logo_topLeftX) {
+                wallpaper.logo('set', 'topLeftX', properties.logo_topLeftX.value / 1000);
+            }
+            // 左上角Y
+            if (properties.logo_topLeftY) {
+                wallpaper.logo('set', 'topLeftY', properties.logo_topLeftY.value / 1000);
+            }
+            // 右上角X
+            if (properties.logo_topRightX) {
+                wallpaper.logo('set', 'topRightX', properties.logo_topRightX.value / 1000);
+            }
+            // 右上角Y
+            if (properties.logo_topRightY) {
+                wallpaper.logo('set', 'topRightY', properties.logo_topRightY.value / 1000);
+            }
+            // 右下角X
+            if (properties.logo_bottomRightX) {
+                wallpaper.logo('set', 'bottomRightX', properties.logo_bottomRightX.value / 1000);
+            }
+            // 右下角Y
+            if (properties.logo_bottomRightY) {
+                wallpaper.logo('set', 'bottomRightY', properties.logo_bottomRightY.value / 1000);
+            }
+            // 左下角X
+            if (properties.logo_bottomLeftX) {
+                wallpaper.logo('set', 'bottomLeftX', properties.logo_bottomLeftX.value / 1000);
+            }
+            // 左下角Y
+            if (properties.logo_bottomLeftY) {
+                wallpaper.logo('set', 'bottomLeftY', properties.logo_bottomLeftY.value / 1000);
+            }
+
             // 时间日期参数
             //-----------------------------------------------------------
+
+
+            // # 日期参数
+            //-----------
 
             // 显示日期
             if (properties.date_isDate) {
@@ -2286,6 +1971,83 @@
                 } else {
                     wallpaper.time('stopDateTimer');
                 }
+            }
+            // 描边
+            if (properties.date_isStroke) {
+                wallpaper.time('set', 'isStroke', properties.date_isStroke.value);
+            }
+            // 描边宽度
+            if (properties.date_lineWidth) {
+                wallpaper.time('set', 'lineWidth', properties.date_lineWidth.value);
+            }
+            // 填充
+            if (properties.date_isFill) {
+                wallpaper.time('set', 'isFill', properties.date_isFill.value);
+            }
+
+            // # 颜色参数
+            //-----------
+
+            // 日期颜色模式
+            if (properties.date_colorMode) {
+                date.colorMode = setColorMode(properties.date_colorMode.value);
+                wallpaper.time('set', 'colorMode', date.colorMode);
+                if (date.colorMode === 'monochrome') {
+                    // 初始化单颜色环境
+                    wallpaper.time('set', 'color', date.color)
+                        .time('set', 'shadowColor', date.shadowColor);
+                }
+            }
+            // 日期颜色
+            if (properties.date_color) {
+                date.color = getColor(properties.date_color.value);
+                wallpaper.time('set', 'color', date.color);
+            }
+            // 日期阴影颜色
+            if (properties.date_shadowColor) {
+                date.shadowColor = getColor(properties.date_shadowColor.value);
+                wallpaper.time('set', 'shadowColor', date.shadowColor);
+            }
+            // 日期阴影程度
+            if (properties.date_shadowBlur) {
+                date.shadowBlur = properties.date_shadowBlur.value;
+                wallpaper.time('set', 'shadowBlur', date.shadowBlur);
+            }
+            // 日期阴影叠加
+            if (properties.date_shadowOverlay) {
+                wallpaper.time('set', 'shadowOverlay', properties.date_shadowOverlay.value);
+            }
+            // 日期随机颜色
+            if (properties.date_isRandomColor) {
+                date.isRandomColor = properties.date_isRandomColor.value;
+                wallpaper.time('set', 'isRandomColor', date.isRandomColor);
+            }
+            // 日期开始颜色
+            if (properties.date_firstColor) {
+                date.firstColor = getColor(properties.date_firstColor.value);
+                wallpaper.time('set', 'firstColor', date.firstColor);
+            }
+            // 日期结束颜色
+            if (properties.date_secondColor) {
+                date.secondColor = getColor(properties.date_secondColor.value);
+                wallpaper.time('set', 'secondColor', date.secondColor);
+            }
+            // 日期绑定阴影颜色
+            if (properties.date_isChangeBlur) {
+                date.isChangeBlur = properties.date_isChangeBlur.value;
+                wallpaper.time('set', 'isChangeBlur', date.isChangeBlur);
+                // 若没有绑定阴影颜色
+                if (!date.isChangeBlur) {
+                    wallpaper.time('set', 'shadowColor', date.shadowColor);
+                }
+            }
+
+            // # 基础参数
+            //-----------
+
+            // 日期不透明度
+            if (properties.date_opacity) {
+                wallpaper.time('set', 'opacity', properties.date_opacity.value / 100);
             }
             // 设置语言
             if (properties.date_language) {
@@ -2323,35 +2085,6 @@
                     wallpaper.time('stopWeatherTimer');
                 }
             }
-
-            // # 天气参数
-            //-----------
-
-            // 天气接口提供者
-            if (properties.date_weatherProvider) {
-                date.weatherProvider = setWeatherProvider(properties.date_weatherProvider.value);
-                wallpaper.time('set', 'weatherProvider', date.weatherProvider);
-            }
-            // 中国天气城市
-            if (properties.date_city) {
-                date.city = properties.date_city.value;
-                if (date.isInputCity) {
-                    wallpaper.time('set', 'currentCity', date.city);
-                }
-            }
-            // 查询城市天气
-            if (properties.date_isInputCity) {
-                date.isInputCity = properties.date_isInputCity.value;
-                if (date.isInputCity) {
-                    wallpaper.time('set', 'currentCity', date.city);
-                } else {
-                    wallpaper.time('set', 'currentCity', '');
-                }
-            }
-
-            // # 时间日期参数
-            //---------------
-
             // 字体风格
             if (properties.date_fontFamily) {
                 wallpaper.time('set', 'fontFamily', setFontFamily(properties.date_fontFamily.value));
@@ -2361,11 +2094,6 @@
                 if (properties.date_userFontFamily.value) {
                     wallpaper.time('set', 'fontFamily', setFontFamily(properties.date_userFontFamily.value));
                 }
-            }
-            // 字体大小
-            if (properties.date_fontSize) {
-                wallpaper.time('set', 'timeFontSize', properties.date_fontSize.value)
-                    .time('set', 'dateFontSize', properties.date_fontSize.value / 2);
             }
             // 时间字体大小
             if (properties.date_timeFontSize) {
@@ -2379,111 +2107,19 @@
             if (properties.date_distance) {
                 wallpaper.time('set', 'distance', properties.date_distance.value);
             }
-            // 描边
-            if (properties.date_isStroke) {
-                wallpaper.time('set', 'isStroke', properties.date_isStroke.value);
-            }
-            // 描边宽度
-            if (properties.date_lineWidth) {
-                wallpaper.time('set', 'lineWidth', properties.date_lineWidth.value);
-            }
-            // 填充
-            if (properties.date_isFill) {
-                wallpaper.time('set', 'isFill', properties.date_isFill.value);
-            }
 
-            // # 基础参数
+            // # 天气参数
             //-----------
 
-            // 日期不透明度
-            if (properties.date_opacity) {
-                date.opacity = properties.date_opacity.value / 100;
-                if (!isGlobalSettings) {
-                    wallpaper.time('set', 'opacity', date.opacity);
-                }
+            // 天气接口提供者
+            if (properties.date_weatherProvider) {
+                date.weatherProvider = setWeatherProvider(properties.date_weatherProvider.value);
+                wallpaper.time('set', 'weatherProvider', date.weatherProvider);
             }
-            // 日期颜色模式
-            if (properties.date_colorMode) {
-                date.colorMode = setColorMode(properties.date_colorMode.value);
-                // 非全局模式下开启
-                if (!isGlobalSettings) {
-                    wallpaper.time('set', 'colorMode', date.colorMode);
-                    if (date.colorMode === 'monochrome') {
-                        // 初始化单颜色环境
-                        wallpaper.time('set', 'color', date.color)
-                            .time('set', 'shadowColor', date.shadowColor);
-                    }
-                }
-            }
-            // 日期颜色
-            if (properties.date_color) {
-                date.color = getColor(properties.date_color.value);
-                if (!isGlobalSettings) {
-                    wallpaper.time('set', 'color', date.color);
-                }
-            }
-            // 日期阴影颜色
-            if (properties.date_shadowColor) {
-                date.shadowColor = getColor(properties.date_shadowColor.value);
-                if (!isGlobalSettings) {
-                    wallpaper.time('set', 'shadowColor', date.shadowColor);
-                }
-            }
-            // 日期阴影程度
-            if (properties.date_shadowBlur) {
-                date.shadowBlur = properties.date_shadowBlur.value;
-                // 非全局模式下开启
-                if (!isGlobalSettings) {
-                    wallpaper.time('set', 'shadowBlur', date.shadowBlur);
-                }
-            }
-            // 日期阴影叠加
-            if (properties.date_shadowOverlay) {
-                date.shadowOverlay = properties.date_shadowOverlay.value;
-                // 非全局模式下开启
-                if (!isGlobalSettings) {
-                    wallpaper.time('set', 'shadowOverlay', date.shadowOverlay);
-                }
-            }
-
-            // # 颜色变换参数
-            //---------------
-
-            // 日期随机颜色
-            if (properties.date_isRandomColor) {
-                date.isRandomColor = properties.date_isRandomColor.value;
-                // 非全局模式下开启
-                if (!isGlobalSettings) {
-                    wallpaper.time('set', 'isRandomColor', date.isRandomColor);
-                }
-            }
-            // 日期开始颜色
-            if (properties.date_firstColor) {
-                date.firstColor = getColor(properties.date_firstColor.value);
-                // 非全局模式下开启
-                if (!isGlobalSettings) {
-                    wallpaper.time('set', 'firstColor', date.firstColor);
-                }
-            }
-            // 日期结束颜色
-            if (properties.date_secondColor) {
-                date.secondColor = getColor(properties.date_secondColor.value);
-                // 非全局模式下开启
-                if (!isGlobalSettings) {
-                    wallpaper.time('set', 'secondColor', date.secondColor);
-                }
-            }
-            // 日期绑定阴影颜色
-            if (properties.date_isChangeBlur) {
-                date.isChangeBlur = properties.date_isChangeBlur.value;
-                // 非全局模式下开启
-                if (!isGlobalSettings) {
-                    wallpaper.time('set', 'isChangeBlur', date.isChangeBlur);
-                    // 若没有绑定阴影颜色
-                    if (!date.isChangeBlur) {
-                        wallpaper.time('set', 'shadowColor', date.shadowColor);
-                    }
-                }
+            // 中国天气城市
+            if (properties.date_city) {
+                date.city = properties.date_city.value;
+                wallpaper.time('set', 'currentCity', date.city);
             }
 
             // # 坐标参数
@@ -2491,28 +2127,66 @@
 
             // 日期X轴偏移
             if (properties.date_offsetX) {
-                date.offsetX = properties.date_offsetX.value / 100;
-                if (!isGlobalSettings) {
-                    wallpaper.time('set', 'offsetX', date.offsetX);
-                }
+                wallpaper.time('set', 'offsetX', properties.date_offsetX.value / 100);
             }
             // 日期Y轴偏移
             if (properties.date_offsetY) {
-                date.offsetY = properties.date_offsetY.value / 100;
-                if (!isGlobalSettings) {
-                    wallpaper.time('set', 'offsetY', date.offsetY);
-                }
+                wallpaper.time('set', 'offsetY', properties.date_offsetY.value / 100);
             }
             // 日期鼠标坐标偏移
             if (properties.date_isClickOffset) {
-                date.isClickOffset = properties.date_isClickOffset.value;
-                if (!isGlobalSettings) {
-                    wallpaper.time('set', 'isClickOffset', date.isClickOffset);
-                }
+                wallpaper.time('set', 'isClickOffset', date.isClickOffset);
+            }
+
+            // # 变化参数
+            //-----------
+
+            // 显示蒙版
+            if (properties.date_isMasking) {
+                wallpaper.time('set', 'isMasking', properties.date_isMasking.value);
+            }
+            // 蒙版不透明度
+            if (properties.date_maskOpacity) {
+                wallpaper.time('set', 'maskOpacity', properties.date_maskOpacity.value / 100);
+            }
+            // 左上角X
+            if (properties.date_topLeftX) {
+                wallpaper.time('set', 'topLeftX', properties.date_topLeftX.value / 1000);
+            }
+            // 左上角Y
+            if (properties.date_topLeftY) {
+                wallpaper.time('set', 'topLeftY', properties.date_topLeftY.value / 1000);
+            }
+            // 右上角X
+            if (properties.date_topRightX) {
+                wallpaper.time('set', 'topRightX', properties.date_topRightX.value / 1000);
+            }
+            // 右上角Y
+            if (properties.date_topRightY) {
+                wallpaper.time('set', 'topRightY', properties.date_topRightY.value / 1000);
+            }
+            // 右下角X
+            if (properties.date_bottomRightX) {
+                wallpaper.time('set', 'bottomRightX', properties.date_bottomRightX.value / 1000);
+            }
+            // 右下角Y
+            if (properties.date_bottomRightY) {
+                wallpaper.time('set', 'bottomRightY', properties.date_bottomRightY.value / 1000);
+            }
+            // 左下角X
+            if (properties.date_bottomLeftX) {
+                wallpaper.time('set', 'bottomLeftX', properties.date_bottomLeftX.value / 1000);
+            }
+            // 左下角Y
+            if (properties.date_bottomLeftY) {
+                wallpaper.time('set', 'bottomLeftY', properties.date_bottomLeftY.value / 1000);
             }
 
             // 粒子属性参数
             //-----------------------------------------------------------
+
+            // # 基础参数
+            //---------------
 
             // 显示粒子
             if (properties.particles_isParticles) {
@@ -2523,10 +2197,6 @@
                         .particles('clearCanvas');
                 }
             }
-
-            // # 基础参数
-            //---------------
-
             // 粒子数量
             if (properties.particles_number) {
                 wallpaper.particles('addParticles', properties.particles_number.value);
@@ -2547,6 +2217,22 @@
             if (properties.particles_opacityRandom) {
                 wallpaper.particles('set', 'opacityRandom', properties.particles_opacityRandom.value);
             }
+            // 描边粒子
+            if (properties.particles_isStroke) {
+                wallpaper.particles('set', 'isStroke', properties.particles_isStroke.value);
+            }
+            // 粒子描边宽度
+            if (properties.particles_lineWidth) {
+                wallpaper.particles('set', 'lineWidth', properties.particles_lineWidth.value);
+            }
+            // 填充粒子
+            if (properties.particles_isFill) {
+                wallpaper.particles('set', 'isFill', properties.particles_isFill.value);
+            }
+
+            // # 颜色参数
+            //---------------
+
             // 粒子颜色
             if (properties.particles_color) {
                 wallpaper.particles('set', 'color', getColor(properties.particles_color.value));
@@ -2562,18 +2248,6 @@
             // 粒子随机颜色
             if (properties.particles_colorRandom) {
                 wallpaper.particles('set', 'colorRandom', properties.particles_colorRandom.value);
-            }
-            // 填充粒子
-            if (properties.particles_isFill) {
-                wallpaper.particles('set', 'isFill', properties.particles_isFill.value);
-            }
-            // 描边粒子
-            if (properties.particles_isStroke) {
-                wallpaper.particles('set', 'isStroke', properties.particles_isStroke.value);
-            }
-            // 粒子描边颜色
-            if (properties.particles_lineWidth) {
-                wallpaper.particles('set', 'lineWidth', properties.particles_lineWidth.value);
             }
             // 粒子阴影颜色
             if (properties.particles_shadowColor) {

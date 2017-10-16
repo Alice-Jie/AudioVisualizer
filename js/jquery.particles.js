@@ -269,37 +269,39 @@
     let Particles = function (el, options) {
         this.$el = $(el);
 
-        // 全局属性
+        // 基础参数
         this.number = options.number;                        // 粒子数量
         this.isDensity = options.isDensity;                  // 粒子密度开关
         this.densityArea = options.densityArea;              // 粒子密度范围
         this.opacity = options.opacity;                      // 不透明度
+        this.isStroke = options.isStroke;                    // 描边开关
+        this.lineWidth = options.lineWidth;                  // 描边宽度
+        this.isFill = options.isFill;                        // 填充开关
+        // 颜色参数
         this.color = options.color;                          // 粒子颜色
         this.isColorFollow = options.isColorFollow;          // 跟随音频
         this.colorRate = options.colorRate;                  // 变化速率
         this.colorRandom = options.colorRandom;              // 随机颜色
-        this.isFill = options.isFill;                        // 填充开关
-        this.isStroke = options.isStroke;                    // 描边开关
-        this.lineWidth = options.lineWidth;                  // 描边宽度
         this.shadowColor = options.shadowColor;              // 模糊颜色
         this.shadowBlur = options.shadowBlur;                // 模糊大小
-        // 形状属性
+        // 形状参数
         this.shapeType = options.shapeType;                  // 粒子形状
         this.rotationAngle = options.rotationAngle;          // 旋转角度
         this.angleRandom = options.angleRandom;              // 随机角度
-        // 大小属性
+        // 大小参数
         this.sizeValue = options.sizeValue;                  // 粒子大小
         this.isSizeFollow = options.isSizeFollow;            // 跟随音频
         this.sizeRate = options.sizeRate;                    // 变化速率
         this.sizeRandom = options.sizeRandom;                // 随机大小
-        // 连接属性
+        // 连接参数
         this.linkEnable = options.linkEnable;                // 连接开关
+        this.interactivityLink = options.interactivityLink;  // 鼠标连线
         this.linkDistance = options.linkDistance;            // 连接距离
         this.linkWidth = options.linkWidth;                  // 连线宽度
         this.linkColor = options.linkColor;                  // 连接颜色
         this.linkColorRandom = options.linkColorRandom;      // 连线随机颜色
         this.linkOpacity = options.linkOpacity;              // 连线不透明度
-        // 移动属性
+        // 移动参数
         this.isMove = options.isMove;                        // 移动开关
         this.isMoveFollow = options.isMoveFollow;            // 跟随音频
         this.moveRate = options.moveRate;                    // 变化速率
@@ -309,9 +311,6 @@
         this.isStraight = options.isStraight;                // 笔直移动
         this.isBounce = options.isBounce;                    // 粒子反弹
         this.moveOutMode = options.moveOutMode;              // 离屏模式
-        // 交互事件
-        this.interactivityLink = options.interactivityLink;  // 与鼠标连线
-
 
         // 创建并初始化canvas
         canvas = document.createElement('canvas');
@@ -358,38 +357,40 @@
 
     // 默认参数
     Particles.DEFAULTS = {
-        // 全局属性
+        // 基础参数
         number: 100,                 // 粒子数量
         isDensity: false,            // 粒子密度开关
         densityArea: 1000,           // 粒子密度范围
         opacity: 0.75,               // 不透明度
         opacityRandom: false,        // 随机不透明度
+        isStroke: false,             // 描边开关
+        lineWidth: 1,                // 描边宽度
+        isFill: true,                // 填充开关
+        // 颜色参数
         color: '255,255,255',        // 粒子颜色
         iscolorFollow: false,        // 跟随音频
         colorRate: 10,               // 变化速率
         colorRandom: false,          // 随机颜色
-        isFill: true,                // 填充开关
-        isStroke: false,             // 描边开关
-        lineWidth: 1,                // 描边宽度
         shadowColor: '255,255,255',  // 阴影颜色
         shadowBlur: 0,               // 模糊大小
-        // 形状属性
+        // 形状参数
         shapeType: 'circle',         // 粒子形状
         rotationAngle: 0,            // 旋转角度
         angleRandom: false,          // 随机角度
-        // 大小属性
+        // 大小参数
         sizeValue: 5,                // 粒子大小
         isSizeFollow: false,         // 跟随音频
         sizeRate: 5,                 // 变化速率
         sizeRandom: true,            // 随机大小
-        // 连线属性
+        // 连线参数
         linkEnable: false,           // 连接开关
+        interactivityLink: false,    // 鼠标连线
         linkDistance: 100,           // 连接距离
         linkWidth: 2,                // 连线宽度
         linkColor: '255,255,255',    // 连线颜色
         linkColorRandom: false,      // 随机连线颜色
         linkOpacity: 0.75,           // 连线不透明度
-        // 移动属性
+        // 移动参数
         isMove: true,                // 粒子移动
         isMoveFollow: false,         // 跟随音频
         moveRate: 5,                 // 变化速率
@@ -398,9 +399,7 @@
         direction: 'bottom',         // 粒子方向
         isStraight: false,           // 笔直移动
         isBounce: false,             // 粒子反弹
-        moveOutMode: 'out',          // 离屏模式
-        // 交互事件
-        interactivityLink: false     // 与鼠标连线
+        moveOutMode: 'out'           // 离屏模式
     };
 
     // 公共方法

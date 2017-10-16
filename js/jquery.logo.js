@@ -1,12 +1,12 @@
 /*!
- * jQuery time plugin v0.0.6
+ * jQuery time plugin v0.0.7
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
  * - https://gitee.com/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/10/06
+ * @date 2017/10/13
  */
 
 (function (global, factory) {
@@ -81,6 +81,10 @@
     let audioAverage = 0,           // 音频平均值
         audioZoom = 1;              // 标志缩放值
 
+    let originalPos = [],
+        targetPos = [];
+
+
     //私有方法
     //--------------------------------------------------------------------------------------------------------------
 
@@ -119,6 +123,186 @@
         return count;
     }
 
+
+    /**
+     * 获取4x4仿射变换矩阵
+     * http://franklinta.com/2014/09/08/computing-css-matrix3d-transforms/
+     * https://codepen.io/fta/pen/ifnqH
+     * http://www.numericjs.com/documentation.html
+     * http://steamcommunity.com/sharedfiles/filedetails/?id=837056186
+     *
+     * @param  {Array.<!Object>} from 初始平面四角坐标XY对象数组
+     * @param  {Array.<!Object>} to   目标平面四角坐标XY对象数组
+     * @return {Array.<[float]>} 4x4放射变换矩阵二维数组
+     */
+    function getTransform(from, to) {
+        /* global numeric: true */
+        console.assert(from.length === to.length && from.length === 4);
+
+        let A = [];
+        for (let i = 0; i < 4; i++) {
+            A.push([
+                from[i].x,
+                from[i].y,
+                1,
+                0,
+                0,
+                0,
+                -from[i].x * to[i].x,
+                -from[i].y * to[i].x
+            ]);
+            A.push([
+                0,
+                0,
+                0,
+                from[i].x,
+                from[i].y,
+                1,
+                -from[i].x * to[i].y,
+                -from[i].y * to[i].y
+            ]);
+        }
+
+        /**
+         * 矩阵A：
+         * [from[i].x, from[i].y, 1, 0        , 0        , 0, -from[i].x * to[1].x, -from[i].y * to[i].x]
+         * [0        , 0        , 0, from[i].x, from[i].y, 1,  from[i].x          ,  from[i].y          ]
+         * ... (x4)
+         * console.log('A:');
+         * console.table(A);
+         */
+
+        let b = [];
+        for (let i = 0; i < 4; i++) {
+            b.push(to[i].x);
+            b.push(to[i].y);
+        }
+
+        /**
+         * 行矩阵B：
+         * [to[0].x, to[0].y, to[1].x, to[1].y, to[2].x, to[2].y, to[3].x, to[3].y
+         * console.log('b:');
+         * console.table(b);
+         */
+
+        // numeric.solve: Solve Ax=b
+        let h = numeric.solve(A, b);
+        // console.log('h:');
+        // console.table(h);
+
+        let H = [
+            [
+                h[0],
+                h[1],
+                0,
+                h[2]
+            ],
+            [
+                h[3],
+                h[4],
+                0,
+                h[5]
+            ],
+            [
+                0,
+                0,
+                1,
+                0
+            ],
+            [
+                h[6],
+                h[7],
+                0,
+                1
+            ]
+        ];
+
+        /**
+         * 矩阵H：                   转置矩阵HT:
+         * [ h[0], h[1], 0, h[2] ]  [ h[0], h[3], 0, h[6] ]
+         * [ h[3], h[4], 0, h[5] ]  [ h[1], h[4], 0, h[7] ]
+         * [ 0   , 0   , 1, 0    ]  [ 0   , 0   , 1, 0    ]
+         * [ h[6], h[7], 0, 1    ]  [ h[2], h[5], 0, 1    ]
+         * console.log('H:');
+         * console.table(H);
+         */
+
+        // 检测是否匹配
+        for (let i = 0; i < 4; i++) {
+            // numeric.dot: Matrix-Matrix, Matrix-Vector and Vector-Matrix product
+            let lhs = numeric.dot(H, [
+                from[i].x,
+                from[i].y,
+                0,
+                1
+            ]);
+            let k = lhs[3];
+            let rhs = numeric.dot(k, [
+                to[i].x,
+                to[i].y,
+                0,
+                1
+            ]);
+            console.assert(numeric.norm2(numeric.sub(lhs, rhs)) < 1e-9, 'Not equal:', lhs, rhs);
+        }
+        return H;
+    }
+
+    /**
+     * 应用仿射变换矩阵至canvas
+     * http://steamcommunity.com/sharedfiles/filedetails/?id=837056186
+     *
+     * @param {Array.<[float]>} originalPos 初始平面四角XY坐标二维数组
+     * @param {Array.<[float]>} targetPos   目标平面四角XY坐标二维数组
+     */
+    function applyTransform(originalPos, targetPos) {
+        let from = function () {
+            let results = [];
+            for (let i = 0; i < originalPos.length; i++) {
+                let p = originalPos[i];
+                results.push({
+                    // 当前坐标 - 初始左上角XY坐标
+                    x: p[0] - originalPos[0][0],
+                    y: p[1] - originalPos[0][1]
+                });
+            }
+            return results;
+        }();  // 初始四角XY坐标对象数组
+        let to = function () {
+            let results = [];
+            for (let i = 0; i < originalPos.length; i++) {
+                let p = targetPos[i];
+                results.push({
+                    // 当前坐标 - 初始左上角XY坐标
+                    x: p[0] - originalPos[0][0],
+                    y: p[1] - originalPos[0][1]
+                });
+            }
+            return results;
+        }();  // 变换四角XY坐标对象数组
+
+        let matrix = getTransform(from, to);  // 4x4仿射变换矩阵
+        let matrix3D = 'matrix3d(' + function () {
+                let results = [];
+                // XYZ按顺序输出四个参数
+                for (let i = 0; i < 4; i++) {
+                    results.push(function () {
+                        let results1 = [];
+                        for (let j = 0; j < 4; j++) {
+                            results1.push(matrix[j][i].toFixed(20));
+                        }
+                        return results1;
+                    }());
+                }
+                return results;
+            }().join(',') + ')';
+
+        $(canvas).css({
+            'transform': matrix3D,
+            'transform-origin': '0 0'
+        });
+    }
+
     //构造函数和公共方法
     //--------------------------------------------------------------------------------------------------------------
 
@@ -135,16 +319,12 @@
         // 基础参数
         this.isCircular = options.isCircular;        // 圆形标志
         this.opacity = options.opacity;              // 不透明度
-        this.shadowColor = options.shadowColor;      // 阴影颜色
-        this.shadowBlur = options.shadowBlur;        // 阴影大小
         this.isStroke = options.isStroke;            // 描边开关
         this.strokeColor = options.strokeColor;      // 描边颜色
         this.lineWidth = options.lineWidth;          // 描边宽度
         this.dottedLine = options.dottedLine;        // 虚线效果
-        // 坐标参数
-        this.offsetX = options.offsetX;              // X坐标偏移
-        this.offsetY = options.offsetY;              // Y坐标偏移
-        this.isClickOffset = options.isClickOffset;  // 鼠标坐标偏移
+        this.shadowColor = options.shadowColor;      // 阴影颜色
+        this.shadowBlur = options.shadowBlur;        // 阴影大小
         // 标志参数
         this.zoom = options.zoom;                    // 比例缩放
         this.isZoomFollow = options.isZoomFollow;    // 跟随音频
@@ -166,6 +346,21 @@
         this.sepia = options.sepia;                  // 深褐色
         // 混合选项
         this.mixBlendMode = options.mixBlendMode;    // 混合选项
+        // 坐标参数
+        this.offsetX = options.offsetX;              // X坐标偏移
+        this.offsetY = options.offsetY;              // Y坐标偏移
+        this.isClickOffset = options.isClickOffset;  // 鼠标坐标偏移
+        // 扭曲参数
+        this.isMasking = options.isMasking;          // 蒙版开关
+        this.maskOpacity = options.maskOpacity;      // 蒙版不透明度
+        this.topLeftX = options.topLeftX;            // 左上角X(%)
+        this.topLeftY = options.topLeftY;            // 左上角Y
+        this.topRightX = options.topRightX;          // 右上角X
+        this.topRightY = options.topRightY;          // 右上角Y
+        this.bottomRightX = options.bottomRightX;    // 右下角X
+        this.bottomRightY = options.bottomRightY;    // 右下角Y
+        this.bottomLeftX = options.bottomLeftX;      // 左下角X
+        this.bottomLeftY = options.bottomLeftY;      // 左下角Y
 
         // 创建并初始化canvas
         canvas = document.createElement('canvas');
@@ -186,6 +381,14 @@
         // 获取原点XY坐标
         originX = canvasWidth * this.offsetX;
         originY = canvasHeight * this.offsetY;
+
+        // 初始化originalPos、targetPos
+        targetPos = originalPos = [
+            [0, 0],
+            [canvasWidth, 0],
+            [canvasWidth, canvasHeight],
+            [0, canvasHeight]
+        ];
 
         // 创建并初始化绘图的环境
         context = canvas.getContext('2d');
@@ -218,16 +421,12 @@
         // 基础参数
         isCircular: true,            // 圆形标志
         opacity: 0.9,                // 不透明度
-        shadowColor: '255,255,255',  // 阴影颜色
-        shadowBlur: 0,               // 阴影大小
         isStroke: false,             // 描边开关
         strokeColor: '255,255,255',  // 描边颜色
         lineWidth: 1,                // 描边宽度
         dottedLine: 0,               // 虚线效果
-        // 坐标参数
-        offsetX: 0.5,                // X坐标偏移
-        offsetY: 0.5,                // Y坐标偏移
-        isClickOffset: false,        // 鼠标坐标偏移
+        shadowColor: '255,255,255',  // 阴影颜色
+        shadowBlur: 0,               // 阴影大小
         // 标志参数
         zoom: 0.1,                   // 比例缩放
         isZoomFollow: false,         // 跟随音频
@@ -248,7 +447,22 @@
         saturate: 100,               // 饱和度
         sepia: 0,                    // 深褐色
         // 混合模式
-        mixBlendMode: 'normal'       // 混合模式
+        mixBlendMode: 'normal',      // 混合模式
+        // 坐标参数
+        offsetX: 0.5,                // X坐标偏移
+        offsetY: 0.5,                // Y坐标偏移
+        isClickOffset: false,        // 鼠标坐标偏移
+        // 扭曲参数
+        isMasking: false,            // 显示蒙版
+        maskOpacity: 0.25,           // 蒙版不透明度
+        topLeftX: 0,                 // 左上角X(%)
+        topLeftY: 0,                 // 左上角Y(%)
+        topRightX: 0,                // 右上角X(%)
+        topRightY: 0,                // 右上角Y(%)
+        bottomRightX: 0,             // 右下角X(%)
+        bottomRightY: 0,             // 右下角Y(%)
+        bottomLeftX: 0,              // 左下角X(%)
+        bottomLeftY: 0               // 左下角Y(%)
 
 
     };
@@ -258,6 +472,40 @@
 
         // 面向内部方法
         //-----------------------------------------------------------
+
+        /**
+         * 设置目标坐标
+         * @private
+         */
+        setTargetPos: function () {
+            targetPos = [
+                // X: 0 + （左上坐标X百分比 * 平面宽度）
+                // Y: 0 + （左上坐标Y百分比 * 平面高度）
+                [
+                    this.topLeftX * canvasWidth,
+                    this.topLeftY * canvasHeight
+                ],
+                // X: 平面宽度 - （右上坐标X百分比 * 平面宽度）
+                // Y: 0       + （右上坐标Y百分比 * 平面高度）
+                [
+                    canvasWidth - this.topRightX * canvasWidth,
+                    this.topRightY * canvasHeight
+                ],
+                // X: 平面宽度 - （右下坐标X百分比 * 平面宽度）
+                // Y: 平面高度 - （右下坐标Y百分比 * 平面高度）
+                [
+                    canvasWidth - this.bottomRightX * canvasWidth,
+                    canvasHeight - this.bottomRightY * canvasHeight
+                ],
+                // X: 0       + （右下坐标X百分比 * 平面宽度）
+                // Y: 平面高度 - （右下坐标Y百分比 * 平面高度）
+                [
+                    this.bottomLeftX * canvasWidth,
+                    canvasHeight - this.bottomLeftY * canvasHeight
+                ]
+            ];
+        },
+
 
         /**
          * 设置交互事件
@@ -344,15 +592,18 @@
 
         /** 绘制Logo */
         drawLogo: function () {
+            let width = currantCanvas.width * this.zoom * audioZoom * this.widthRatio;
+            let height = currantCanvas.height * this.zoom * audioZoom * this.heightRatio;
+            let size = Math.min(width, height);
+            let x = getXY(originX, originY, width, height).x;
+            let y = getXY(originX, originY, width, height).y;
+            let angle = (this.initialAngle + (this.isRotation ? currantAngle : 0)) * (Math.PI / 180);
+            context.clearRect(0, 0, canvasWidth, canvasHeight);
+
+            context.save();
             if (this.isLogo) {
-                let width = currantCanvas.width * this.zoom * audioZoom * this.widthRatio;
-                let height = currantCanvas.height * this.zoom * audioZoom * this.heightRatio;
-                let size = Math.min(width, height);
-                let x = getXY(originX, originY, width, height).x;
-                let y = getXY(originX, originY, width, height).y;
-                let angle = (this.initialAngle + (this.isRotation ? currantAngle : 0)) * (Math.PI / 180);
-                context.clearRect(0, 0, canvasWidth, canvasHeight);
                 context.save();
+
                 context.translate(x + width / 2, y + height / 2);
                 context.rotate(angle);
                 // LOGO圆形化
@@ -366,9 +617,16 @@
                     context.globalCompositeOperation = 'source-in';
                 }
                 context.drawImage(currantCanvas, -width / 2, -height / 2, width, height);
+
                 // LOGO圆形描边
-                if (this.isCircular && this.isStroke) {
-                    context.globalCompositeOperation = 'lighter';
+                if (this.isStroke) {
+                    if (!this.isCircular) {
+                        context.beginPath();
+                        context.rect(-width / 2, -height / 2, width, height);
+                        context.closePath();
+                    } else {
+                        context.globalCompositeOperation = 'source-over';
+                    }
                     // 虚线效果
                     if (this.dottedLine > 0) {
                         context.setLineDash([this.dottedLine]);
@@ -376,8 +634,16 @@
                     context.strokeStyle = 'rgb(' + this.strokeColor + ')';
                     context.stroke();
                 }
+
                 context.restore();
             }
+            // 蒙版效果
+            if (this.isMasking) {
+                context.fillStyle = 'rgba(255, 0, 0, ' + this.maskOpacity + ')';
+                context.fillRect(0, 0, canvasWidth, canvasHeight);
+            }
+
+            context.restore();
         },
 
         /** 绘制canvas */
@@ -448,6 +714,8 @@
                 case 'milliSec':
                     this[property] = value;
                     break;
+                case 'isMasking':
+                case 'maskOpacity':
                 case 'isCircular':
                 case 'isStroke':
                 case 'dottedLine':
@@ -462,6 +730,18 @@
                 case 'offsetY':
                     this[property] = value;
                     this.drawCanvas();
+                    break;
+                case 'topLeftX':
+                case 'topLeftY':
+                case 'topRightX':
+                case 'topRightY':
+                case 'bottomRightX':
+                case 'bottomRightY':
+                case 'bottomLeftX':
+                case 'bottomLeftY':
+                    this[property] = value;
+                    this.setTargetPos();
+                    applyTransform(originalPos, targetPos);
                     break;
                 case 'isRotation':
                 case 'isZoomFollow':
