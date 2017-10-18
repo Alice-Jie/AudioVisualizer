@@ -6,7 +6,7 @@
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/10/13
+ * @date 2017/10/18
  */
 
 (function ($, window, document, Math) {
@@ -1389,6 +1389,22 @@
             if (properties.circle_waveDirection) {
                 wallpaper.visualizerCircle('set', 'waveDirection', setRing(properties.circle_waveDirection.value));
             }
+            // 静默特效
+            if (properties.circle_isSilenceEffect) {
+                wallpaper.visualizerCircle('set', 'isSilenceEffect', properties.circle_isSilenceEffect.value);
+            }
+            // 呼吸频率
+            if (properties.circle_respiratoryRate) {
+                wallpaper.visualizerCircle('set', 'respiratoryRate', properties.circle_respiratoryRate.value / 10000);
+            }
+            // 波振幅
+            if (properties.circle_waveAmplitude) {
+                wallpaper.visualizerCircle('set', 'waveAmplitude', properties.circle_waveAmplitude.value / 100);
+            }
+            // 群速度
+            if (properties.circle_groupVelocity) {
+                wallpaper.visualizerCircle('set', 'groupVelocity', properties.circle_groupVelocity.value);
+            }
 
             // # 基础参数
             //-----------
@@ -1563,6 +1579,22 @@
             // 波浪方向
             if (properties.bars_waveDirection) {
                 wallpaper.visualizerBars('set', 'waveDirection', setBarsDirection(properties.bars_waveDirection.value));
+            }
+            // 静默特效
+            if (properties.bars_isSilenceEffect) {
+                wallpaper.visualizerBars('set', 'isSilenceEffect', properties.bars_isSilenceEffect.value);
+            }
+            // 呼吸频率
+            if (properties.bars_respiratoryRate) {
+                wallpaper.visualizerBars('set', 'respiratoryRate', properties.bars_respiratoryRate.value / 10000);
+            }
+            // 波振幅
+            if (properties.bars_waveAmplitude) {
+                wallpaper.visualizerBars('set', 'waveAmplitude', properties.bars_waveAmplitude.value / 100);
+            }
+            // 群速度
+            if (properties.bars_groupVelocity) {
+                wallpaper.visualizerBars('set', 'groupVelocity', properties.bars_groupVelocity.value);
             }
 
             // # 颜色模式

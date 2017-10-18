@@ -1,12 +1,12 @@
 /*！
- * jQuery AudioVisualizer Circle plugin v0.0.17
+ * jQuery AudioVisualizer Circle plugin v0.0.18
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
  * - https://gitee.com/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/10/13
+ * @date 2017/10/18
  */
 
 (function (global, factory) {
@@ -72,19 +72,20 @@
     let originalPos = [],
         targetPos = [];
 
-    // 坐标数组
-    let pointArray1 = [],
-        pointArray2 = [],
-        staticPointsArray = [],
-        ballPointArray = [];
-
     // 音频数组
     let lastAudioArray = [],
-        currantAudioArray = [];
+        currantAudioArray = [],
+        ringArray = [],
+        ballArray = [];
     for (let i = 0; i < 128; i++) {
-        currantAudioArray[i] = lastAudioArray[i] = 0;
+        ringArray[i] = ballArray[i] = currantAudioArray[i] = lastAudioArray[i] = 0;
     }
-    let audioAverage = 0;  // 音频平均值
+
+    // 坐标数组
+    let staticPointsArray = [],
+        ringPointArray1 = [],
+        ringPointArray2 = [],
+        ballPointArray = [];
 
     // 旋转角度
     let rotationAngle1 = 0,
@@ -114,7 +115,12 @@
         ballRainBowArray = [];    // 小球渐变数组
     let gradientOffsetRange = 0;  // 偏移范围
 
-    let RUN_COUNT = 1;  // 绘制次数
+    let redrawToken = 1,   // 重绘次数
+        sinToken = 0.0,    // 正弦计数
+        silenceToken = 0;  // 静默计数
+
+    const silenceTokenMAX = 90;
+    const redrawTokenMAX = 1;
 
     let timer = null;  // 音频圆环计时器
 
@@ -122,49 +128,32 @@
     //--------------------------------------------------------------------------------------------------------------
 
     /**
-     * 均值函数
-     *
-     * @param  {Array.<float>} array 数组
-     * @return {(int | float)} 平均值
-     */
-    function mean(array) {
-        if (!array) {
-            return 0.0;
-        }
-        let count = 0.0;
-        for (let i = 0; i < array.length; i++) {
-            count += array[i];
-        }
-        count /= array.length;
-        return count;
-    }
-
-    /**
      *  检测音频数组静默状态
-     *  数组所有值皆为0返回true,反之返回false
+     *  数组所有值皆为0返回true, 反之返回false
      *
      * @param  {Array.<float>} audioArray 音频数组
      * @return {boolean} 静默状态布尔值
      */
     function isSilence(audioArray) {
         if (!audioArray) {
-            return false;
+            return true;
         }
         for (let i = 0; i < audioArray.length; i++) {
             if (audioArray[i]) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
+
 
     /**
      * 根据点的数量提取音频数组
      * 获取数组长度等于点的数量的音频数组
      *
-     * @param  {Array.<float>} audioArray   音频数组
-     * @param  {int}          num          点的数量
-     * @return {Array.<float>} AudioArray   抽取后的音频数组
+     * @param  {Array.<float>} audioArray 音频数组
+     * @param  {int}          num         点的数量
+     * @return {Array.<float>} AudioArray 抽取后的音频数组
      */
     function getRingArray(audioArray, num) {
         let audioArray1 = [].concat(audioArray) || [];
@@ -188,8 +177,8 @@
      * 获取数组长度等于audioSamples/spacer的音频数组
      *
      * @param  {Array.<float>} audioArray 音频数组
-     * @param  {int}          spacer       小球间隔
-     * @return {Array.<float>} AudioArray   抽取后的音频数组
+     * @param  {int}          spacer      小球间隔
+     * @return {Array.<float>} AudioArray 抽取后的音频数组
      */
     function getBallArray(audioArray, spacer) {
         let audioArray1 = [].concat(audioArray) || [],
@@ -226,7 +215,7 @@
      * @return {(int | float)} 当前点对应的角度
      */
     function getDeg(point, index, angle) {
-        return (Math.PI / 180) * (360 / point * (index + angle / 3) + 90);
+        return (Math.PI / 180) * (90 + 360 / point * index + angle);
     }
 
     /**
@@ -484,6 +473,10 @@
         this.lineDirection = options.lineDirection;        // 连线方向
         this.isWave = options.isWave;                      // 显示波浪
         this.waveDirection = options.waveDirection;        // 波浪方向
+        this.isSilenceEffect = options.isSilenceEffect;    // 静默特效
+        this.respiratoryRate = options.respiratoryRate;    // 呼吸频率
+        this.waveAmplitude = options.waveAmplitude;        // 波振幅
+        this.groupVelocity = options.groupVelocity;        // 群速度
         // 颜色参数
         this.colorMode = options.colorMode;                // 颜色模式
         this.color = options.color;                        // 颜色
@@ -601,6 +594,10 @@
         lineDirection: 'twoRing',    // 连线方向
         isWave: false,               // 波浪模式
         waveDirection: 'innerRing',  // 波浪方向
+        isSilenceEffect: false,      // 静默特效
+        respiratoryRate: 0.001,      // 呼吸频率
+        waveAmplitude: 0.5,          // 波振幅
+        groupVelocity: 3,            // 群速度
         // 颜色参数
         colorMode: 'monochrome',     // 颜色模式
         color: '255,255,255',        // 颜色
@@ -693,7 +690,7 @@
          * 更新音频数组（待议）
          * @private
          *
-         * @param  {Array<float>} audioArray 音频数组
+         * @param  {Array.<float>} audioArray 音频数组
          */
         updateAudioArray: function (audioArray) {
             let audioArray1 = new Array(audioArray.length / 2),
@@ -732,11 +729,28 @@
         },
 
         /**
-         * 更新音频值（未完成）
+         * 生成正弦波音频数组
          * @private
+         *
+         * @param  {Array.<float>} audioArray 音频数组
          */
-        updateAudioValue: function (audioValue) {
-            // 对音频数值的处理
+        getSinArray: function (audioArray) {
+            let sinArray = [];
+            if (!audioArray) {
+                console.error('audioArray is null.');
+                return;
+            }
+            if (sinToken >= 1) {
+                sinToken = 0.0;
+            }
+            for (let i = 0; i < audioArray.length; i++) {
+                sinArray[i] = this.waveAmplitude * Math.sin(
+                        sinToken * (Math.PI * 2)
+                        + i * this.groupVelocity * (360 / this.pointNum) * (Math.PI / 180)
+                    );
+            }
+            sinToken += this.respiratoryRate;
+            return sinArray;
         },
 
 
@@ -745,15 +759,14 @@
          * 生成静态音频圆环坐标数组
          * @private
          *
-         * @param  {Array<float>}   audioArray 音频数组
-         * @return {Array<Object>} 坐标数组
+         * @param  {Array.<float>}   audioArray 音频数组
+         * @return {Array.<Object>} 坐标数组
          */
         setStaticPoint: function (audioArray) {
             let pointArray = [];
-            let ringArray = getRingArray(audioArray, this.pointNum);
             // 将点数组转换成坐标数组
-            for (let i = 0; i < ringArray.length; i++) {
-                let deg = getDeg(ringArray.length, i, rotationAngle1);
+            for (let i = 0; i < audioArray.length; i++) {
+                let deg = getDeg(audioArray.length, i, rotationAngle1);
                 let radius = this.radius * (minLength / 2);
                 // 根据半径、角度、原点坐标获得坐标数组
                 let point = getXY(radius, deg, originX, originY);
@@ -767,17 +780,16 @@
          * 根据音频数组值生成对应点坐标，并储存在坐标数组中
          * @private
          *
-         * @param  {Array<float>}   audioArray 音频数组
-         * @param  {int}            direction  方向（1或则-1）
-         * @param  {int}            distance   与静态环之间距离
-         * @return {Array<Object>} 坐标数组
+         * @param  {Array.<float>}   audioArray 音频数组
+         * @param  {int}            direction   方向（1或则-1）
+         * @param  {int}            distance    与静态环之间距离
+         * @return {Array.<Object>} 坐标数组
          */
         setPoint: function (audioArray, direction, distance) {
             let pointArray = [];
-            let ringArray = getRingArray(audioArray, this.pointNum);
-            // 将点数组转换成坐标数组
-            for (let i = 0; i < ringArray.length; i++) {
-                let deg = getDeg(ringArray.length, i, rotationAngle1);
+            // 将音频数组转换成坐标数组
+            for (let i = 0; i < audioArray.length; i++) {
+                let deg = getDeg(audioArray.length, i, rotationAngle1);
                 let audioValue = audioArray[i] * this.amplitude;
                 let radius = this.radius * (minLength / 2)
                     + direction * (audioValue + distance);
@@ -793,16 +805,15 @@
          * 根据音频数组值生成对应小球坐标，并储存在坐标数组中
          * @private
          *
-         * @param  {Array<float>} audioArray 音频数组
-         * @param  {int}          direction  方向（1或则-1）
-         * @return {Array<Object>} 坐标数组
+         * @param  {Array.<float>} audioArray 音频数组
+         * @param  {int}          direction   方向（1或则-1）
+         * @return {Array.<Object>} 坐标数组
          */
         setBall: function (audioArray, direction) {
             let pointArray = [];
-            let ballArray = getBallArray(audioArray, this.ballSpacer);
             // 将点数组转换成坐标数组
-            for (let i = 0; i < ballArray.length; i++) {
-                let deg = getDeg(ballArray.length, i, rotationAngle2);
+            for (let i = 0; i < audioArray.length; i++) {
+                let deg = getDeg(audioArray.length, i, rotationAngle2);
                 let audioValue = audioArray[i] * this.amplitude;
                 let radius = this.radius * (minLength / 2)
                     + (this.outerDistance + this.ballDistance)
@@ -823,7 +834,7 @@
          * - 调用context.stroke();描边路径
          * @private
          *
-         *  @param {Array<Object>} pointArray 坐标数组
+         *  @param {Array.<Object>} pointArray 坐标数组
          */
         drawRing: function (pointArray) {
             let end = pointArray.length - 1;
@@ -898,7 +909,7 @@
          * 根据坐标数组绘制音频小球
          * @private
          *
-         * @param {Array<Object>} pointArray 坐标数组
+         * @param {Array.<Object>} pointArray 坐标数组
          */
         drawBall: function (pointArray) {
             context.save();
@@ -1035,7 +1046,7 @@
          * 根据坐标数组绘制彩虹音频小球
          * @private
          *
-         * @param {Array<Object>} pointArray 坐标数组
+         * @param {Array.<Object>} pointArray 坐标数组
          */
         drawRainBowBall: function (pointArray) {
             let XY = {};
@@ -1098,7 +1109,7 @@
          * 更新音频圆环参数
          * 更新内外圆环、音频小球坐标数组、偏移角度、原点坐标和音频圆环小球颜色
          *
-         * @param {Array<float>} audioArray 音频数组
+         * @param {Array.<float>} audioArray 音频数组
          */
         updateVisualizerCircle: function (audioArray) {
             // 更新原点XY坐标
@@ -1106,14 +1117,25 @@
             originY = canvasHeight * this.offsetY;
             // 更新并处理音频数组
             currantAudioArray = [].concat(audioArray) || new Array(128);
-            // currantAudioArray = this.updateAudioArray(audioArray) || new Array(128);
-            // audioAverage = mean(currantAudioArray);
             this.compareAudioArray();  // 更新lastAudioArray
+            // 获取圆环数组和小球数组
+            ringArray = getRingArray(currantAudioArray, this.pointNum);
+            ballArray = getBallArray(currantAudioArray, this.ballSpacer);
+            // 更新静默特效和静默计数
+            if (this.isSilenceEffect && isSilence(currantAudioArray)) {
+                if (silenceToken >= silenceTokenMAX) {
+                    ringArray = this.getSinArray(ringArray);
+                } else {
+                    silenceToken++;
+                }
+            } else {
+                silenceToken = 0;
+            }
             // 更新坐标数组
-            staticPointsArray = this.setStaticPoint(currantAudioArray);
-            pointArray1 = this.setPoint(currantAudioArray, -1, this.innerDistance);
-            pointArray2 = this.setPoint(currantAudioArray, 1, this.outerDistance);
-            ballPointArray = this.setBall(currantAudioArray, this.ballDirection);
+            staticPointsArray = this.setStaticPoint(ringArray);
+            ringPointArray1 = this.setPoint(ringArray, -1, this.innerDistance);
+            ringPointArray2 = this.setPoint(ringArray, 1, this.outerDistance);
+            ballPointArray = this.setBall(ballArray, this.ballDirection);
             // 更新偏移角度
             rotationAngle1 = rotation(rotationAngle1, this.ringRotation);
             rotationAngle2 = rotation(rotationAngle2, this.bindRingRotation ? this.ringRotation : this.ballRotation);
@@ -1148,25 +1170,25 @@
                 // 绘制音频圆环
                 if (this.isRing) {
                     this.isStaticRing && this.drawRing(staticPointsArray);
-                    this.isInnerRing && this.drawRing(pointArray1);
-                    this.isOuterRing && this.drawRing(pointArray2);
+                    this.isInnerRing && this.drawRing(ringPointArray1);
+                    this.isOuterRing && this.drawRing(ringPointArray2);
                 }
                 // 绘制双环连线
                 if (this.isLineTo) {
                     // 静态环staticPointsArray 内环pointArray1 外环pointArray2
                     switch (this.lineDirection) {
                         case 'innerRing':
-                            this.drawLine(pointArray1, staticPointsArray);
+                            this.drawLine(ringPointArray1, staticPointsArray);
                             break;
                         case 'outerRing':
-                            this.drawLine(pointArray2, staticPointsArray);
+                            this.drawLine(ringPointArray2, staticPointsArray);
                             break;
                         case 'twoRing':
-                            this.drawLine(pointArray1, pointArray2);
+                            this.drawLine(ringPointArray1, ringPointArray2);
                             break;
                         default:
                             console.warn('lineDirection err.');
-                            this.drawLine(pointArray1, pointArray2);
+                            this.drawLine(ringPointArray1, ringPointArray2);
                     }
                 }
                 context.closePath();
@@ -1176,17 +1198,17 @@
                     // 静态环staticPointsArray 内环pointArray1 外环pointArray2
                     switch (this.waveDirection) {
                         case 'innerRing':
-                            this.drawWave(pointArray1, staticPointsArray);
+                            this.drawWave(ringPointArray1, staticPointsArray);
                             break;
                         case 'outerRing':
-                            this.drawWave(pointArray2, staticPointsArray);
+                            this.drawWave(ringPointArray2, staticPointsArray);
                             break;
                         case 'twoRing':
-                            this.drawWave(pointArray1, pointArray2);
+                            this.drawWave(ringPointArray1, ringPointArray2);
                             break;
                         default:
                             console.warn('waveDirection err.');
-                            this.drawWave(pointArray1, pointArray2);
+                            this.drawWave(ringPointArray1, ringPointArray2);
                     }
                 }
                 // 绘制音频小球
@@ -1197,17 +1219,17 @@
                     // 静态环staticPointsArray 内环pointArray1 外环pointArray2
                     switch (this.lineDirection) {
                         case 'innerRing':
-                            this.drawRainBowLine(pointArray1, staticPointsArray);
+                            this.drawRainBowLine(ringPointArray1, staticPointsArray);
                             break;
                         case 'outerRing':
-                            this.drawRainBowLine(pointArray2, staticPointsArray);
+                            this.drawRainBowLine(ringPointArray2, staticPointsArray);
                             break;
                         case 'twoRing':
-                            this.drawRainBowLine(pointArray1, pointArray2);
+                            this.drawRainBowLine(ringPointArray1, ringPointArray2);
                             break;
                         default:
                             console.warn('lineDirection err.');
-                            this.drawLine(pointArray1, pointArray2);
+                            this.drawLine(ringPointArray1, ringPointArray2);
                     }
                 }
                 // 绘制彩虹音频小球
@@ -1227,22 +1249,31 @@
          * 根据音频数组绘制音频圆环和音频小球
          * 当上次音频数组记录和当前音频数组不处于静默状态、颜色变换状态、旋转状态时，绘制音频圆环和音频小球
          *
-         * @param  {Array<float>} audioArray 音频数组
+         * @param  {Array.<float>} audioArray 音频数组
          */
         drawCanvas: function (audioArray) {
             this.updateVisualizerCircle(audioArray);
-            if (isSilence(audioArray)
-                || isSilence(currantAudioArray)
+            if (// 非静默状态
+                !isSilence(currantAudioArray)
+                // 静默特效
+                || (this.isSilenceEffect && isSilence(currantAudioArray) && silenceToken >= silenceTokenMAX)
+                // 颜色变换状态
                 || this.colorMode === 'colorTransformation'
+                // 彩虹模式且颜色偏移处于激活状态
                 || (this.colorMode === 'rainBow' && this.gradientOffset !== 0)
+                // 蒙版状态
                 || this.isMasking
+                // 圆环旋转且启用连线模式
                 || (this.ringRotation && this.isLineTo)
+                // 圆环旋转且小球绑定圆环旋转
+                || (this.ringRotation && this.bindRingRotation)
+                // 小球旋转
                 || this.ballRotation) {
                 this.drawVisualizerCircle();
-                RUN_COUNT = 1;
-            } else if (RUN_COUNT > 0) {
+                redrawToken = redrawTokenMAX;
+            } else if (redrawToken > 0) {
                 this.drawVisualizerCircle();
-                RUN_COUNT--;
+                redrawToken--;
             }
         },
 
@@ -1366,6 +1397,10 @@
                 case 'isOuterRing':
                 case 'lineDirection':
                 case 'waveDirection':
+                case 'isSilenceEffect':
+                case 'respiratoryRate':
+                case 'waveAmplitude':
+                case 'groupVelocity':
                 case 'radius':
                 case 'innerDistance':
                 case 'outerDistance':

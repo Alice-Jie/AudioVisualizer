@@ -663,6 +663,43 @@
         ],
         "value": 1
       },
+      "circle_isSilenceEffect": {
+        "order": 3010,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value)",
+        "text": "ui_circle_isSilenceEffect",
+        "type": "bool",
+        "value": false
+      },
+      "circle_respiratoryRate": {
+        "order": 3011,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && circle_isSilenceEffect.value",
+        "text": "ui_circle_respiratoryRate",
+        "type": "slider",
+        "editable": true,
+        "max": 100,
+        "min": 0,
+        "value": 10
+      },
+      "circle_waveAmplitude": {
+        "order": 3012,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && circle_isSilenceEffect.value",
+        "text": "ui_circle_waveAmplitude",
+        "type": "slider",
+        "editable": true,
+        "max": 200,
+        "min": 0,
+        "value": 50
+      },
+      "circle_groupVelocity": {
+        "order": 3012,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && circle_isSilenceEffect.value",
+        "text": "ui_circle_groupVelocity",
+        "type": "slider",
+        "editable": true,
+        "max": 120,
+        "min": 0,
+        "value": 4
+      },
       "circle_colorText": {
         "order": 3100,
         "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value)",
@@ -864,7 +901,7 @@
         "editable": true,
         "max": 250,
         "min": -250,
-        "value": 0
+        "value": 1
       },
       "circle_outerDistance": {
         "order": 3207,
@@ -874,7 +911,7 @@
         "editable": true,
         "max": 250,
         "min": -250,
-        "value": 0
+        "value": 1
       },
       "circle_ringRotation": {
         "order": 3208,
@@ -1213,6 +1250,43 @@
           }
         ],
         "value": 2
+      },
+      "bars_isSilenceEffect": {
+        "order": 4007,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value)",
+        "text": "ui_bars_isSilenceEffect",
+        "type": "bool",
+        "value": false
+      },
+      "bars_respiratoryRate": {
+        "order": 4008,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && bars_isSilenceEffect.value",
+        "text": "ui_bars_respiratoryRate",
+        "type": "slider",
+        "editable": true,
+        "max": 100,
+        "min": 0,
+        "value": 10
+      },
+      "bars_waveAmplitude": {
+        "order": 4009,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && bars_isSilenceEffect.value",
+        "text": "ui_bars_waveAmplitude",
+        "type": "slider",
+        "editable": true,
+        "max": 200,
+        "min": 0,
+        "value": 25
+      },
+      "bars_groupVelocity": {
+        "order": 4010,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && bars_isSilenceEffect.value",
+        "text": "ui_bars_groupVelocity",
+        "type": "slider",
+        "editable": true,
+        "max": 120,
+        "min": 0,
+        "value": 15
       },
       "bars_colorText": {
         "order": 4100,
@@ -2545,7 +2619,7 @@
             "value": 70
           }
         ],
-        "value": 55
+        "value": 19
       },
       "date_timeStyle": {
         "order": 6203,
@@ -3581,6 +3655,10 @@
         "ui_circle_isWave": "<br/>Show Wave?<br/><br/>",
         "ui_circle_waveDirection": "<br/>Wave Direction<br/><br/>",
         "ui_circle_isBall": "<br/>Show Ball?<br/><br/>",
+        "ui_circle_isSilenceEffect": "<br/>Silence Effect?<br/><br/>",
+        "ui_circle_respiratoryRate": "<br/>Respiratory Rate<br/><br/>",
+        "ui_circle_waveAmplitude": "<br/>Wave Amplitude<br/><br/>",
+        "ui_circle_groupVelocity": "<br/>Group Velocity<br/><br/>",
         "ui_circle_colorText": "<br/><b>Ring - Color Settings</b><br/>",
         "ui_circle_colorMode": "<br/>Color Mode<br/><br/>",
         "ui_circle_color": "<br/>Color<br/><br/>",
@@ -3639,6 +3717,10 @@
         "ui_bars_barsDirection": "<br/>Bars Direction<br/><br/>",
         "ui_bars_isWave": "<br/>Show Wave?<br/><br/>",
         "ui_bars_waveDirection": "<br/>Wave Direction<br/><br/>",
+        "ui_bars_isSilenceEffect": "<br/>Silence Effect?<br/><br/>",
+        "ui_bars_respiratoryRate": "<br/>Respiratory Rate<br/><br/>",
+        "ui_bars_waveAmplitude": "<br/>Wave Amplitude<br/><br/>",
+        "ui_bars_groupVelocity": "<br/>Group Velocity<br/><br/>",
         "ui_bars_colorText": "<br/><b>Bars - Color Settings</b><br/><br/>",
         "ui_bars_colorMode": "<br/>Color Mode<br/><br/>",
         "ui_bars_color": "<br/>Color<br/><br/>",
@@ -3841,8 +3923,8 @@
         "ui_about_authorText": "<br/>Author：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
         "ui_about_emailText": "<br/>Email：909011298@qq.com<br/>",
-        "ui_about_versionText": "<br/>Version Number：0.6.0<br/>",
-        "ui_about_updateText": "<br/><span>Update Description：</span><br/><span>1.Visualizer plug-in /Time plug in /LOGO plugin: add distort settings</span><br/><span>2. Adding menu options to the UI interface</span><br/><span>                           -- From Baidu translate.</span><br/>",
+        "ui_about_versionText": "<br/>Version Number：0.6.1<br/>",
+        "ui_about_updateText": "<br/><span>Update Description：</span><br/><span>1.Rewrite weather query algorithm</span><br/><span>2.Fixed Baidu weather failure BUG</span><br/><span>                           -- From Baidu translate.</span><br/>",
         "ui_about_describeText": "<br/><span>Relevant Instructions：</span><br/><span>If you have better text translation, please contact me.</span><br/>",
         "ui_about_isQRcode": "<br/>Show QRcode?<br/><br/>"
       },
@@ -3906,6 +3988,10 @@
         "ui_circle_lineDirection": "<br/>连线方向<br/><br/>",
         "ui_circle_isWave": "<br/>显示波浪<br/><br/>",
         "ui_circle_waveDirection": "<br/>波浪方向<br/><br/>",
+        "ui_circle_isSilenceEffect": "<br/>静默特效<br/><br/>",
+        "ui_circle_respiratoryRate": "<br/>呼吸频率<br/><br/>",
+        "ui_circle_waveAmplitude": "<br/>波振幅<br/><br/>",
+        "ui_circle_groupVelocity": "<br/>群速度<br/><br/>",
         "ui_circle_colorText": "<br/><b>圆环 - 颜色设置</b><br/><br/>",
         "ui_circle_colorMode": "<br/>颜色模式<br/><br/>",
         "ui_circle_color": "<br/>颜色<br/><br/>",
@@ -3965,6 +4051,10 @@
         "ui_bars_barsDirection": "<br/>条形方向<br/><br/>",
         "ui_bars_isWave": "<br/>波浪模式<br/><br/>",
         "ui_bars_waveDirection": "<br/>波浪方向<br/><br/>",
+        "ui_bars_isSilenceEffect": "<br/>静默特效<br/><br/>",
+        "ui_bars_respiratoryRate": "<br/>呼吸频率<br/><br/>",
+        "ui_bars_waveAmplitude": "<br/>波振幅<br/><br/>",
+        "ui_bars_groupVelocity": "<br/>群速度<br/><br/>",
         "ui_bars_colorText": "<br/><b>条形 - 颜色设置</b><br/><br/>",
         "ui_bars_colorMode": "<br/>颜色模式<br/><br/>",
         "ui_bars_color": "<br/>颜色<br/><br/>",
@@ -4167,8 +4257,8 @@
         "ui_about_authorText": "<br/>作者：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
         "ui_about_emailText": "<br/>Email：909011298@qq.com<br/>",
-        "ui_about_versionText": "<br/>版本号：0.6.0<br/>",
-        "ui_about_updateText": "<br/><span>更新说明：</span><br/><span>1、Visualizer插件/Time插件/LOGO插件：添加扭曲设置</span><br/><span>2、UI界面添加菜单选项</span><br/>",
+        "ui_about_versionText": "<br/>版本号：0.6.1<br/>",
+        "ui_about_updateText": "<br/><span>更新说明：</span><br/><span>1、重写天气查询算法</span><br/><span>2、修复百度天气失效BUG</span><br/>",
         "ui_about_describeText": "<br/><span>相关说明：</span><br/><span>由于项目工作量较大，难免会有部分BUG没有排查到。如果你发现了BUG，请移步到创意工坊描述BUG发生原因以及产生的结果。感谢大家长期以来的支持。</span><br/>",
         "ui_about_isQRcode": "<br/>显示二维码<br/><br/>"
       },
@@ -4232,6 +4322,10 @@
         "ui_circle_lineDirection": "<br/>連線方向<br/><br/>",
         "ui_circle_isWave": "<br/>顯示波浪<br/><br/>",
         "ui_circle_waveDirection": "<br/>波浪方向<br/><br/>",
+        "ui_circle_isSilenceEffect": "<br/>靜默特效<br/><br/>",
+        "ui_circle_respiratoryRate": "<br/>呼吸頻率<br/><br/>",
+        "ui_circle_waveAmplitude": "<br/>波振幅<br/><br/>",
+        "ui_circle_groupVelocity": "<br/>群速度<br/><br/>",
         "ui_circle_colorText": "<br/><b>圓環 - 顏色設置</b><br/><br/>",
         "ui_circle_colorMode": "<br/>顏色模式<br/><br/>",
         "ui_circle_color": "<br/>顏色<br/><br/>",
@@ -4291,6 +4385,10 @@
         "ui_bars_barsDirection": "<br/>條形方向<br/><br/>",
         "ui_bars_isWave": "<br/>波浪模式<br/><br/>",
         "ui_bars_waveDirection": "<br/>波浪方向<br/><br/>",
+        "ui_bars_isSilenceEffect": "<br/>靜默特效<br/><br/>",
+        "ui_bars_respiratoryRate": "<br/>呼吸頻率<br/><br/>",
+        "ui_bars_waveAmplitude": "<br/>波振幅<br/><br/>",
+        "ui_bars_groupVelocity": "<br/>群速度<br/><br/>",
         "ui_bars_colorText": "<br/><b>條形 - 顏色設置</b><br/><br/>",
         "ui_bars_colorMode": "<br/>顏色模式<br/><br/>",
         "ui_bars_color": "<br/>顏色<br/><br/>",
@@ -4493,8 +4591,8 @@
         "ui_about_authorText": "<br/>作者：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
         "ui_about_emailText": "<br/>Email：909011298@qq.com<br/>",
-        "ui_about_versionText": "<br/>版本號：0.6.0<br/>",
-        "ui_about_updateText": "<br/><span>更新說明：</span><br/><span>1、Visualizer插件/Time插件/LOGO插件：添加扭曲設置</span><br/><span>2、UI界面添加菜單選項</span><br/>",
+        "ui_about_versionText": "<br/>版本號：0.6.1<br/>",
+        "ui_about_updateText": "<br/><span>更新說明：</span><br/><span>1、重寫天氣查詢算法</span><br/><span>2、修復百度天氣失效BUG</span><br/>",
         "ui_about_describeText": "<br/><span>相關說明：</span><br/><span>由於項目工作量較大，難免會有部分BUG沒有排查到。如果妳發現了BUG，請移步到創意工坊描述BUG發生原因以及產生的結果。感謝大家長期以來的支持。</span><br/>",
         "ui_about_isQRcode": "<br/>顯示二維碼<br/><br/>"
       }
@@ -4505,7 +4603,7 @@
   "tags": [
     "Relaxing"
   ],
-  "title": "[4K]Audio Visualizer v0.6.0(音频可视化)",
+  "title": "[4K]Audio Visualizer v0.6.1(音频可视化)",
   "type": "web",
   "visibility": "public",
   "workshopid": 921617616

@@ -1,5 +1,5 @@
 /*!
- * jQuery time plugin v0.0.12
+ * jQuery time plugin v0.0.13
  * moment.js: http://momentjs.cn/
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
@@ -7,7 +7,7 @@
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/10/16
+ * @date 2017/10/17
  */
 
 (function (global, factory) {
@@ -90,28 +90,20 @@
     // 和风天气信息
     let heWeather = {
         basic: {
-            cnty: '未知',          // 国家
             city: '未知'           // 城市
         },
         weatherData: {
             weather: '未知',       // 天气情况
             temperature: '-1℃',   // 温度情况
-            wind: {
-                deg: '-1',         // 风向(360度)
-                dir: '东北风',     // 风向
-                sc: '-1',          // 风力
-                spd: '-1'          // 风速(kmph)
-            }
+            wind: '未知'           // 风向风力
         }
     };
     // 百度天气信息
     let baiduWeather = {
         basic: {
-            city: '未知',          // 城市
-            pm25: '-1'             // PM25
+            city: '未知'           // 城市
         },
         weatherData: {
-            date: '未知',          // 星期-日期-温度
             weather: '未知',       // 天气情况
             temperature: '-1℃',   // 温度情况
             wind: '未知'           // 风向风力
@@ -146,22 +138,53 @@
     //--------------------------------------------------------------------------------------------------------------
 
     /**
-     * 获取IP所在城市
+     * 通过新浪获取IP信息
      *
      * @param {Function} callback 回调函数
      */
-    function getCity(callback) {
+    function toSinaIP(callback) {
         $.ajax({
-            url: 'http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js',
-            dataType: "script",
-            success: function () {
-                /* global remote_ip_info:true */
-                if (remote_ip_info.ret === 1) {
+            url: 'http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=json',
+            type: 'GET',
+            dataType: "json",
+            success: function (result) {
+                if (result.ret === 1) {
                     if (!city) {
                         // 若city为空则取IP所在城市
-                        city = remote_ip_info.city;
+                        city = result.city;
                     }
                     (callback && typeof(callback) === "function") && callback();
+                } else {
+                    weatherStr = 'IP查询失败';
+                    console.error(result.ret);
+                }
+            },
+            error: function (XMLHttpRequest) {
+                weatherStr = '错误' + XMLHttpRequest.status + ' ' + XMLHttpRequest.statusText;
+            }
+        });
+    }
+
+    /**
+     * 通过百度获取IP信息
+     *
+     * @param {Function} callback 回调函数
+     */
+    function toBaiduIP(callback) {
+        $.ajax({
+            url: 'https://api.map.baidu.com/location/ip?ak=E909e759b4dcc019acf2b8d61abb80fa',
+            type: 'GET',
+            dataType: "jsonp",
+            success: function (result) {
+                if (result.status === 0) {
+                    if (!city) {
+                        // 返回 city + 市 （#-_-)┯━┯ (╯°口°)╯(┴—┴
+                        // city = result.address_detail.city;
+                        (callback && typeof(callback) === "function") && callback();
+                    }
+                } else {
+                    weatherStr = 'IP查询失败';
+                    console.error(result.status);
                 }
             },
             error: function (XMLHttpRequest) {
@@ -185,8 +208,7 @@
                 return heWeather.basic.city
                     + ' ' + heWeather.weatherData.weather
                     + ' ' + heWeather.weatherData.temperature
-                    + ' ' + heWeather.weatherData.wind.dir
-                    + ' ' + heWeather.weatherData.wind.sc;
+                    + ' ' + heWeather.weatherData.wind;
             // 百度天气
             case 'baidu':
                 // RegExp (\([^\)]+\))
@@ -223,13 +245,11 @@
                     heWeather.basic.city = result.HeWeather5[0].basic.city;
                     heWeather.weatherData.weather = result.HeWeather5[0].now.cond.txt;
                     heWeather.weatherData.temperature = result.HeWeather5[0].now.tmp + '℃';
-                    heWeather.weatherData.wind.deg = result.HeWeather5[0].now.wind.deg;
-                    heWeather.weatherData.wind.dir = result.HeWeather5[0].now.wind.dir;
-                    heWeather.weatherData.wind.sc = result.HeWeather5[0].now.wind.sc + '级';
-                    heWeather.weatherData.wind.spd = result.HeWeather5[0].now.wind.spd;
+                    heWeather.weatherData.wind = result.HeWeather5[0].now.wind.dir + ' ' + result.HeWeather5[0].now.wind.sc + '级';
                     (callback && typeof(callback) === "function") && callback();
                 } else {
-                    weatherStr = '天气接口异常 ' + result.HeWeather5[0].status;
+                    weatherStr = '天气接口异常';
+                    console.error(result.HeWeather5[0].status);
                 }
             },
             error: function (XMLHttpRequest) {
@@ -257,14 +277,14 @@
                 if (result.status === 'success') {
                     // 获取天气信息
                     baiduWeather.basic.city = result.results[0].currentCity;
-                    baiduWeather.basic.pm25 = result.results[0].pm25;
                     baiduWeather.weatherData.date = result.results[0].weather_data[0].date;
                     baiduWeather.weatherData.weather = result.results[0].weather_data[0].weather;
-                    baiduWeather.weatherData.wind = result.results[0].weather_data[0].wind;
                     baiduWeather.weatherData.temperature = result.results[0].weather_data[0].temperature;
+                    baiduWeather.weatherData.wind = result.results[0].weather_data[0].wind;
                     (callback && typeof(callback) === "function") && callback();
                 } else {
-                    weatherStr = '天气接口异常 ' + result.HeWeather5[0].status;
+                    weatherStr = '天气接口异常';
+                    console.error(result.status);
                 }
             },
             error: function (XMLHttpRequest) {
@@ -286,14 +306,20 @@
         $.ajax({
             dataType: 'script',
             scriptCharset: 'gbk',
-            url: 'http://php.weather.sina.com.cn/iframe/index/w_cl.php?code=js&city=' + city + '&day=0&dfc=3',
+            url: 'http://php.weather.sina.com.cn/iframe/index/w_cl.php?code=js&city=' + city + '&day=' + 0,
             success: ()=> {
-                let weather = window.SWther.w[city][0];
-                sinaWeather.basic.city = city;
-                sinaWeather.weatherData.weather = weather.s1;
-                sinaWeather.weatherData.temperature = weather.t1 + '℃～' + weather.t2 + '℃';
-                sinaWeather.weatherData.wind = weather.d1 + weather.p1 + '级';
-                (callback && typeof(callback) === "function") && callback();
+                // 获取天气信息
+                try {
+                    let weather = window.SWther.w[city][0];
+                    sinaWeather.basic.city = city;
+                    sinaWeather.weatherData.weather = weather.s1;
+                    sinaWeather.weatherData.temperature = weather.t1 + '℃～' + weather.t2 + '℃';
+                    sinaWeather.weatherData.wind = weather.d1 + weather.p1 + '级';
+                    (callback && typeof(callback) === "function") && callback();
+                } catch (e) {
+                    weatherStr = '非法城市地址';
+                    console.error(e.message);
+                }
             },
             error: function (XMLHttpRequest) {
                 weatherStr = '错误' + XMLHttpRequest.status + ' ' + XMLHttpRequest.statusText;
@@ -618,8 +644,6 @@
 
         $(this.$el).append(canvas);  // 添加canvas
 
-        moment.locale('zh-cn');  // 默认日期语言为汉语
-
         // 默认开启
         this.setupPointerEvents();
         this.runDateTimer();
@@ -931,37 +955,36 @@
          * @param {string} city     城市(China)
          * @param {string} provider API提供者
          */
-        getWeather: function (city, provider) {
-            switch (provider) {
+        getWeather: function (city) {
+            switch (this.weatherProvider) {
                 // 和风天气接口
                 case 'heWeather':
                     getHeWeather(city, ()=> {
-                        weatherStr = setWeatherStr(provider);
+                        weatherStr = setWeatherStr(this.weatherProvider);
                     });
                     break;
                 // 百度天气接口
                 case 'baidu':
                     getBaiduWeather(city, ()=> {
-                        weatherStr = setWeatherStr(provider);
+                        weatherStr = setWeatherStr(this.weatherProvider);
                     });
                     break;
                 // 新浪天气接口
                 case 'sina':
                     getSinaWeather(city, ()=> {
-                        weatherStr = setWeatherStr(provider);
+                        weatherStr = setWeatherStr(this.weatherProvider);
                     });
                     break;
                 default:
                     weatherStr = '读取天气数据中...';
             }
-            console.log(city, weatherStr);
         },
 
         /** 更新天气 */
         updateWeather: function () {
             city = this.currentCity;
-            getCity(()=> {
-                this.getWeather(city, this.weatherProvider);
+            toSinaIP(()=> {
+                this.getWeather(city);
             });
         },
 

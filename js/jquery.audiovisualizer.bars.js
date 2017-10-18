@@ -1,12 +1,12 @@
 /*！
- * jQuery AudioVisualizer Bars plugin v0.0.11
+ * jQuery AudioVisualizer Bars plugin v0.0.12
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
  * - https://gitee.com/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/10/13
+ * @date 2017/10/18
  */
 
 (function (global, factory) {
@@ -70,17 +70,18 @@
     let minLength = 960;            // 最小宽度
     let startX, startY;             // 初始XY坐标
 
-    // 坐标数组
-    let pointArray1 = [],
-        pointArray2 = [],
-        staticPointsArray = [];
-
+    // 音频数组
     let lastAudioArray = [],
-        currantAudioArray = [];
+        currantAudioArray = [],
+        barsArray = [];
     for (let i = 0; i < 128; i++) {
         currantAudioArray[i] = lastAudioArray[i] = 0;
     }
-    let audioAverage = 0;  // 音频平均值
+
+    // 坐标数组
+    let barsPointArray1 = [],
+        barsPointArray2 = [],
+        staticPointsArray = [];
 
     // 颜色变换
     let color1 = {
@@ -105,7 +106,12 @@
     let rainBowArray = [];        // 条形
     let gradientOffsetRange = 0;  // 偏移范围
 
-    let RUN_COUNT = 1;  // 绘制次数
+    let redrawToken = 1,   // 重绘次数
+        sinToken = 0.0,    // 正弦计数
+        silenceToken = 0;  // 静默计数
+
+    const silenceTokenMAX = 90;
+    const redrawTokenMAX = 1;
 
     let timer = null;  // 音频圆环计时器
 
@@ -116,49 +122,31 @@
     //--------------------------------------------------------------------------------------------------------------
 
     /**
-     * 均值函数
-     *
-     * @param  {Array|float} array 数组
-     * @return {(int | float)} 平均值
-     */
-    function mean(array) {
-        if (!array) {
-            return 0.0;
-        }
-        let count = 0.0;
-        for (let i = 0; i < array.length; i++) {
-            count += array[i];
-        }
-        count /= array.length;
-        return count;
-    }
-
-    /**
      *  检测音频数组静默状态
-     *  数组所有值皆为0返回true,反之返回false
+     *  数组所有值皆为0返回true, 反之返回false
      *
-     * @param  {Array<float>} audioArray 音频数组
+     * @param  {Array.<float>} audioArray 音频数组
      * @return {boolean} 静默状态布尔值
      */
     function isSilence(audioArray) {
         if (!audioArray) {
-            return false;
+            return true;
         }
         for (let i = 0; i < audioArray.length; i++) {
             if (audioArray[i]) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     /**
      * 根据点的数量提取音频数组
      * 获取数组长度等于点的数量的音频数组
      *
-     * @param  {Array<float>} audioArray 音频数组
+     * @param  {Array.<float>} audioArray  音频数组
      * @param  {int}          num          点的数量
-     * @return {Array<float>} AudioArray   抽取后的音频数组
+     * @return {Array.<float>} AudioArray   抽取后的音频数组
      */
     function getBarsArray(audioArray, num) {
         let audioArray1 = [].concat(audioArray) || [];
@@ -413,6 +401,10 @@
         this.barsDirection = options.barsDirection;      // 条形方向
         this.isWave = options.isWave;                    // 波浪模式
         this.waveDirection = options.waveDirection;      // 条形方向
+        this.isSilenceEffect = options.isSilenceEffect;    // 静默特效
+        this.respiratoryRate = options.respiratoryRate;    // 呼吸频率
+        this.waveAmplitude = options.waveAmplitude;        // 波振幅
+        this.groupVelocity = options.groupVelocity;        // 群速度
         // 颜色参数
         this.colorMode = options.colorMode;              // 颜色模式
         this.color = options.color;                      // 颜色
@@ -513,6 +505,16 @@
         amplitude: 5,                // 振幅
         decline: 0.2,                // 衰退值
         peak: 1.5,                   // 峰值
+        // 条形参数
+        isLineTo: false,             // 显示连线
+        isBars: false,               // 显示条形
+        barsDirection: 'upperBars',  // 条形方向
+        isWave: false,               // 波浪模式
+        waveDirection: 'lowerBars',  // 条形方向
+        isSilenceEffect: false,      // 静默特效
+        respiratoryRate: 0.001,      // 呼吸频率
+        waveAmplitude: 0.5,          // 波振幅
+        groupVelocity: 3,            // 群速度
         // 颜色参数
         colorMode: 'monochrome',     // 颜色模式
         color: '255,255,255',        // 颜色
@@ -527,12 +529,6 @@
         saturationRange: 100,        // 饱和度范围(%)
         lightnessRange: 50,          // 亮度范围(%)
         gradientOffset: 0,           // 渐变效果偏移
-        // 条形参数
-        isLineTo: false,             // 显示连线
-        isBars: false,               // 显示条形
-        barsDirection: 'upperBars',  // 条形方向
-        isWave: false,               // 波浪模式
-        waveDirection: 'lowerBars',  // 条形方向
         // 基础参数
         opacity: 0.90,               // 不透明度
         width: 0.5,                  // 宽度比例
@@ -603,7 +599,7 @@
          * 更新音频数组（待议）
          * @private
          *
-         * @param  {Array<float>} audioArray 音频数组
+         * @param  {Array.<float>} audioArray 音频数组
          */
         updateAudioArray: function (audioArray) {
             let audioArray1 = new Array(audioArray.length / 2),
@@ -642,11 +638,28 @@
         },
 
         /**
-         * 更新音频值（未完成）
+         * 生成正弦波音频数组
          * @private
+         *
+         * @param  {Array.<float>} audioArray 音频数组
          */
-        updateAudioValue: function (audioValue) {
-            // 对音频数值的处理
+        getSinArray: function (audioArray) {
+            let sinArray = [];
+            if (!audioArray) {
+                console.error('audioArray is null.');
+                return;
+            }
+            if (sinToken >= 1) {
+                sinToken = 0.0;
+            }
+            for (let i = 0; i < audioArray.length; i++) {
+                sinArray[i] = this.waveAmplitude * Math.sin(
+                        sinToken * (Math.PI * 2)
+                        + i * this.groupVelocity * (360 / this.pointNum) * (Math.PI / 180)
+                    );
+            }
+            sinToken += this.respiratoryRate;
+            return sinArray;
         },
 
 
@@ -655,15 +668,14 @@
          * 生成静态音频条形坐标数组
          * @private
          *
-         * @param  {Array<float>}   audioArray 音频数组
-         * @return {Array<Object>} 坐标数组
+         * @param  {Array.<float>}   audioArray 音频数组
+         * @return {Array.<Object>} 坐标数组
          */
         setStaticPoint: function (audioArray) {
             let pointArray = [];
-            let barsArray = getBarsArray(audioArray, this.pointNum);
-            let spacing = minLength / (barsArray.length - 1);
-            // 将barsArray.length点数组转换成中央左侧坐标数组
-            for (let i = 0; i < barsArray.length; i++) {
+            let spacing = minLength / (audioArray.length - 1);
+            // 将audioArray.length点数组转换成中央左侧坐标数组
+            for (let i = 0; i < audioArray.length; i++) {
                 let x = startX + i * spacing;
                 pointArray.push({x: x, y: originY});
             }
@@ -675,16 +687,15 @@
          * 根据音频数组值生成对应点坐标，并储存在坐标数组中
          * @private
          *
-         * @param  {Array<float>}   audioArray 音频数组
-         * @param  {int}            direction  方向（1或则-1）
-         * @return {Array<Object>} 坐标数组
+         * @param  {Array.<float>}   audioArray 音频数组
+         * @param  {int}            direction   方向（1或则-1）
+         * @return {Array.<Object>} 坐标数组
          */
         setPoint: function (audioArray, direction) {
             let pointArray = [];
-            let barsArray = getBarsArray(audioArray, this.pointNum);
-            let spacing = minLength / (barsArray.length - 1);
+            let spacing = minLength / (audioArray.length - 1);
             // 将barsArray.length点数组转换成坐标数组
-            for (let i = 0; i < barsArray.length; i++) {
+            for (let i = 0; i < audioArray.length; i++) {
                 let audioValue = audioArray[i] * this.amplitude;
                 let x = startX + i * spacing;
                 let y = originY + direction * (audioValue + this.height);
@@ -699,7 +710,7 @@
          * 根据坐标数组绘制音频条形
          * @private
          *
-         * @param {Array<Object>} pointArray 坐标数组
+         * @param {Array.<Object>} pointArray 坐标数组
          */
         drawLine: function (pointArray) {
             context.save();
@@ -718,8 +729,8 @@
          * 根据坐标数组绘制上条形、下条形以及静态条形之间连线
          * @private
          *
-         * @param {Array<Object>} pointArray1 坐标数组1
-         * @param {Array<Object>} pointArray2 坐标数组2
+         * @param {Array.<Object>} pointArray1 坐标数组1
+         * @param {Array.<Object>} pointArray2 坐标数组2
          */
         drawBars: function (pointArray1, pointArray2) {
             context.save();
@@ -870,7 +881,7 @@
          * 根据坐标数组绘制彩虹音频条形
          * @private
          *
-         * @param {Array<Object>} pointArray 坐标数组
+         * @param {Array.<Object>} pointArray 坐标数组
          */
         drawRainBowLine: function (pointArray) {
             context.save();
@@ -890,8 +901,8 @@
          * 根据坐标数组绘制上条形、下条形以及静态条形之间彩虹连线
          * @private
          *
-         * @param {Array<Object>} pointArray1 坐标数组1
-         * @param {Array<Object>} pointArray2 坐标数组2
+         * @param {Array.<Object>} pointArray1 坐标数组1
+         * @param {Array.<Object>} pointArray2 坐标数组2
          */
         drawRainBowBars: function (pointArray1, pointArray2) {
             let XY = {};
@@ -956,7 +967,7 @@
          * 更新音频条形参数
          * 更新条形坐标数组、偏移角度、原点坐标和音频条形颜色
          *
-         * @param {Array<float>} audioArray 音频数组
+         * @param {Array.<float>} audioArray 音频数组
          */
         updateVisualizerBars: function (audioArray) {
 
@@ -968,13 +979,23 @@
             startY = originY;
             // 更新并处理音频数组
             currantAudioArray = [].concat(audioArray) || new Array(128);
-            // currantAudioArray = this.updateAudioArray(audioArray) || new Array(128);
-            // audioAverage = mean(currantAudioArray);
             this.compareAudioArray();  // 更新lastAudioArray
+            // 获取条形数组
+            barsArray = getBarsArray(currantAudioArray, this.pointNum);
+            // 更新静默特效和静默计数
+            if (this.isSilenceEffect && isSilence(currantAudioArray)) {
+                if (silenceToken >= silenceTokenMAX) {
+                    barsArray = this.getSinArray(barsArray);
+                } else {
+                    silenceToken++;
+                }
+            } else {
+                silenceToken = 0;
+            }
             // 更新坐标数组
-            staticPointsArray = this.setStaticPoint(currantAudioArray);
-            pointArray1 = this.setPoint(currantAudioArray, -1);
-            pointArray2 = this.setPoint(currantAudioArray, 1);
+            staticPointsArray = this.setStaticPoint(barsArray);
+            barsPointArray1 = this.setPoint(barsArray, -1);
+            barsPointArray2 = this.setPoint(barsArray, 1);
             // 更新音频圆环小球颜色
             if (this.colorMode === 'colorTransformation') {
                 this.colorTransformation();
@@ -1009,34 +1030,34 @@
                 if (this.isLineTo) {
                     switch (this.barsDirection) {
                         case  'upperBars':
-                            this.drawLine(pointArray1);
+                            this.drawLine(barsPointArray1);
                             break;
                         case 'lowerBars':
-                            this.drawLine(pointArray2);
+                            this.drawLine(barsPointArray2);
                             break;
                         case 'twoBars':
-                            this.drawLine(pointArray1);
-                            this.drawLine(pointArray2);
+                            this.drawLine(barsPointArray1);
+                            this.drawLine(barsPointArray2);
                             break;
                         default:
-                            this.drawLine(pointArray1);
-                            this.drawLine(pointArray2);
+                            this.drawLine(barsPointArray1);
+                            this.drawLine(barsPointArray2);
                     }
                 }
                 // 绘制条形
                 if (this.isBars) {
                     switch (this.barsDirection) {
                         case  'upperBars':
-                            this.drawBars(staticPointsArray, pointArray1);
+                            this.drawBars(staticPointsArray, barsPointArray1);
                             break;
                         case 'lowerBars':
-                            this.drawBars(staticPointsArray, pointArray2);
+                            this.drawBars(staticPointsArray, barsPointArray2);
                             break;
                         case 'twoBars':
-                            this.drawBars(pointArray1, pointArray2);
+                            this.drawBars(barsPointArray1, barsPointArray2);
                             break;
                         default:
-                            this.drawBars(pointArray1, pointArray2);
+                            this.drawBars(barsPointArray1, barsPointArray2);
                     }
 
                 }
@@ -1044,16 +1065,16 @@
                 if (this.isWave) {
                     switch (this.waveDirection) {
                         case  'upperBars':
-                            this.drawWave(staticPointsArray, pointArray1);
+                            this.drawWave(staticPointsArray, barsPointArray1);
                             break;
                         case 'lowerBars':
-                            this.drawWave(staticPointsArray, pointArray2);
+                            this.drawWave(staticPointsArray, barsPointArray2);
                             break;
                         case 'twoBars':
-                            this.drawWave(pointArray1, pointArray2);
+                            this.drawWave(barsPointArray1, barsPointArray2);
                             break;
                         default:
-                            this.drawWave(staticPointsArray, pointArray1);
+                            this.drawWave(staticPointsArray, barsPointArray1);
                     }
                 }
                 context.restore();
@@ -1062,34 +1083,34 @@
                 if (this.isLineTo) {
                     switch (this.barsDirection) {
                         case  'upperBars':
-                            this.drawRainBowLine(pointArray1);
+                            this.drawRainBowLine(barsPointArray1);
                             break;
                         case 'lowerBars':
-                            this.drawRainBowLine(pointArray2);
+                            this.drawRainBowLine(barsPointArray2);
                             break;
                         case 'twoBars':
-                            this.drawRainBowLine(pointArray1);
-                            this.drawRainBowLine(pointArray2);
+                            this.drawRainBowLine(barsPointArray1);
+                            this.drawRainBowLine(barsPointArray2);
                             break;
                         default:
-                            this.drawRainBowLine(pointArray1);
-                            this.drawRainBowLine(pointArray2);
+                            this.drawRainBowLine(barsPointArray1);
+                            this.drawRainBowLine(barsPointArray2);
                     }
                 }
                 // 绘制彩虹条形
                 if (this.isBars) {
                     switch (this.barsDirection) {
                         case  'upperBars':
-                            this.drawRainBowBars(staticPointsArray, pointArray1);
+                            this.drawRainBowBars(staticPointsArray, barsPointArray1);
                             break;
                         case 'lowerBars':
-                            this.drawRainBowBars(staticPointsArray, pointArray2);
+                            this.drawRainBowBars(staticPointsArray, barsPointArray2);
                             break;
                         case 'twoBars':
-                            this.drawRainBowBars(pointArray1, pointArray2);
+                            this.drawRainBowBars(barsPointArray1, barsPointArray2);
                             break;
                         default:
-                            this.drawRainBowBars(pointArray1, pointArray2);
+                            this.drawRainBowBars(barsPointArray1, barsPointArray2);
                     }
                 }
             }
@@ -1108,19 +1129,23 @@
          * 根据音频数组绘制音频条形
          * 当上次音频数组记录和当前音频数组不处于静默状态、颜色变换状态、绘制条形
          *
-         * @param  {Array<float>} audioArray 音频数组
+         * @param  {Array.<float>} audioArray 音频数组
          */
         drawCanvas: function (audioArray) {
             this.updateVisualizerBars(audioArray);
-            if (isSilence(audioArray)
-                || isSilence(currantAudioArray)
+            if (// 非静默状态
+                !isSilence(currantAudioArray)
+                // 静默特效
+                || (this.isSilenceEffect && isSilence(currantAudioArray) && silenceToken >= silenceTokenMAX)
+                // 颜色变换状态
                 || this.colorMode === 'colorTransformation'
+                // 彩虹模式且颜色偏移处于激活状态
                 || (this.colorMode === 'rainBow' && this.gradientOffset !== 0)) {
                 this.drawVisualizerBars();
-                RUN_COUNT = 1;
-            } else if (RUN_COUNT > 0) {
+                redrawToken = redrawTokenMAX;
+            } else if (redrawToken > 0) {
                 this.drawVisualizerBars();
-                RUN_COUNT--;
+                redrawToken--;
             }
         },
 
@@ -1219,6 +1244,10 @@
                 case 'amplitude':
                 case 'decline':
                 case 'peak':
+                case 'isSilenceEffect':
+                case 'respiratoryRate':
+                case 'waveAmplitude':
+                case 'groupVelocity':
                 case 'colorMode':
                 case 'isRandomColor':
                 case 'isChangeBlur':
