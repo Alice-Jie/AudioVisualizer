@@ -1,5 +1,5 @@
 /*!
- * jQuery Particles plugin v0.0.7
+ * jQuery Particles plugin v0.0.8
  * reference: http://github.com/VincentGarreau/particles.js
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
@@ -7,7 +7,7 @@
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/09/20
+ * @date 2017/10/19
  */
 
 (function (global, factory) {
@@ -605,65 +605,74 @@
          * @param {!Object} particles   粒子对象
          */
         marginalCheck: function (particles) {
-            let size = particles.radius * particles.zoom;  // 粒子实际尺寸
+            let size = 0;
             let newPosition = {
-                xLeft: -size,
-                xRight: canvasWidth + size,
-                yTop: -size,
-                yBottom: canvasHeight + size
+                xLeft: 0,
+                yTop: 0,
+                xRight: canvasWidth,
+                yBottom: canvasHeight
             };
-            // 如果离开模式是反弹
+
+            // 如果粒子类型是图片
+            if (particles.shapeType === 'image') {
+                // 粒子图片则取宽和高之间最小值
+                size = Math.min(getImgSize(particles).width, getImgSize(particles).height) / 2 * particles.zoom;
+            } else {
+                // 粒子半径
+                size = particles.radius * particles.zoom;  // 粒子实际尺寸
+            }
+
+            // 定义粒子初始位置
+            newPosition.xLeft = size;
+            newPosition.yTop = size;
+            newPosition.xRight = canvasWidth - size;
+            newPosition.yBottom = canvasHeight - size;
+
+            /* 粒子接触canvas边缘行为 */
             if (this.moveOutMode === 'bounce') {
-                newPosition = {
-                    xLeft: size,
-                    xRight: canvasWidth,
-                    yTop: size,
-                    yBottom: canvasHeight
-                };
-            }
-
-            // 粒子超出屏幕范围时，重设粒子的XY坐标
-
-            // 如果粒子X轴大于画布宽度
-            if (particles.x - size > canvasWidth) {
-                particles.x = Math.floor(newPosition.xLeft);
-                particles.y = Math.floor(Math.random() * canvasHeight);
-            }
-            // 如果粒子X轴小于画布宽度
-            else if (particles.x + size < 0) {
-                particles.x = Math.floor(newPosition.xRight);
-                particles.y = Math.floor(Math.random() * canvasHeight);
-            }
-            // 如果粒子Y轴大于画布高度
-            if (particles.y - size > canvasHeight) {
-                particles.y = Math.floor(newPosition.yTop);
-                particles.x = Math.floor(Math.random() * canvasWidth);
-            }
-            // 如果粒子Y轴小于画布高度
-            else if (particles.y + size < 0) {
-                particles.y = Math.floor(newPosition.yBottom);
-                particles.x = Math.floor(Math.random() * canvasWidth);
-            }
-
-            // 如果离开模式是反弹，改变粒子的方向向量
-            if (this.moveOutMode === 'bounce') {
-                // 粒子的X坐标 > 屏幕宽度
-                if (particles.x + size > canvasWidth) {
+                // 粒子的X坐标 < 半径
+                if (particles.x <= size) {
+                    particles.x = Math.floor(newPosition.xLeft);
                     particles.vx = -particles.vx;
                 }
-                // 粒子的X坐标 < 0
-                else if (particles.x - size < 0) {
+                // 粒子的X坐标 > canvas宽度 - 半径
+                else if (particles.x >= canvasWidth - size) {
+                    particles.x = Math.floor(newPosition.xRight);
                     particles.vx = -particles.vx;
                 }
-
-                // 粒子的Y坐标 > 屏幕高度
-                if (particles.y + size > canvasHeight) {
+                // 粒子的Y坐标 < 半径
+                if (particles.y <= size) {
+                    particles.y = Math.floor(newPosition.yTop);
                     particles.vy = -particles.vy;
                 }
-                // 粒子的Y坐标 < 0
-                else if (particles.y - size < 0) {
+                // 粒子的Y坐标 > canvas高度 - 半径
+                else if (particles.y >= canvasHeight - size) {
+                    particles.y = Math.floor(newPosition.yBottom);
                     particles.vy = -particles.vy;
                 }
+            } else if(this.moveOutMode === 'out') {
+                // 如果粒子X轴 < 0 - 半径
+                if (particles.x <= -size) {
+                    particles.x = Math.floor(newPosition.xRight);
+                    particles.y = Math.floor(Math.random() * canvasHeight);
+                }
+                // 如果粒子Y轴 < 0 - 半径
+                else if (particles.y <= -size) {
+                    particles.x = Math.floor(Math.random() * canvasWidth);
+                    particles.y = Math.floor(newPosition.yBottom);
+                }
+                // 如果粒子X轴 > canvas宽度 + 半径
+                else if (particles.x >= canvasWidth + size) {
+                    particles.x = Math.floor(newPosition.xLeft);
+                    particles.y = Math.floor(Math.random() * canvasHeight);
+                }
+                // 如果粒子Y轴 > canvas高度 + 半径
+                else if (particles.y >= canvasHeight + size) {
+                    particles.x = Math.floor(Math.random() * canvasWidth);
+                    particles.y = Math.floor(newPosition.yTop);
+                }
+            } else {
+                console.error('check your moveOutMode!');
             }
         },
 
@@ -804,16 +813,16 @@
         /** 更新粒子数组 */
         updateParticlesArray: function () {
             for (let i = 0; i < particlesArray.length; i++) {
-                particlesArray[i].currantAngle = rotation(particlesArray[i].currantAngle, particlesArray[i].rotationAngle);
-                this.moveParticles(particlesArray[i], particlesArray[i].speed);
-                this.bounceParticles(i);
-                this.marginalCheck(particlesArray[i]);
                 if (this.isColorFollow) {
                     particlesArray[i].colorIncrement = Math.floor(this.colorRate * audioAverage);
                 }
                 if (this.isSizeFollow) {
                     particlesArray[i].zoom = (1 + audioAverage * this.sizeRate);
                 }
+                particlesArray[i].currantAngle = rotation(particlesArray[i].currantAngle, particlesArray[i].rotationAngle);
+                this.moveParticles(particlesArray[i], particlesArray[i].speed);
+                this.bounceParticles(i);
+                this.marginalCheck(particlesArray[i]);
             }
         },
 

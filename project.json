@@ -3444,7 +3444,7 @@
       },
       "particles_speedRandom": {
         "order": 7405,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 7) && particles_isParticles.value && !particles_isMoveFollow.value",
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 7) && particles_isParticles.value",
         "text": "ui_particles_speedRandom",
         "type": "bool",
         "value": true
