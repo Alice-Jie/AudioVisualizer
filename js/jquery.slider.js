@@ -1477,6 +1477,7 @@
         addImg: function () {
             $(this.$el).append(prevImg);
             $(this.$el).append(currantImg);
+            this.changeImage();
         },
 
         /** 删除上张图片和当前图片 */

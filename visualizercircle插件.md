@@ -1,26 +1,24 @@
-visualizerbars插件
+visualizercircle插件
 ---
 
 #### 说明：
-visualizerbars插件用于创建一个canvas，并绘制一个音频条形。从`wallpaperAudioListener`接收音频数组`audioArray`，并根据`audioArray`绘制音频条形。
+visualizercircle插件用于创建一个canvas，并绘制一个音频圆环。从`wallpaperAudioListener`接收音频数组`audioArray`，并根据`audioArray`绘制音频圆环。
 
 如果你不知道`wallpaperAudioListener`，请点击：[Advanced: Web audio visualizer](http://steamcommunity.com/sharedfiles/filedetails/?id=786006047)
 
-
 #### 使用：
 
-初始化visualizerbars插件如下：
-
+初始化visualizercircle插件如下：
 
 ```javascript
-    $(selector).visualizerbars();
+    $(selector).visualizercircle();
 ```
 
-你也可以传递一些参数初始化visualizerbars插件(具体参数详见参数列表):
+你也可以传递一些参数初始化visualizercircle插件(具体参数详见参数列表):
 
 
 ```javascript
-    $(selector).visualizerbars({
+    $(selector).visualizercircle({
         amplitude: ...,
         decline: ...,
         ...
@@ -35,11 +33,14 @@ visualizerbars插件用于创建一个canvas，并绘制一个音频条形。从
 amplitude | int | 5 | 音频条形组的振幅大小
 decline | float | 0.2 | 音频条形组变化灵敏度，最好在0.1~0.2之间
 peak | float | 1.5 | 音频数组所允许值上限
-isLineTo | boolean | false | 音频连线开关
-isBars | boolean | false | 音频条形开关
-barsDirection | string | 'upperBars' | 音频条形成长方向:'upperBars'、'lowerBars'、'twoBars'
+isRing | boolean | true | 音频圆环开关
+isStaticRing | boolean | false | 静态圆环开关
+isInnerRing | boolean | true | 内环开关
+isOuterRing | boolean | true | 外环开关
+isLineTo | boolean | false | 显示环之间点与点连线开关
+lineDirection | string | 'twoRing' | 连线所需双环字符串：'innerRing'、'outerRing'、'twoRing'
 isWave | boolean | false | 波浪模式开关
-waveDirection | string | 'lowerBars' | 音频波浪成长方向:'upperBars'、'lowerBars'、'twoBars'
+waveDirection | string | 'innerRing' |波浪所需双环字符串：'innerRing'、'outerRing'、'twoRing'
 isSilenceEffect | boolean | false | 静默特效开关
 respiratoryRate | float | 0.001 | 音频条形呼吸频率
 waveAmplitude | float | 0.5 | 正弦波振幅
@@ -58,13 +59,21 @@ saturationRange | int | 100 | 饱和度范围(%)
 lightnessRange | int | 50 | 亮度范围(%)
 gradientOffset | int | 0 | 渐变效果偏移值
 opacity | float | 0.90 | canvas的不透明度
-width | float | 0.5 | 音频条形的宽度大小
-height | int | 2 | 音频条形初始高度
-pointNum | int | 120 | 音频条形的数量，范围在0~120之间
-lineWidth | int | 5 | 设置context.lineWidth
-lineJoin | string | 'butt' | 设置context.lineCap和context.lineJoin：'butt'、'square'、'round'
-barsRotation | int | 0 |  旋转音频条形组，负数为逆时针旋转，正数为顺时针旋转
+radius | float | 0.5 | 音频圆环的半径大小
+pointNum | int | 120 | 音频圆环上点的数量，范围在0~120之间
+lineWidth | int | 5 | 用于设置context.lineWidth
+lineJoin | string | 'butt' | 设置context.lineCap和context.lineJoin：'butt'、'square'、'round
+innerDistance | int | 0 | 内环与静态环之间的距离
+outerDistance | int | 0 | 外环与静态环之间的距离
+ringRotation | int | 0 | 旋转音频圆环，负数为逆时针旋转，正数为顺时针旋转
 milliSec | int | 30 | 重绘音频条形组间隔(ms)
+isBall | boolean | true | 音频小球开关
+ballSpacer | int | 3 | 音频小球疏密程度
+ballDistance | int | 50 | 音频小球与静态环之间的最小距离
+ballSize | int | 3 | 音频小球半径
+ballDirection | int | 1 | 音频小球成长方向
+bindRingRotation | boolean | false | 音频小球旋转和音频圆环旋转角度绑定
+ballRotation | int | 0 | 旋转音频小球，负数为逆时针旋转，正数为顺时针旋转
 offsetX | float | 0.5 | X坐标偏移系数，范围在0~1之间
 offsetY | float | 0.9 | Y坐标偏移系数，范围在0~1之间
 isClickOffset | boolean | false |  开启后，根据鼠标点击位置确定XY坐标偏移系数
@@ -83,43 +92,43 @@ bottomLeftY | float | 0 | 扭曲目标左下角Y
 
 **clearCanvas：**
 
-调用`$(selector).visualizerbars('clearCanvas');`清除canvas内容。
+调用`$(selector).visualizercircle('clearCanvas');`清除canvas内容。
 
-**updateVisualizerBars：**
+**updateVisualizerCircle：**
 
-调用`$(selector).visualizerbars('updateVisualizerBars', audioArray);`更新音频条形绘制参数。
+调用`$(selector).visualizercircle('updateVisualizerCircle', audioArray);`更新音频圆环参数。
 
 参数类型 | 参数名 | 参数描述
 ---------|--------|----------
 Array<float> | audioSamples | 音频数组
 
-**drawVisualizerBars：**
+**drawVisualizerCircle：**
 
-调用`$(selector).visualizerbars('drawVisualizerBars');`绘制音频条形组
+调用`$(selector).visualizercircle('drawVisualizerCircle');`绘制音频圆环和音频小球
 
 **drawCanvas：**
 
-调用`$(selector).visualizerbars('drawCanvas', audioArray);`更新音频条形绘制参数并根据条件绘制音频条形
+调用`$(selector).visualizercircle('drawCanvas', audioArray);`根据音频数组绘制音频圆环和音频小球
 
 参数类型 | 参数名 | 参数描述
 ---------|--------|----------
 Array<float> | audioSamples | 音频数组
 
-**stopVisualizerBarsTimer：**
+**stopVisualizerCircleTimer：**
 
-调用`$(selector).visualizerbars('stopVisualizerBarsTimer');`停止音频条形组计时器
+调用`$(selector).visualizercircle('stopVisualizerCircleTimer');`停止音频圆环计时器
 
-**runVisualizerBarsTimer：**
+**runVisualizerCircleTimer：**
 
-调用`$(selector).visualizerbars('runVisualizerBarsTimer');`开始音频条形组计时器
+调用`$(selector).visualizercircle('runVisualizerCircleTimer');`开始音频圆环计时器
 
 **destroy：**
 
-调用`$(selector).visualizerbars('destroy');`销毁音频条形组所在canvas
+调用`$(selector).visualizercircle('destroy');`销毁音频圆环所在canvas
 
 **set：**
 
-调用`$(selector).visualizerbars('set', property, value);`设置visualizerbars插件相关参数，具体参数详见参数列表。
+调用`$(selector).visualizercircle('set', property, value);`设置visualizercircle插件相关参数，具体参数详见参数列表。
 
 参数类型 | 参数名 | 参数描述
 ---------|--------|----------
@@ -129,10 +138,10 @@ string | property | 属性名
 #### 使用wallpaper音频监视器：
 
 ```javascript
-    $('body').visualizerbars({});
+    $('body').visualizercircle({});
 
     function wallpaperAudioListener(audioArray) {
-        wallpaper.visualizerbars('drawCanvas', audioArray);
+        wallpaper.visualizercircle('drawCanvas', audioArray);
     }
 
     window.wallpaperRegisterAudioListener && window.wallpaperRegisterAudioListener(wallpaperAudioListener);
