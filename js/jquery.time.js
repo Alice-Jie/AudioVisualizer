@@ -670,8 +670,8 @@
         opacity: 0.90,                  // 不透明度
         language: 'zh_cn',              // 日期语言
         timeStyle: 'hh:mm:ss a',        // 时间显示风格
-        isFormat: true,                 // 是否格式化
         dateStyle: 'LL dddd',           // 日期显示风格
+        isFormat: true,                 // 是否格式化
         userTimeStyle: '',              // 自定义时间显示风格
         userDateStyle: '',              // 自定义日期显示风格
         fontFamily: 'Microsoft YaHei',  // 字体样式
@@ -776,6 +776,40 @@
                     return weatherStr;
                 default:
                     return this.isFormat ? moment().format(formatStr).toUpperCase() : formatStr;
+            }
+        },
+
+
+        /**
+         * 获取天气信息
+         * - 目前支持访问和风天气、百度天气、新浪天气
+         * - 访问成功后将天气信息写入对应天气对象
+         * @private
+         *
+         * @param {string} city     城市(China)
+         */
+        getWeather: function (city) {
+            switch (this.weatherProvider) {
+                // 和风天气接口
+                case 'heWeather':
+                    getHeWeather(city, ()=> {
+                        weatherStr = setWeatherStr(this.weatherProvider);
+                    });
+                    break;
+                // 百度天气接口
+                case 'baidu':
+                    getBaiduWeather(city, ()=> {
+                        weatherStr = setWeatherStr(this.weatherProvider);
+                    });
+                    break;
+                // 新浪天气接口
+                case 'sina':
+                    getSinaWeather(city, ()=> {
+                        weatherStr = setWeatherStr(this.weatherProvider);
+                    });
+                    break;
+                default:
+                    weatherStr = '读取天气数据中...';
             }
         },
 
@@ -946,39 +980,6 @@
                 }, milliSec);
         },
 
-
-        /**
-         * 获取天气信息
-         * - 目前支持访问和风天气、百度天气、新浪天气
-         * - 访问成功后将天气信息写入对应天气对象
-         *
-         * @param {string} city     城市(China)
-         * @param {string} provider API提供者
-         */
-        getWeather: function (city) {
-            switch (this.weatherProvider) {
-                // 和风天气接口
-                case 'heWeather':
-                    getHeWeather(city, ()=> {
-                        weatherStr = setWeatherStr(this.weatherProvider);
-                    });
-                    break;
-                // 百度天气接口
-                case 'baidu':
-                    getBaiduWeather(city, ()=> {
-                        weatherStr = setWeatherStr(this.weatherProvider);
-                    });
-                    break;
-                // 新浪天气接口
-                case 'sina':
-                    getSinaWeather(city, ()=> {
-                        weatherStr = setWeatherStr(this.weatherProvider);
-                    });
-                    break;
-                default:
-                    weatherStr = '读取天气数据中...';
-            }
-        },
 
         /** 更新天气 */
         updateWeather: function () {

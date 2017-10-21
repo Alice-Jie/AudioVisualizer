@@ -1,12 +1,12 @@
 /*!
- * jQuery Slider plugin v0.0.16
+ * jQuery Slider plugin v0.0.17
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
  * - https://gitee.com/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/10/06
+ * @date 2017/10/19
  */
 
 (function (global, factory) {
@@ -1169,6 +1169,7 @@
                 $(this.$el).css('background-image', 'url("file:///' + imgList[0] + '")');
                 imgIndex = 0;
             } else {
+                // 图片数量 > 1 读取下一张图片
                 $(this.$el).css('background-image', 'url("file:///' + imgList[imgIndex] + '")');
             }
         },
@@ -1200,7 +1201,7 @@
                 prevImg.src = 'file:///' + imgList[imgIndex];
                 currantImg.src = 'file:///' + imgList[imgIndex];
             } else {
-                // 读取下一张图片
+                // 图片数量 > 1 读取下一张图片
                 $(this.$el).css('background-image', 'url("file:///' + imgList[imgIndex] + '")');
                 prevImg.src = 'file:///' + imgList[oldIndex];
                 currantImg.src = 'file:///' + imgList[imgIndex];
@@ -1241,7 +1242,7 @@
                     context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
                 };
             } else {
-                // 读取下一张图片
+                // 图片数量 > 1 读取下一张图片
                 $(this.$el).css('background-image', 'url("file:///' + imgList[imgIndex] + '")');
                 prevImg.src = 'file:///' + imgList[oldIndex];
                 currantImg.src = 'file:///' + imgList[imgIndex];

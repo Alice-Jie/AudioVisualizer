@@ -590,7 +590,6 @@
         isInnerRing: true,           // 显示内环
         isOuterRing: true,           // 显示外环
         isLineTo: false,             // 是否连线
-        isBall: true,                // 显示小球
         lineDirection: 'twoRing',    // 连线方向
         isWave: false,               // 波浪模式
         waveDirection: 'innerRing',  // 波浪方向
@@ -623,6 +622,7 @@
         ringRotation: 0,             // 圆环旋转
         milliSec: 30,                // 重绘间隔(ms)
         // 小球参数
+        isBall: true,                // 显示小球
         ballSpacer: 3,               // 小球间隔
         ballDistance: 50,            // 小球距离
         ballSize: 3,                 // 小球大小
