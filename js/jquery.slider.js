@@ -1,12 +1,12 @@
 /*!
- * jQuery Slider plugin v0.0.17
+ * jQuery Slider plugin v0.0.18
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
  * - https://gitee.com/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/10/19
+ * @date 2017/10/22
  */
 
 (function (global, factory) {
@@ -990,6 +990,8 @@
     let Slider = function (el, options) {
         this.$el = $(el);
 
+        this.sliderMode = options.sliderMode;              // 背景模式
+        this.isLinearGradient = options.isLinearGradient;  // 线性背景开关
         this.sliderStyle = options.sliderStyle;            // 背景切换模式
         this.readStyle = options.readStyle;                // 读取模式
         this.effect = options.effect;                      // 时间单位
@@ -1087,10 +1089,13 @@
 
         // 默认开启
         this.setupPointerEvents();
+        this.initSlider();
     };
 
     // 默认参数
     Slider.DEFAULTS = {
+        sliderMode: 'wallpaper',      // 背景模式
+        isLinearGradient: true,       // 线性背景开关
         sliderStyle: 'css',           // 背景切换模式
         readStyle: 'sequential',      // 读取模式
         timeUnits: 'sec',             // 时间单位
@@ -1108,7 +1113,7 @@
         isAudioPlay: false,           // 是否播放Audio
         isAudioLoop: false,           // 是否循环播放
         audioVolume: 0.75,            // Audio音量
-        isBackgourndBlur: false,      // 是否背景模糊
+        isBackgroundBlur: false,      // 是否背景模糊
         isBackgroundZoom: false,      // 是否背景缩放
         isRotate3D: false             // 是否3D旋转
     };
@@ -1205,6 +1210,88 @@
                 $(this.$el).css('background-image', 'url("file:///' + imgList[imgIndex] + '")');
                 prevImg.src = 'file:///' + imgList[oldIndex];
                 currantImg.src = 'file:///' + imgList[imgIndex];
+            }
+        },
+
+        /**
+         * 选择图片切换特效
+         * @private
+         */
+        selectImgEffects: function () {
+            switch (this.effect) {
+                case 'none':
+                    stopEffectTimer();
+                    break;
+                case 'cover':
+                    imgCover();
+                    break;
+                case 'fadeIn':
+                    imgFadeIn();
+                    break;
+                case 'fadeOut':
+                    imgFadeOut();
+                    break;
+                case 'shuffle':
+                    imgShuffle();
+                    break;
+                case 'slider':
+                    imgSlider();
+                    break;
+                case 'vertIn':
+                    imgVerticalIn();
+                    break;
+                case 'vertOut':
+                    imgVerticalOut();
+                    break;
+                case 'zoomIn':
+                    imgZoomIn();
+                    break;
+                case 'zoomOut':
+                    imgZoomOut();
+                    break;
+                default:
+                    stopEffectTimer();
+            }
+        },
+
+        /**
+         * 选择Canvas切换特效
+         * @private
+         */
+        selectCanvasEffects: function () {
+            switch (this.effect) {
+                case 'none':
+                    stopEffectTimer();
+                    break;
+                case 'cover':
+                    canvasCover();
+                    break;
+                case 'fadeIn':
+                    canvasFadeIn();
+                    break;
+                case 'fadeOut':
+                    canvasFadeOut();
+                    break;
+                case 'shuffle':
+                    canvasShuffle();
+                    break;
+                case 'slider':
+                    canvasSlider();
+                    break;
+                case 'vertIn':
+                    canvasVerticalIn();
+                    break;
+                case 'vertOut':
+                    canvasVerticalOut();
+                    break;
+                case 'zoomIn':
+                    canvasZoomIn();
+                    break;
+                case 'zoomOut':
+                    canvasZoomOut();
+                    break;
+                default:
+                    stopEffectTimer();
             }
         },
 
@@ -1562,8 +1649,9 @@
             timer = setTimeout(
                 ()=> {
                     if (imgList.length > 1) {
-                        // 更新图片列表
+                        // 更新oldIndex
                         oldIndex = imgIndex;
+                        // 按读取顺序更新imgIndex
                         switch (this.readStyle) {
                             case 'sequential':
                                 imgIndex = upDateIndex(imgList, imgIndex, false);
@@ -1574,79 +1662,14 @@
                             default:
                                 imgIndex = upDateIndex(imgList, imgIndex, false);
                         }
-                        // 选择特效
+                        // 选择背景切换特效
                         if (this.sliderStyle === 'image') {
-                            switch (this.effect) {
-                                case 'none':
-                                    stopEffectTimer();
-                                    break;
-                                case 'cover':
-                                    imgCover();
-                                    break;
-                                case 'fadeIn':
-                                    imgFadeIn();
-                                    break;
-                                case 'fadeOut':
-                                    imgFadeOut();
-                                    break;
-                                case 'shuffle':
-                                    imgShuffle();
-                                    break;
-                                case 'slider':
-                                    imgSlider();
-                                    break;
-                                case 'vertIn':
-                                    imgVerticalIn();
-                                    break;
-                                case 'vertOut':
-                                    imgVerticalOut();
-                                    break;
-                                case 'zoomIn':
-                                    imgZoomIn();
-                                    break;
-                                case 'zoomOut':
-                                    imgZoomOut();
-                                    break;
-                                default:
-                                    stopEffectTimer();
-                            }
+                            this.selectImgEffects();
                         } else if (this.sliderStyle === 'canvas') {
-                            switch (this.effect) {
-                                case 'none':
-                                    stopEffectTimer();
-                                    break;
-                                case 'cover':
-                                    canvasCover();
-                                    break;
-                                case 'fadeIn':
-                                    canvasFadeIn();
-                                    break;
-                                case 'fadeOut':
-                                    canvasFadeOut();
-                                    break;
-                                case 'shuffle':
-                                    canvasShuffle();
-                                    break;
-                                case 'slider':
-                                    canvasSlider();
-                                    break;
-                                case 'vertIn':
-                                    canvasVerticalIn();
-                                    break;
-                                case 'vertOut':
-                                    canvasVerticalOut();
-                                    break;
-                                case 'zoomIn':
-                                    canvasZoomIn();
-                                    break;
-                                case 'zoomOut':
-                                    canvasZoomOut();
-                                    break;
-                                default:
-                                    stopEffectTimer();
-                            }
+                            this.selectCanvasEffects();
                         }
                     }
+                    // 更新当前背景并进入下次循环
                     this.changeSlider();
                     this.runSliderTimer();
                 }, this.getPauseTime());
@@ -1913,6 +1936,32 @@
             }
         },
 
+        /** 初始化模式所需要的环境 */
+        initSlider: function () {
+            switch (this.sliderMode) {
+                case 'Color':
+                    this.delVideo();
+                    this.stopSliderTimer();
+                    this.isLinearGradient ? this.cssLinearGradient() : this.cssUserColor();
+                    break;
+                case 'Wallpaper':
+                    this.delVideo();
+                    this.stopSliderTimer();
+                    userImg ? this.cssUserImg() : this.cssDefaultImg();
+                    break;
+                case 'Directory':
+                    this.delVideo();
+                    this.startSlider();
+                    break;
+                case 'Video':
+                    this.stopSliderTimer();
+                    this.getVideoList();
+                    this.addVideo();
+                    userVideo ? this.videoSrcUserVideo() : this.videoSrcDefaultVideo();
+                    break;
+                // no default
+            }
+        },
 
         /** 移除canvas */
         destroy: function () {
@@ -1954,6 +2003,14 @@
                 case 'readStyle':
                 case 'effect':
                     this[property] = value;
+                    break;
+                case 'sliderMode':
+                    this.sliderMode = value;
+                    this.initSlider();
+                    break;
+                case 'isLinearGradient':
+                    this.isLinearGradient = value;
+                    this.isLinearGradient ? this.cssLinearGradient() : this.cssUserColor();
                     break;
                 case 'pauseTime':
                 case 'timeUnits':
@@ -1998,8 +2055,8 @@
                     this.setVideoPlaybackRate(this.playbackRate);
                     break;
                 case 'isBackgroundBlur':
-                    this.isBackgourndBlur = value;
-                    this.isBackgourndBlur || this.stopSliderFilter();
+                    this.isBackgroundBlur = value;
+                    this.isBackgroundBlur || this.stopSliderFilter();
                     break;
                 case 'isBackgroundZoom':
                     this.isBackgroundZoom = value;

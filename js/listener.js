@@ -6,7 +6,7 @@
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/10/18
+ * @date 2017/10/22
  */
 
 (function ($, window, document, Math) {
@@ -948,42 +948,22 @@
                 switch (properties.BG_mode.value) {
                     case 1:
                         BG.mode = 'Color';
-                        wallpaper.slider('delVideo')
-                            .slider('stopSliderTimer');
-                        if (BG.isLinearGradient) {
-                            wallpaper.slider('cssLinearGradient');
-                        } else {
-                            wallpaper.slider('cssUserColor');
-                        }
+                        wallpaper.slider('set', 'sliderMode', BG.mode);
                         break;
                     case 2:
                         BG.mode = 'Wallpaper';
-                        wallpaper.slider('delVideo')
-                            .slider('stopSliderTimer');
-                        if (BG.file) {
-                            wallpaper.slider('cssUserImg');
-                        } else {
-                            wallpaper.slider('cssDefaultImg');
-                        }
+                        wallpaper.slider('set', 'sliderMode', BG.mode);
                         break;
                     case 3:
                         BG.mode = 'Directory';
-                        wallpaper.slider('delVideo')
-                            .slider('startSlider')
+                        wallpaper.slider('set', 'sliderMode', BG.mode)
                             .slider('set', 'sliderStyle', directory.sliderStyle)
                             .slider('set', 'timeUnits', directory.timeUnits)
                             .slider('set', 'pauseTime', directory.pauseTime);
                         break;
                     case 4:
                         BG.mode = 'Video';
-                        wallpaper.slider('stopSliderTimer')
-                            .slider('getVideoList')
-                            .slider('addVideo');
-                        if (video.file) {
-                            wallpaper.slider('videoSrcUserVideo');
-                        } else {
-                            wallpaper.slider('videoSrcDefaultVideo');
-                        }
+                        wallpaper.slider('set', 'sliderMode', BG.mode);
                         break;
                     // no default
                 }
@@ -999,10 +979,8 @@
             // 线性颜色开关
             if (properties.BG_isLinearGradient) {
                 BG.isLinearGradient = properties.BG_isLinearGradient.value;
-                if (BG.isLinearGradient) {
-                    wallpaper.slider('cssLinearGradient');
-                } else {
-                    wallpaper.slider('cssUserColor');
+                if (BG.mode === 'Color') {
+                    wallpaper.slider('set', 'isLinearGradient', BG.isLinearGradient);
                 }
             }
             // 线性颜色1
@@ -1052,7 +1030,7 @@
             if (properties.image_isRotate3D) {
                 wallpaper.slider('set', 'isRotate3D', properties.image_isRotate3D.value);
             }
-            // 背景阴影样式
+            // 背景模糊样式
             if (properties.image_filterBlur) {
                 wallpaper.slider('set', 'isBackgroundBlur', properties.image_filterBlur.value);
             }
@@ -1066,14 +1044,8 @@
 
             // 幻灯片目录
             if (properties.directory) {
-                if (properties.directory.value) {
-                    if (BG.mode === 'Directory') {
-                        wallpaper.slider('changeSlider');
-                    }
-                } else {
-                    if (BG.mode === 'Directory') {
-                        wallpaper.slider('changeSlider');
-                    }
+                if (BG.mode === 'Directory') {
+                    wallpaper.slider('changeSlider');
                 }
             }
             // 滑动样式
