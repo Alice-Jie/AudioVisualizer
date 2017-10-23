@@ -162,23 +162,16 @@
         ],
         "value": 1
       },
-      "image_isRotate3D": {
-        "order": 1009,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && BG_mode.value == 1",
-        "text": "ui_image_isRotate3D",
-        "type": "bool",
-        "value": false
-      },
       "image_isBackgroundZoom": {
         "order": 1010,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && !image_isRotate3D.value",
+        "condition": "MENU_mode.value == 1 || MENU_mode.value == 2",
         "text": "ui_image_isBackgroundZoom",
         "type": "bool",
         "value": false
       },
       "image_filterBlur": {
         "order": 1011,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && !image_isRotate3D.value",
+        "condition": "MENU_mode.value == 1 || MENU_mode.value == 2",
         "text": "ui_image_filterBlur",
         "type": "bool",
         "value": false
@@ -1066,15 +1059,42 @@
         "min": 0,
         "value": 25
       },
-      "circle_topLeft": {
+      "circle_isRotate3D": {
         "order": 3407,
         "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value)",
+        "text": "ui_circle_isRotate3D",
+        "type": "bool",
+        "value": false
+      },
+      "circle_perspective": {
+        "order": 3408,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && circle_isRotate3D.value",
+        "text": "ui_circle_perspective",
+        "type": "slider",
+        "editable": true,
+        "max": 20,
+        "min": 0,
+        "value": 20
+      },
+      "circle_degSize": {
+        "order": 3409,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && circle_isRotate3D.value",
+        "text": "ui_circle_degSize",
+        "type": "slider",
+        "editable": true,
+        "max": 360,
+        "min": 0,
+        "value": 30
+      },
+      "circle_topLeft": {
+        "order": 3410,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && !circle_isRotate3D.value",
         "text": "ui_circle_topLeft",
         "type": "text"
       },
       "circle_topLeftX": {
-        "order": 3408,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value)",
+        "order": 3411,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && !circle_isRotate3D.value",
         "text": "ui_circle_topLeftX",
         "type": "slider",
         "editable": true,
@@ -1083,8 +1103,8 @@
         "value": 0
       },
       "circle_topLeftY": {
-        "order": 3409,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value)",
+        "order": 3412,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && !circle_isRotate3D.value",
         "text": "ui_circle_topLeftY",
         "type": "slider",
         "editable": true,
@@ -1093,14 +1113,14 @@
         "value": 0
       },
       "circle_topRight": {
-        "order": 3410,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value)",
+        "order": 3413,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && !circle_isRotate3D.value",
         "text": "ui_circle_topRight",
         "type": "text"
       },
       "circle_topRightX": {
-        "order": 3411,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value)",
+        "order": 3414,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && !circle_isRotate3D.value",
         "text": "ui_circle_topRightX",
         "type": "slider",
         "editable": true,
@@ -1109,8 +1129,8 @@
         "value": 0
       },
       "circle_topRightY": {
-        "order": 3412,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value)",
+        "order": 3415,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && !circle_isRotate3D.value",
         "text": "ui_circle_topRightY",
         "type": "slider",
         "editable": true,
@@ -1119,14 +1139,14 @@
         "value": 0
       },
       "circle_bottomRight": {
-        "order": 3413,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value)",
+        "order": 3416,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && !circle_isRotate3D.value",
         "text": "ui_circle_bottomRight",
         "type": "text"
       },
       "circle_bottomRightX": {
-        "order": 3414,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value)",
+        "order": 3417,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && !circle_isRotate3D.value",
         "text": "ui_circle_bottomRightX",
         "type": "slider",
         "editable": true,
@@ -1135,8 +1155,8 @@
         "value": 0
       },
       "circle_bottomRightY": {
-        "order": 3415,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value)",
+        "order": 3418,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && !circle_isRotate3D.value",
         "text": "ui_circle_bottomRightY",
         "type": "slider",
         "editable": true,
@@ -1145,14 +1165,14 @@
         "value": 0
       },
       "circle_bottomLeft": {
-        "order": 3416,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value)",
+        "order": 3419,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && !circle_isRotate3D.value",
         "text": "ui_circle_bottomLeft",
         "type": "text"
       },
       "circle_bottomLeftX": {
-        "order": 3417,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value)",
+        "order": 3420,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && !circle_isRotate3D.value",
         "text": "ui_circle_bottomLeftX",
         "type": "slider",
         "editable": true,
@@ -1161,8 +1181,8 @@
         "value": 0
       },
       "circle_bottomLeftY": {
-        "order": 3418,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value)",
+        "order": 3421,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && !circle_isRotate3D.value",
         "text": "ui_circle_bottomLeftY",
         "type": "slider",
         "editable": true,
@@ -1567,15 +1587,42 @@
         "min": 0,
         "value": 25
       },
-      "bars_topLeft": {
+      "bars_isRotate3D": {
         "order": 4307,
         "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value)",
+        "text": "ui_bars_isRotate3D",
+        "type": "bool",
+        "value": false
+      },
+      "bars_perspective": {
+        "order": 4308,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && bars_isRotate3D.value",
+        "text": "ui_bars_perspective",
+        "type": "slider",
+        "editable": true,
+        "max": 20,
+        "min": 0,
+        "value": 20
+      },
+      "bars_degSize": {
+        "order": 4309,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && bars_isRotate3D.value",
+        "text": "ui_bars_degSize",
+        "type": "slider",
+        "editable": true,
+        "max": 360,
+        "min": 0,
+        "value": 30
+      },
+      "bars_topLeft": {
+        "order": 4310,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && !bars_isRotate3D.value",
         "text": "ui_bars_topLeft",
         "type": "text"
       },
       "bars_topLeftX": {
-        "order": 4308,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value)",
+        "order": 4311,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && !bars_isRotate3D.value",
         "text": "ui_bars_topLeftX",
         "type": "slider",
         "editable": true,
@@ -1584,8 +1631,8 @@
         "value": 0
       },
       "bars_topLeftY": {
-        "order": 4309,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value)",
+        "order": 4312,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && !bars_isRotate3D.value",
         "text": "ui_bars_topLeftY",
         "type": "slider",
         "editable": true,
@@ -1594,14 +1641,14 @@
         "value": 0
       },
       "bars_topRight": {
-        "order": 4310,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value)",
+        "order": 4313,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && !bars_isRotate3D.value",
         "text": "ui_bars_topRight",
         "type": "text"
       },
       "bars_topRightX": {
-        "order": 4311,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value)",
+        "order": 4314,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && !bars_isRotate3D.value",
         "text": "ui_bars_topRightX",
         "type": "slider",
         "editable": true,
@@ -1610,8 +1657,8 @@
         "value": 0
       },
       "bars_topRightY": {
-        "order": 4312,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value)",
+        "order": 4315,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && !bars_isRotate3D.value",
         "text": "ui_bars_topRightY",
         "type": "slider",
         "editable": true,
@@ -1620,14 +1667,14 @@
         "value": 0
       },
       "bars_bottomRight": {
-        "order": 4313,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value)",
+        "order": 4316,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && !bars_isRotate3D.value",
         "text": "ui_bars_bottomRight",
         "type": "text"
       },
       "bars_bottomRightX": {
-        "order": 4314,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value)",
+        "order": 4317,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && !bars_isRotate3D.value",
         "text": "ui_bars_bottomRightX",
         "type": "slider",
         "editable": true,
@@ -1636,8 +1683,8 @@
         "value": 0
       },
       "bars_bottomRightY": {
-        "order": 4315,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value)",
+        "order": 4318,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && !bars_isRotate3D.value",
         "text": "ui_bars_bottomRightY",
         "type": "slider",
         "editable": true,
@@ -1646,14 +1693,14 @@
         "value": 0
       },
       "bars_bottomLeft": {
-        "order": 4316,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value)",
+        "order": 4319,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && !bars_isRotate3D.value",
         "text": "ui_bars_bottomLeft",
         "type": "text"
       },
       "bars_bottomLeftX": {
-        "order": 4317,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value)",
+        "order": 4320,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && !bars_isRotate3D.value",
         "text": "ui_bars_bottomLeftX",
         "type": "slider",
         "editable": true,
@@ -1662,8 +1709,8 @@
         "value": 0
       },
       "bars_bottomLeftY": {
-        "order": 4318,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value)",
+        "order": 4321,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && !bars_isRotate3D.value",
         "text": "ui_bars_bottomLeftY",
         "type": "slider",
         "editable": true,
@@ -2081,15 +2128,42 @@
         "min": 0,
         "value": 25
       },
-      "logo_topLeft": {
+      "logo_isRotate3D": {
         "order": 5407,
         "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value",
+        "text": "ui_bars_isRotate3D",
+        "type": "bool",
+        "value": false
+      },
+      "logo_perspective": {
+        "order": 5408,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_isRotate3D.value",
+        "text": "ui_bars_perspective",
+        "type": "slider",
+        "editable": true,
+        "max": 20,
+        "min": 0,
+        "value": 20
+      },
+      "logo_degSize": {
+        "order": 5409,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_isRotate3D.value",
+        "text": "ui_bars_degSize",
+        "type": "slider",
+        "editable": true,
+        "max": 360,
+        "min": 0,
+        "value": 30
+      },
+      "logo_topLeft": {
+        "order": 5410,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && !logo_isRotate3D.value",
         "text": "ui_logo_topLeft",
         "type": "text"
       },
       "logo_topLeftX": {
-        "order": 5408,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value",
+        "order": 5411,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && !logo_isRotate3D.value",
         "text": "ui_logo_topLeftX",
         "type": "slider",
         "editable": true,
@@ -2098,8 +2172,8 @@
         "value": 0
       },
       "logo_topLeftY": {
-        "order": 5409,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value",
+        "order": 5412,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && !logo_isRotate3D.value",
         "text": "ui_logo_topLeftY",
         "type": "slider",
         "editable": true,
@@ -2108,14 +2182,14 @@
         "value": 0
       },
       "logo_topRight": {
-        "order": 5410,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value",
+        "order": 5413,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && !logo_isRotate3D.value",
         "text": "ui_logo_topRight",
         "type": "text"
       },
       "logo_topRightX": {
-        "order": 5411,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value",
+        "order": 5414,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && !logo_isRotate3D.value",
         "text": "ui_logo_topRightX",
         "type": "slider",
         "editable": true,
@@ -2124,8 +2198,8 @@
         "value": 0
       },
       "logo_topRightY": {
-        "order": 5412,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value",
+        "order": 5415,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && !logo_isRotate3D.value",
         "text": "ui_logo_topRightY",
         "type": "slider",
         "editable": true,
@@ -2134,14 +2208,14 @@
         "value": 0
       },
       "logo_bottomRight": {
-        "order": 5413,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value",
+        "order": 5416,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && !logo_isRotate3D.value",
         "text": "ui_logo_bottomRight",
         "type": "text"
       },
       "logo_bottomRightX": {
-        "order": 5414,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value",
+        "order": 5417,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && !logo_isRotate3D.value",
         "text": "ui_logo_bottomRightX",
         "type": "slider",
         "editable": true,
@@ -2150,8 +2224,8 @@
         "value": 0
       },
       "logo_bottomRightY": {
-        "order": 5415,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value",
+        "order": 5418,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && !logo_isRotate3D.value",
         "text": "ui_logo_bottomRightY",
         "type": "slider",
         "editable": true,
@@ -2160,14 +2234,14 @@
         "value": 0
       },
       "logo_bottomLeft": {
-        "order": 5416,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value",
+        "order": 5419,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && !logo_isRotate3D.value",
         "text": "ui_logo_bottomLeft",
         "type": "text"
       },
       "logo_bottomLeftX": {
-        "order": 5417,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value",
+        "order": 5420,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && !logo_isRotate3D.value",
         "text": "ui_logo_bottomLeftX",
         "type": "slider",
         "editable": true,
@@ -2176,8 +2250,8 @@
         "value": 0
       },
       "logo_bottomLeftY": {
-        "order": 5418,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value",
+        "order": 5421,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && !logo_isRotate3D.value",
         "text": "ui_logo_bottomLeftY",
         "type": "slider",
         "editable": true,
@@ -2996,15 +3070,42 @@
         "min": 0,
         "value": 25
       },
-      "date_topLeft": {
+      "date_isRotate3D": {
         "order": 6407,
         "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value",
+        "text": "ui_bars_isRotate3D",
+        "type": "bool",
+        "value": false
+      },
+      "date_perspective": {
+        "order": 6408,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value && date_isRotate3D.value",
+        "text": "ui_bars_perspective",
+        "type": "slider",
+        "editable": true,
+        "max": 20,
+        "min": 0,
+        "value": 20
+      },
+      "date_degSize": {
+        "order": 6409,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value && date_isRotate3D.value",
+        "text": "ui_bars_degSize",
+        "type": "slider",
+        "editable": true,
+        "max": 360,
+        "min": 0,
+        "value": 30
+      },
+      "date_topLeft": {
+        "order": 6410,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value && !date_isRotate3D.value",
         "text": "ui_date_topLeft",
         "type": "text"
       },
       "date_topLeftX": {
-        "order": 6408,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value",
+        "order": 6411,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value && !date_isRotate3D.value",
         "text": "ui_date_topLeftX",
         "type": "slider",
         "editable": true,
@@ -3013,8 +3114,8 @@
         "value": 0
       },
       "date_topLeftY": {
-        "order": 6409,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value",
+        "order": 6412,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value && !date_isRotate3D.value",
         "text": "ui_date_topLeftY",
         "type": "slider",
         "editable": true,
@@ -3023,14 +3124,14 @@
         "value": 0
       },
       "date_topRight": {
-        "order": 6410,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value",
+        "order": 6413,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value && !date_isRotate3D.value",
         "text": "ui_date_topRight",
         "type": "text"
       },
       "date_topRightX": {
-        "order": 6411,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value",
+        "order": 6414,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value && !date_isRotate3D.value",
         "text": "ui_date_topRightX",
         "type": "slider",
         "editable": true,
@@ -3039,8 +3140,8 @@
         "value": 0
       },
       "date_topRightY": {
-        "order": 6412,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value",
+        "order": 6415,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value && !date_isRotate3D.value",
         "text": "ui_date_topRightY",
         "type": "slider",
         "editable": true,
@@ -3049,14 +3150,14 @@
         "value": 0
       },
       "date_bottomRight": {
-        "order": 6413,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value",
+        "order": 6416,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value && !date_isRotate3D.value",
         "text": "ui_date_bottomRight",
         "type": "text"
       },
       "date_bottomRightX": {
-        "order": 6414,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value",
+        "order": 6417,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value && !date_isRotate3D.value",
         "text": "ui_date_bottomRightX",
         "type": "slider",
         "editable": true,
@@ -3065,8 +3166,8 @@
         "value": 0
       },
       "date_bottomRightY": {
-        "order": 6415,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value",
+        "order": 6418,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value && !date_isRotate3D.value",
         "text": "ui_date_bottomRightY",
         "type": "slider",
         "editable": true,
@@ -3075,14 +3176,14 @@
         "value": 0
       },
       "date_bottomLeft": {
-        "order": 6416,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value",
+        "order": 6419,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value && !date_isRotate3D.value",
         "text": "ui_date_bottomLeft",
         "type": "text"
       },
       "date_bottomLeftX": {
-        "order": 6417,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value",
+        "order": 6420,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value && !date_isRotate3D.value",
         "text": "ui_date_bottomLeftX",
         "type": "slider",
         "editable": true,
@@ -3091,8 +3192,8 @@
         "value": 0
       },
       "date_bottomLeftY": {
-        "order": 6418,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value",
+        "order": 6421,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value && !date_isRotate3D.value",
         "text": "ui_date_bottomLeftY",
         "type": "slider",
         "editable": true,
@@ -3608,7 +3709,6 @@
         "Dividing_line1": "------------------------------------------------------------------------------------------------------------------------",
         "ui_BG_image": "<br/>Background Image<br/><br/>",
         "ui_image_fillStyle": "<br/>Background Fill Style<br/><br/>",
-        "ui_image_isRotate3D": "<br/>3D Rotating Background?<br/><br/>",
         "ui_image_isBackgroundZoom": "<br/>Background Zoom Follow Audio?<br/><br/>",
         "ui_image_filterBlur": "<br/>Background Blur Follow Audio?<br/><br/>",
         "Dividing_line2": "------------------------------------------------------------------------------------------------------------------------",
@@ -3697,6 +3797,9 @@
         "ui_circle_transform": "<br/><b>Ring - Distort Setting</b><br/><br/>",
         "ui_circle_isMasking": "<br/>Show Masking?<br/><br/>",
         "ui_circle_maskOpacity": "<br/>Masking Opacity<br/><br/>",
+        "ui_circle_isRotate3D": "<br/>3D Rotating?<br/><br/>",
+        "ui_circle_perspective": "<br/>perspective<br/><br/>",
+        "ui_circle_degSize": "<br/>Angle Size<br/><br/>",
         "ui_circle_topLeft": "<br/>Top-Left<br/><br/>",
         "ui_circle_topLeftX": "<br/>X(%)：<br/><br/>",
         "ui_circle_topLeftY": "<br/>Y(%)：<br/><br/>",
@@ -3751,6 +3854,9 @@
         "ui_bars_transform": "<br/><b>Bars - Distort Setting</b><br/><br/>",
         "ui_bars_isMasking": "<br/>Show Masking?<br/><br/>",
         "ui_bars_maskOpacity": "<br/>Masking Opacity<br/><br/>",
+        "ui_bars_isRotate3D": "<br/>3D Rotating?<br/><br/>",
+        "ui_bars_perspective": "<br/>perspective<br/><br/>",
+        "ui_bars_degSize": "<br/>Angle Size<br/><br/>",
         "ui_bars_topLeft": "<br/>Top-Left<br/><br/>",
         "ui_bars_topLeftX": "<br/>X(%)：<br/><br/>",
         "ui_bars_topLeftY": "<br/>Y(%)：<br/><br/>",
@@ -3804,6 +3910,9 @@
         "ui_logo_transform": "<br/><b>Logo - Distort Setting</b><br/><br/>",
         "ui_logo_isMasking": "<br/>Show Masking?<br/><br/>",
         "ui_logo_maskOpacity": "<br/>Masking Opacity<br/><br/>",
+        "ui_logo_isRotate3D": "<br/>3D Rotating?<br/><br/>",
+        "ui_logo_perspective": "<br/>perspective<br/><br/>",
+        "ui_logo_degSize": "<br/>Angle Size<br/><br/>",
         "ui_logo_topLeft": "<br/>Top-Left<br/><br/>",
         "ui_logo_topLeftX": "<br/>X(%)：<br/><br/>",
         "ui_logo_topLeftY": "<br/>Y(%)：<br/><br/>",
@@ -3860,6 +3969,9 @@
         "ui_date_transform": "<br/><b>Date - Distort Setting</b><br/><br/>",
         "ui_date_isMasking": "<br/>Show Masking?<br/><br/>",
         "ui_date_maskOpacity": "<br/>Masking Opacity<br/><br/>",
+        "ui_date_isRotate3D": "<br/>3D Rotating?<br/><br/>",
+        "ui_date_perspective": "<br/>perspective<br/><br/>",
+        "ui_date_degSize": "<br/>Angle Size<br/><br/>",
         "ui_date_topLeft": "<br/>Top-Left<br/><br/>",
         "ui_date_topLeftX": "<br/>X(%)：<br/><br/>",
         "ui_date_topLeftY": "<br/>Y(%)：<br/><br/>",
@@ -3923,8 +4035,8 @@
         "ui_about_authorText": "<br/>Author：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
         "ui_about_emailText": "<br/>Email：909011298@qq.com<br/>",
-        "ui_about_versionText": "<br/>Version Number：0.6.1<br/>",
-        "ui_about_updateText": "<br/><span>Update Description：</span><br/><span>1.Rewrite weather query algorithm</span><br/><span>2.Fixed Baidu weather failure BUG</span><br/><span>                           -- From Baidu translate.</span><br/>",
+        "ui_about_versionText": "<br/>Version Number：0.6.2<br/>",
+        "ui_about_updateText": "<br/><span>Update Description：</span><br/><span>1.particles plug-in: Rewriting edge detection algorithm</span><br/><span>2.visualizer plug-in: Adding silence effects</span><br/><span>                           -- From Baidu translate.</span><br/>",
         "ui_about_describeText": "<br/><span>Relevant Instructions：</span><br/><span>If you have better text translation, please contact me.</span><br/>",
         "ui_about_isQRcode": "<br/>Show QRcode?<br/><br/>"
       },
@@ -3942,7 +4054,6 @@
         "Dividing_line1": "------------------------------------------------------------------------------------------------------------------------",
         "ui_BG_image": "<br/>背景图片<br/><br/>",
         "ui_image_fillStyle": "<br/>背景填充方式<br/><br/>",
-        "ui_image_isRotate3D": "<br/>3D旋转背景<br/><br/>",
         "ui_image_isBackgroundZoom": "<br/>背景跟随音频缩放<br/><br/>",
         "ui_image_filterBlur": "<br/>背景模糊跟随音频<br/><br/>",
         "Dividing_line2": "------------------------------------------------------------------------------------------------------------------------",
@@ -4031,6 +4142,9 @@
         "ui_circle_transform": "<br/><b>圆环 - 扭曲设置</b><br/><br/>",
         "ui_circle_isMasking": "<br/>显示蒙版<br/><br/>",
         "ui_circle_maskOpacity": "<br/>蒙版不透明度<br/><br/>",
+        "ui_circle_isRotate3D": "<br/>3D旋转<br/><br/>",
+        "ui_circle_perspective": "<br/>透视效果<br/><br/>",
+        "ui_circle_degSize": "<br/>角度偏移<br/><br/>",
         "ui_circle_topLeft": "<br/>左上角<br/><br/>",
         "ui_circle_topLeftX": "<br/>X(%)：<br/><br/>",
         "ui_circle_topLeftY": "<br/>Y(%)：<br/><br/>",
@@ -4085,6 +4199,9 @@
         "ui_bars_transform": "<br/><b>条形 - 扭曲设置</b><br/><br/>",
         "ui_bars_isMasking": "<br/>显示蒙版<br/><br/>",
         "ui_bars_maskOpacity": "<br/>蒙版不透明度<br/><br/>",
+        "ui_bars_isRotate3D": "<br/>3D旋转<br/><br/>",
+        "ui_bars_perspective": "<br/>透视效果<br/><br/>",
+        "ui_bars_degSize": "<br/>角度偏移<br/><br/>",
         "ui_bars_topLeft": "<br/>左上角<br/><br/>",
         "ui_bars_topLeftX": "<br/>X(%)：<br/><br/>",
         "ui_bars_topLeftY": "<br/>Y(%)：<br/><br/>",
@@ -4138,6 +4255,9 @@
         "ui_logo_transform": "<br/><b>标志 - 扭曲设置</b><br/><br/>",
         "ui_logo_isMasking": "<br/>显示蒙版<br/><br/>",
         "ui_logo_maskOpacity": "<br/>蒙版不透明度<br/><br/>",
+        "ui_logo_isRotate3D": "<br/>3D旋转<br/><br/>",
+        "ui_logo_perspective": "<br/>透视效果<br/><br/>",
+        "ui_logo_degSize": "<br/>角度偏移<br/><br/>",
         "ui_logo_topLeft": "<br/>左上角<br/><br/>",
         "ui_logo_topLeftX": "<br/>X(%)：<br/><br/>",
         "ui_logo_topLeftY": "<br/>Y(%)：<br/><br/>",
@@ -4194,6 +4314,9 @@
         "ui_date_transform": "<br/><b>日期 - 扭曲设置</b><br/><br/>",
         "ui_date_isMasking": "<br/>显示蒙版<br/><br/>",
         "ui_date_maskOpacity": "<br/>蒙版不透明度<br/><br/>",
+        "ui_date_isRotate3D": "<br/>3D旋转<br/><br/>",
+        "ui_date_perspective": "<br/>透视效果<br/><br/>",
+        "ui_date_degSize": "<br/>角度偏移<br/><br/>",
         "ui_date_topLeft": "<br/>左上角<br/><br/>",
         "ui_date_topLeftX": "<br/>X(%)：<br/><br/>",
         "ui_date_topLeftY": "<br/>Y(%)：<br/><br/>",
@@ -4257,8 +4380,8 @@
         "ui_about_authorText": "<br/>作者：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
         "ui_about_emailText": "<br/>Email：909011298@qq.com<br/>",
-        "ui_about_versionText": "<br/>版本号：0.6.1<br/>",
-        "ui_about_updateText": "<br/><span>更新说明：</span><br/><span>1、重写天气查询算法</span><br/><span>2、修复百度天气失效BUG</span><br/>",
+        "ui_about_versionText": "<br/>版本号：0.6.2<br/>",
+        "ui_about_updateText": "<br/><span>更新说明：</span><br/><span>1、粒子插件：重写边缘检测算法</span><br/><span>2、可视化插件：添加静默特效</span><br/>",
         "ui_about_describeText": "<br/><span>相关说明：</span><br/><span>由于项目工作量较大，难免会有部分BUG没有排查到。如果你发现了BUG，请移步到创意工坊描述BUG发生原因以及产生的结果。感谢大家长期以来的支持。</span><br/>",
         "ui_about_isQRcode": "<br/>显示二维码<br/><br/>"
       },
@@ -4276,7 +4399,6 @@
         "Dividing_line1": "------------------------------------------------------------------------------------------------------------------------",
         "ui_BG_image": "<br/>背景圖片<br/><br/>",
         "ui_image_fillStyle": "<br/>背景填充方式<br/><br/>",
-        "ui_image_isRotate3D": "<br/>3D旋轉背景<br/><br/>",
         "ui_image_isBackgroundZoom": "<br/>背景跟隨音頻縮放<br/><br/>",
         "ui_image_filterBlur": "<br/>背景模糊跟隨音頻<br/><br/>",
         "Dividing_line2": "------------------------------------------------------------------------------------------------------------------------",
@@ -4365,6 +4487,9 @@
         "ui_circle_transform": "<br/><b>圓環 - 扭曲設置</b><br/><br/>",
         "ui_circle_isMasking": "<br/>顯示蒙版<br/><br/>",
         "ui_circle_maskOpacity": "<br/>蒙版不透明度<br/><br/>",
+        "ui_circle_isRotate3D": "<br/>3D旋轉<br/><br/>",
+        "ui_circle_perspective": "<br/>透視效果<br/><br/>",
+        "ui_circle_degSize": "<br/>角度偏移<br/><br/>",
         "ui_circle_topLeft": "<br/>左上角<br/><br/>",
         "ui_circle_topLeftX": "<br/>X(%)：<br/><br/>",
         "ui_circle_topLeftY": "<br/>Y(%)：<br/><br/>",
@@ -4419,6 +4544,9 @@
         "ui_bars_transform": "<br/><b>條形 - 扭曲設置</b><br/><br/>",
         "ui_bars_isMasking": "<br/>顯示蒙版<br/><br/>",
         "ui_bars_maskOpacity": "<br/>蒙版不透明度<br/><br/>",
+        "ui_bars_isRotate3D": "<br/>3D旋轉<br/><br/>",
+        "ui_bars_perspective": "<br/>透視效果<br/><br/>",
+        "ui_bars_degSize": "<br/>角度偏移<br/><br/>",
         "ui_bars_topLeft": "<br/>左上角<br/><br/>",
         "ui_bars_topLeftX": "<br/>X(%)：<br/><br/>",
         "ui_bars_topLeftY": "<br/>Y(%)：<br/><br/>",
@@ -4472,6 +4600,9 @@
         "ui_logo_transform": "<br/><b>標誌 - 扭曲設置</b><br/><br/>",
         "ui_logo_isMasking": "<br/>顯示蒙版<br/><br/>",
         "ui_logo_maskOpacity": "<br/>蒙版不透明度<br/><br/>",
+        "ui_logo_isRotate3D": "<br/>3D旋轉<br/><br/>",
+        "ui_logo_perspective": "<br/>透視效果<br/><br/>",
+        "ui_logo_degSize": "<br/>角度偏移<br/><br/>",
         "ui_logo_topLeft": "<br/>左上角<br/><br/>",
         "ui_logo_topLeftX": "<br/>X(%)：<br/><br/>",
         "ui_logo_topLeftY": "<br/>Y(%)：<br/><br/>",
@@ -4528,6 +4659,9 @@
         "ui_date_transform": "<br/><b>日期 - 扭曲設置</b><br/><br/>",
         "ui_date_isMasking": "<br/>顯示蒙版<br/><br/>",
         "ui_date_maskOpacity": "<br/>蒙版不透明度<br/><br/>",
+        "ui_date_isRotate3D": "<br/>3D旋转<br/><br/>",
+        "ui_date_perspective": "<br/>透视效果<br/><br/>",
+        "ui_date_degSize": "<br/>角度偏移<br/><br/>",
         "ui_date_topLeft": "<br/>左上角<br/><br/>",
         "ui_date_topLeftX": "<br/>X(%)：<br/><br/>",
         "ui_date_topLeftY": "<br/>Y(%)：<br/><br/>",
@@ -4591,8 +4725,8 @@
         "ui_about_authorText": "<br/>作者：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
         "ui_about_emailText": "<br/>Email：909011298@qq.com<br/>",
-        "ui_about_versionText": "<br/>版本號：0.6.1<br/>",
-        "ui_about_updateText": "<br/><span>更新說明：</span><br/><span>1、重寫天氣查詢算法</span><br/><span>2、修復百度天氣失效BUG</span><br/>",
+        "ui_about_versionText": "<br/>版本號：0.6.2<br/>",
+        "ui_about_updateText": "<br/><span>更新說明：</span><br/><span>1、粒子插件：重寫邊緣檢測算法</span><br/><span>2、可視化插件：添加靜默特效</span><br/>",
         "ui_about_describeText": "<br/><span>相關說明：</span><br/><span>由於項目工作量較大，難免會有部分BUG沒有排查到。如果妳發現了BUG，請移步到創意工坊描述BUG發生原因以及產生的結果。感謝大家長期以來的支持。</span><br/>",
         "ui_about_isQRcode": "<br/>顯示二維碼<br/><br/>"
       }
@@ -4603,7 +4737,7 @@
   "tags": [
     "Relaxing"
   ],
-  "title": "[4K]Audio Visualizer v0.6.1(音频可视化)",
+  "title": "[4K]Audio Visualizer v0.6.2(音频可视化)",
   "type": "web",
   "visibility": "public",
   "workshopid": 921617616

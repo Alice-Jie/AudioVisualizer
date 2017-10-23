@@ -1,5 +1,5 @@
 /*!
- * jQuery time plugin v0.0.13
+ * jQuery time plugin v0.0.14
  * moment.js: http://momentjs.cn/
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
@@ -7,7 +7,7 @@
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/10/17
+ * @date 2017/10/23
  */
 
 (function (global, factory) {
@@ -590,14 +590,17 @@
         // 扭曲参数
         this.isMasking = options.isMasking;               // 蒙版开关
         this.maskOpacity = options.maskOpacity;           // 蒙版不透明度
+        this.isRotate3D = options.isRotate3D;             // 是否3D旋转
+        this.perspective = options.perspective;           // 透视效果
+        this.degSize = options.degSize;                   // 角度大小
         this.topLeftX = options.topLeftX;                 // 左上角X(%)
-        this.topLeftY = options.topLeftY;                 // 左上角Y
-        this.topRightX = options.topRightX;               // 右上角X
-        this.topRightY = options.topRightY;               // 右上角Y
-        this.bottomRightX = options.bottomRightX;         // 右下角X
-        this.bottomRightY = options.bottomRightY;         // 右下角Y
-        this.bottomLeftX = options.bottomLeftX;           // 左下角X
-        this.bottomLeftY = options.bottomLeftY;           // 左下角Y
+        this.topLeftY = options.topLeftY;                 // 左上角Y(%)
+        this.topRightX = options.topRightX;               // 右上角X(%)
+        this.topRightY = options.topRightY;               // 右上角Y(%)
+        this.bottomRightX = options.bottomRightX;         // 右下角X(%)
+        this.bottomRightY = options.bottomRightY;         // 右下角Y(%)
+        this.bottomLeftX = options.bottomLeftX;           // 左下角X(%)
+        this.bottomLeftY = options.bottomLeftY;           // 左下角Y(%)
 
         // 创建并初始化canvas
         canvas = document.createElement('canvas');
@@ -688,6 +691,9 @@
         // 扭曲参数
         isMasking: false,               // 显示蒙版
         maskOpacity: 0.25,              // 蒙版不透明度
+        isRotate3D: false,              // 是否3D旋转
+        perspective: 0,                 // 透视效果
+        degSize: 50,                    // 角度大小
         topLeftX: 0,                    // 左上角X(%)
         topLeftY: 0,                    // 左上角Y(%)
         topRightX: 0,                   // 右上角X(%)
@@ -735,6 +741,58 @@
                     canvasHeight - this.bottomLeftY * canvasHeight
                 ]
             ];
+        },
+
+        /**
+         * 开始背景3D转换
+         * @private
+         *
+         * @param {float} ex 鼠标X轴坐标
+         * @param {float} ey 鼠标Y轴坐标
+         */
+        startRotate3D: function (ex, ey) {
+            /**
+             * http://www.w3school.com.cn/css3/css3_3dtransform.asp
+             * https://developer.mozilla.org/zh-CN/docs/Web/CSS/transform-function/rotate3d
+             * 设(canvasWidth / 2, canvasHeight / 2)为原点(0, 0)
+             * {x | 0 ≤ x ≤ 1}, {y | 0 ≤ x ≤ 1}, {deg | 0 ≤ x ≤ 1}
+             * 第一象限：x * deg > 0, y * deg > 0;
+             * 第二象限：x * deg < 0, y * deg < 0;
+             * 第三象限：x * deg < 0, y * deg < 0;
+             * 第四象限: x * deg > 0; y * deg > 0;
+             * 距离原点(0, 0)越远，deg偏移越大
+             */
+            let mouseX = 0.00,
+                mouseY = 0.00,
+                centerX = canvasWidth / 2,
+                centerY = canvasHeight / 2;
+            // 获取mouseXY(0.00 ~ 1.00)
+            if (ex > centerX) {
+                mouseX = (ex - centerX) / (canvasWidth - centerX);
+            } else {
+                mouseX = -1 * (1 - ex / centerX);
+            }
+            if (ey > centerY) {
+                mouseY = (ey - centerY) / (canvasHeight - centerY);
+            } else {
+                mouseY = -1 * (1 - ey / centerY);
+            }
+            // 获取deg
+            let deg = Math.max(Math.abs(mouseX), Math.abs(mouseY)) * this.degSize;
+            // 透视效果
+            let perspective = this.perspective ? 'perspective(' + this.perspective + 'px)' : '';
+            $(canvas).css({
+                'transform-origin': '50% 50%',
+                'transform': perspective + 'rotate3d(' + -mouseY + ',' + mouseX + ',0,' + deg + 'deg)'
+            });
+        },
+
+        /**
+         * 停止变换
+         * @private
+         */
+        stopTransform: function () {
+            $(this.$el).css('transform', 'none');
         },
 
 
@@ -858,8 +916,10 @@
          * @private
          */
         setupPointerEvents: function () {
-            // 点击事件
+
             let that = this;
+
+            // 鼠标点击事件
             $(this.$el).on('click', function (e) {
                 if (that.isClickOffset) {
                     let x = e.clientX;
@@ -868,6 +928,11 @@
                     that.offsetY = y / canvasHeight;
                     that.drawCanvas();
                 }
+            });
+
+            // 鼠标移动事件
+            $(this.$el).on('mousemove', function (e) {
+                that.isRotate3D && that.startRotate3D(e.clientX, e.clientY);
             });
 
             // 窗体改变事件
@@ -1049,6 +1114,8 @@
                 case 'isRandomColor':
                 case 'isChangeBlur':
                 case 'isClickOffset':
+                case 'perspective':
+                case 'degSize':
                     this[property] = value;
                     break;
                 case 'colorMode':
@@ -1094,6 +1161,7 @@
                     this[property] = value;
                     this.drawCanvas();
                     break;
+                case 'isRotate3D':
                 case 'topLeftX':
                 case 'topLeftY':
                 case 'topRightX':
@@ -1103,8 +1171,11 @@
                 case 'bottomLeftX':
                 case 'bottomLeftY':
                     this[property] = value;
-                    this.setTargetPos();
-                    applyTransform(originalPos, targetPos);
+                    if (!this.isRotate3D) {
+                        this.stopTransform();
+                        this.setTargetPos();
+                        applyTransform(originalPos, targetPos);
+                    }
                     break;
                 case 'language':
                     moment.locale(value);

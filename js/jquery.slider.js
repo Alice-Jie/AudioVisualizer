@@ -1,12 +1,12 @@
 /*!
- * jQuery Slider plugin v0.0.18
+ * jQuery Slider plugin v0.0.19
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
  * - https://gitee.com/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/10/22
+ * @date 2017/10/23
  */
 
 (function (global, factory) {
@@ -1011,7 +1011,6 @@
         this.audioVolume = options.audioVolume;            // Audio音量
         this.isBackgourndBlur = options.isBackgourndBlur;  // 是否背景模糊
         this.isBackgroundZoom = options.isBackgroundZoom;  // 是否背景缩放
-        this.isRotate3D = options.isRotate3D;              // 是否3D旋转
 
         // 创建并初始化canvas
         canvas = document.createElement('canvas');
@@ -1095,7 +1094,7 @@
     // 默认参数
     Slider.DEFAULTS = {
         sliderMode: 'wallpaper',      // 背景模式
-        isLinearGradient: true,       // 线性背景开关
+        isLinearGradient: false,      // 线性背景开关
         sliderStyle: 'css',           // 背景切换模式
         readStyle: 'sequential',      // 读取模式
         timeUnits: 'sec',             // 时间单位
@@ -1114,8 +1113,7 @@
         isAudioLoop: false,           // 是否循环播放
         audioVolume: 0.75,            // Audio音量
         isBackgroundBlur: false,      // 是否背景模糊
-        isBackgroundZoom: false,      // 是否背景缩放
-        isRotate3D: false             // 是否3D旋转
+        isBackgroundZoom: false       // 是否背景缩放
     };
 
     // 公共方法
@@ -1343,33 +1341,15 @@
          * 停止滤镜
          * @private
          */
-        stopSliderFilter: function () {
+        stopFilter: function () {
             $(this.$el).css('filter', 'none');
-        },
-
-        /**
-         * 开始背景3D转换
-         * @private
-         *
-         * @param {float} ex 鼠标X轴坐标
-         * @param {float} ey 鼠标Y轴坐标
-         */
-        startSliderRotate3D: function (ex, ey) {
-            let xMultiple = (ex / canvasWidth) * 2 - 1;
-            let yMultiple = (ey / canvasHeight) * 2 - 1;
-            $(this.$el).css('transform',
-                'scale(1.06, 1.06)'
-                + 'perspective(' + (3 - Math.abs(xMultiple + yMultiple)) + 'em)'
-                + 'translate(' + xMultiple + '%,' + yMultiple + '%)'
-                + 'rotate3d(' + -yMultiple + ',' + xMultiple + ',0,' + 0.07 + 'deg)'
-            );
         },
 
         /**
          * 停止变换
          * @private
          */
-        stopSliderTransform: function () {
+        stopTransform: function () {
             $(this.$el).css('transform', 'none');
         },
 
@@ -1379,14 +1359,6 @@
          * @private
          */
         setupPointerEvents: function () {
-            let that = this;
-
-            /** 鼠标移动事件 */
-            $(this.$el).on('mousemove', function (e) {
-                if (that.isRotate3D) {
-                    that.startSliderRotate3D(e.clientX, e.clientY);
-                }
-            });
 
             // 窗体改变事件
             $(window).on('resize', function () {
@@ -1411,13 +1383,13 @@
         updateAudioAverage: function (audioSamples) {
             audioAverage = mean(audioSamples);
             // 音频均值相关的函数
-            this.isBackgourndBlur && this.backgroundBlur();
+            this.isBackgroundBlur && this.backgroundBlur();
             this.isBackgroundZoom && this.backgroundZoom();
         },
 
         /** 背景模糊 */
         backgroundBlur: function () {
-            if (this.isBackgourndBlur && !this.isRotate3D) {
+            if (this.isBackgourndBlur) {
                 let blur = 3 * audioAverage;
                 $(this.$el).css('filter', 'blur(' + blur + 'px)');
             }
@@ -1425,7 +1397,7 @@
 
         /** 背景缩放 */
         backgroundZoom: function () {
-            if (this.isBackgroundZoom && !this.isRotate3D) {
+            if (this.isBackgroundZoom) {
                 let zoom = 1.00 + audioAverage * 0.05;
                 $(this.$el).css('transform', 'scale(' + zoom + ', ' + zoom + ')');
             }
@@ -1506,6 +1478,50 @@
 
         // CSS
         //----
+
+        /**
+         * 设置背景填充样式
+         *
+         * @param {string} fillStyle 填充样式字符串
+         */
+        setFillStyle: function(fillStyle) {
+            let position = '0% 0%';
+            let size = '100% 100%';
+            let repeat = 'no-repeat';
+            switch (fillStyle) {
+                // 填充
+                case 'fill':
+                    size = 'cover';
+                    break;
+                // 适应
+                case 'fit':
+                    position = '50% 50%';
+                    size = 'contain';
+                    break;
+                // 拉伸
+                case 'stretch':
+                    size = '100% 100%';
+                    break;
+                // 平铺
+                case 'tile':
+                    size = 'initial';
+                    repeat = 'repeat';
+                    break;
+                // 居中
+                case 'center':
+                    position = '50% 50%';
+                    size = 'initial';
+                    break;
+                // 默认适应
+                default:
+                    size = 'contain';
+            }
+            this.$el.css({
+                'background-position': position,
+                'background-size': size,
+                'background-repeat': repeat
+            });
+        },
 
         /** 设置background-color为用户颜色 */
         cssUserColor: function () {
@@ -2056,16 +2072,11 @@
                     break;
                 case 'isBackgroundBlur':
                     this.isBackgroundBlur = value;
-                    this.isBackgroundBlur || this.stopSliderFilter();
+                    this.isBackgroundBlur || this.stopFilter();
                     break;
                 case 'isBackgroundZoom':
                     this.isBackgroundZoom = value;
-                    this.isBackgroundZoom || this.stopSliderTransform();
-                    break;
-                case 'isRotate3D':
-                    this.isRotate3D = value;
-                    this.stopSliderFilter();
-                    this.isRotate3D || this.stopSliderTransform();
+                    this.isBackgroundZoom || this.stopTransform();
                     break;
                 // no default
             }

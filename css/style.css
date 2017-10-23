@@ -6,13 +6,18 @@ body {
     z-index: -999;
 }
 
-#wallpaper {
+#background {
     position: relative;
-
     height: 100%;
     background-image: url(../img/bg.png);
     background-position: 0% 0%;
     background-size: cover;
     background-repeat: no-repeat;
     z-index: -998;
+}
+
+#wallpaper {
+    position: relative;
+    height: 100%;
+    z-index: -997;
 }
