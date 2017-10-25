@@ -1,5 +1,5 @@
 /*!
- * jQuery Slider plugin v0.0.19
+ * jQuery Slider plugin v0.0.20
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
  * - https://gitee.com/Alice_Jie/circleaudiovisualizer
@@ -240,8 +240,76 @@
     // Canvas
     //-------
 
+    /**
+     * 绘制离屏canvas
+     *
+     * @param {string}  fitStr   自适应字符串
+     * @param {!Object} img      image对象
+     * @param {!Object} ctx      context对象
+     * @param {string}  colorStr 颜色字符串
+     */
+    function drawOffScreenCanvas(fitStr, img, ctx, colorStr) {
+        let x = 0,
+            y = 0,
+            centerX = canvasWidth / 2 || 960,
+            centerY = canvasHeight / 2 || 540;
+        let width = img.width || 0,
+            height = img.height || 0;
+        let scale = 1.00;
+        ctx.fillStyle = 'rgb(' + colorStr || '255, 255, 255' + ')';
+        switch (fitStr) {
+            case 'fill':
+                if (width <= canvasWidth && height <= canvasHeight) {
+                    scale = Math.max(canvasWidth / width, canvasHeight / height);
+                } else if (width < canvasWidth && height >= canvasHeight) {
+                    scale = canvasWidth / width;
+                } else if (width >= canvasWidth && height < canvasHeight) {
+                    scale = canvasWidth / height;
+                } else {
+                    scale = Math.max(canvasWidth / width, canvasHeight / height);
+                }
+                ctx.drawImage(img, x, y, width * scale, height * scale);
+                break;
+            case 'fit':
+                ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+                if (width < canvasWidth && height < canvasHeight) {
+                    scale = Math.min(canvasWidth / width, canvasHeight / height);
+                } else if (width < canvasWidth && height >= canvasHeight) {
+                    scale = canvasHeight / height;
+                } else if (width >= canvasWidth && height < canvasHeight) {
+                    scale = canvasWidth / width;
+                } else {
+                    scale = Math.min(canvasWidth / width, canvasHeight / height);
+                }
+                x = getXY(centerX, centerY, width * scale, height * scale).x;
+                y = getXY(centerX, centerY, width * scale, height * scale).y;
+                ctx.drawImage(img, x, y, width * scale, height * scale);
+                break;
+            case 'stretch':
+                ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
+                break;
+            case 'center':
+                ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+                if (width <= canvasWidth && height <= canvasHeight) {
+                    scale = 1.00;
+                } else if (width < canvasWidth && height > canvasHeight) {
+                    scale = Math.max(canvasWidth / width, height / canvasHeight);
+                } else if (width > canvasWidth && height < canvasHeight) {
+                    scale = Math.max(width / canvasWidth, canvasHeight / height);
+                } else {
+                    scale = Math.max(width / canvasWidth, height / canvasHeight);
+                }
+                x = getXY(centerX, centerY, width * scale, height * scale).x;
+                y = getXY(centerX, centerY, width * scale, height * scale).y;
+                ctx.drawImage(img, x, y, width * scale, height * scale);
+                break;
+            default:
+                console.error('canvasFit is null.');
+        }
+    }
+
     /** 覆盖特效 */
-    function canvasCover() {
+    function canvasCover(fitStr, colorStr) {
         let currantWidth = 0; // 当前图片宽度
         // 图片预加载
         prevImg.src = 'file:///' + imgList[oldIndex];
@@ -249,11 +317,10 @@
         prevImg.onload = function () {
             currantImg.onload = function () {
                 // 重置不透明属性
-                prevContext.globalAlpha = 1;
-                currantContext.globalAlpha = 1;
-                prevContext.drawImage(prevImg, 0, 0, canvasWidth, canvasHeight);
-                currantContext.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
+                drawOffScreenCanvas(fitStr, prevImg, prevContext, colorStr);
+                drawOffScreenCanvas(fitStr, currantImg, currantContext, colorStr);
                 // 开始绘制动画
+                context.save();
                 effectTimer = requestAnimationFrame(function animal() {
                     if (currantWidth < canvasWidth) {
                         // 绘制上张图片和当前图片
@@ -265,37 +332,34 @@
                         currantWidth += Math.floor(canvasWidth / 50);
                         effectTimer = requestAnimationFrame(animal);
                     } else {
-                        context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
+                        context.drawImage(currantCanvas, 0, 0, canvasWidth, canvasHeight);
                         cancelAnimationFrame(effectTimer);
                     }
                 });
+                context.restore();
             };
         };
     }
 
     /** 渐显特效 */
-    function canvasFadeIn() {
+    function canvasFadeIn(fitStr, colorStr) {
         let opacity = 100;  // 不透明值
         // 图片预加载
         prevImg.src = 'file:///' + imgList[oldIndex];
         currantImg.src = 'file:///' + imgList[imgIndex];
         prevImg.onload = function () {
             currantImg.onload = function () {
-                // 重置不透明属性
-                prevContext.globalAlpha = 1;
-                currantContext.globalAlpha = 1;
-                prevContext.drawImage(prevImg, 0, 0, canvasWidth, canvasHeight);
-                currantContext.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
+                drawOffScreenCanvas(fitStr, prevImg, prevContext, colorStr);
+                drawOffScreenCanvas(fitStr, currantImg, currantContext, colorStr);
                 // 开始绘制动画
+                context.save();
                 effectTimer = requestAnimationFrame(function animal() {
                     if (opacity >= 0) {
                         // 清空prevCanvas内容
                         prevContext.clearRect(0, 0, canvasWidth, canvasHeight);
                         // 绘制prevCanvas
-                        prevContext.save();
                         prevContext.globalAlpha = opacity / 100;
-                        prevContext.drawImage(prevImg, 0, 0, canvasWidth, canvasHeight);
-                        prevContext.restore();
+                        drawOffScreenCanvas(fitStr, prevImg, prevContext, colorStr);
                         // 绘制当前图片和上张图片
                         context.drawImage(currantCanvas, 0, 0, canvasWidth, canvasHeight);
                         context.drawImage(prevCanvas, 0, 0, canvasWidth, canvasHeight);
@@ -303,39 +367,34 @@
                         opacity -= 2;
                         effectTimer = requestAnimationFrame(animal);
                     } else {
-                        prevContext.globalAlpha = 1;
-                        currantContext.globalAlpha = 1;
-                        context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
+                        context.drawImage(currantCanvas, 0, 0, canvasWidth, canvasHeight);
                         cancelAnimationFrame(effectTimer);
                     }
                 });
+                context.restore();
             };
         };
     }
 
     /** 渐隐特效 */
-    function canvasFadeOut() {
+    function canvasFadeOut(fitStr, colorStr) {
         let opacity = 0;  // 不透明值
         // 图片预加载
         prevImg.src = 'file:///' + imgList[oldIndex];
         currantImg.src = 'file:///' + imgList[imgIndex];
         prevImg.onload = function () {
             currantImg.onload = function () {
-                // 重置不透明属性
-                prevContext.globalAlpha = 1;
-                currantContext.globalAlpha = 1;
-                prevContext.drawImage(prevImg, 0, 0, canvasWidth, canvasHeight);
-                currantContext.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
+                drawOffScreenCanvas(fitStr, prevImg, prevContext, colorStr);
+                drawOffScreenCanvas(fitStr, currantImg, currantContext, colorStr);
                 // 开始绘制动画
+                context.save();
                 effectTimer = requestAnimationFrame(function animal() {
                     if (opacity < 100) {
                         // 清空currantCanvas内容
                         currantContext.clearRect(0, 0, canvasWidth, canvasHeight);
                         // 绘制currantCanvas
-                        currantContext.save();
                         currantContext.globalAlpha = opacity / 100;
-                        currantContext.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
-                        currantContext.restore();
+                        drawOffScreenCanvas(fitStr, currantImg, currantContext, colorStr);
                         // 绘制上张图片和当前图片
                         context.drawImage(prevCanvas, 0, 0, canvasWidth, canvasHeight);
                         context.drawImage(currantCanvas, 0, 0, canvasWidth, canvasHeight);
@@ -343,27 +402,27 @@
                         opacity += 2;
                         effectTimer = requestAnimationFrame(animal);
                     } else {
-                        prevContext.globalAlpha = 1;
-                        currantContext.globalAlpha = 1;
-                        context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
+                        context.drawImage(currantCanvas, 0, 0, canvasWidth, canvasHeight);
                         cancelAnimationFrame(effectTimer);
                     }
                 });
+                context.restore();
             };
         };
     }
 
     /** 洗牌特效 */
-    function canvasShuffle() {
+    function canvasShuffle(fitStr, colorStr) {
         let prevWidth = 0, currantWidth = 0;  // 上张图片和当前图片宽度
         // 图片预加载
         prevImg.src = 'file:///' + imgList[oldIndex];
         currantImg.src = 'file:///' + imgList[imgIndex];
         prevImg.onload = function () {
             currantImg.onload = function () {
-                prevContext.drawImage(prevImg, 0, 0, canvasWidth, canvasHeight);
-                currantContext.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
+                drawOffScreenCanvas(fitStr, prevImg, prevContext, colorStr);
+                drawOffScreenCanvas(fitStr, currantImg, currantContext, colorStr);
                 // 开始绘制动画
+                context.save();
                 effectTimer = requestAnimationFrame(function animal() {
                     if (prevWidth < canvasWidth) {
                         if (prevWidth <= originX) {
@@ -388,25 +447,27 @@
                         currantWidth += Math.floor(canvasWidth / 50);
                         effectTimer = requestAnimationFrame(animal);
                     } else {
-                        context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
+                        context.drawImage(currantCanvas, 0, 0, canvasWidth, canvasHeight);
                         cancelAnimationFrame(effectTimer);
                     }
                 });
+                context.restore();
             };
         };
     }
 
     /** 滑动特效 */
-    function canvasSlider() {
+    function canvasSlider(fitStr, colorStr) {
         let prevWidth = 0, currantWidth = 0;  // 上张图片和当前图片宽度
         // 图片预加载
         prevImg.src = 'file:///' + imgList[oldIndex];
         currantImg.src = 'file:///' + imgList[imgIndex];
         prevImg.onload = function () {
             currantImg.onload = function () {
-                prevContext.drawImage(prevImg, 0, 0, canvasWidth, canvasHeight);
-                currantContext.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
+                drawOffScreenCanvas(fitStr, prevImg, prevContext, colorStr);
+                drawOffScreenCanvas(fitStr, currantImg, currantContext, colorStr);
                 // 开始绘制动画
+                context.save();
                 effectTimer = requestAnimationFrame(function animal() {
                     if (currantWidth < canvasWidth) {
                         // 绘制上张图片和当前图片
@@ -421,16 +482,17 @@
                         currantWidth += Math.floor(canvasWidth / 50);
                         effectTimer = requestAnimationFrame(animal);
                     } else {
-                        context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
+                        context.drawImage(currantCanvas, 0, 0, canvasWidth, canvasHeight);
                         cancelAnimationFrame(effectTimer);
                     }
                 });
+                context.restore();
             };
         };
     }
 
     /** 拉伸特效 */
-    function canvasVerticalIn() {
+    function canvasVerticalIn(fitStr, colorStr) {
         let currantWidth = 0;  // 当前图片宽度
         let currantX = getXY(originX, originY, currantWidth, canvasHeight).x;  // 当前图片X坐标
         // 图片预加载
@@ -438,9 +500,10 @@
         currantImg.src = 'file:///' + imgList[imgIndex];
         prevImg.onload = function () {
             currantImg.onload = function () {
-                prevContext.drawImage(prevImg, 0, 0, canvasWidth, canvasHeight);
-                currantContext.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
+                drawOffScreenCanvas(fitStr, prevImg, prevContext, colorStr);
+                drawOffScreenCanvas(fitStr, currantImg, currantContext, colorStr);
                 // 开始绘制动画
+                context.save();
                 effectTimer = requestAnimationFrame(function animal() {
                     if (currantWidth <= canvasWidth) {
                         // 绘制上张图片和当前图片
@@ -451,16 +514,17 @@
                         currantX -= Math.floor(canvasWidth / 50);
                         effectTimer = requestAnimationFrame(animal);
                     } else {
-                        context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
+                        context.drawImage(currantCanvas, 0, 0, canvasWidth, canvasHeight);
                         cancelAnimationFrame(effectTimer);
                     }
                 });
+                context.restore();
             };
         };
     }
 
     /** 收缩特效 */
-    function canvasVerticalOut() {
+    function canvasVerticalOut(fitStr, colorStr) {
         let currantWidth = canvasWidth;  // 当前图片宽度
         let currantX = getXY(originX, originY, currantWidth, canvasHeight).x;  // 当前图片X坐标
         // 图片预加载
@@ -468,12 +532,10 @@
         currantImg.src = 'file:///' + imgList[imgIndex];
         prevImg.onload = function () {
             currantImg.onload = function () {
-                // 重置不透明属性
-                prevContext.globalAlpha = 1;
-                currantContext.globalAlpha = 1;
-                prevContext.drawImage(prevImg, 0, 0, canvasWidth, canvasHeight);
-                currantContext.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
+                drawOffScreenCanvas(fitStr, prevImg, prevContext, colorStr);
+                drawOffScreenCanvas(fitStr, currantImg, currantContext, colorStr);
                 // 开始绘制动画
+                context.save();
                 effectTimer = requestAnimationFrame(function animal() {
                     if (currantWidth > 0) {
                         // 绘制当前图片和上张图片
@@ -484,16 +546,17 @@
                         currantX += Math.floor(originX / 50);
                         effectTimer = requestAnimationFrame(animal);
                     } else {
-                        context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
+                        context.drawImage(currantCanvas, 0, 0, canvasWidth, canvasHeight);
                         cancelAnimationFrame(effectTimer);
                     }
                 });
+                context.restore();
             };
         };
     }
 
     /** 放大特效 */
-    function canvasZoomIn() {
+    function canvasZoomIn(fitStr, colorStr) {
         // 当前图片宽度和高度
         let currantWidth = 0, currantHeight = 0;
         // 当前图片XY坐标
@@ -504,9 +567,10 @@
         currantImg.src = 'file:///' + imgList[imgIndex];
         prevImg.onload = function () {
             currantImg.onload = function () {
-                prevContext.drawImage(prevImg, 0, 0, canvasWidth, canvasHeight);
-                currantContext.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
+                drawOffScreenCanvas(fitStr, prevImg, prevContext, colorStr);
+                drawOffScreenCanvas(fitStr, currantImg, currantContext, colorStr);
                 // 开始绘制动画
+                context.save();
                 effectTimer = requestAnimationFrame(function animal() {
                     if (currantWidth <= canvasWidth && currantHeight <= canvasWidth) {
                         // 绘制上张图片和当前图片
@@ -519,16 +583,17 @@
                         currantHeight += Math.floor(canvasHeight / 50);
                         effectTimer = requestAnimationFrame(animal);
                     } else {
-                        context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
+                        context.drawImage(currantCanvas, 0, 0, canvasWidth, canvasHeight);
                         cancelAnimationFrame(effectTimer);
                     }
                 });
+                context.restore();
             };
         };
     }
 
     /** 缩小特效 */
-    function canvasZoomOut() {
+    function canvasZoomOut(fitStr, colorStr) {
         // 当前图片宽度和高度
         let currantWidth = canvasWidth, currantHeight = canvasHeight;
         // 图片XY坐标
@@ -539,8 +604,8 @@
         currantImg.src = 'file:///' + imgList[imgIndex];
         prevImg.onload = function () {
             currantImg.onload = function () {
-                prevContext.drawImage(prevImg, 0, 0, canvasWidth, canvasHeight);
-                currantContext.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
+                drawOffScreenCanvas(fitStr, prevImg, prevContext, colorStr);
+                drawOffScreenCanvas(fitStr, currantImg, currantContext, colorStr);
                 // 开始绘制动画
                 effectTimer = requestAnimationFrame(function animal() {
                     if (currantWidth > 0 && currantHeight > 0) {
@@ -554,7 +619,7 @@
                         currantHeight -= Math.floor(canvasHeight / 50);
                         effectTimer = requestAnimationFrame(animal);
                     } else {
-                        context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
+                        context.drawImage(currantCanvas, 0, 0, canvasWidth, canvasHeight);
                         cancelAnimationFrame(effectTimer);
                     }
                 });
@@ -978,6 +1043,16 @@
         };
     }
 
+    /**
+     * 不规则/非整体特效原理：
+     * prevIMG获取获取当前src地址，样式属性保持不变
+     * currantImg获取下一张src地址：以蒙版的形式，按某种方法从部分逐渐过渡至整体
+     * CSS3：SVG clip-path or mask
+     * http://www.zhangxinxu.com/wordpress/2011/04/css-clip-rect/
+     * 以SVG动画作为蒙版载体(clip-path)，间接利用SVG动画创建过渡特效
+     * http://www.zhangxinxu.com/wordpress/2014/08/so-powerful-svg-smil-animation/
+     */
+
     //构造函数和公共方法
     //--------------------------------------------------------------------------------------------------------------
 
@@ -999,6 +1074,8 @@
         this.pauseTime = options.pauseTime;                // 动画切换速度
         this.imgFit = options.imgFit;                      // IMG适应方式
         this.imgBGColor = options.imgBGColor;              // IMG背景颜色
+        this.canvasFit = options.canvasFit;                // canvas适应方式
+        this.canvasBGColor = options.canvasBGColor;        // canvas背景颜色
         this.videoProgress = options.videoProgress;        // Video进度
         this.isVideoPlay = options.isVideoPlay;            // 是否播放Video
         this.videoVolume = options.videoVolume;            // Video音量
@@ -1093,27 +1170,29 @@
 
     // 默认参数
     Slider.DEFAULTS = {
-        sliderMode: 'wallpaper',      // 背景模式
-        isLinearGradient: false,      // 线性背景开关
-        sliderStyle: 'css',           // 背景切换模式
-        readStyle: 'sequential',      // 读取模式
-        timeUnits: 'sec',             // 时间单位
-        pauseTime: 30,                // 背景停留时间
-        effect: 'none',               // 切换特效
-        imgFit: 'fill',               // IMG适应方式
-        imgBGColor: '255,255,255',    // IMG背景颜色
-        videoProgress: 0,             // Video进度
-        isVideoPlay: true,            // 是否播放Video
-        videoVolume: 0.75,            // Video音量
-        playbackRate: 1.0,            // Video播放速度
-        videoFit: 'fill',             // Video适应方式
-        videoBGColor: '255,255,255',  // Video背景颜色
-        audioProgress: 0,             // Audio进度
-        isAudioPlay: false,           // 是否播放Audio
-        isAudioLoop: false,           // 是否循环播放
-        audioVolume: 0.75,            // Audio音量
-        isBackgroundBlur: false,      // 是否背景模糊
-        isBackgroundZoom: false       // 是否背景缩放
+        sliderMode: 'wallpaper',       // 背景模式
+        isLinearGradient: false,       // 线性背景开关
+        sliderStyle: 'css',            // 背景切换模式
+        readStyle: 'sequential',       // 读取模式
+        timeUnits: 'sec',              // 时间单位
+        pauseTime: 30,                 // 背景停留时间
+        effect: 'none',                // 切换特效
+        imgFit: 'fill',                // IMG适应方式
+        imgBGColor: '255,255,255',     // IMG背景颜色
+        canvasFit: 'fill',             // canvas适应方式
+        canvasBGColor: '255,255,255',  // canvas背景颜色
+        videoProgress: 0,              // Video进度
+        isVideoPlay: true,             // 是否播放Video
+        videoVolume: 0.75,             // Video音量
+        playbackRate: 1.0,             // Video播放速度
+        videoFit: 'fill',              // Video适应方式
+        videoBGColor: '255,255,255',   // Video背景颜色
+        audioProgress: 0,              // Audio进度
+        isAudioPlay: false,            // 是否播放Audio
+        isAudioLoop: false,            // 是否循环播放
+        audioVolume: 0.75,             // Audio音量
+        isBackgroundBlur: false,       // 是否背景模糊
+        isBackgroundZoom: false        // 是否背景缩放
     };
 
     // 公共方法
@@ -1212,6 +1291,66 @@
         },
 
         /**
+         * Canvas绘制背景图片
+         * @private
+         */
+        drawBackground: function () {
+            if (imgList.length <= 0) {
+                // 如果文件夹为空
+                if (userImg) {
+                    $(this.$el).css('background-image', 'url("file:///' + userImg + '")');
+                    prevImg.src = 'file:///' + userImg;
+                    currantImg.src = 'file:///' + userImg;
+                    let imgTimer = setInterval(
+                        ()=> {
+                            if (currantImg.complete) {
+                                drawOffScreenCanvas(this.canvasFit, currantImg, context, this.canvasBGColor);
+                                clearInterval(imgTimer);
+                            }
+                        }, 500);
+                } else {
+                    $(this.$el).css('background-image', 'url(img/bg.png)');
+                    prevImg.src = 'img/bg.png';
+                    currantImg.src = 'img/bg.png';
+                    let imgTimer = setInterval(
+                        ()=> {
+                            if (currantImg.complete) {
+                                drawOffScreenCanvas(this.canvasFit, currantImg, context, this.canvasBGColor);
+                                clearInterval(imgTimer);
+                            }
+                        }, 500);
+                }
+                imgIndex = 0;
+            }
+            else if (imgList.length === 1) {
+                // 如果文件只有一张图片
+                imgIndex = 0;
+                $(this.$el).css('background-image', 'url("file:///' + imgList[0] + '")');
+                prevImg.src = 'file:///' + imgList[imgIndex];
+                currantImg.src = 'file:///' + imgList[imgIndex];
+                let imgTimer = setInterval(
+                    ()=> {
+                        if (currantImg.complete) {
+                            drawOffScreenCanvas(this.canvasFit, currantImg, context, this.canvasBGColor);
+                            clearInterval(imgTimer);
+                        }
+                    }, 500);
+            } else {
+                // 图片数量 > 1 读取下一张图片
+                $(this.$el).css('background-image', 'url("file:///' + imgList[imgIndex] + '")');
+                prevImg.src = 'file:///' + imgList[oldIndex];
+                currantImg.src = 'file:///' + imgList[imgIndex];
+                let imgTimer = setInterval(
+                    ()=> {
+                        if (currantImg.complete) {
+                            drawOffScreenCanvas(this.canvasFit, currantImg, context, this.canvasBGColor);
+                            clearInterval(imgTimer);
+                        }
+                    }, 500);
+            }
+        },
+
+        /**
          * 选择图片切换特效
          * @private
          */
@@ -1262,78 +1401,34 @@
                     stopEffectTimer();
                     break;
                 case 'cover':
-                    canvasCover();
+                    canvasCover(this.canvasFit, this.canvasBGColor);
                     break;
                 case 'fadeIn':
-                    canvasFadeIn();
+                    canvasFadeIn(this.canvasFit, this.canvasBGColor);
                     break;
                 case 'fadeOut':
-                    canvasFadeOut();
+                    canvasFadeOut(this.canvasFit, this.canvasBGColor);
                     break;
                 case 'shuffle':
-                    canvasShuffle();
+                    canvasShuffle(this.canvasFit, this.canvasBGColor);
                     break;
                 case 'slider':
-                    canvasSlider();
+                    canvasSlider(this.canvasFit, this.canvasBGColor);
                     break;
                 case 'vertIn':
-                    canvasVerticalIn();
+                    canvasVerticalIn(this.canvasFit, this.canvasBGColor);
                     break;
                 case 'vertOut':
-                    canvasVerticalOut();
+                    canvasVerticalOut(this.canvasFit, this.canvasBGColor);
                     break;
                 case 'zoomIn':
-                    canvasZoomIn();
+                    canvasZoomIn(this.canvasFit, this.canvasBGColor);
                     break;
                 case 'zoomOut':
-                    canvasZoomOut();
+                    canvasZoomOut(this.canvasFit, this.canvasBGColor);
                     break;
                 default:
                     stopEffectTimer();
-            }
-        },
-
-        /**
-         * Canvas绘制背景图片
-         * @private
-         */
-        drawBackground: function () {
-            if (imgList.length <= 0) {
-                // 如果文件夹为空
-                if (userImg) {
-                    $(this.$el).css('background-image', 'url("file:///' + userImg + '")');
-                    prevImg.src = 'file:///' + userImg;
-                    currantImg.src = 'file:///' + userImg;
-                    currantImg.onload = function () {
-                        context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
-                    };
-                } else {
-                    $(this.$el).css('background-image', 'url(img/bg.png)');
-                    prevImg.src = 'img/bg.png';
-                    currantImg.src = 'img/bg.png';
-                    currantImg.onload = function () {
-                        context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
-                    };
-                }
-                imgIndex = 0;
-            }
-            else if (imgList.length === 1) {
-                // 如果文件只有一张图片
-                imgIndex = 0;
-                $(this.$el).css('background-image', 'url("file:///' + imgList[0] + '")');
-                prevImg.src = 'file:///' + imgList[imgIndex];
-                currantImg.src = 'file:///' + imgList[imgIndex];
-                currantImg.onload = function () {
-                    context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
-                };
-            } else {
-                // 图片数量 > 1 读取下一张图片
-                $(this.$el).css('background-image', 'url("file:///' + imgList[imgIndex] + '")');
-                prevImg.src = 'file:///' + imgList[oldIndex];
-                currantImg.src = 'file:///' + imgList[imgIndex];
-                currantImg.onload = function () {
-                    context.drawImage(currantImg, 0, 0, canvasWidth, canvasHeight);
-                };
             }
         },
 
@@ -1410,11 +1505,7 @@
          * @param {string} color 用户背景颜色
          */
         setUserColor: function (color) {
-            if (color) {
-                userColor = color;
-            } else {
-                userColor = '255,255,255';
-            }
+            userColor = color || '255,255,255';
         },
 
         /**
@@ -1425,21 +1516,9 @@
          * @param {string} color2 颜色字符串2
          */
         setUserLinearGradient: function (deg, color1, color2) {
-            if (deg) {
-                userGradientDeg = deg;
-            } else {
-                userGradientDeg = 0;
-            }
-            if (color1) {
-                userGradientColor1 = color1;
-            } else {
-                userGradientColor1 = '189,253,0';
-            }
-            if (color2) {
-                userGradientColor2 = color2;
-            } else {
-                userGradientColor2 = '255,255,0';
-            }
+            userGradientDeg = deg || 0;
+            userGradientColor1 = color1 || '189,253,0';
+            userGradientColor2 = color2 || '255,255,0';
         },
 
         /**
@@ -1449,11 +1528,7 @@
          * @param {string} img 用户图片路径
          */
         setUserImg: function (img) {
-            if (img) {
-                userImg = img;
-            } else {
-                userImg = '';
-            }
+            userImg = img || '';
         },
 
         /**
@@ -1484,7 +1559,7 @@
          *
          * @param {string} fillStyle 填充样式字符串
          */
-        setFillStyle: function(fillStyle) {
+        setFillStyle: function (fillStyle) {
             let position = '0% 0%';
             let size = '100% 100%';
             let repeat = 'no-repeat';
@@ -1581,7 +1656,6 @@
         addImg: function () {
             $(this.$el).append(prevImg);
             $(this.$el).append(currantImg);
-            this.changeImage();
         },
 
         /** 删除上张图片和当前图片 */
@@ -1598,6 +1672,8 @@
             context.clearRect(0, 0, canvasWidth, canvasHeight);
         },
 
+        // Directory
+        //----------
 
         /**
          * 更新imgList
@@ -1618,43 +1694,45 @@
 
         /** 改变滑动模式 */
         changeSliderStyle: function () {
-            switch (this.sliderStyle) {
-                case 'css':
-                    this.clearCanvas();
-                    this.delImg();
-                    break;
-                case 'image':
-                    this.clearCanvas();
-                    this.addImg();
-                    break;
-                case 'canvas':
-                    this.delImg();
-                    break;
-                // no default
+            if (this.sliderMode === 'Directory') {
+                switch (this.sliderStyle) {
+                    case 'css':
+                        this.clearCanvas();
+                        this.delImg();
+                        break;
+                    case 'image':
+                        this.clearCanvas();
+                        this.addImg();
+                        break;
+                    case 'canvas':
+                        this.delImg();
+                        break;
+                    // no default
+                }
             }
         },
 
         /** 使用imgList当前图片 */
         changeSlider: function () {
-            switch (this.sliderStyle) {
-                case 'css':
-                    this.changeBackground();
-                    break;
-                case 'image':
-                    this.changeImage();
-                    break;
-                case 'canvas':
-                    this.drawBackground();
-                    break;
-                // no default
+            if (this.sliderMode === 'Directory') {
+                switch (this.sliderStyle) {
+                    case 'css':
+                        this.changeBackground();
+                        break;
+                    case 'image':
+                        this.changeImage();
+                        break;
+                    case 'canvas':
+                        this.drawBackground();
+                        break;
+                    // no default
+                }
             }
         },
 
         /** 停止背景切换计时器 */
         stopSliderTimer: function () {
-            if (timer) {
-                clearTimeout(timer);
-            }
+            timer && clearTimeout(timer);
             this.clearCanvas();
             this.delImg();
         },
@@ -1664,7 +1742,7 @@
             clearTimeout(timer);
             timer = setTimeout(
                 ()=> {
-                    if (imgList.length > 1) {
+                    if (this.sliderMode === 'Directory' && imgList.length > 1) {
                         // 更新oldIndex
                         oldIndex = imgIndex;
                         // 按读取顺序更新imgIndex
@@ -1685,17 +1763,18 @@
                             this.selectCanvasEffects();
                         }
                     }
-                    // 更新当前背景并进入下次循环
-                    this.changeSlider();
+                    this.changeSlider();  // 绘制背景
                     this.runSliderTimer();
                 }, this.getPauseTime());
         },
 
         /** 开始背景切换 */
         startSlider: function () {
-            this.changeSliderStyle();
-            this.changeSlider();
-            this.runSliderTimer();
+            if (this.sliderMode === 'Directory') {
+                this.changeSliderStyle();
+                this.changeSlider();
+                this.runSliderTimer();
+            }
         },
 
         // Video
@@ -1952,6 +2031,7 @@
             }
         },
 
+
         /** 初始化模式所需要的环境 */
         initSlider: function () {
             switch (this.sliderMode) {
@@ -2028,15 +2108,24 @@
                     this.isLinearGradient = value;
                     this.isLinearGradient ? this.cssLinearGradient() : this.cssUserColor();
                     break;
+                case 'canvasFit':
+                case 'canvasBGColor':
+                    this[property] = value;
+                    if (this.sliderMode === 'Directory' && this.sliderStyle === 'canvas') {
+                        this.drawBackground();
+                    }
+                    break;
                 case 'pauseTime':
                 case 'timeUnits':
-                    // 调用后自动开启幻灯片模式
                     this[property] = value;
                     this.runSliderTimer();
                     break;
                 case 'sliderStyle':
                     this.sliderStyle = value;
                     this.changeSliderStyle();
+                    if (this.sliderMode === 'Directory') {
+                        this.changeSlider();
+                    }
                     break;
                 case 'videoProgress':
                     this.videoProgress = value;

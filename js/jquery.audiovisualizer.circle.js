@@ -394,13 +394,14 @@
     }
 
     /**
-     * 应用仿射变换矩阵至canvas
+     * 获取Matrix3D
      * http://steamcommunity.com/sharedfiles/filedetails/?id=837056186
      *
-     * @param {Array.<[float]>} originalPos 初始平面四角XY坐标二维数组
-     * @param {Array.<[float]>} targetPos   目标平面四角XY坐标二维数组
+     * @param  {Array.<[float]>} originalPos 初始平面四角XY坐标二维数组
+     * @param  {Array.<[float]>} targetPos   目标平面四角XY坐标二维数组
+     * @return {string} Matrix3D字符串
      */
-    function applyTransform(originalPos, targetPos) {
+    function getMatrix3dStr(originalPos, targetPos) {
         let from = function () {
             let results = [];
             for (let i = 0; i < originalPos.length; i++) {
@@ -427,7 +428,7 @@
         }();  // 变换四角XY坐标对象数组
 
         let matrix = getTransform(from, to);  // 4x4仿射变换矩阵
-        let matrix3D = 'matrix3d(' + function () {
+        return 'matrix3d(' + function () {
                 let results = [];
                 // XYZ按顺序输出四个参数
                 for (let i = 0; i < 4; i++) {
@@ -441,11 +442,6 @@
                 }
                 return results;
             }().join(',') + ')';
-
-        $(canvas).css({
-            'transform': matrix3D,
-            'transform-origin': '0 0'
-        });
     }
 
     // 构造函数和公共方法
@@ -515,8 +511,18 @@
         // 扭曲参数
         this.isMasking = options.isMasking;                // 蒙版开关
         this.maskOpacity = options.maskOpacity;            // 蒙版不透明度
-        this.isRotate3D = options.isRotate3D;              // 是否3D旋转
+        this.width = options.width;                        // 平面宽度(%)
+        this.height = options.height;                      // 平面高度(%)
         this.perspective = options.perspective;            // 透视效果
+        this.transformMode = options.transformMode;        // 变换模式
+        this.translateX = options.translateX;              // X轴变换
+        this.translateY = options.translateY;              // Y轴变换
+        this.skewX = options.skewX;                        // X轴倾斜转换
+        this.skewY = options.skewY;                        // Y轴倾斜转换
+        this.rotateX = options.rotateX;                    // X轴3D旋转
+        this.rotateY = options.rotateY;                    // Y轴3D旋转
+        this.rotateZ = options.rotateZ;                    // Z轴3D旋转
+        this.isRotate3D = options.isRotate3D;              // 是否3D旋转
         this.degSize = options.degSize;                    // 角度大小
         this.topLeftX = options.topLeftX;                  // 左上角X(%)
         this.topLeftY = options.topLeftY;                  // 左上角Y(%)
@@ -532,8 +538,12 @@
         canvas.id = 'canvas-visualizerCircle'; // canvas ID
         $(canvas).css({
             'position': 'fixed',
-            'top': 0,
             'left': 0,
+            'top': 0,
+            'bottom': 0,
+            'right': 0,
+            'width': '100%',
+            'height': '100%',
             'z-index': 3,
             'opacity': this.opacity,
             'transform': 'none'
@@ -636,11 +646,21 @@
         offsetX: 0.5,                // X坐标偏移
         offsetY: 0.5,                // Y坐标偏移
         isClickOffset: false,        // 鼠标坐标偏移
-        // 扭曲参数
+        // 变换参数
         isMasking: false,            // 显示蒙版
         maskOpacity: 0.25,           // 蒙版不透明度
-        isRotate3D: false,           // 是否3D旋转
+        width: 1.00,                 // 平面宽度(%)
+        height: 1.00,                // 平面高度(%)
         perspective: 0,              // 透视效果
+        transformMode: 'value',      // 变换模式
+        translateX: 100,             // X轴变换(%)
+        translateY: 100,             // Y轴变换(%)
+        skewX: 0,                    // X轴倾斜转换
+        skewY: 0,                    // Y轴倾斜转换
+        rotateX: 0,                  // X轴3D旋转
+        rotateY: 0,                  // Y轴3D旋转
+        rotateZ: 0,                  // Z轴3D旋转
+        isRotate3D: false,           // 是否3D旋转
         degSize: 50,                 // 角度大小
         topLeftX: 0,                 // 左上角X(%)
         topLeftY: 0,                 // 左上角Y(%)
@@ -698,7 +718,7 @@
          * @param {float} ex 鼠标X轴坐标
          * @param {float} ey 鼠标Y轴坐标
          */
-        startRotate3D: function (ex, ey) {
+        rotate3D: function (ex, ey) {
             /**
              * http://www.w3school.com.cn/css3/css3_3dtransform.asp
              * https://developer.mozilla.org/zh-CN/docs/Web/CSS/transform-function/rotate3d
@@ -740,7 +760,42 @@
          * @private
          */
         stopTransform: function () {
-            $(this.$el).css('transform', 'none');
+            $(canvas).css({
+                'transform-origin': '50% 50% 0',
+                'transform': 'none'
+            });
+        },
+
+        /**
+         * 开始变换
+         * @private
+         */
+        startTransform: function () {
+            let perspective = this.perspective ? 'perspective(' + this.perspective + 'px) ' : '';
+            switch (this.transformMode) {
+                case 'value':
+                    $(canvas).css({
+                        'transform-origin': '50% 50%',
+                        'transform': perspective
+                        + 'translateX(' + canvasWidth * this.translateX + 'px)'
+                        + 'translateY(' + canvasHeight * this.translateY + 'px)'
+                        + 'skewX(' + this.skewX + 'deg)'
+                        + 'skewY(' + this.skewY + 'deg)'
+                        + 'rotateX(' + this.rotateX + 'deg)'
+                        + 'rotateY(' + this.rotateY + 'deg)'
+                        + 'rotateZ(' + this.rotateZ + 'deg)'
+                    });
+                    break;
+                case 'matrix3d':
+                    this.setTargetPos();
+                    $(canvas).css({
+                        'transform-origin': '0% 0%',
+                        'transform': getMatrix3dStr(originalPos, targetPos)
+                    });
+                    break;
+                default:
+                    this.stopTransform();
+            }
         },
 
 
@@ -883,6 +938,30 @@
             return pointArray;
         },
 
+
+        /**
+         * 设置lineJoin和lineCap
+         * @private
+         */
+        setLineCap: function () {
+            switch (this.lineJoin) {
+                case 'butt':
+                    context.lineCap = 'butt';
+                    context.lineJoin = 'miter';
+                    break;
+                case 'square':
+                    context.lineCap = 'square';
+                    context.lineJoin = 'bevel';
+                    break;
+                case 'round':
+                    context.lineCap = 'round';
+                    context.lineJoin = 'round';
+                    break;
+                default:
+                    context.lineCap = 'square';
+                    context.lineJoin = 'bevel';
+            }
+        },
 
         /**
          * 生成音频圆环路径
@@ -1132,7 +1211,9 @@
 
             // 鼠标移动事件
             $(this.$el).on('mousemove', function (e) {
-                that.isRotate3D && that.startRotate3D(e.clientX, e.clientY);
+                if (that.transformMode == 'value' && that.isRotate3D) {
+                    that.rotate3D(e.clientX, e.clientY);
+                }
             });
 
             // 鼠标点击事件
@@ -1400,29 +1481,29 @@
                     break;
                 case 'lineJoin':
                     this.lineJoin = value;
-                    switch (this.lineJoin) {
-                        case 'butt':
-                            context.lineCap = 'butt';
-                            context.lineJoin = 'miter';
-                            break;
-                        case 'square':
-                            context.lineCap = 'square';
-                            context.lineJoin = 'bevel';
-                            break;
-                        case 'round':
-                            context.lineCap = 'round';
-                            context.lineJoin = 'round';
-                            break;
-                        default:
-                            context.lineCap = 'square';
-                            context.lineJoin = 'bevel';
-                    }
+                    this.setLineCap();
                     this.drawVisualizerCircle();
                     break;
                 case 'lineWidth':
                     this.lineWidth = value;
                     context.lineWidth = this.lineWidth;
                     this.drawVisualizerCircle();
+                    break;
+                case 'width':
+                    this.width = value;
+                    $(canvas).css({
+                        'width': this.width + '%',
+                        'left': 50 - this.width / 2 + '%',
+                        'right': 50 - this.width / 2 + '%'
+                    });
+                    break;
+                case 'height':
+                    this.height = value;
+                    $(canvas).css({
+                        'height': this.height + '%',
+                        'top': 50 - this.height / 2 + '%',
+                        'bottom': 50 - this.height / 2 + '%'
+                    });
                     break;
                 case 'colorMode':
                 case 'isRandomColor':
@@ -1434,7 +1515,6 @@
                 case 'peak':
                 case 'milliSec':
                 case 'ballDirection':
-                case 'perspective':
                 case 'degSize':
                     this[property] = value;
                     break;
@@ -1496,6 +1576,15 @@
                     this.bindRingRotation = value;
                     this.bindRingRotation && (rotationAngle2 = rotationAngle1);
                     break;
+                case 'transformMode':
+                case 'perspective':
+                case 'translateX':
+                case 'translateY':
+                case 'skewX':
+                case 'skewY':
+                case 'rotateX':
+                case 'rotateY':
+                case 'rotateZ':
                 case 'isRotate3D':
                 case 'topLeftX':
                 case 'topLeftY':
@@ -1506,11 +1595,7 @@
                 case 'bottomLeftX':
                 case 'bottomLeftY':
                     this[property] = value;
-                    if (!this.isRotate3D) {
-                        this.stopTransform();
-                        this.setTargetPos();
-                        applyTransform(originalPos, targetPos);
-                    }
+                    this.startTransform();
                     break;
                 // no default
             }

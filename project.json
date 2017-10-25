@@ -253,10 +253,10 @@
         ],
         "value": 0
       },
-      "IMG_FitStyle": {
+      "directory_imgFitStyle": {
         "order": 1102,
         "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && BG_mode.value == 3 && directory_sliderStyle.value == 2",
-        "text": "ui_IMG_FitStyle",
+        "text": "ui_directory_imgFitStyle",
         "type": "combo",
         "options": [
           {
@@ -282,10 +282,42 @@
         ],
         "value": 1
       },
-      "IMG_BGColor": {
+      "directory_imgBGColor": {
         "order": 1103,
         "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && BG_mode.value == 3 && directory_sliderStyle.value == 2",
-        "text": "ui_IMG_BGColor",
+        "text": "ui_directory_imgBGColor",
+        "type": "color",
+        "value": "1 1 1"
+      },
+      "directory_canvasFitStyle": {
+        "order": 1102,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && BG_mode.value == 3 && directory_sliderStyle.value == 3",
+        "text": "ui_directory_canvasFitStyle",
+        "type": "combo",
+        "options": [
+          {
+            "label": "填充/Fill",
+            "value": 1
+          },
+          {
+            "label": "适应/Fit",
+            "value": 2
+          },
+          {
+            "label": "拉伸/Stretch",
+            "value": 3
+          },
+          {
+            "label": "居中/Center",
+            "value": 4
+          }
+        ],
+        "value": 1
+      },
+      "directory_canvasBGColor": {
+        "order": 1103,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && BG_mode.value == 3 && directory_sliderStyle.value == 3",
+        "text": "ui_directory_canvasBGColor",
         "type": "color",
         "value": "1 1 1"
       },
@@ -1059,42 +1091,149 @@
         "min": 0,
         "value": 25
       },
-      "circle_isRotate3D": {
+      "circle_width": {
         "order": 3407,
         "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value)",
+        "text": "ui_circle_width",
+        "type": "slider",
+        "editable": true,
+        "max": 100,
+        "min": 0,
+        "value": 100
+      },
+      "circle_height": {
+        "order": 3408,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value)",
+        "text": "ui_circle_height",
+        "type": "slider",
+        "editable": true,
+        "max": 100,
+        "min": 0,
+        "value": 100
+      },
+      "circle_transformMode": {
+        "order": 3409,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value)",
+        "text": "ui_circle_transformMode",
+        "type": "combo",
+        "options": [
+          {
+            "label": "值/Value",
+            "value": 1
+          },
+          {
+            "label": "坐标/Coordinate",
+            "value": 2
+          }
+        ],
+        "value": 1
+      },
+      "circle_perspective": {
+        "order": 3410,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && circle_transformMode.value == 1",
+        "text": "ui_circle_perspective",
+        "type": "slider",
+        "editable": true,
+        "max": 40,
+        "min": 0,
+        "value": 20
+      },
+      "circle_translateX": {
+        "order": 3411,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && circle_transformMode.value == 1 && !circle_isRotate3D.value",
+        "text": "ui_circle_translateX",
+        "type": "slider",
+        "editable": true,
+        "max": 100,
+        "min": -100,
+        "value": 0
+      },
+      "circle_translateY": {
+        "order": 3412,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && circle_transformMode.value == 1 && !circle_isRotate3D.value",
+        "text": "ui_circle_translateY",
+        "type": "slider",
+        "editable": true,
+        "max": 100,
+        "min": -100,
+        "value": 0
+      },
+      "circle_skewX": {
+        "order": 3413,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && circle_transformMode.value == 1 && !circle_isRotate3D.value",
+        "text": "ui_circle_skewX",
+        "type": "slider",
+        "editable": true,
+        "max": 90,
+        "min": -90,
+        "value": 0
+      },
+      "circle_skewY": {
+        "order": 3414,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && circle_transformMode.value == 1 && !circle_isRotate3D.value",
+        "text": "ui_circle_skewY",
+        "type": "slider",
+        "editable": true,
+        "max": 90,
+        "min": -90,
+        "value": 0
+      },
+      "circle_rotateX": {
+        "order": 3415,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && circle_transformMode.value == 1 && !circle_isRotate3D.value",
+        "text": "ui_circle_rotateX",
+        "type": "slider",
+        "editable": true,
+        "max": 180,
+        "min": -180,
+        "value": 0
+      },
+      "circle_rotateY": {
+        "order": 3416,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && circle_transformMode.value == 1 && !circle_isRotate3D.value",
+        "text": "ui_circle_rotateY",
+        "type": "slider",
+        "editable": true,
+        "max": 180,
+        "min": -180,
+        "value": 0
+      },
+      "circle_rotateZ": {
+        "order": 3417,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && circle_transformMode.value == 1 && !circle_isRotate3D.value",
+        "text": "ui_circle_rotateZ",
+        "type": "slider",
+        "editable": true,
+        "max": 180,
+        "min": -180,
+        "value": 0
+      },
+      "circle_isRotate3D": {
+        "order": 3418,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && circle_transformMode.value == 1",
         "text": "ui_circle_isRotate3D",
         "type": "bool",
         "value": false
       },
-      "circle_perspective": {
-        "order": 3408,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && circle_isRotate3D.value",
-        "text": "ui_circle_perspective",
-        "type": "slider",
-        "editable": true,
-        "max": 20,
-        "min": 0,
-        "value": 20
-      },
       "circle_degSize": {
-        "order": 3409,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && circle_isRotate3D.value",
+        "order": 3419,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && circle_transformMode.value == 1 && circle_isRotate3D.value",
         "text": "ui_circle_degSize",
         "type": "slider",
         "editable": true,
-        "max": 360,
+        "max": 180,
         "min": 0,
         "value": 30
       },
       "circle_topLeft": {
-        "order": 3410,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && !circle_isRotate3D.value",
+        "order": 3420,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && circle_transformMode.value == 2",
         "text": "ui_circle_topLeft",
         "type": "text"
       },
       "circle_topLeftX": {
-        "order": 3411,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && !circle_isRotate3D.value",
+        "order": 3421,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && circle_transformMode.value == 2",
         "text": "ui_circle_topLeftX",
         "type": "slider",
         "editable": true,
@@ -1103,8 +1242,8 @@
         "value": 0
       },
       "circle_topLeftY": {
-        "order": 3412,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && !circle_isRotate3D.value",
+        "order": 3422,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && circle_transformMode.value == 2",
         "text": "ui_circle_topLeftY",
         "type": "slider",
         "editable": true,
@@ -1113,14 +1252,14 @@
         "value": 0
       },
       "circle_topRight": {
-        "order": 3413,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && !circle_isRotate3D.value",
+        "order": 3423,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && circle_transformMode.value == 2",
         "text": "ui_circle_topRight",
         "type": "text"
       },
       "circle_topRightX": {
-        "order": 3414,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && !circle_isRotate3D.value",
+        "order": 3424,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && circle_transformMode.value == 2",
         "text": "ui_circle_topRightX",
         "type": "slider",
         "editable": true,
@@ -1129,8 +1268,8 @@
         "value": 0
       },
       "circle_topRightY": {
-        "order": 3415,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && !circle_isRotate3D.value",
+        "order": 3425,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && circle_transformMode.value == 2",
         "text": "ui_circle_topRightY",
         "type": "slider",
         "editable": true,
@@ -1139,14 +1278,14 @@
         "value": 0
       },
       "circle_bottomRight": {
-        "order": 3416,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && !circle_isRotate3D.value",
+        "order": 3426,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && circle_transformMode.value == 2",
         "text": "ui_circle_bottomRight",
         "type": "text"
       },
       "circle_bottomRightX": {
-        "order": 3417,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && !circle_isRotate3D.value",
+        "order": 3427,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && circle_transformMode.value == 2",
         "text": "ui_circle_bottomRightX",
         "type": "slider",
         "editable": true,
@@ -1155,8 +1294,8 @@
         "value": 0
       },
       "circle_bottomRightY": {
-        "order": 3418,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && !circle_isRotate3D.value",
+        "order": 3428,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && circle_transformMode.value == 2",
         "text": "ui_circle_bottomRightY",
         "type": "slider",
         "editable": true,
@@ -1165,14 +1304,14 @@
         "value": 0
       },
       "circle_bottomLeft": {
-        "order": 3419,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && !circle_isRotate3D.value",
+        "order": 3429,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && circle_transformMode.value == 2",
         "text": "ui_circle_bottomLeft",
         "type": "text"
       },
       "circle_bottomLeftX": {
-        "order": 3420,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && !circle_isRotate3D.value",
+        "order": 3430,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && circle_transformMode.value == 2",
         "text": "ui_circle_bottomLeftX",
         "type": "slider",
         "editable": true,
@@ -1181,8 +1320,8 @@
         "value": 0
       },
       "circle_bottomLeftY": {
-        "order": 3421,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && !circle_isRotate3D.value",
+        "order": 3431,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && (circle_isRing.value || circle_isWave.value || circle_isLineTo.value || circle_isBall.value) && circle_transformMode.value == 2",
         "text": "ui_circle_bottomLeftY",
         "type": "slider",
         "editable": true,
@@ -3715,8 +3854,10 @@
         "ui_directory": "<br/>Image Folder<br/><br/>",
         "ui_directory_sliderStyle": "<br/>Sliding Style<br/><br/>",
         "ui_directory_effect": "<br/>Sliding Effect<br/><br/>",
-        "ui_IMG_FitStyle": "<br/>Image Fill Style<br/><br/>",
-        "ui_IMG_BGColor": "<br/>Background Color of the Image<br/><br/>",
+        "ui_directory_imgFitStyle": "<br/>Image Fill Style<br/><br/>",
+        "ui_directory_imgBGColor": "<br/>Background Color of the Image<br/><br/>",
+        "ui_directory_canvasBGColor": "<br/>Background Color of the Canvas<br/><br/>",
+        "ui_directory_canvasFitStyle": "<br/>Canvas Fill Style<br/><br/>",
         "ui_directory_readStyle": "<br/>Reading Order<br/><br/>",
         "ui_directory_timeUnits": "<br/>Unit Duration<br/><br/>",
         "ui_directory_pauseTime": "<br/>Duration of Image<br/><br/>",
@@ -3794,11 +3935,21 @@
         "ui_circle_offsetX": "<br/>Position X(%)<br/><br/>",
         "ui_circle_offsetY": "<br/>Position Y(%)<br/><br/>",
         "ui_circle_isClickOffset": "<br/>Mouse Coordinate Offset?<br/><br/>",
-        "ui_circle_transform": "<br/><b>Ring - Distort Setting</b><br/><br/>",
+        "ui_circle_transform": "<br/><b>Ring - Transform Setting</b><br/><br/>",
         "ui_circle_isMasking": "<br/>Show Masking?<br/><br/>",
         "ui_circle_maskOpacity": "<br/>Masking Opacity<br/><br/>",
-        "ui_circle_isRotate3D": "<br/>3D Rotating?<br/><br/>",
+        "ui_circle_width": "<br/>Width(%)<br/><br/>",
+        "ui_circle_height": "<br/>Height(%)<br/><br/>",
+        "ui_circle_transformMode": "<br/>Transform Mode<br/><br/>",
         "ui_circle_perspective": "<br/>perspective<br/><br/>",
+        "ui_circle_translateX": "<br/>translate X(%)<br/><br/>",
+        "ui_circle_translateY": "<br/>translate Y(%)<br/><br/>",
+        "ui_circle_skewX": "<br/>Skew X<br/><br/>",
+        "ui_circle_skewY": "<br/>Skew Y<br/><br/>",
+        "ui_circle_rotateX": "<br/>Rotate X<br/><br/>",
+        "ui_circle_rotateY": "<br/>Rotate Y<br/><br/>",
+        "ui_circle_rotateZ": "<br/>Rotate Z<br/><br/>",
+        "ui_circle_isRotate3D": "<br/>3D Rotating?<br/><br/>",
         "ui_circle_degSize": "<br/>Angle Size<br/><br/>",
         "ui_circle_topLeft": "<br/>Top-Left<br/><br/>",
         "ui_circle_topLeftX": "<br/>X(%)：<br/><br/>",
@@ -4060,8 +4211,10 @@
         "ui_directory": "<br/>背景文件夹<br/><br/>",
         "ui_directory_sliderStyle": "<br/>滑动方式<br/><br/>",
         "ui_directory_effect": "<br/>切换特效<br/><br/>",
-        "ui_IMG_FitStyle": "<br/>图片填充方式<br/><br/>",
-        "ui_IMG_BGColor": "<br/>图片背景颜色<br/><br/>",
+        "ui_directory_imgFitStyle": "<br/>图片填充方式<br/><br/>",
+        "ui_directory_imgBGColor": "<br/>图片背景颜色<br/><br/>",
+        "ui_directory_canvasFitStyle": "<br/>Canvas填充方式<br/><br/>",
+        "ui_directory_canvasBGColor": "<br/>Canvas背景颜色<br/><br/>",
         "ui_directory_readStyle": "<br/>读取顺序<br/><br/>",
         "ui_directory_timeUnits": "<br/>停留时间单位<br/><br/>",
         "ui_directory_pauseTime": "<br/>背景停留时间<br/><br/>",
@@ -4139,11 +4292,21 @@
         "ui_circle_offsetX": "<br/>X轴偏移<br/><br/>",
         "ui_circle_offsetY": "<br/>Y轴偏移<br/><br/>",
         "ui_circle_isClickOffset": "<br/>鼠标坐标偏移<br/><br/>",
-        "ui_circle_transform": "<br/><b>圆环 - 扭曲设置</b><br/><br/>",
+        "ui_circle_transform": "<br/><b>圆环 - 变换设置</b><br/><br/>",
         "ui_circle_isMasking": "<br/>显示蒙版<br/><br/>",
         "ui_circle_maskOpacity": "<br/>蒙版不透明度<br/><br/>",
-        "ui_circle_isRotate3D": "<br/>3D旋转<br/><br/>",
+        "ui_circle_width": "<br/>宽度(%)<br/><br/>",
+        "ui_circle_height": "<br/>高度(%)<br/><br/>",
+        "ui_circle_transformMode": "<br/>变换模式<br/><br/>",
         "ui_circle_perspective": "<br/>透视效果<br/><br/>",
+        "ui_circle_translateX": "<br/>X轴变换(%)<br/><br/>",
+        "ui_circle_translateY": "<br/>Y轴变换(%)<br/><br/>",
+        "ui_circle_skewX": "<br/>X轴倾斜<br/><br/>",
+        "ui_circle_skewY": "<br/>Y轴倾斜<br/><br/>",
+        "ui_circle_rotateX": "<br/>X轴旋转<br/><br/>",
+        "ui_circle_rotateY": "<br/>Y轴旋转<br/><br/>",
+        "ui_circle_rotateZ": "<br/>Z轴旋转<br/><br/>",
+        "ui_circle_isRotate3D": "<br/>3D旋转<br/><br/>",
         "ui_circle_degSize": "<br/>角度偏移<br/><br/>",
         "ui_circle_topLeft": "<br/>左上角<br/><br/>",
         "ui_circle_topLeftX": "<br/>X(%)：<br/><br/>",
@@ -4405,8 +4568,10 @@
         "ui_directory": "<br/>背景文件夾<br/><br/>",
         "ui_directory_sliderStyle": "<br/>滑動方式<br/><br/>",
         "ui_directory_effect": "<br/>切換特效<br/><br/>",
-        "ui_IMG_FitStyle": "<br/>圖片填充方式<br/><br/>",
-        "ui_IMG_BGColor": "<br/>圖片背景顏色<br/><br/>",
+        "ui_directory_imgFitStyle": "<br/>圖片填充方式<br/><br/>",
+        "ui_directory_imgBGColor": "<br/>圖片背景顏色<br/><br/>",
+        "ui_directory_canvasFitStyle": "<br/>Canvas填充方式<br/><br/>",
+        "ui_directory_canvasBGColor": "<br/>Canvas背景顏色<br/><br/>",
         "ui_directory_readStyle": "<br/>讀取順序<br/><br/>",
         "ui_directory_timeUnits": "<br/>停留時間單位<br/><br/>",
         "ui_directory_pauseTime": "<br/>背景停留時間<br/><br/>",
@@ -4484,11 +4649,21 @@
         "ui_circle_offsetX": "<br/>X軸偏移<br/><br/>",
         "ui_circle_offsetY": "<br/>Y軸偏移<br/><br/>",
         "ui_circle_isClickOffset": "<br/>鼠標坐標偏移<br/><br/>",
-        "ui_circle_transform": "<br/><b>圓環 - 扭曲設置</b><br/><br/>",
+        "ui_circle_transform": "<br/><b>圓環 - 變換設置</b><br/><br/>",
         "ui_circle_isMasking": "<br/>顯示蒙版<br/><br/>",
         "ui_circle_maskOpacity": "<br/>蒙版不透明度<br/><br/>",
-        "ui_circle_isRotate3D": "<br/>3D旋轉<br/><br/>",
+        "ui_circle_width": "<br/>寬度(%)<br/><br/>",
+        "ui_circle_height": "<br/>高度(%)<br/><br/>",
+        "ui_circle_transformMode": "<br/>變換模式<br/><br/>",
         "ui_circle_perspective": "<br/>透視效果<br/><br/>",
+        "ui_circle_translateX": "<br/>X軸變換(%)<br/><br/>",
+        "ui_circle_translateY": "<br/>Y軸變換(%)<br/><br/>",
+        "ui_circle_skewX": "<br/>X軸傾斜<br/><br/>",
+        "ui_circle_skewY": "<br/>Y軸傾斜<br/><br/>",
+        "ui_circle_rotateX": "<br/>X軸旋轉<br/><br/>",
+        "ui_circle_rotateY": "<br/>Y軸旋轉<br/><br/>",
+        "ui_circle_rotateZ": "<br/>Z軸旋轉<br/><br/>",
+        "ui_circle_isRotate3D": "<br/>3D旋轉<br/><br/>",
         "ui_circle_degSize": "<br/>角度偏移<br/><br/>",
         "ui_circle_topLeft": "<br/>左上角<br/><br/>",
         "ui_circle_topLeftX": "<br/>X(%)：<br/><br/>",

@@ -227,10 +227,10 @@
     }
 
     /**
-     * 设置IMG适应样式
+     * 设置Img/Video适应样式
      *
-     *  @param  {int} n IMG适应样式对应值
-     *  @return {string} IMG适应样式标识串
+     *  @param  {int} n Img/Video适应样式对应值
+     *  @return {string} Img/Video适应样式标识串
      */
     function setFitStyle(n) {
         switch (n) {
@@ -249,6 +249,31 @@
             // Center
             case 5:
                 return 'none';
+            default:
+                return 'fill';
+        }
+    }
+
+    /**
+     * 设置Canvas适应样式
+     *
+     *  @param  {int} n Canvas适应样式对应值
+     *  @return {string} Canvas适应样式标识串
+     */
+    function setCanvasFitStyle(n) {
+        switch (n) {
+            // Fill
+            case 1:
+                return 'fill';
+            // Fit
+            case 2:
+                return 'fit';
+            // Stretch
+            case 3:
+                return 'stretch';
+            // Center
+            case 4:
+                return 'center';
             default:
                 return 'fill';
         }
@@ -327,6 +352,23 @@
                 return 'round';
             default:
                 return 'butt';
+        }
+    }
+
+    /**
+     * 设置变换样式
+     *
+     * @param  {int} n 变换样式对应值
+     * @return {string} 变换样式标识串
+     */
+    function setTransformMode(n) {
+        switch (n) {
+            case 1:
+                return 'value';
+            case 2:
+                return 'matrix3d';
+            default:
+                return 'value';
         }
     }
 
@@ -1036,12 +1078,20 @@
                 background.slider('set', 'effect', setEffect(properties.directory_effect.value));
             }
             // IMG适应样式
-            if (properties.IMG_FitStyle) {
-                background.slider('set', 'imgFit', setFitStyle(properties.IMG_FitStyle.value));
+            if (properties.directory_imgFitStyle) {
+                background.slider('set', 'imgFit', setFitStyle(properties.directory_imgFitStyle.value));
             }
             // IMG背景颜色
-            if (properties.IMG_BGColor) {
-                background.slider('set', 'imgBGColor', getColor(properties.IMG_BGColor.value));
+            if (properties.directory_imgBGColor) {
+                background.slider('set', 'imgBGColor', getColor(properties.directory_imgBGColor.value));
+            }
+            // Canvas适应样式
+            if (properties.directory_canvasFitStyle) {
+                background.slider('set', 'canvasFit', setCanvasFitStyle(properties.directory_canvasFitStyle.value));
+            }
+            // Canvas背景颜色
+            if (properties.directory_canvasBGColor) {
+                background.slider('set', 'canvasBGColor', getColor(properties.directory_canvasBGColor.value));
             }
             // 读取模式
             if (properties.directory_readStyle) {
@@ -1461,6 +1511,14 @@
             // # 变化参数
             //-----------
 
+            // 平面宽度
+            if (properties.circle_width) {
+                wallpaper.visualizerCircle('set', 'width', properties.circle_width.value);
+            }
+            // 平面高度
+            if (properties.circle_height) {
+                wallpaper.visualizerCircle('set', 'height', properties.circle_height.value);
+            }
             // 显示蒙版
             if (properties.circle_isMasking) {
                 wallpaper.visualizerCircle('set', 'isMasking', properties.circle_isMasking.value);
@@ -1469,13 +1527,45 @@
             if (properties.circle_maskOpacity) {
                 wallpaper.visualizerCircle('set', 'maskOpacity', properties.circle_maskOpacity.value / 100);
             }
-            // 3D转换
-            if (properties.circle_isRotate3D) {
-                wallpaper.visualizerCircle('set', 'isRotate3D', properties.circle_isRotate3D.value);
+            // X轴变换(%)
+            if (properties.circle_transformMode) {
+                wallpaper.visualizerCircle('set', 'transformMode', setTransformMode(properties.circle_transformMode.value));
             }
             // 透视效果
             if (properties.circle_perspective) {
                 wallpaper.visualizerCircle('set', 'perspective', properties.circle_perspective.value * 100);
+            }
+            // X轴变换(%)
+            if (properties.circle_translateX) {
+                wallpaper.visualizerCircle('set', 'translateX', properties.circle_translateX.value / 100);
+            }
+            // Y轴变换(%)
+            if (properties.circle_translateY) {
+                wallpaper.visualizerCircle('set', 'translateY', properties.circle_translateY.value / 100);
+            }
+            // X轴倾斜转换
+            if (properties.circle_skewX) {
+                wallpaper.visualizerCircle('set', 'skewX', properties.circle_skewX.value);
+            }
+            // Y轴倾斜转换
+            if (properties.circle_skewY) {
+                wallpaper.visualizerCircle('set', 'skewY', properties.circle_skewY.value);
+            }
+            // X轴倾斜转换
+            if (properties.circle_rotateX) {
+                wallpaper.visualizerCircle('set', 'rotateX', properties.circle_rotateX.value);
+            }
+            // Y轴倾斜转换
+            if (properties.circle_rotateY) {
+                wallpaper.visualizerCircle('set', 'rotateY', properties.circle_rotateY.value);
+            }
+            // Z轴倾斜转换
+            if (properties.circle_rotateZ) {
+                wallpaper.visualizerCircle('set', 'rotateZ', properties.circle_rotateZ.value);
+            }
+            // 3D转换
+            if (properties.circle_isRotate3D) {
+                wallpaper.visualizerCircle('set', 'isRotate3D', properties.circle_isRotate3D.value);
             }
             // 角度大小
             if (properties.circle_degSize) {
