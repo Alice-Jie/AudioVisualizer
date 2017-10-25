@@ -1,5 +1,5 @@
 /*!
- * jQuery time plugin v0.0.14
+ * jQuery time plugin v0.0.15
  * moment.js: http://momentjs.cn/
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
@@ -7,7 +7,7 @@
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/10/23
+ * @date 2017/10/25
  */
 
 (function (global, factory) {
@@ -487,13 +487,14 @@
     }
 
     /**
-     * 应用仿射变换矩阵至canvas
+     * 获取Matrix3D
      * http://steamcommunity.com/sharedfiles/filedetails/?id=837056186
      *
-     * @param {Array.<[float]>} originalPos 初始平面四角XY坐标二维数组
-     * @param {Array.<[float]>} targetPos   目标平面四角XY坐标二维数组
+     * @param  {Array.<[float]>} originalPos 初始平面四角XY坐标二维数组
+     * @param  {Array.<[float]>} targetPos   目标平面四角XY坐标二维数组
+     * @return {string} Matrix3D字符串
      */
-    function applyTransform(originalPos, targetPos) {
+    function getMatrix3dStr(originalPos, targetPos) {
         let from = function () {
             let results = [];
             for (let i = 0; i < originalPos.length; i++) {
@@ -520,7 +521,7 @@
         }();  // 变换四角XY坐标对象数组
 
         let matrix = getTransform(from, to);  // 4x4仿射变换矩阵
-        let matrix3D = 'matrix3d(' + function () {
+        return 'matrix3d(' + function () {
                 let results = [];
                 // XYZ按顺序输出四个参数
                 for (let i = 0; i < 4; i++) {
@@ -534,11 +535,6 @@
                 }
                 return results;
             }().join(',') + ')';
-
-        $(canvas).css({
-            'transform': matrix3D,
-            'transform-origin': '0 0'
-        });
     }
 
     //构造函数和公共方法
@@ -587,28 +583,42 @@
         this.offsetX = options.offsetX;                  // X坐标偏移
         this.offsetY = options.offsetY;                  // Y坐标偏移
         this.isClickOffset = options.isClickOffset;      // 鼠标坐标偏移
-        // 扭曲参数
-        this.isMasking = options.isMasking;               // 蒙版开关
-        this.maskOpacity = options.maskOpacity;           // 蒙版不透明度
-        this.isRotate3D = options.isRotate3D;             // 是否3D旋转
-        this.perspective = options.perspective;           // 透视效果
-        this.degSize = options.degSize;                   // 角度大小
-        this.topLeftX = options.topLeftX;                 // 左上角X(%)
-        this.topLeftY = options.topLeftY;                 // 左上角Y(%)
-        this.topRightX = options.topRightX;               // 右上角X(%)
-        this.topRightY = options.topRightY;               // 右上角Y(%)
-        this.bottomRightX = options.bottomRightX;         // 右下角X(%)
-        this.bottomRightY = options.bottomRightY;         // 右下角Y(%)
-        this.bottomLeftX = options.bottomLeftX;           // 左下角X(%)
-        this.bottomLeftY = options.bottomLeftY;           // 左下角Y(%)
+        // 变换参数
+        this.isMasking = options.isMasking;          // 蒙版开关
+        this.maskOpacity = options.maskOpacity;      // 蒙版不透明度
+        this.width = options.width;                  // 平面宽度(%)
+        this.height = options.height;                // 平面高度(%)
+        this.perspective = options.perspective;      // 透视效果
+        this.transformMode = options.transformMode;  // 变换模式
+        this.translateX = options.translateX;        // X轴变换
+        this.translateY = options.translateY;        // Y轴变换
+        this.skewX = options.skewX;                  // X轴倾斜转换
+        this.skewY = options.skewY;                  // Y轴倾斜转换
+        this.rotateX = options.rotateX;              // X轴3D旋转
+        this.rotateY = options.rotateY;              // Y轴3D旋转
+        this.rotateZ = options.rotateZ;              // Z轴3D旋转
+        this.isRotate3D = options.isRotate3D;        // 是否3D旋转
+        this.degSize = options.degSize;              // 角度大小
+        this.topLeftX = options.topLeftX;            // 左上角X(%)
+        this.topLeftY = options.topLeftY;            // 左上角Y(%)
+        this.topRightX = options.topRightX;          // 右上角X(%)
+        this.topRightY = options.topRightY;          // 右上角Y(%)
+        this.bottomRightX = options.bottomRightX;    // 右下角X(%)
+        this.bottomRightY = options.bottomRightY;    // 右下角Y(%)
+        this.bottomLeftX = options.bottomLeftX;      // 左下角X(%)
+        this.bottomLeftY = options.bottomLeftY;      // 左下角Y(%)
 
         // 创建并初始化canvas
         canvas = document.createElement('canvas');
         canvas.id = 'canvas-date'; // canvas ID
         $(canvas).css({
             'position': 'fixed',
-            'top': 0,
             'left': 0,
+            'right': 0,
+            'top': 0,
+            'bottom': 0,
+            'width': '100%',
+            'height': '100%',
             'z-index': 5,
             'opacity': this.opacity,
             'transform': 'none'
@@ -683,16 +693,26 @@
         distance: 0,                    // 时间与日期之间距离
         // 天气参数
         weatherProvider: 'sina',        // 天气API提供者
-        currentCity: '',            // 当前城市
+        currentCity: '',                // 当前城市
         // 坐标参数
         offsetX: 0.5,                   // X坐标偏移
         offsetY: 0.5,                   // Y坐标偏移
         isClickOffset: false,           // 鼠标坐标偏移
-        // 扭曲参数
+        // 变换参数
         isMasking: false,               // 显示蒙版
         maskOpacity: 0.25,              // 蒙版不透明度
-        isRotate3D: false,              // 是否3D旋转
+        width: 1.00,                    // 平面宽度(%)
+        height: 1.00,                   // 平面高度(%)
         perspective: 0,                 // 透视效果
+        transformMode: 'value',         // 变换模式
+        translateX: 100,                // X轴变换(%)
+        translateY: 100,                // Y轴变换(%)
+        skewX: 0,                       // X轴倾斜转换
+        skewY: 0,                       // Y轴倾斜转换
+        rotateX: 0,                     // X轴3D旋转
+        rotateY: 0,                     // Y轴3D旋转
+        rotateZ: 0,                     // Z轴3D旋转
+        isRotate3D: false,              // 是否3D旋转
         degSize: 50,                    // 角度大小
         topLeftX: 0,                    // 左上角X(%)
         topLeftY: 0,                    // 左上角Y(%)
@@ -750,7 +770,7 @@
          * @param {float} ex 鼠标X轴坐标
          * @param {float} ey 鼠标Y轴坐标
          */
-        startRotate3D: function (ex, ey) {
+        rotate3D: function (ex, ey) {
             /**
              * http://www.w3school.com.cn/css3/css3_3dtransform.asp
              * https://developer.mozilla.org/zh-CN/docs/Web/CSS/transform-function/rotate3d
@@ -792,7 +812,42 @@
          * @private
          */
         stopTransform: function () {
-            $(this.$el).css('transform', 'none');
+            $(canvas).css({
+                'transform-origin': '50% 50% 0',
+                'transform': 'none'
+            });
+        },
+
+        /**
+         * 开始变换
+         * @private
+         */
+        startTransform: function () {
+            let perspective = this.perspective ? 'perspective(' + this.perspective + 'px) ' : '';
+            switch (this.transformMode) {
+                case 'value':
+                    $(canvas).css({
+                        'transform-origin': '50% 50%',
+                        'transform': perspective
+                        + 'translateX(' + canvasWidth * this.translateX + 'px)'
+                        + 'translateY(' + canvasHeight * this.translateY + 'px)'
+                        + 'skewX(' + this.skewX + 'deg)'
+                        + 'skewY(' + this.skewY + 'deg)'
+                        + 'rotateX(' + this.rotateX + 'deg)'
+                        + 'rotateY(' + this.rotateY + 'deg)'
+                        + 'rotateZ(' + this.rotateZ + 'deg)'
+                    });
+                    break;
+                case 'matrix3d':
+                    this.setTargetPos();
+                    $(canvas).css({
+                        'transform-origin': '0% 0%',
+                        'transform': getMatrix3dStr(originalPos, targetPos)
+                    });
+                    break;
+                default:
+                    this.stopTransform();
+            }
         },
 
 
@@ -919,6 +974,13 @@
 
             let that = this;
 
+            // 鼠标移动事件
+            $(this.$el).on('mousemove', function (e) {
+                if (that.transformMode === 'value' && that.isRotate3D) {
+                    that.rotate3D(e.clientX, e.clientY);
+                }
+            });
+
             // 鼠标点击事件
             $(this.$el).on('click', function (e) {
                 if (that.isClickOffset) {
@@ -928,11 +990,6 @@
                     that.offsetY = y / canvasHeight;
                     that.drawCanvas();
                 }
-            });
-
-            // 鼠标移动事件
-            $(this.$el).on('mousemove', function (e) {
-                that.isRotate3D && that.startRotate3D(e.clientX, e.clientY);
             });
 
             // 窗体改变事件
@@ -1111,10 +1168,29 @@
                     context.shadowBlur = this.shadowBlur;
                     this.drawDate();
                     break;
+                case 'width':
+                    this.width = value;
+                    $(canvas).css({
+                        'width': this.width + '%',
+                        'left': 50 - this.width / 2 + '%',
+                        'right': 50 - this.width / 2 + '%'
+                    });
+                    break;
+                case 'height':
+                    this.height = value;
+                    $(canvas).css({
+                        'height': this.height + '%',
+                        'top': 50 - this.height / 2 + '%',
+                        'bottom': 50 - this.height / 2 + '%'
+                    });
+                    break;
+                case 'language':
+                    moment.locale(value);
+                    this.drawDate();
+                    break;
                 case 'isRandomColor':
                 case 'isChangeBlur':
                 case 'isClickOffset':
-                case 'perspective':
                 case 'degSize':
                     this[property] = value;
                     break;
@@ -1161,6 +1237,15 @@
                     this[property] = value;
                     this.drawCanvas();
                     break;
+                case 'transformMode':
+                case 'perspective':
+                case 'translateX':
+                case 'translateY':
+                case 'skewX':
+                case 'skewY':
+                case 'rotateX':
+                case 'rotateY':
+                case 'rotateZ':
                 case 'isRotate3D':
                 case 'topLeftX':
                 case 'topLeftY':
@@ -1171,15 +1256,7 @@
                 case 'bottomLeftX':
                 case 'bottomLeftY':
                     this[property] = value;
-                    if (!this.isRotate3D) {
-                        this.stopTransform();
-                        this.setTargetPos();
-                        applyTransform(originalPos, targetPos);
-                    }
-                    break;
-                case 'language':
-                    moment.locale(value);
-                    this.drawDate();
+                    this.startTransform();
                     break;
                 // no default
             }

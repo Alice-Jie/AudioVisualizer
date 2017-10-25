@@ -1589,20 +1589,20 @@
         "min": 0,
         "value": 90
       },
-      "bars_width": {
+      "bars_barsWidth": {
         "order": 4202,
         "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value)",
-        "text": "ui_bars_width",
+        "text": "ui_bars_barsWidth",
         "type": "slider",
         "editable": true,
         "max": 10,
         "min": 1,
         "value": 5
       },
-      "bars_height": {
+      "bars_barsHeight": {
         "order": 4203,
         "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value)",
-        "text": "ui_bars_height",
+        "text": "ui_bars_barsHeight",
         "type": "slider",
         "editable": true,
         "max": 100,
@@ -1718,7 +1718,7 @@
       },
       "bars_maskOpacity": {
         "order": 4306,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && bars_isMasking.value",
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && bars_maskOpacity.value && bars_isMasking.value",
         "text": "ui_bars_maskOpacity",
         "type": "slider",
         "editable": true,
@@ -1726,42 +1726,149 @@
         "min": 0,
         "value": 25
       },
-      "bars_isRotate3D": {
+      "bars_width": {
         "order": 4307,
         "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value)",
+        "text": "ui_bars_width",
+        "type": "slider",
+        "editable": true,
+        "max": 100,
+        "min": 0,
+        "value": 100
+      },
+      "bars_height": {
+        "order": 4308,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value)",
+        "text": "ui_bars_height",
+        "type": "slider",
+        "editable": true,
+        "max": 100,
+        "min": 0,
+        "value": 100
+      },
+      "bars_transformMode": {
+        "order": 4309,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value)",
+        "text": "ui_bars_transformMode",
+        "type": "combo",
+        "options": [
+          {
+            "label": "值/Value",
+            "value": 1
+          },
+          {
+            "label": "坐标/Coordinate",
+            "value": 2
+          }
+        ],
+        "value": 1
+      },
+      "bars_perspective": {
+        "order": 4310,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && bars_transformMode.value === 1",
+        "text": "ui_bars_perspective",
+        "type": "slider",
+        "editable": true,
+        "max": 40,
+        "min": 0,
+        "value": 20
+      },
+      "bars_translateX": {
+        "order": 4311,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && bars_transformMode.value === 1",
+        "text": "ui_bars_translateX",
+        "type": "slider",
+        "editable": true,
+        "max": 100,
+        "min": -100,
+        "value": 0
+      },
+      "bars_translateY": {
+        "order": 4312,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && bars_transformMode.value === 1",
+        "text": "ui_bars_translateY",
+        "type": "slider",
+        "editable": true,
+        "max": 100,
+        "min": -100,
+        "value": 0
+      },
+      "bars_skewX": {
+        "order": 4313,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && bars_transformMode.value === 1",
+        "text": "ui_bars_skewX",
+        "type": "slider",
+        "editable": true,
+        "max": 90,
+        "min": -90,
+        "value": 0
+      },
+      "bars_skewY": {
+        "order": 4314,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && bars_transformMode.value === 1",
+        "text": "ui_bars_skewY",
+        "type": "slider",
+        "editable": true,
+        "max": 90,
+        "min": -90,
+        "value": 0
+      },
+      "bars_rotateX": {
+        "order": 4315,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && bars_transformMode.value === 1",
+        "text": "ui_bars_rotateX",
+        "type": "slider",
+        "editable": true,
+        "max": 180,
+        "min": -180,
+        "value": 0
+      },
+      "bars_rotateY": {
+        "order": 4316,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && bars_transformMode.value === 1",
+        "text": "ui_bars_rotateY",
+        "type": "slider",
+        "editable": true,
+        "max": 180,
+        "min": -180,
+        "value": 0
+      },
+      "bars_rotateZ": {
+        "order": 4317,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && bars_transformMode.value === 1",
+        "text": "ui_bars_rotateZ",
+        "type": "slider",
+        "editable": true,
+        "max": 180,
+        "min": -180,
+        "value": 0
+      },
+      "bars_isRotate3D": {
+        "order": 4318,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && bars_transformMode.value === 1",
         "text": "ui_bars_isRotate3D",
         "type": "bool",
         "value": false
       },
-      "bars_perspective": {
-        "order": 4308,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && bars_isRotate3D.value",
-        "text": "ui_bars_perspective",
-        "type": "slider",
-        "editable": true,
-        "max": 20,
-        "min": 0,
-        "value": 20
-      },
       "bars_degSize": {
-        "order": 4309,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && bars_isRotate3D.value",
+        "order": 4319,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && bars_transformMode.value === 1 && bars_isRotate3D.value",
         "text": "ui_bars_degSize",
         "type": "slider",
         "editable": true,
-        "max": 360,
+        "max": 180,
         "min": 0,
         "value": 30
       },
       "bars_topLeft": {
-        "order": 4310,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && !bars_isRotate3D.value",
+        "order": 4320,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && bars_transformMode.value === 2",
         "text": "ui_bars_topLeft",
         "type": "text"
       },
       "bars_topLeftX": {
-        "order": 4311,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && !bars_isRotate3D.value",
+        "order": 4321,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && bars_transformMode.value === 2",
         "text": "ui_bars_topLeftX",
         "type": "slider",
         "editable": true,
@@ -1770,8 +1877,8 @@
         "value": 0
       },
       "bars_topLeftY": {
-        "order": 4312,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && !bars_isRotate3D.value",
+        "order": 4322,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && bars_transformMode.value === 2",
         "text": "ui_bars_topLeftY",
         "type": "slider",
         "editable": true,
@@ -1780,14 +1887,14 @@
         "value": 0
       },
       "bars_topRight": {
-        "order": 4313,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && !bars_isRotate3D.value",
+        "order": 4323,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && bars_transformMode.value === 2",
         "text": "ui_bars_topRight",
         "type": "text"
       },
       "bars_topRightX": {
-        "order": 4314,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && !bars_isRotate3D.value",
+        "order": 4324,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && bars_transformMode.value === 2",
         "text": "ui_bars_topRightX",
         "type": "slider",
         "editable": true,
@@ -1796,8 +1903,8 @@
         "value": 0
       },
       "bars_topRightY": {
-        "order": 4315,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && !bars_isRotate3D.value",
+        "order": 4325,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && bars_transformMode.value === 2",
         "text": "ui_bars_topRightY",
         "type": "slider",
         "editable": true,
@@ -1806,14 +1913,14 @@
         "value": 0
       },
       "bars_bottomRight": {
-        "order": 4316,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && !bars_isRotate3D.value",
+        "order": 4326,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && bars_transformMode.value === 2",
         "text": "ui_bars_bottomRight",
         "type": "text"
       },
       "bars_bottomRightX": {
-        "order": 4317,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && !bars_isRotate3D.value",
+        "order": 4327,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && bars_transformMode.value === 2",
         "text": "ui_bars_bottomRightX",
         "type": "slider",
         "editable": true,
@@ -1822,8 +1929,8 @@
         "value": 0
       },
       "bars_bottomRightY": {
-        "order": 4318,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && !bars_isRotate3D.value",
+        "order": 4328,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && bars_transformMode.value === 2",
         "text": "ui_bars_bottomRightY",
         "type": "slider",
         "editable": true,
@@ -1832,14 +1939,14 @@
         "value": 0
       },
       "bars_bottomLeft": {
-        "order": 4319,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && !bars_isRotate3D.value",
+        "order": 4329,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && bars_transformMode.value === 2",
         "text": "ui_bars_bottomLeft",
         "type": "text"
       },
       "bars_bottomLeftX": {
-        "order": 4320,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && !bars_isRotate3D.value",
+        "order": 4330,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && bars_transformMode.value === 2",
         "text": "ui_bars_bottomLeftX",
         "type": "slider",
         "editable": true,
@@ -1848,8 +1955,8 @@
         "value": 0
       },
       "bars_bottomLeftY": {
-        "order": 4321,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && !bars_isRotate3D.value",
+        "order": 4331,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && bars_transformMode.value === 2",
         "text": "ui_bars_bottomLeftY",
         "type": "slider",
         "editable": true,
@@ -2267,42 +2374,149 @@
         "min": 0,
         "value": 25
       },
-      "logo_isRotate3D": {
+      "logo_width": {
         "order": 5407,
         "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value",
-        "text": "ui_bars_isRotate3D",
-        "type": "bool",
-        "value": false
-      },
-      "logo_perspective": {
-        "order": 5408,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_isRotate3D.value",
-        "text": "ui_bars_perspective",
+        "text": "ui_logo_width",
         "type": "slider",
         "editable": true,
-        "max": 20,
+        "max": 100,
+        "min": 0,
+        "value": 100
+      },
+      "logo_height": {
+        "order": 5408,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value",
+        "text": "ui_logo_height",
+        "type": "slider",
+        "editable": true,
+        "max": 100,
+        "min": 0,
+        "value": 100
+      },
+      "logo_transformMode": {
+        "order": 5409,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value",
+        "text": "ui_logo_transformMode",
+        "type": "combo",
+        "options": [
+          {
+            "label": "值/Value",
+            "value": 1
+          },
+          {
+            "label": "坐标/Coordinate",
+            "value": 2
+          }
+        ],
+        "value": 1
+      },
+      "logo_perspective": {
+        "order": 5410,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_transformMode.value == 1",
+        "text": "ui_logo_perspective",
+        "type": "slider",
+        "editable": true,
+        "max": 40,
         "min": 0,
         "value": 20
       },
-      "logo_degSize": {
-        "order": 5409,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_isRotate3D.value",
-        "text": "ui_bars_degSize",
+      "logo_translateX": {
+        "order": 5411,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_transformMode.value == 1",
+        "text": "ui_logo_translateX",
         "type": "slider",
         "editable": true,
-        "max": 360,
+        "max": 100,
+        "min": -100,
+        "value": 0
+      },
+      "logo_translateY": {
+        "order": 5412,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_transformMode.value == 1",
+        "text": "ui_logo_translateY",
+        "type": "slider",
+        "editable": true,
+        "max": 100,
+        "min": -100,
+        "value": 0
+      },
+      "logo_skewX": {
+        "order": 5413,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_transformMode.value == 1",
+        "text": "ui_logo_skewX",
+        "type": "slider",
+        "editable": true,
+        "max": 90,
+        "min": -90,
+        "value": 0
+      },
+      "logo_skewY": {
+        "order": 5414,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_transformMode.value == 1",
+        "text": "ui_logo_skewY",
+        "type": "slider",
+        "editable": true,
+        "max": 90,
+        "min": -90,
+        "value": 0
+      },
+      "logo_rotateX": {
+        "order": 5415,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_transformMode.value == 1",
+        "text": "ui_logo_rotateX",
+        "type": "slider",
+        "editable": true,
+        "max": 180,
+        "min": -180,
+        "value": 0
+      },
+      "logo_rotateY": {
+        "order": 5416,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_transformMode.value == 1",
+        "text": "ui_logo_rotateY",
+        "type": "slider",
+        "editable": true,
+        "max": 180,
+        "min": -180,
+        "value": 0
+      },
+      "logo_rotateZ": {
+        "order": 5417,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_transformMode.value == 1",
+        "text": "ui_logo_rotateZ",
+        "type": "slider",
+        "editable": true,
+        "max": 180,
+        "min": -180,
+        "value": 0
+      },
+      "logo_isRotate3D": {
+        "order": 5418,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_transformMode.value == 1",
+        "text": "ui_logo_isRotate3D",
+        "type": "bool",
+        "value": false
+      },
+      "logo_degSize": {
+        "order": 5419,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_transformMode.value == 1 && logo_isRotate3D.value == 1",
+        "text": "ui_logo_degSize",
+        "type": "slider",
+        "editable": true,
+        "max": 180,
         "min": 0,
         "value": 30
       },
       "logo_topLeft": {
-        "order": 5410,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && !logo_isRotate3D.value",
+        "order": 5420,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_transformMode.value == 2",
         "text": "ui_logo_topLeft",
         "type": "text"
       },
       "logo_topLeftX": {
-        "order": 5411,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && !logo_isRotate3D.value",
+        "order": 5421,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_transformMode.value == 2",
         "text": "ui_logo_topLeftX",
         "type": "slider",
         "editable": true,
@@ -2311,8 +2525,8 @@
         "value": 0
       },
       "logo_topLeftY": {
-        "order": 5412,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && !logo_isRotate3D.value",
+        "order": 5422,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_transformMode.value == 2",
         "text": "ui_logo_topLeftY",
         "type": "slider",
         "editable": true,
@@ -2321,14 +2535,14 @@
         "value": 0
       },
       "logo_topRight": {
-        "order": 5413,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && !logo_isRotate3D.value",
+        "order": 5423,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_transformMode.value == 2",
         "text": "ui_logo_topRight",
         "type": "text"
       },
       "logo_topRightX": {
-        "order": 5414,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && !logo_isRotate3D.value",
+        "order": 5424,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_transformMode.value == 2",
         "text": "ui_logo_topRightX",
         "type": "slider",
         "editable": true,
@@ -2337,8 +2551,8 @@
         "value": 0
       },
       "logo_topRightY": {
-        "order": 5415,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && !logo_isRotate3D.value",
+        "order": 5425,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_transformMode.value == 2",
         "text": "ui_logo_topRightY",
         "type": "slider",
         "editable": true,
@@ -2347,14 +2561,14 @@
         "value": 0
       },
       "logo_bottomRight": {
-        "order": 5416,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && !logo_isRotate3D.value",
+        "order": 5426,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_transformMode.value == 2",
         "text": "ui_logo_bottomRight",
         "type": "text"
       },
       "logo_bottomRightX": {
-        "order": 5417,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && !logo_isRotate3D.value",
+        "order": 5427,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_transformMode.value == 2",
         "text": "ui_logo_bottomRightX",
         "type": "slider",
         "editable": true,
@@ -2363,8 +2577,8 @@
         "value": 0
       },
       "logo_bottomRightY": {
-        "order": 5418,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && !logo_isRotate3D.value",
+        "order": 5428,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_transformMode.value == 2",
         "text": "ui_logo_bottomRightY",
         "type": "slider",
         "editable": true,
@@ -2373,14 +2587,14 @@
         "value": 0
       },
       "logo_bottomLeft": {
-        "order": 5419,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && !logo_isRotate3D.value",
+        "order": 5429,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_transformMode.value == 2",
         "text": "ui_logo_bottomLeft",
         "type": "text"
       },
       "logo_bottomLeftX": {
-        "order": 5420,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && !logo_isRotate3D.value",
+        "order": 5430,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_transformMode.value == 2",
         "text": "ui_logo_bottomLeftX",
         "type": "slider",
         "editable": true,
@@ -2389,8 +2603,8 @@
         "value": 0
       },
       "logo_bottomLeftY": {
-        "order": 5421,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && !logo_isRotate3D.value",
+        "order": 5431,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_transformMode.value == 2",
         "text": "ui_logo_bottomLeftY",
         "type": "slider",
         "editable": true,
@@ -3209,42 +3423,149 @@
         "min": 0,
         "value": 25
       },
-      "date_isRotate3D": {
+      "date_width": {
         "order": 6407,
         "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value",
-        "text": "ui_bars_isRotate3D",
-        "type": "bool",
-        "value": false
-      },
-      "date_perspective": {
-        "order": 6408,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value && date_isRotate3D.value",
-        "text": "ui_bars_perspective",
+        "text": "ui_date_width",
         "type": "slider",
         "editable": true,
-        "max": 20,
+        "max": 100,
+        "min": 0,
+        "value": 100
+      },
+      "date_height": {
+        "order": 6408,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value",
+        "text": "ui_date_height",
+        "type": "slider",
+        "editable": true,
+        "max": 100,
+        "min": 0,
+        "value": 100
+      },
+      "date_transformMode": {
+        "order": 6409,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value",
+        "text": "ui_date_transformMode",
+        "type": "combo",
+        "options": [
+          {
+            "label": "值/Value",
+            "value": 1
+          },
+          {
+            "label": "坐标/Coordinate",
+            "value": 2
+          }
+        ],
+        "value": 1
+      },
+      "date_perspective": {
+        "order": 6410,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value && date_transformMode.value == 1",
+        "text": "ui_date_perspective",
+        "type": "slider",
+        "editable": true,
+        "max": 40,
         "min": 0,
         "value": 20
       },
-      "date_degSize": {
-        "order": 6409,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value && date_isRotate3D.value",
-        "text": "ui_bars_degSize",
+      "date_translateX": {
+        "order": 6411,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) &&  date_isDate.value && date_transformMode.value == 1",
+        "text": "ui_date_translateX",
         "type": "slider",
         "editable": true,
-        "max": 360,
+        "max": 100,
+        "min": -100,
+        "value": 0
+      },
+      "date_translateY": {
+        "order": 6412,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) &&  date_isDate.value && date_transformMode.value == 1",
+        "text": "ui_date_translateY",
+        "type": "slider",
+        "editable": true,
+        "max": 100,
+        "min": -100,
+        "value": 0
+      },
+      "date_skewX": {
+        "order": 6413,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) &&  date_isDate.value && date_transformMode.value == 1",
+        "text": "ui_date_skewX",
+        "type": "slider",
+        "editable": true,
+        "max": 90,
+        "min": -90,
+        "value": 0
+      },
+      "date_skewY": {
+        "order": 6414,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) &&  date_isDate.value && date_transformMode.value == 1",
+        "text": "ui_date_skewY",
+        "type": "slider",
+        "editable": true,
+        "max": 90,
+        "min": -90,
+        "value": 0
+      },
+      "date_rotateX": {
+        "order": 6415,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) &&  date_isDate.value && date_transformMode.value == 1",
+        "text": "ui_date_rotateX",
+        "type": "slider",
+        "editable": true,
+        "max": 180,
+        "min": -180,
+        "value": 0
+      },
+      "date_rotateY": {
+        "order": 6416,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) &&  date_isDate.value && date_transformMode.value == 1",
+        "text": "ui_date_rotateY",
+        "type": "slider",
+        "editable": true,
+        "max": 180,
+        "min": -180,
+        "value": 0
+      },
+      "date_rotateZ": {
+        "order": 6417,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) &&  date_isDate.value && date_transformMode.value == 1",
+        "text": "ui_date_rotateZ",
+        "type": "slider",
+        "editable": true,
+        "max": 180,
+        "min": -180,
+        "value": 0
+      },
+      "date_isRotate3D": {
+        "order": 6418,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) &&  date_isDate.value && date_transformMode.value == 1",
+        "text": "ui_date_isRotate3D",
+        "type": "bool",
+        "value": false
+      },
+      "date_degSize": {
+        "order": 6419,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) &&  date_isDate.value && date_transformMode.value == 1 && date_isRotate3D.value",
+        "text": "ui_date_degSize",
+        "type": "slider",
+        "editable": true,
+        "max": 180,
         "min": 0,
         "value": 30
       },
       "date_topLeft": {
-        "order": 6410,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value && !date_isRotate3D.value",
+        "order": 6420,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) &&  date_isDate.value && date_transformMode.value == 2",
         "text": "ui_date_topLeft",
         "type": "text"
       },
       "date_topLeftX": {
-        "order": 6411,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value && !date_isRotate3D.value",
+        "order": 6421,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) &&  date_isDate.value && date_transformMode.value == 2",
         "text": "ui_date_topLeftX",
         "type": "slider",
         "editable": true,
@@ -3253,8 +3574,8 @@
         "value": 0
       },
       "date_topLeftY": {
-        "order": 6412,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value && !date_isRotate3D.value",
+        "order": 6422,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) &&  date_isDate.value && date_transformMode.value == 2",
         "text": "ui_date_topLeftY",
         "type": "slider",
         "editable": true,
@@ -3263,14 +3584,14 @@
         "value": 0
       },
       "date_topRight": {
-        "order": 6413,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value && !date_isRotate3D.value",
+        "order": 6423,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) &&  date_isDate.value && date_transformMode.value == 2",
         "text": "ui_date_topRight",
         "type": "text"
       },
       "date_topRightX": {
-        "order": 6414,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value && !date_isRotate3D.value",
+        "order": 6424,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) &&  date_isDate.value && date_transformMode.value == 2",
         "text": "ui_date_topRightX",
         "type": "slider",
         "editable": true,
@@ -3279,8 +3600,8 @@
         "value": 0
       },
       "date_topRightY": {
-        "order": 6415,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value && !date_isRotate3D.value",
+        "order": 6425,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) &&  date_isDate.value && date_transformMode.value == 2",
         "text": "ui_date_topRightY",
         "type": "slider",
         "editable": true,
@@ -3289,14 +3610,14 @@
         "value": 0
       },
       "date_bottomRight": {
-        "order": 6416,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value && !date_isRotate3D.value",
+        "order": 6426,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) &&  date_isDate.value && date_transformMode.value == 2",
         "text": "ui_date_bottomRight",
         "type": "text"
       },
       "date_bottomRightX": {
-        "order": 6417,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value && !date_isRotate3D.value",
+        "order": 6427,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) &&  date_isDate.value && date_transformMode.value == 2",
         "text": "ui_date_bottomRightX",
         "type": "slider",
         "editable": true,
@@ -3305,8 +3626,8 @@
         "value": 0
       },
       "date_bottomRightY": {
-        "order": 6418,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value && !date_isRotate3D.value",
+        "order": 6428,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) &&  date_isDate.value && date_transformMode.value == 2",
         "text": "ui_date_bottomRightY",
         "type": "slider",
         "editable": true,
@@ -3315,14 +3636,14 @@
         "value": 0
       },
       "date_bottomLeft": {
-        "order": 6419,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value && !date_isRotate3D.value",
+        "order": 6429,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) &&  date_isDate.value && date_transformMode.value == 2",
         "text": "ui_date_bottomLeft",
         "type": "text"
       },
       "date_bottomLeftX": {
-        "order": 6420,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value && !date_isRotate3D.value",
+        "order": 6430,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) &&  date_isDate.value && date_transformMode.value == 2",
         "text": "ui_date_bottomLeftX",
         "type": "slider",
         "editable": true,
@@ -3331,8 +3652,8 @@
         "value": 0
       },
       "date_bottomLeftY": {
-        "order": 6421,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value && !date_isRotate3D.value",
+        "order": 6431,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) &&  date_isDate.value && date_transformMode.value == 2",
         "text": "ui_date_bottomLeftY",
         "type": "slider",
         "editable": true,
@@ -3991,8 +4312,8 @@
         "ui_bars_gradientOffset": "<br/>Gradient Offset<br/><br/>",
         "ui_bars_barsText": "<br/><b>Bars - Bars Settings</b><br/><br/>",
         "ui_bars_opacity": "<br/>Opacity<br/><br/>",
-        "ui_bars_width": "<br/>Width<br/><br/>",
-        "ui_bars_height": "<br/>Height<br/><br/>",
+        "ui_bars_barsWidth": "<br/>Width<br/><br/>",
+        "ui_bars_barsHeight": "<br/>Height<br/><br/>",
         "ui_bars_pointNum": "<br/>Number of Points<br/><br/>",
         "ui_bars_lineWidth": "<br/>Line Width<br/><br/>",
         "ui_bars_lineJoin": "<br/>Line Join<br/><br/>",
@@ -4002,11 +4323,21 @@
         "ui_bars_offsetX": "<br/>Position X(%)<br/><br/>",
         "ui_bars_offsetY": "<br/>Position Y(%)<br/><br/>",
         "ui_bars_isClickOffset": "<br/>Mouse Coordinate Offset?<br/><br/>",
-        "ui_bars_transform": "<br/><b>Bars - Distort Setting</b><br/><br/>",
+        "ui_bars_transform": "<br/><b>Bars - Transform Setting</b><br/><br/>",
         "ui_bars_isMasking": "<br/>Show Masking?<br/><br/>",
         "ui_bars_maskOpacity": "<br/>Masking Opacity<br/><br/>",
-        "ui_bars_isRotate3D": "<br/>3D Rotating?<br/><br/>",
+        "ui_bars_width": "<br/>Width(%)<br/><br/>",
+        "ui_bars_height": "<br/>Height(%)<br/><br/>",
+        "ui_bars_transformMode": "<br/>Transform Mode<br/><br/>",
         "ui_bars_perspective": "<br/>perspective<br/><br/>",
+        "ui_bars_translateX": "<br/>translate X(%)<br/><br/>",
+        "ui_bars_translateY": "<br/>translate Y(%)<br/><br/>",
+        "ui_bars_skewX": "<br/>Skew X<br/><br/>",
+        "ui_bars_skewY": "<br/>Skew Y<br/><br/>",
+        "ui_bars_rotateX": "<br/>Rotate X<br/><br/>",
+        "ui_bars_rotateY": "<br/>Rotate Y<br/><br/>",
+        "ui_bars_rotateZ": "<br/>Rotate Z<br/><br/>",
+        "ui_bars_isRotate3D": "<br/>3D Rotating?<br/><br/>",
         "ui_bars_degSize": "<br/>Angle Size<br/><br/>",
         "ui_bars_topLeft": "<br/>Top-Left<br/><br/>",
         "ui_bars_topLeftX": "<br/>X(%)：<br/><br/>",
@@ -4058,11 +4389,21 @@
         "ui_logo_offsetX": "<br/>Position X(%)<br/><br/>",
         "ui_logo_offsetY": "<br/>Position Y(%)<br/><br/>",
         "ui_logo_isClickOffset": "<br/>Mouse Coordinate Offset?<br/><br/>",
-        "ui_logo_transform": "<br/><b>Logo - Distort Setting</b><br/><br/>",
+        "ui_logo_transform": "<br/><b>Logo - Transform Setting</b><br/><br/>",
         "ui_logo_isMasking": "<br/>Show Masking?<br/><br/>",
         "ui_logo_maskOpacity": "<br/>Masking Opacity<br/><br/>",
-        "ui_logo_isRotate3D": "<br/>3D Rotating?<br/><br/>",
+        "ui_logo_width": "<br/>Width(%)<br/><br/>",
+        "ui_logo_height": "<br/>Height(%)<br/><br/>",
+        "ui_logo_transformMode": "<br/>Transform Mode<br/><br/>",
         "ui_logo_perspective": "<br/>perspective<br/><br/>",
+        "ui_logo_translateX": "<br/>translate X(%)<br/><br/>",
+        "ui_logo_translateY": "<br/>translate Y(%)<br/><br/>",
+        "ui_logo_skewX": "<br/>Skew X<br/><br/>",
+        "ui_logo_skewY": "<br/>Skew Y<br/><br/>",
+        "ui_logo_rotateX": "<br/>Rotate X<br/><br/>",
+        "ui_logo_rotateY": "<br/>Rotate Y<br/><br/>",
+        "ui_logo_rotateZ": "<br/>Rotate Z<br/><br/>",
+        "ui_logo_isRotate3D": "<br/>3D Rotating?<br/><br/>",
         "ui_logo_degSize": "<br/>Angle Size<br/><br/>",
         "ui_logo_topLeft": "<br/>Top-Left<br/><br/>",
         "ui_logo_topLeftX": "<br/>X(%)：<br/><br/>",
@@ -4117,11 +4458,21 @@
         "ui_date_offsetX": "<br/>Position X(%)<br/><br/>",
         "ui_date_offsetY": "<br/>Position Y(%)<br/><br/>",
         "ui_date_isClickOffset": "<br/>Mouse Coordinate Offset?<br/><br/>",
-        "ui_date_transform": "<br/><b>Date - Distort Setting</b><br/><br/>",
+        "ui_date_transform": "<br/><b>Date - Transform Setting</b><br/><br/>",
         "ui_date_isMasking": "<br/>Show Masking?<br/><br/>",
         "ui_date_maskOpacity": "<br/>Masking Opacity<br/><br/>",
-        "ui_date_isRotate3D": "<br/>3D Rotating?<br/><br/>",
+        "ui_date_width": "<br/>Width(%)<br/><br/>",
+        "ui_date_height": "<br/>Height(%)<br/><br/>",
+        "ui_date_transformMode": "<br/>Transform Mode<br/><br/>",
         "ui_date_perspective": "<br/>perspective<br/><br/>",
+        "ui_date_translateX": "<br/>translate X(%)<br/><br/>",
+        "ui_date_translateY": "<br/>translate Y(%)<br/><br/>",
+        "ui_date_skewX": "<br/>Skew X<br/><br/>",
+        "ui_date_skewY": "<br/>Skew Y<br/><br/>",
+        "ui_date_rotateX": "<br/>Rotate X<br/><br/>",
+        "ui_date_rotateY": "<br/>Rotate Y<br/><br/>",
+        "ui_date_rotateZ": "<br/>Rotate Z<br/><br/>",
+        "ui_date_isRotate3D": "<br/>3D Rotating?<br/><br/>",
         "ui_date_degSize": "<br/>Angle Size<br/><br/>",
         "ui_date_topLeft": "<br/>Top-Left<br/><br/>",
         "ui_date_topLeftX": "<br/>X(%)：<br/><br/>",
@@ -4348,8 +4699,8 @@
         "ui_bars_gradientOffset": "<br/>渐变偏移<br/><br/>",
         "ui_bars_barsText": "<br/><b>条形 - 条形设置</b><br/><br/>",
         "ui_bars_opacity": "<br/>不透明度<br/><br/>",
-        "ui_bars_width": "<br/>宽度<br/><br/>",
-        "ui_bars_height": "<br/>高度<br/><br/>",
+        "ui_bars_barsWidth": "<br/>宽度<br/><br/>",
+        "ui_bars_barsHeight": "<br/>高度<br/><br/>",
         "ui_bars_pointNum": "<br/>点的数量<br/><br/>",
         "ui_bars_lineJoin": "<br/>线交互样式<br/><br/>",
         "ui_bars_lineWidth": "<br/>线条粗细<br/><br/>",
@@ -4359,11 +4710,21 @@
         "ui_bars_offsetX": "<br/>X轴偏移<br/><br/>",
         "ui_bars_offsetY": "<br/>Y轴偏移<br/><br/>",
         "ui_bars_isClickOffset": "<br/>鼠标坐标偏移<br/><br/>",
-        "ui_bars_transform": "<br/><b>条形 - 扭曲设置</b><br/><br/>",
+        "ui_bars_transform": "<br/><b>条形 - 变换设置</b><br/><br/>",
         "ui_bars_isMasking": "<br/>显示蒙版<br/><br/>",
         "ui_bars_maskOpacity": "<br/>蒙版不透明度<br/><br/>",
-        "ui_bars_isRotate3D": "<br/>3D旋转<br/><br/>",
+        "ui_bars_width": "<br/>宽度(%)<br/><br/>",
+        "ui_bars_height": "<br/>高度(%)<br/><br/>",
+        "ui_bars_transformMode": "<br/>变换模式<br/><br/>",
         "ui_bars_perspective": "<br/>透视效果<br/><br/>",
+        "ui_bars_translateX": "<br/>X轴变换(%)<br/><br/>",
+        "ui_bars_translateY": "<br/>Y轴变换(%)<br/><br/>",
+        "ui_bars_skewX": "<br/>X轴倾斜<br/><br/>",
+        "ui_bars_skewY": "<br/>Y轴倾斜<br/><br/>",
+        "ui_bars_rotateX": "<br/>X轴旋转<br/><br/>",
+        "ui_bars_rotateY": "<br/>Y轴旋转<br/><br/>",
+        "ui_bars_rotateZ": "<br/>Z轴旋转<br/><br/>",
+        "ui_bars_isRotate3D": "<br/>3D旋转<br/><br/>",
         "ui_bars_degSize": "<br/>角度偏移<br/><br/>",
         "ui_bars_topLeft": "<br/>左上角<br/><br/>",
         "ui_bars_topLeftX": "<br/>X(%)：<br/><br/>",
@@ -4415,11 +4776,21 @@
         "ui_logo_offsetX": "<br/>X轴偏移<br/><br/>",
         "ui_logo_offsetY": "<br/>Y轴偏移<br/><br/>",
         "ui_logo_isClickOffset": "<br/>鼠标坐标偏移<br/><br/>",
-        "ui_logo_transform": "<br/><b>标志 - 扭曲设置</b><br/><br/>",
+        "ui_logo_transform": "<br/><b>标志 - 变换设置</b><br/><br/>",
         "ui_logo_isMasking": "<br/>显示蒙版<br/><br/>",
         "ui_logo_maskOpacity": "<br/>蒙版不透明度<br/><br/>",
-        "ui_logo_isRotate3D": "<br/>3D旋转<br/><br/>",
+        "ui_logo_width": "<br/>宽度(%)<br/><br/>",
+        "ui_logo_height": "<br/>高度(%)<br/><br/>",
+        "ui_logo_transformMode": "<br/>变换模式<br/><br/>",
         "ui_logo_perspective": "<br/>透视效果<br/><br/>",
+        "ui_logo_translateX": "<br/>X轴变换(%)<br/><br/>",
+        "ui_logo_translateY": "<br/>Y轴变换(%)<br/><br/>",
+        "ui_logo_skewX": "<br/>X轴倾斜<br/><br/>",
+        "ui_logo_skewY": "<br/>Y轴倾斜<br/><br/>",
+        "ui_logo_rotateX": "<br/>X轴旋转<br/><br/>",
+        "ui_logo_rotateY": "<br/>Y轴旋转<br/><br/>",
+        "ui_logo_rotateZ": "<br/>Z轴旋转<br/><br/>",
+        "ui_logo_isRotate3D": "<br/>3D旋转<br/><br/>",
         "ui_logo_degSize": "<br/>角度偏移<br/><br/>",
         "ui_logo_topLeft": "<br/>左上角<br/><br/>",
         "ui_logo_topLeftX": "<br/>X(%)：<br/><br/>",
@@ -4474,11 +4845,21 @@
         "ui_date_offsetX": "<br/>X轴偏移<br/><br/>",
         "ui_date_offsetY": "<br/>Y轴偏移<br/><br/>",
         "ui_date_isClickOffset": "<br/>鼠标坐标偏移<br/><br/>",
-        "ui_date_transform": "<br/><b>日期 - 扭曲设置</b><br/><br/>",
+        "ui_date_transform": "<br/><b>日期 - 变换设置</b><br/><br/>",
         "ui_date_isMasking": "<br/>显示蒙版<br/><br/>",
         "ui_date_maskOpacity": "<br/>蒙版不透明度<br/><br/>",
-        "ui_date_isRotate3D": "<br/>3D旋转<br/><br/>",
+        "ui_date_width": "<br/>宽度(%)<br/><br/>",
+        "ui_date_height": "<br/>高度(%)<br/><br/>",
+        "ui_date_transformMode": "<br/>变换模式<br/><br/>",
         "ui_date_perspective": "<br/>透视效果<br/><br/>",
+        "ui_date_translateX": "<br/>X轴变换(%)<br/><br/>",
+        "ui_date_translateY": "<br/>Y轴变换(%)<br/><br/>",
+        "ui_date_skewX": "<br/>X轴倾斜<br/><br/>",
+        "ui_date_skewY": "<br/>Y轴倾斜<br/><br/>",
+        "ui_date_rotateX": "<br/>X轴旋转<br/><br/>",
+        "ui_date_rotateY": "<br/>Y轴旋转<br/><br/>",
+        "ui_date_rotateZ": "<br/>Z轴旋转<br/><br/>",
+        "ui_date_isRotate3D": "<br/>3D旋转<br/><br/>",
         "ui_date_degSize": "<br/>角度偏移<br/><br/>",
         "ui_date_topLeft": "<br/>左上角<br/><br/>",
         "ui_date_topLeftX": "<br/>X(%)：<br/><br/>",
@@ -4705,8 +5086,8 @@
         "ui_bars_gradientOffset": "<br/>漸變偏移<br/><br/>",
         "ui_bars_barsText": "<br/><b>條形 - 條形設置</b><br/><br/>",
         "ui_bars_opacity": "<br/>不透明度<br/><br/>",
-        "ui_bars_width": "<br/>寬度<br/><br/>",
-        "ui_bars_height": "<br/>高度<br/><br/>",
+        "ui_bars_barsWidth": "<br/>寬度<br/><br/>",
+        "ui_bars_barsHeight": "<br/>高度<br/><br/>",
         "ui_bars_pointNum": "<br/>點的數量<br/><br/>",
         "ui_bars_lineJoin": "<br/>線交互樣式<br/><br/>",
         "ui_bars_lineWidth": "<br/>線條粗細<br/><br/>",
@@ -4716,11 +5097,21 @@
         "ui_bars_offsetX": "<br/>X軸偏移<br/><br/>",
         "ui_bars_offsetY": "<br/>Y軸偏移<br/><br/>",
         "ui_bars_isClickOffset": "<br/>鼠標坐標偏移<br/><br/>",
-        "ui_bars_transform": "<br/><b>條形 - 扭曲設置</b><br/><br/>",
+        "ui_bars_transform": "<br/><b>條形 - 變換設置</b><br/><br/>",
         "ui_bars_isMasking": "<br/>顯示蒙版<br/><br/>",
         "ui_bars_maskOpacity": "<br/>蒙版不透明度<br/><br/>",
-        "ui_bars_isRotate3D": "<br/>3D旋轉<br/><br/>",
+        "ui_bars_width": "<br/>寬度(%)<br/><br/>",
+        "ui_bars_height": "<br/>高度(%)<br/><br/>",
+        "ui_bars_transformMode": "<br/>變換模式<br/><br/>",
         "ui_bars_perspective": "<br/>透視效果<br/><br/>",
+        "ui_bars_translateX": "<br/>X軸變換(%)<br/><br/>",
+        "ui_bars_translateY": "<br/>Y軸變換(%)<br/><br/>",
+        "ui_bars_skewX": "<br/>X軸傾斜<br/><br/>",
+        "ui_bars_skewY": "<br/>Y軸傾斜<br/><br/>",
+        "ui_bars_rotateX": "<br/>X軸旋轉<br/><br/>",
+        "ui_bars_rotateY": "<br/>Y軸旋轉<br/><br/>",
+        "ui_bars_rotateZ": "<br/>Z軸旋轉<br/><br/>",
+        "ui_bars_isRotate3D": "<br/>3D旋轉<br/><br/>",
         "ui_bars_degSize": "<br/>角度偏移<br/><br/>",
         "ui_bars_topLeft": "<br/>左上角<br/><br/>",
         "ui_bars_topLeftX": "<br/>X(%)：<br/><br/>",
@@ -4772,11 +5163,21 @@
         "ui_logo_offsetX": "<br/>X軸偏移<br/><br/>",
         "ui_logo_offsetY": "<br/>Y軸偏移<br/><br/>",
         "ui_logo_isClickOffset": "<br/>鼠標坐標偏移<br/><br/>",
-        "ui_logo_transform": "<br/><b>標誌 - 扭曲設置</b><br/><br/>",
+        "ui_logo_transform": "<br/><b>標誌 - 變換設置</b><br/><br/>",
         "ui_logo_isMasking": "<br/>顯示蒙版<br/><br/>",
         "ui_logo_maskOpacity": "<br/>蒙版不透明度<br/><br/>",
-        "ui_logo_isRotate3D": "<br/>3D旋轉<br/><br/>",
+        "ui_logo_width": "<br/>寬度(%)<br/><br/>",
+        "ui_logo_height": "<br/>高度(%)<br/><br/>",
+        "ui_logo_transformMode": "<br/>變換模式<br/><br/>",
         "ui_logo_perspective": "<br/>透視效果<br/><br/>",
+        "ui_logo_translateX": "<br/>X軸變換(%)<br/><br/>",
+        "ui_logo_translateY": "<br/>Y軸變換(%)<br/><br/>",
+        "ui_logo_skewX": "<br/>X軸傾斜<br/><br/>",
+        "ui_logo_skewY": "<br/>Y軸傾斜<br/><br/>",
+        "ui_logo_rotateX": "<br/>X軸旋轉<br/><br/>",
+        "ui_logo_rotateY": "<br/>Y軸旋轉<br/><br/>",
+        "ui_logo_rotateZ": "<br/>Z軸旋轉<br/><br/>",
+        "ui_logo_isRotate3D": "<br/>3D旋轉<br/><br/>",
         "ui_logo_degSize": "<br/>角度偏移<br/><br/>",
         "ui_logo_topLeft": "<br/>左上角<br/><br/>",
         "ui_logo_topLeftX": "<br/>X(%)：<br/><br/>",
@@ -4831,11 +5232,21 @@
         "ui_date_offsetX": "<br/>X軸偏移<br/><br/>",
         "ui_date_offsetY": "<br/>Y軸偏移<br/><br/>",
         "ui_date_isClickOffset": "<br/>鼠標坐標偏移<br/><br/>",
-        "ui_date_transform": "<br/><b>日期 - 扭曲設置</b><br/><br/>",
+        "ui_date_transform": "<br/><b>日期 - 變換設置</b><br/><br/>",
         "ui_date_isMasking": "<br/>顯示蒙版<br/><br/>",
         "ui_date_maskOpacity": "<br/>蒙版不透明度<br/><br/>",
-        "ui_date_isRotate3D": "<br/>3D旋转<br/><br/>",
-        "ui_date_perspective": "<br/>透视效果<br/><br/>",
+        "ui_date_width": "<br/>寬度(%)<br/><br/>",
+        "ui_date_height": "<br/>高度(%)<br/><br/>",
+        "ui_date_transformMode": "<br/>變換模式<br/><br/>",
+        "ui_date_perspective": "<br/>透視效果<br/><br/>",
+        "ui_date_translateX": "<br/>X軸變換(%)<br/><br/>",
+        "ui_date_translateY": "<br/>Y軸變換(%)<br/><br/>",
+        "ui_date_skewX": "<br/>X軸傾斜<br/><br/>",
+        "ui_date_skewY": "<br/>Y軸傾斜<br/><br/>",
+        "ui_date_rotateX": "<br/>X軸旋轉<br/><br/>",
+        "ui_date_rotateY": "<br/>Y軸旋轉<br/><br/>",
+        "ui_date_rotateZ": "<br/>Z軸旋轉<br/><br/>",
+        "ui_date_isRotate3D": "<br/>3D旋轉<br/><br/>",
         "ui_date_degSize": "<br/>角度偏移<br/><br/>",
         "ui_date_topLeft": "<br/>左上角<br/><br/>",
         "ui_date_topLeftX": "<br/>X(%)：<br/><br/>",

@@ -508,7 +508,7 @@
         this.offsetX = options.offsetX;                    // X坐标偏移
         this.offsetY = options.offsetY;                    // Y坐标偏移
         this.isClickOffset = options.isClickOffset;        // 鼠标坐标偏移
-        // 扭曲参数
+        // 变换参数
         this.isMasking = options.isMasking;                // 蒙版开关
         this.maskOpacity = options.maskOpacity;            // 蒙版不透明度
         this.width = options.width;                        // 平面宽度(%)
@@ -539,9 +539,9 @@
         $(canvas).css({
             'position': 'fixed',
             'left': 0,
+            'right': 0,
             'top': 0,
             'bottom': 0,
-            'right': 0,
             'width': '100%',
             'height': '100%',
             'z-index': 3,
@@ -1211,7 +1211,7 @@
 
             // 鼠标移动事件
             $(this.$el).on('mousemove', function (e) {
-                if (that.transformMode == 'value' && that.isRotate3D) {
+                if (that.transformMode === 'value' && that.isRotate3D) {
                     that.rotate3D(e.clientX, e.clientY);
                 }
             });
@@ -1505,6 +1505,16 @@
                         'bottom': 50 - this.height / 2 + '%'
                     });
                     break;
+                case 'firstColor':
+                    this.firstColor = value;
+                    setColorObj(color1, this.firstColor);
+                    setRGBIncrement();
+                    break;
+                case 'secondColor':
+                    this.secondColor = value;
+                    setColorObj(color2, this.secondColor);
+                    setRGBIncrement();
+                    break;
                 case 'colorMode':
                 case 'isRandomColor':
                 case 'isChangeBlur':
@@ -1517,16 +1527,6 @@
                 case 'ballDirection':
                 case 'degSize':
                     this[property] = value;
-                    break;
-                case 'firstColor':
-                    this.firstColor = value;
-                    setColorObj(color1, this.firstColor);
-                    setRGBIncrement();
-                    break;
-                case 'secondColor':
-                    this.secondColor = value;
-                    setColorObj(color2, this.secondColor);
-                    setRGBIncrement();
                     break;
                 case 'shadowOverlay':
                 case 'saturationRange':
