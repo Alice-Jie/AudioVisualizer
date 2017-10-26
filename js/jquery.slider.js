@@ -249,6 +249,14 @@
      * @param {string}  colorStr 颜色字符串
      */
     function drawOffScreenCanvas(fitStr, img, ctx, colorStr) {
+        if (!img.src) {
+            console.error('img.src is null!');
+            return;
+        }
+        if (!ctx) {
+            console.error('ctx is null!');
+            return;
+        }
         let x = 0,
             y = 0,
             centerX = canvasWidth / 2 || 960,
@@ -332,6 +340,7 @@
                         currantWidth += Math.floor(canvasWidth / 50);
                         effectTimer = requestAnimationFrame(animal);
                     } else {
+                        currantContext.globalAlpha = prevContext.globalAlpha = 1;
                         context.drawImage(currantCanvas, 0, 0, canvasWidth, canvasHeight);
                         cancelAnimationFrame(effectTimer);
                     }
@@ -367,6 +376,7 @@
                         opacity -= 2;
                         effectTimer = requestAnimationFrame(animal);
                     } else {
+                        currantContext.globalAlpha = prevContext.globalAlpha = 1;
                         context.drawImage(currantCanvas, 0, 0, canvasWidth, canvasHeight);
                         cancelAnimationFrame(effectTimer);
                     }
@@ -402,6 +412,7 @@
                         opacity += 2;
                         effectTimer = requestAnimationFrame(animal);
                     } else {
+                        currantContext.globalAlpha = prevContext.globalAlpha = 1;
                         context.drawImage(currantCanvas, 0, 0, canvasWidth, canvasHeight);
                         cancelAnimationFrame(effectTimer);
                     }
@@ -447,6 +458,7 @@
                         currantWidth += Math.floor(canvasWidth / 50);
                         effectTimer = requestAnimationFrame(animal);
                     } else {
+                        currantContext.globalAlpha = prevContext.globalAlpha = 1;
                         context.drawImage(currantCanvas, 0, 0, canvasWidth, canvasHeight);
                         cancelAnimationFrame(effectTimer);
                     }
@@ -482,6 +494,7 @@
                         currantWidth += Math.floor(canvasWidth / 50);
                         effectTimer = requestAnimationFrame(animal);
                     } else {
+                        currantContext.globalAlpha = prevContext.globalAlpha = 1;
                         context.drawImage(currantCanvas, 0, 0, canvasWidth, canvasHeight);
                         cancelAnimationFrame(effectTimer);
                     }
@@ -514,6 +527,7 @@
                         currantX -= Math.floor(canvasWidth / 50);
                         effectTimer = requestAnimationFrame(animal);
                     } else {
+                        currantContext.globalAlpha = prevContext.globalAlpha = 1;
                         context.drawImage(currantCanvas, 0, 0, canvasWidth, canvasHeight);
                         cancelAnimationFrame(effectTimer);
                     }
@@ -546,6 +560,7 @@
                         currantX += Math.floor(originX / 50);
                         effectTimer = requestAnimationFrame(animal);
                     } else {
+                        currantContext.globalAlpha = prevContext.globalAlpha = 1;
                         context.drawImage(currantCanvas, 0, 0, canvasWidth, canvasHeight);
                         cancelAnimationFrame(effectTimer);
                     }
@@ -583,6 +598,7 @@
                         currantHeight += Math.floor(canvasHeight / 50);
                         effectTimer = requestAnimationFrame(animal);
                     } else {
+                        currantContext.globalAlpha = prevContext.globalAlpha = 1;
                         context.drawImage(currantCanvas, 0, 0, canvasWidth, canvasHeight);
                         cancelAnimationFrame(effectTimer);
                     }
@@ -619,6 +635,7 @@
                         currantHeight -= Math.floor(canvasHeight / 50);
                         effectTimer = requestAnimationFrame(animal);
                     } else {
+                        currantContext.globalAlpha = prevContext.globalAlpha = 1;
                         context.drawImage(currantCanvas, 0, 0, canvasWidth, canvasHeight);
                         cancelAnimationFrame(effectTimer);
                     }
@@ -1484,7 +1501,7 @@
 
         /** 背景模糊 */
         backgroundBlur: function () {
-            if (this.isBackgourndBlur) {
+            if (this.isBackgroundBlur) {
                 let blur = 3 * audioAverage;
                 $(this.$el).css('filter', 'blur(' + blur + 'px)');
             }
@@ -2051,7 +2068,6 @@
                     break;
                 case 'Video':
                     this.stopSliderTimer();
-                    this.getVideoList();
                     this.addVideo();
                     userVideo ? this.videoSrcUserVideo() : this.videoSrcDefaultVideo();
                     break;

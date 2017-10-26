@@ -6,7 +6,7 @@ body {
     z-index: -999;
 }
 
-#background {
+#wallpaper {
     position: relative;
     height: 100%;
     background-image: url(../img/bg.png);
@@ -14,10 +14,4 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     z-index: -998;
-}
-
-#wallpaper {
-    position: relative;
-    height: 100%;
-    z-index: -997;
 }

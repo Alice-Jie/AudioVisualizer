@@ -436,8 +436,8 @@
         "text": "ui_video_playBackRate",
         "type": "slider",
         "editable": true,
-        "max": 500,
-        "min": 0,
+        "max": 400,
+        "min": 50,
         "value": 100
       },
       "video_FitStyle": {
@@ -1427,18 +1427,8 @@
         "min": 0,
         "value": 10
       },
-      "bars_waveAmplitude": {
-        "order": 4009,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && bars_isSilenceEffect.value",
-        "text": "ui_bars_waveAmplitude",
-        "type": "slider",
-        "editable": true,
-        "max": 200,
-        "min": 0,
-        "value": 25
-      },
       "bars_groupVelocity": {
-        "order": 4010,
+        "order": 4009,
         "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && bars_isSilenceEffect.value",
         "text": "ui_bars_groupVelocity",
         "type": "slider",
@@ -1446,6 +1436,16 @@
         "max": 120,
         "min": 0,
         "value": 15
+      },
+      "bars_waveAmplitude": {
+        "order": 4010,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 4) && (bars_isBars.value || bars_isLineTo.value || bars_isWave.value) && bars_isSilenceEffect.value",
+        "text": "ui_bars_waveAmplitude",
+        "type": "slider",
+        "editable": true,
+        "max": 200,
+        "min": 0,
+        "value": 25
       },
       "bars_colorText": {
         "order": 4100,
@@ -4294,8 +4294,8 @@
         "ui_bars_waveDirection": "<br/>Wave Direction<br/><br/>",
         "ui_bars_isSilenceEffect": "<br/>Silence Effect?<br/><br/>",
         "ui_bars_respiratoryRate": "<br/>Respiratory Rate<br/><br/>",
-        "ui_bars_waveAmplitude": "<br/>Wave Amplitude<br/><br/>",
         "ui_bars_groupVelocity": "<br/>Group Velocity<br/><br/>",
+        "ui_bars_waveAmplitude": "<br/>Wave Amplitude<br/><br/>",
         "ui_bars_colorText": "<br/><b>Bars - Color Settings</b><br/><br/>",
         "ui_bars_colorMode": "<br/>Color Mode<br/><br/>",
         "ui_bars_color": "<br/>Color<br/><br/>",
@@ -4537,8 +4537,8 @@
         "ui_about_authorText": "<br/>Author：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
         "ui_about_emailText": "<br/>Email：909011298@qq.com<br/>",
-        "ui_about_versionText": "<br/>Version Number：0.6.2<br/>",
-        "ui_about_updateText": "<br/><span>Update Description：</span><br/><span>1.particles plug-in: Rewriting edge detection algorithm</span><br/><span>2.visualizer plug-in: Adding silence effects</span><br/><span>                           -- From Baidu translate.</span><br/>",
+        "ui_about_versionText": "<br/>Version Number：0.6.3<br/>",
+        "ui_about_updateText": "<br/><span>Update Description：</span><br/><span>1.Slider plug-in: Improve slide function</span><br/><span>2.visualizer/logo/time plug-in: Add more transform options</span><br/><span>                           -- From Baidu translate.</span><br/>",
         "ui_about_describeText": "<br/><span>Relevant Instructions：</span><br/><span>If you have better text translation, please contact me.</span><br/>",
         "ui_about_isQRcode": "<br/>Show QRcode?<br/><br/>"
       },
@@ -4681,8 +4681,8 @@
         "ui_bars_waveDirection": "<br/>波浪方向<br/><br/>",
         "ui_bars_isSilenceEffect": "<br/>静默特效<br/><br/>",
         "ui_bars_respiratoryRate": "<br/>呼吸频率<br/><br/>",
-        "ui_bars_waveAmplitude": "<br/>波振幅<br/><br/>",
         "ui_bars_groupVelocity": "<br/>群速度<br/><br/>",
+        "ui_bars_waveAmplitude": "<br/>波振幅<br/><br/>",
         "ui_bars_colorText": "<br/><b>条形 - 颜色设置</b><br/><br/>",
         "ui_bars_colorMode": "<br/>颜色模式<br/><br/>",
         "ui_bars_color": "<br/>颜色<br/><br/>",
@@ -4924,8 +4924,8 @@
         "ui_about_authorText": "<br/>作者：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
         "ui_about_emailText": "<br/>Email：909011298@qq.com<br/>",
-        "ui_about_versionText": "<br/>版本号：0.6.2<br/>",
-        "ui_about_updateText": "<br/><span>更新说明：</span><br/><span>1、粒子插件：重写边缘检测算法</span><br/><span>2、可视化插件：添加静默特效</span><br/>",
+        "ui_about_versionText": "<br/>版本号：0.6.3<br/>",
+        "ui_about_updateText": "<br/><span>更新说明：</span><br/><span>1、幻灯片插件：改进幻灯片功能</span><br/><span>2、可视化/标志/日期插件：添加更多变换选项</span><br/>",
         "ui_about_describeText": "<br/><span>相关说明：</span><br/><span>由于项目工作量较大，难免会有部分BUG没有排查到。如果你发现了BUG，请移步到创意工坊描述BUG发生原因以及产生的结果。感谢大家长期以来的支持。</span><br/>",
         "ui_about_isQRcode": "<br/>显示二维码<br/><br/>"
       },
@@ -5068,8 +5068,8 @@
         "ui_bars_waveDirection": "<br/>波浪方向<br/><br/>",
         "ui_bars_isSilenceEffect": "<br/>靜默特效<br/><br/>",
         "ui_bars_respiratoryRate": "<br/>呼吸頻率<br/><br/>",
-        "ui_bars_waveAmplitude": "<br/>波振幅<br/><br/>",
         "ui_bars_groupVelocity": "<br/>群速度<br/><br/>",
+        "ui_bars_waveAmplitude": "<br/>波振幅<br/><br/>",
         "ui_bars_colorText": "<br/><b>條形 - 顏色設置</b><br/><br/>",
         "ui_bars_colorMode": "<br/>顏色模式<br/><br/>",
         "ui_bars_color": "<br/>顏色<br/><br/>",
@@ -5311,8 +5311,8 @@
         "ui_about_authorText": "<br/>作者：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
         "ui_about_emailText": "<br/>Email：909011298@qq.com<br/>",
-        "ui_about_versionText": "<br/>版本號：0.6.2<br/>",
-        "ui_about_updateText": "<br/><span>更新說明：</span><br/><span>1、粒子插件：重寫邊緣檢測算法</span><br/><span>2、可視化插件：添加靜默特效</span><br/>",
+        "ui_about_versionText": "<br/>版本號：0.6.3<br/>",
+        "ui_about_updateText": "<br/><span>更新說明：</span><br/><span>1、幻燈片插件：改進幻燈片功能</span><br/><span>2、可視化/標誌/日期插件：添加更多變換選項</span><br/>",
         "ui_about_describeText": "<br/><span>相關說明：</span><br/><span>由於項目工作量較大，難免會有部分BUG沒有排查到。如果妳發現了BUG，請移步到創意工坊描述BUG發生原因以及產生的結果。感謝大家長期以來的支持。</span><br/>",
         "ui_about_isQRcode": "<br/>顯示二維碼<br/><br/>"
       }
@@ -5323,7 +5323,7 @@
   "tags": [
     "Relaxing"
   ],
-  "title": "[4K]Audio Visualizer v0.6.2(音频可视化)",
+  "title": "[4K]Audio Visualizer v0.6.3(音频可视化)",
   "type": "web",
   "visibility": "public",
   "workshopid": 921617616
