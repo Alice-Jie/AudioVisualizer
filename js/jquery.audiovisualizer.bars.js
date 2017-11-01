@@ -418,7 +418,7 @@
         // 基础参数
         this.opacity = options.opacity;                  // 不透明度
         this.barsWidth = options.barsWidth;              // 宽度比例
-        this.barsWheight = options.barsHeight;           // 基础高度
+        this.barsHeight = options.barsHeight;            // 基础高度
         this.pointNum = options.pointNum;                // 点的数量
         this.lineWidth = options.lineWidth;              // 线条粗细
         this.lineJoin = options.lineJoin;                // 交互类型
@@ -458,12 +458,8 @@
         canvas.id = 'canvas-visualizerBars'; // canvas ID
         $(canvas).css({
             'position': 'fixed',
-            'left': 0,
-            'right': 0,
             'top': 0,
-            'bottom': 0,
-            'width': '100%',
-            'height': '100%',
+            'left': 0,
             'z-index': 4,
             'opacity': this.opacity,
             'transform': 'none'
@@ -558,12 +554,12 @@
         // 变换参数
         isMasking: false,            // 显示蒙版
         maskOpacity: 0.25,           // 蒙版不透明度
-        width: 1.00,                 // 平面宽度(%)
-        height: 1.00,                // 平面高度(%)
         perspective: 0,              // 透视效果
         transformMode: 'value',      // 变换模式
-        translateX: 100,             // X轴变换(%)
-        translateY: 100,             // Y轴变换(%)
+        translateX: 0,               // X轴变换(%)
+        translateY: 0,               // Y轴变换(%)
+        width: 1.00,                 // 平面宽度(%)
+        height: 1.00,                // 平面高度(%)
         skewX: 0,                    // X轴倾斜转换
         skewY: 0,                    // Y轴倾斜转换
         rotateX: 0,                  // X轴3D旋转
@@ -660,7 +656,13 @@
             let perspective = this.perspective ? 'perspective(' + this.perspective + 'px)' : '';
             $(canvas).css({
                 'transform-origin': '50% 50%',
-                'transform': perspective + 'rotate3d(' + -mouseY + ',' + mouseX + ',0,' + deg + 'deg)'
+                'transform': perspective
+                + 'translateX(' + canvasWidth * this.translateX + 'px)'
+                + 'translateY(' + canvasHeight * this.translateY + 'px)'
+                + 'scale(' + this.width + ', ' + this.height + ')'
+                + 'skewX(' + this.skewX + 'deg)'
+                + 'skewY(' + this.skewY + 'deg)'
+                + 'rotate3d(' + -mouseY + ',' + mouseX + ',0,' + deg + 'deg)'
             });
         },
 
@@ -688,6 +690,7 @@
                         'transform': perspective
                         + 'translateX(' + canvasWidth * this.translateX + 'px)'
                         + 'translateY(' + canvasHeight * this.translateY + 'px)'
+                        + 'scale(' + this.width + ', ' + this.height + ')'
                         + 'skewX(' + this.skewX + 'deg)'
                         + 'skewY(' + this.skewY + 'deg)'
                         + 'rotateX(' + this.rotateX + 'deg)'
@@ -1370,22 +1373,6 @@
                     setColorObj(color2, this.secondColor);
                     setRGBIncrement();
                     break;
-                case 'width':
-                    this.width = value;
-                    $(canvas).css({
-                        'width': this.width + '%',
-                        'left': 50 - this.width / 2 + '%',
-                        'right': 50 - this.width / 2 + '%'
-                    });
-                    break;
-                case 'height':
-                    this.height = value;
-                    $(canvas).css({
-                        'height': this.height + '%',
-                        'top': 50 - this.height / 2 + '%',
-                        'bottom': 50 - this.height / 2 + '%'
-                    });
-                    break;
                 case 'amplitude':
                 case 'decline':
                 case 'peak':
@@ -1435,6 +1422,8 @@
                 case 'perspective':
                 case 'translateX':
                 case 'translateY':
+                case 'width':
+                case 'height':
                 case 'skewX':
                 case 'skewY':
                 case 'rotateX':

@@ -1084,6 +1084,7 @@
 
         this.sliderMode = options.sliderMode;              // 背景模式
         this.isLinearGradient = options.isLinearGradient;  // 线性背景开关
+        // 幻灯片参数
         this.sliderStyle = options.sliderStyle;            // 背景切换模式
         this.readStyle = options.readStyle;                // 读取模式
         this.effect = options.effect;                      // 时间单位
@@ -1093,17 +1094,23 @@
         this.imgBGColor = options.imgBGColor;              // IMG背景颜色
         this.canvasFit = options.canvasFit;                // canvas适应方式
         this.canvasBGColor = options.canvasBGColor;        // canvas背景颜色
+        // video参数
         this.videoProgress = options.videoProgress;        // Video进度
         this.isVideoPlay = options.isVideoPlay;            // 是否播放Video
         this.videoVolume = options.videoVolume;            // Video音量
         this.playbackRate = options.playbackRate;          // Video播放速度
         this.videoFit = options.videoFit;                  // Video适应方式
         this.videoBGColor = options.videoBGColor;          // Video背景颜色
+        // audio参数
         this.audioProgress = options.audioProgress;        // Audio进度
         this.isAudioPlay = options.isAudioPlay;            // 是否播放Audio
         this.isAudioLoop = options.isAudioLoop;            // 是否循环播放
         this.audioVolume = options.audioVolume;            // Audio音量
+        // 滤镜参数
         this.isBackgourndBlur = options.isBackgourndBlur;  // 是否背景模糊
+        // 变换参数
+        this.isRotate3D = options.isRotate3D;              // 是否3D旋转
+
         this.isBackgroundZoom = options.isBackgroundZoom;  // 是否背景缩放
 
         // 创建并初始化canvas
@@ -1142,7 +1149,7 @@
         prevImg.id = 'img-prev';
         currantImg.id = 'img-currant';
         $(prevImg).css({
-            'position': 'absolute',
+            'position': 'fixed',
             'top': 0,
             'left': 0,
             'width': canvasWidth,
@@ -1152,7 +1159,7 @@
             'z-index': -2
         });  // prevImg CSS
         $(currantImg).css({
-            'position': 'absolute',
+            'position': 'fixed',
             'top': 0,
             'left': 0,
             'width': canvasWidth,
@@ -1168,7 +1175,7 @@
         video.autoplay = true;
         video.loop = 'loop';
         $(video).css({
-            'position': 'absolute',
+            'position': 'fixed',
             'top': 0,
             'left': 0,
             'object-fit': this.videoFit,
@@ -1189,6 +1196,7 @@
     Slider.DEFAULTS = {
         sliderMode: 'wallpaper',       // 背景模式
         isLinearGradient: false,       // 线性背景开关
+        // 幻灯片参数
         sliderStyle: 'css',            // 背景切换模式
         readStyle: 'sequential',       // 读取模式
         timeUnits: 'sec',              // 时间单位
@@ -1198,18 +1206,28 @@
         imgBGColor: '255,255,255',     // IMG背景颜色
         canvasFit: 'fill',             // canvas适应方式
         canvasBGColor: '255,255,255',  // canvas背景颜色
+        // video参数
         videoProgress: 0,              // Video进度
         isVideoPlay: true,             // 是否播放Video
         videoVolume: 0.75,             // Video音量
         playbackRate: 1.0,             // Video播放速度
         videoFit: 'fill',              // Video适应方式
         videoBGColor: '255,255,255',   // Video背景颜色
+        // audio参数
         audioProgress: 0,              // Audio进度
         isAudioPlay: false,            // 是否播放Audio
         isAudioLoop: false,            // 是否循环播放
         audioVolume: 0.75,             // Audio音量
-        isBackgroundBlur: false,       // 是否背景模糊
-        isBackgroundZoom: false        // 是否背景缩放
+        // 滤镜参数
+        isBackgroundBlur: false,       // 是否背景缩放
+        // 变换参数
+        perspective: 0,                // 透视效果
+        width: 1.00,                   // 平面宽度(%)
+        height: 1.00,                  // 平面高度(%)
+        degSize: 5,                    // 角度大小
+        isRotate3D: false,             // 是否3D旋转
+        isBackgroundZoom: false        // 是否背景模糊
+
     };
 
     // 公共方法
@@ -1458,11 +1476,73 @@
         },
 
         /**
+         * 开始背景3D转换
+         * @private
+         *
+         * @param {int | float} ex 鼠标X轴坐标
+         * @param {int | float} ey 鼠标Y轴坐标
+         */
+        rotate3D: function (ex, ey) {
+            /**
+             * http://www.w3school.com.cn/css3/css3_3dtransform.asp
+             * https://developer.mozilla.org/zh-CN/docs/Web/CSS/transform-function/rotate3d
+             * 设(canvasWidth / 2, canvasHeight / 2)为原点(0, 0)
+             * {x | 0 ≤ x ≤ 1}, {y | 0 ≤ x ≤ 1}, {deg | 0 ≤ x ≤ 1}
+             * 第一象限：x * deg > 0, y * deg > 0;
+             * 第二象限：x * deg < 0, y * deg < 0;
+             * 第三象限：x * deg < 0, y * deg < 0;
+             * 第四象限: x * deg > 0; y * deg > 0;
+             * 距离原点(0, 0)越远，deg偏移越大
+             */
+            let mouseX = 0.00,
+                mouseY = 0.00,
+                centerX = canvasWidth / 2,
+                centerY = canvasHeight / 2;
+            // 获取mouseXY(0.00 ~ 1.00)
+            if (ex > centerX) {
+                mouseX = (ex - centerX) / (canvasWidth - centerX);
+            } else {
+                mouseX = -1 * (1 - ex / centerX);
+            }
+            if (ey > centerY) {
+                mouseY = (ey - centerY) / (canvasHeight - centerY);
+            } else {
+                mouseY = -1 * (1 - ey / centerY);
+            }
+            // 获取deg
+            let deg = Math.max(Math.abs(mouseX), Math.abs(mouseY)) * this.degSize;
+            // 透视效果
+            let perspective = this.perspective ? 'perspective(' + this.perspective + 'px) ' : '';
+            $(this.$el).css({
+                'transform-origin': '50% 50%',
+                'transform': perspective
+                + 'scale(' + this.width + ', ' + this.height + ')'
+                + 'rotate3d(' + -mouseY + ',' + mouseX + ',0,' + deg + 'deg)'
+            });
+        },
+
+        /**
          * 停止变换
          * @private
          */
         stopTransform: function () {
-            $(this.$el).css('transform', 'none');
+            $(this.$el).css({
+                'transform-origin': '50% 50% 0',
+                'transform': 'none'
+            });
+        },
+
+        /**
+         * 开始变换
+         * @private
+         */
+        startTransform: function () {
+            let perspective = this.perspective ? 'perspective(' + this.perspective + 'px) ' : '';
+            $(this.$el).css({
+                'transform-origin': '50% 50%',
+                'transform': perspective
+                + 'scale(' + this.width + ', ' + this.height + ')'
+            });
         },
 
 
@@ -1471,6 +1551,15 @@
          * @private
          */
         setupPointerEvents: function () {
+
+            let that = this;
+
+            // 鼠标移动事件
+            $(this.$el).on('mousemove', function (e) {
+                if (that.isRotate3D) {
+                    that.rotate3D(e.clientX, e.clientY);
+                }
+            });
 
             // 窗体改变事件
             $(window).on('resize', function () {
@@ -1501,7 +1590,7 @@
 
         /** 背景模糊 */
         backgroundBlur: function () {
-            if (this.isBackgroundBlur) {
+            if (!this.isRotate3D && this.isBackgroundBlur) {
                 let blur = 3 * audioAverage;
                 $(this.$el).css('filter', 'blur(' + blur + 'px)');
             }
@@ -1509,11 +1598,13 @@
 
         /** 背景缩放 */
         backgroundZoom: function () {
-            if (this.isBackgroundZoom) {
-                let zoom = 1.00 + audioAverage * 0.05;
-                $(this.$el).css('transform', 'scale(' + zoom + ', ' + zoom + ')');
+            if (!this.isRotate3D && this.isBackgroundZoom) {
+                let widthScale = this.width + audioAverage * 0.05,
+                    heightScale = this.height + audioAverage * 0.05;
+                $(this.$el).css('transform', 'scale(' + widthScale + ', ' + heightScale + ')');
             }
         },
+
 
         /**
          * 获取用户自定义的背景颜色
@@ -2114,6 +2205,7 @@
                     break;
                 case 'readStyle':
                 case 'effect':
+                case 'degSize':
                     this[property] = value;
                     break;
                 case 'sliderMode':
@@ -2175,13 +2267,22 @@
                     this.playbackRate = value;
                     this.setVideoPlaybackRate(this.playbackRate);
                     break;
-                case 'isBackgroundBlur':
-                    this.isBackgroundBlur = value;
-                    this.isBackgroundBlur || this.stopFilter();
+                case 'perspective':
+                case 'width':
+                case 'height':
+                case 'isRotate3D':
+                    this[property] = value;
+                    this.startTransform();
+                    this.isRotate3D && this.stopFilter();
+                    this.isRotate3D || this.startTransform();
                     break;
                 case 'isBackgroundZoom':
                     this.isBackgroundZoom = value;
-                    this.isBackgroundZoom || this.stopTransform();
+                    this.startTransform();
+                    break;
+                case 'isBackgroundBlur':
+                    this.isBackgroundBlur = value;
+                    this.isBackgroundBlur || this.stopFilter();
                     break;
                 // no default
             }

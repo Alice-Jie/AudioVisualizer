@@ -1047,14 +1047,6 @@
             if (properties.image_fillStyle) {
                 wallpaper.slider('setFillStyle', setFillStyle(properties.image_fillStyle.value));
             }
-            // 背景模糊样式
-            if (properties.image_filterBlur) {
-                wallpaper.slider('set', 'isBackgroundBlur', properties.image_filterBlur.value);
-            }
-            // 背景缩放开关
-            if (properties.image_isBackgroundZoom) {
-                wallpaper.slider('set', 'isBackgroundZoom', properties.image_isBackgroundZoom.value);
-            }
 
             // # 幻灯片参数
             //-------------
@@ -1181,6 +1173,38 @@
             if (properties.video_BGColor) {
                 video.BGColor = getColor(properties.video_BGColor.value);
                 wallpaper.slider('set', 'videoBGColor', video.BGColor);
+            }
+
+            // # 变换参数
+            //-----------
+
+            // 背景缩放开关
+            if (properties.image_isBackgroundZoom) {
+                wallpaper.slider('set', 'isBackgroundZoom', properties.image_isBackgroundZoom.value);
+            }
+            // 背景模糊样式
+            if (properties.image_filterBlur) {
+                wallpaper.slider('set', 'isBackgroundBlur', properties.image_filterBlur.value);
+            }
+            // 透视效果
+            if (properties.image_perspective) {
+                wallpaper.slider('set', 'perspective', properties.image_perspective.value * 100);
+            }
+            // 平面宽度(%)
+            if (properties.image_width) {
+                wallpaper.slider('set', 'width', properties.image_width.value / 100);
+            }
+            // 平面高度(%)
+            if (properties.image_height) {
+                wallpaper.slider('set', 'height', properties.image_height.value / 100);
+            }
+            // 背景3D旋转
+            if (properties.image_isRotate3D){
+                wallpaper.slider('set', 'isRotate3D', properties.image_isRotate3D.value);
+            }
+            // 角度大小
+            if (properties.image_degSize) {
+                wallpaper.slider('set', 'degSize', properties.image_degSize.value);
             }
 
             // # 音频参数
@@ -1510,14 +1534,6 @@
             // # 变化参数
             //-----------
 
-            // 平面宽度
-            if (properties.circle_width) {
-                wallpaper.visualizerCircle('set', 'width', properties.circle_width.value);
-            }
-            // 平面高度
-            if (properties.circle_height) {
-                wallpaper.visualizerCircle('set', 'height', properties.circle_height.value);
-            }
             // 显示蒙版
             if (properties.circle_isMasking) {
                 wallpaper.visualizerCircle('set', 'isMasking', properties.circle_isMasking.value);
@@ -1526,7 +1542,7 @@
             if (properties.circle_maskOpacity) {
                 wallpaper.visualizerCircle('set', 'maskOpacity', properties.circle_maskOpacity.value / 100);
             }
-            // X轴变换(%)
+            // 变换模式
             if (properties.circle_transformMode) {
                 wallpaper.visualizerCircle('set', 'transformMode', setTransformMode(properties.circle_transformMode.value));
             }
@@ -1542,6 +1558,14 @@
             if (properties.circle_translateY) {
                 wallpaper.visualizerCircle('set', 'translateY', properties.circle_translateY.value / 100);
             }
+            // 平面宽度(%)
+            if (properties.circle_width) {
+                wallpaper.visualizerCircle('set', 'width', properties.circle_width.value / 100);
+            }
+            // 平面高度(%)
+            if (properties.circle_height) {
+                wallpaper.visualizerCircle('set', 'height', properties.circle_height.value / 100);
+            }
             // X轴倾斜转换
             if (properties.circle_skewX) {
                 wallpaper.visualizerCircle('set', 'skewX', properties.circle_skewX.value);
@@ -1550,15 +1574,15 @@
             if (properties.circle_skewY) {
                 wallpaper.visualizerCircle('set', 'skewY', properties.circle_skewY.value);
             }
-            // X轴倾斜转换
+            // X轴旋转转换
             if (properties.circle_rotateX) {
                 wallpaper.visualizerCircle('set', 'rotateX', properties.circle_rotateX.value);
             }
-            // Y轴倾斜转换
+            // Y轴旋转转换
             if (properties.circle_rotateY) {
                 wallpaper.visualizerCircle('set', 'rotateY', properties.circle_rotateY.value);
             }
-            // Z轴倾斜转换
+            // Z轴旋转转换
             if (properties.circle_rotateZ) {
                 wallpaper.visualizerCircle('set', 'rotateZ', properties.circle_rotateZ.value);
             }
@@ -1800,14 +1824,6 @@
             // # 变化参数
             //-----------
 
-            // 平面宽度
-            if (properties.bars_width) {
-                wallpaper.visualizerBars('set', 'width', properties.bars_width.value);
-            }
-            // 平面高度
-            if (properties.bars_height) {
-                wallpaper.visualizerBars('set', 'height', properties.bars_height.value);
-            }
             // 显示蒙版
             if (properties.bars_isMasking) {
                 wallpaper.visualizerBars('set', 'isMasking', properties.bars_isMasking.value);
@@ -1816,7 +1832,7 @@
             if (properties.bars_maskOpacity) {
                 wallpaper.visualizerBars('set', 'maskOpacity', properties.bars_maskOpacity.value / 100);
             }
-            // X轴变换(%)
+            // 变换模式
             if (properties.bars_transformMode) {
                 wallpaper.visualizerBars('set', 'transformMode', setTransformMode(properties.bars_transformMode.value));
             }
@@ -1832,6 +1848,14 @@
             if (properties.bars_translateY) {
                 wallpaper.visualizerBars('set', 'translateY', properties.bars_translateY.value / 100);
             }
+            // 平面宽度(%)
+            if (properties.bars_width) {
+                wallpaper.visualizerBars('set', 'width', properties.bars_width.value / 100);
+            }
+            // 平面高度(%)
+            if (properties.bars_height) {
+                wallpaper.visualizerBars('set', 'height', properties.bars_height.value / 100);
+            }
             // X轴倾斜转换
             if (properties.bars_skewX) {
                 wallpaper.visualizerBars('set', 'skewX', properties.bars_skewX.value);
@@ -1840,15 +1864,15 @@
             if (properties.bars_skewY) {
                 wallpaper.visualizerBars('set', 'skewY', properties.bars_skewY.value);
             }
-            // X轴倾斜转换
+            // X轴旋转转换
             if (properties.bars_rotateX) {
                 wallpaper.visualizerBars('set', 'rotateX', properties.bars_rotateX.value);
             }
-            // Y轴倾斜转换
+            // Y轴旋转转换
             if (properties.bars_rotateY) {
                 wallpaper.visualizerBars('set', 'rotateY', properties.bars_rotateY.value);
             }
-            // Z轴倾斜转换
+            // Z轴旋转转换
             if (properties.bars_rotateZ) {
                 wallpaper.visualizerBars('set', 'rotateZ', properties.bars_rotateZ.value);
             }
@@ -2048,23 +2072,11 @@
             // # 变化参数
             //-----------
 
-            // 平面宽度
-            if (properties.logo_width) {
-                wallpaper.logo('set', 'width', properties.logo_width.value);
-            }
-            // 平面高度
-            if (properties.logo_height) {
-                wallpaper.logo('set', 'height', properties.logo_height.value);
-            }
-            // 显示蒙版
-            if (properties.logo_isMasking) {
-                wallpaper.logo('set', 'isMasking', properties.logo_isMasking.value);
-            }
             // 蒙版不透明度
             if (properties.logo_maskOpacity) {
                 wallpaper.logo('set', 'maskOpacity', properties.logo_maskOpacity.value / 100);
             }
-            // X轴变换(%)
+            // 变换模式
             if (properties.logo_transformMode) {
                 wallpaper.logo('set', 'transformMode', setTransformMode(properties.logo_transformMode.value));
             }
@@ -2080,6 +2092,18 @@
             if (properties.logo_translateY) {
                 wallpaper.logo('set', 'translateY', properties.logo_translateY.value / 100);
             }
+            // 平面宽度(%)
+            if (properties.logo_width) {
+                wallpaper.logo('set', 'width', properties.logo_width.value / 100);
+            }
+            // 平面高度(%)
+            if (properties.logo_height) {
+                wallpaper.logo('set', 'height', properties.logo_height.value / 100);
+            }
+            // 显示蒙版
+            if (properties.logo_isMasking) {
+                wallpaper.logo('set', 'isMasking', properties.logo_isMasking.value);
+            }
             // X轴倾斜转换
             if (properties.logo_skewX) {
                 wallpaper.logo('set', 'skewX', properties.logo_skewX.value);
@@ -2088,15 +2112,15 @@
             if (properties.logo_skewY) {
                 wallpaper.logo('set', 'skewY', properties.logo_skewY.value);
             }
-            // X轴倾斜转换
+            // X轴旋转转换
             if (properties.logo_rotateX) {
                 wallpaper.logo('set', 'rotateX', properties.logo_rotateX.value);
             }
-            // Y轴倾斜转换
+            // Y轴旋转转换
             if (properties.logo_rotateY) {
                 wallpaper.logo('set', 'rotateY', properties.logo_rotateY.value);
             }
-            // Z轴倾斜转换
+            // Z轴旋转转换
             if (properties.logo_rotateZ) {
                 wallpaper.logo('set', 'rotateZ', properties.logo_rotateZ.value);
             }
@@ -2326,14 +2350,6 @@
             // # 变化参数
             //-----------
 
-            // 平面宽度
-            if (properties.date_width) {
-                wallpaper.time('set', 'width', properties.date_width.value);
-            }
-            // 平面高度
-            if (properties.date_height) {
-                wallpaper.time('set', 'height', properties.date_height.value);
-            }
             // 显示蒙版
             if (properties.date_isMasking) {
                 wallpaper.time('set', 'isMasking', properties.date_isMasking.value);
@@ -2342,7 +2358,7 @@
             if (properties.date_maskOpacity) {
                 wallpaper.time('set', 'maskOpacity', properties.date_maskOpacity.value / 100);
             }
-            // X轴变换(%)
+            // 变换模式
             if (properties.date_transformMode) {
                 wallpaper.time('set', 'transformMode', setTransformMode(properties.date_transformMode.value));
             }
@@ -2358,6 +2374,14 @@
             if (properties.date_translateY) {
                 wallpaper.time('set', 'translateY', properties.date_translateY.value / 100);
             }
+            // 平面宽度(%)
+            if (properties.date_width) {
+                wallpaper.time('set', 'width', properties.date_width.value / 100);
+            }
+            // 平面高度(%)
+            if (properties.date_height) {
+                wallpaper.time('set', 'height', properties.date_height.value / 100);
+            }
             // X轴倾斜转换
             if (properties.date_skewX) {
                 wallpaper.time('set', 'skewX', properties.date_skewX.value);
@@ -2366,15 +2390,15 @@
             if (properties.date_skewY) {
                 wallpaper.time('set', 'skewY', properties.date_skewY.value);
             }
-            // X轴倾斜转换
+            // X轴旋转转换
             if (properties.date_rotateX) {
                 wallpaper.time('set', 'rotateX', properties.date_rotateX.value);
             }
-            // Y轴倾斜转换
+            // Y轴旋转转换
             if (properties.date_rotateY) {
                 wallpaper.time('set', 'rotateY', properties.date_rotateY.value);
             }
-            // Z轴倾斜转换
+            // Z轴旋转转换
             if (properties.date_rotateZ) {
                 wallpaper.time('set', 'rotateZ', properties.date_rotateZ.value);
             }

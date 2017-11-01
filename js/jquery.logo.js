@@ -349,12 +349,12 @@
         // 变换参数
         this.isMasking = options.isMasking;          // 蒙版开关
         this.maskOpacity = options.maskOpacity;      // 蒙版不透明度
-        this.width = options.width;                  // 平面宽度(%)
-        this.height = options.height;                // 平面高度(%)
         this.perspective = options.perspective;      // 透视效果
         this.transformMode = options.transformMode;  // 变换模式
         this.translateX = options.translateX;        // X轴变换
         this.translateY = options.translateY;        // Y轴变换
+        this.width = options.width;                  // 平面宽度(%)
+        this.height = options.height;                // 平面高度(%)
         this.skewX = options.skewX;                  // X轴倾斜转换
         this.skewY = options.skewY;                  // Y轴倾斜转换
         this.rotateX = options.rotateX;              // X轴3D旋转
@@ -376,12 +376,8 @@
         canvas.id = 'canvas-logo'; // canvas ID
         $(canvas).css({
             'position': 'fixed',
-            'left': 0,
-            'right': 0,
             'top': 0,
-            'bottom': 0,
-            'width': '100%',
-            'height': '100%',
+            'left': 0,
             'z-index': 1,
             'opacity': this.opacity,
             'mix-blend-mode': 'normal',
@@ -468,12 +464,12 @@
         // 变换参数
         isMasking: false,            // 显示蒙版
         maskOpacity: 0.25,           // 蒙版不透明度
-        width: 1.00,                 // 平面宽度(%)
-        height: 1.00,                // 平面高度(%)
         perspective: 0,              // 透视效果
         transformMode: 'value',      // 变换模式
-        translateX: 100,             // X轴变换(%)
-        translateY: 100,             // Y轴变换(%)
+        translateX: 0,               // X轴变换(%)
+        translateY: 0,               // Y轴变换(%)
+        width: 1.00,                 // 平面宽度(%)
+        height: 1.00,                // 平面高度(%)
         skewX: 0,                    // X轴倾斜转换
         skewY: 0,                    // Y轴倾斜转换
         rotateX: 0,                  // X轴3D旋转
@@ -572,7 +568,13 @@
             let perspective = this.perspective ? 'perspective(' + this.perspective + 'px)' : '';
             $(canvas).css({
                 'transform-origin': '50% 50%',
-                'transform': perspective + 'rotate3d(' + -mouseY + ',' + mouseX + ',0,' + deg + 'deg)'
+                'transform': perspective
+                + 'translateX(' + canvasWidth * this.translateX + 'px)'
+                + 'translateY(' + canvasHeight * this.translateY + 'px)'
+                + 'scale(' + this.width + ', ' + this.height + ')'
+                + 'skewX(' + this.skewX + 'deg)'
+                + 'skewY(' + this.skewY + 'deg)'
+                + 'rotate3d(' + -mouseY + ',' + mouseX + ',0,' + deg + 'deg)'
             });
         },
 
@@ -600,6 +602,7 @@
                         'transform': perspective
                         + 'translateX(' + canvasWidth * this.translateX + 'px)'
                         + 'translateY(' + canvasHeight * this.translateY + 'px)'
+                        + 'scale(' + this.width + ', ' + this.height + ')'
                         + 'skewX(' + this.skewX + 'deg)'
                         + 'skewY(' + this.skewY + 'deg)'
                         + 'rotateX(' + this.rotateX + 'deg)'
@@ -829,22 +832,6 @@
                     context.lineWidth = this.lineWidth;
                     this.drawLogo();
                     break;
-                case 'width':
-                    this.width = value;
-                    $(canvas).css({
-                        'width': this.width + '%',
-                        'left': 50 - this.width / 2 + '%',
-                        'right': 50 - this.width / 2 + '%'
-                    });
-                    break;
-                case 'height':
-                    this.height = value;
-                    $(canvas).css({
-                        'height': this.height + '%',
-                        'top': 50 - this.height / 2 + '%',
-                        'bottom': 50 - this.height / 2 + '%'
-                    });
-                    break;
                 case 'zoomRate':
                 case 'rotationAngle':
                 case 'isClickOffset':
@@ -918,6 +905,8 @@
                 case 'perspective':
                 case 'translateX':
                 case 'translateY':
+                case 'width':
+                case 'height':
                 case 'skewX':
                 case 'skewY':
                 case 'rotateX':
