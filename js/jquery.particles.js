@@ -650,7 +650,7 @@
                     particles.y = Math.floor(newPosition.yBottom);
                     particles.vy = -particles.vy;
                 }
-            } else if(this.moveOutMode === 'out') {
+            } else if (this.moveOutMode === 'out') {
                 // 如果粒子X轴 < 0 - 半径
                 if (particles.x <= -size) {
                     particles.x = Math.floor(newPosition.xRight);

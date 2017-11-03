@@ -1,12 +1,12 @@
 /*!
- * jQuery Slider plugin v0.0.20
+ * jQuery Slider plugin v0.0.21
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
  * - https://gitee.com/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/10/23
+ * @date 2017/11/03
  */
 
 (function (global, factory) {
@@ -319,9 +319,6 @@
     /** 覆盖特效 */
     function canvasCover(fitStr, colorStr) {
         let currantWidth = 0; // 当前图片宽度
-        // 图片预加载
-        prevImg.src = 'file:///' + imgList[oldIndex];
-        currantImg.src = 'file:///' + imgList[imgIndex];
         prevImg.onload = function () {
             currantImg.onload = function () {
                 // 重置不透明属性
@@ -348,14 +345,14 @@
                 context.restore();
             };
         };
+        // 更新图片信息
+        prevImg.src = 'file:///' + imgList[oldIndex];
+        currantImg.src = 'file:///' + imgList[imgIndex];
     }
 
     /** 渐显特效 */
     function canvasFadeIn(fitStr, colorStr) {
         let opacity = 100;  // 不透明值
-        // 图片预加载
-        prevImg.src = 'file:///' + imgList[oldIndex];
-        currantImg.src = 'file:///' + imgList[imgIndex];
         prevImg.onload = function () {
             currantImg.onload = function () {
                 drawOffScreenCanvas(fitStr, prevImg, prevContext, colorStr);
@@ -384,14 +381,14 @@
                 context.restore();
             };
         };
+        // 更新图片信息
+        prevImg.src = 'file:///' + imgList[oldIndex];
+        currantImg.src = 'file:///' + imgList[imgIndex];
     }
 
     /** 渐隐特效 */
     function canvasFadeOut(fitStr, colorStr) {
         let opacity = 0;  // 不透明值
-        // 图片预加载
-        prevImg.src = 'file:///' + imgList[oldIndex];
-        currantImg.src = 'file:///' + imgList[imgIndex];
         prevImg.onload = function () {
             currantImg.onload = function () {
                 drawOffScreenCanvas(fitStr, prevImg, prevContext, colorStr);
@@ -420,14 +417,14 @@
                 context.restore();
             };
         };
+        // 更新图片信息
+        prevImg.src = 'file:///' + imgList[oldIndex];
+        currantImg.src = 'file:///' + imgList[imgIndex];
     }
 
     /** 洗牌特效 */
     function canvasShuffle(fitStr, colorStr) {
         let prevWidth = 0, currantWidth = 0;  // 上张图片和当前图片宽度
-        // 图片预加载
-        prevImg.src = 'file:///' + imgList[oldIndex];
-        currantImg.src = 'file:///' + imgList[imgIndex];
         prevImg.onload = function () {
             currantImg.onload = function () {
                 drawOffScreenCanvas(fitStr, prevImg, prevContext, colorStr);
@@ -466,14 +463,14 @@
                 context.restore();
             };
         };
+        // 更新图片信息
+        prevImg.src = 'file:///' + imgList[oldIndex];
+        currantImg.src = 'file:///' + imgList[imgIndex];
     }
 
     /** 滑动特效 */
     function canvasSlider(fitStr, colorStr) {
         let prevWidth = 0, currantWidth = 0;  // 上张图片和当前图片宽度
-        // 图片预加载
-        prevImg.src = 'file:///' + imgList[oldIndex];
-        currantImg.src = 'file:///' + imgList[imgIndex];
         prevImg.onload = function () {
             currantImg.onload = function () {
                 drawOffScreenCanvas(fitStr, prevImg, prevContext, colorStr);
@@ -502,15 +499,15 @@
                 context.restore();
             };
         };
+        // 更新图片信息
+        prevImg.src = 'file:///' + imgList[oldIndex];
+        currantImg.src = 'file:///' + imgList[imgIndex];
     }
 
     /** 拉伸特效 */
     function canvasVerticalIn(fitStr, colorStr) {
         let currantWidth = 0;  // 当前图片宽度
         let currantX = getXY(originX, originY, currantWidth, canvasHeight).x;  // 当前图片X坐标
-        // 图片预加载
-        prevImg.src = 'file:///' + imgList[oldIndex];
-        currantImg.src = 'file:///' + imgList[imgIndex];
         prevImg.onload = function () {
             currantImg.onload = function () {
                 drawOffScreenCanvas(fitStr, prevImg, prevContext, colorStr);
@@ -535,15 +532,15 @@
                 context.restore();
             };
         };
+        // 更新图片信息
+        prevImg.src = 'file:///' + imgList[oldIndex];
+        currantImg.src = 'file:///' + imgList[imgIndex];
     }
 
     /** 收缩特效 */
     function canvasVerticalOut(fitStr, colorStr) {
         let currantWidth = canvasWidth;  // 当前图片宽度
         let currantX = getXY(originX, originY, currantWidth, canvasHeight).x;  // 当前图片X坐标
-        // 图片预加载
-        prevImg.src = 'file:///' + imgList[oldIndex];
-        currantImg.src = 'file:///' + imgList[imgIndex];
         prevImg.onload = function () {
             currantImg.onload = function () {
                 drawOffScreenCanvas(fitStr, prevImg, prevContext, colorStr);
@@ -568,6 +565,9 @@
                 context.restore();
             };
         };
+        // 更新图片信息
+        prevImg.src = 'file:///' + imgList[oldIndex];
+        currantImg.src = 'file:///' + imgList[imgIndex];
     }
 
     /** 放大特效 */
@@ -577,9 +577,6 @@
         // 当前图片XY坐标
         let currantX = getXY(originX, originY, currantWidth, currantHeight).x;
         let currantY = getXY(originX, originY, currantWidth, currantHeight).y;
-        // 图片预加载
-        prevImg.src = 'file:///' + imgList[oldIndex];
-        currantImg.src = 'file:///' + imgList[imgIndex];
         prevImg.onload = function () {
             currantImg.onload = function () {
                 drawOffScreenCanvas(fitStr, prevImg, prevContext, colorStr);
@@ -606,6 +603,9 @@
                 context.restore();
             };
         };
+        // 更新图片信息
+        prevImg.src = 'file:///' + imgList[oldIndex];
+        currantImg.src = 'file:///' + imgList[imgIndex];
     }
 
     /** 缩小特效 */
@@ -615,9 +615,6 @@
         // 图片XY坐标
         let currantX = 0;
         let currantY = 0;
-        // 图片预加载
-        prevImg.src = 'file:///' + imgList[oldIndex];
-        currantImg.src = 'file:///' + imgList[imgIndex];
         prevImg.onload = function () {
             currantImg.onload = function () {
                 drawOffScreenCanvas(fitStr, prevImg, prevContext, colorStr);
@@ -642,6 +639,9 @@
                 });
             };
         };
+        // 更新图片信息
+        prevImg.src = 'file:///' + imgList[oldIndex];
+        currantImg.src = 'file:///' + imgList[imgIndex];
     }
 
     // Image
@@ -649,415 +649,190 @@
 
     /** 覆盖特效 */
     function imgCover() {
-        let currantLeft = -100; // 当前图片left值百分比
-        // 图片预加载
-        prevImg.src = 'file:///' + imgList[oldIndex];
-        currantImg.src = 'file:///' + imgList[imgIndex];
         prevImg.onload = function () {
             currantImg.onload = function () {
-                // 初始化CSS
-                $(prevImg).css({
-                    'top': 0,
-                    'left': 0,
-                    'opacity': 1,
-                    'z-index': -2
+                currantImg.addEventListener("animationend", function () {
+                    $(currantImg).css('animation', 'none 0s');
                 });
-                $(currantImg).css({
-                    'top': 0,
-                    'left': 0 - canvasWidth,
-                    'opacity': 1,
-                    'z-index': -1
-                });
-                // 开始CSS动画
-                effectTimer = requestAnimationFrame(function animal() {
-                    if (currantLeft <= 0) {
-                        $(currantImg).css('left', currantLeft + '%');  // 当前图片向右移动
-                        currantLeft += 2;  // 更新当前图片left值百分比
-                        effectTimer = requestAnimationFrame(animal);
-                    } else {
-                        $(currantImg).css('left', 0 + 'px');
-                        cancelAnimationFrame(effectTimer);
-                    }
-                });
+                $(currantImg).css('animation', 'cover 5s ease-in-out');
             };
         };
+        // 更新图片信息
+        prevImg.src = 'file:///' + imgList[oldIndex];
+        currantImg.src = 'file:///' + imgList[imgIndex];
     }
 
     /** 渐显特效 */
     function imgFadeIn() {
-        let opacity = 100;  // 不透明值
-        // 图片预加载
-        prevImg.src = 'file:///' + imgList[oldIndex];
-        currantImg.src = 'file:///' + imgList[imgIndex];
         prevImg.onload = function () {
             currantImg.onload = function () {
-                // 初始化CSS
-                $(prevImg).css({
-                    'top': 0,
-                    'left': 0,
-                    'opacity': 0,
-                    'z-index': -1
+                currantImg.addEventListener("animationend", function () {
+                    $(currantImg).css('animation', 'none 0s');
                 });
-                $(currantImg).css({
-                    'top': 0,
-                    'left': 0,
-                    'opacity': 1,
+                $(prevImg).css({
+                    'animation': 'none 0s',
                     'z-index': -2
                 });
-                // 开始CSS动画
-                effectTimer = requestAnimationFrame(function animal() {
-                    if (opacity >= 0) {
-                        $(prevImg).css('opacity', opacity / 100);  // 更新当前图片不透明值
-                        opacity -= 2;  // 更新不透明值
-                        effectTimer = requestAnimationFrame(animal);
-                    } else {
-                        $(currantImg).css('opacity', 1);
-                        cancelAnimationFrame(effectTimer);
-                    }
+                $(currantImg).css({
+                    'animation': 'fade-in 5s ease-in-out',
+                    'z-index': -1
                 });
             };
         };
+        // 更新图片信息
+        prevImg.src = 'file:///' + imgList[oldIndex];
+        currantImg.src = 'file:///' + imgList[imgIndex];
     }
 
     /** 渐隐特效 */
     function imgFadeOut() {
-        let opacity = 0;  // 不透明值
-        // 图片预加载
-        prevImg.src = 'file:///' + imgList[oldIndex];
-        currantImg.src = 'file:///' + imgList[imgIndex];
         prevImg.onload = function () {
             currantImg.onload = function () {
-                // 初始化CSS
-                $(prevImg).css({
-                    'top': 0,
-                    'left': 0,
-                    'opacity': 1,
-                    'z-index': -2
+                prevImg.addEventListener("animationend", function () {
+                    $(prevImg).css({
+                        'animation': 'none 0s',
+                        'z-index': -2
+                    });
+                    $(currantImg).css({
+                        'animation': 'none 0s',
+                        'z-index': -1
+                    });
                 });
-                $(currantImg).css({
-                    'top': 0,
-                    'left': 0,
-                    'opacity': 0,
+                $(prevImg).css({
+                    'animation': 'fade-out 5s ease-in-out',
                     'z-index': -1
                 });
-                // 开始CSS动画
-                effectTimer = requestAnimationFrame(function animal() {
-                    if (opacity <= 100) {
-                        $(currantImg).css('opacity', opacity / 100);  // 更新上张图片不透明值
-                        opacity += 2;  // 更新不透明值
-                        effectTimer = requestAnimationFrame(animal);
-                    } else {
-                        $(currantImg).css('opacity', 1);
-                        cancelAnimationFrame(effectTimer);
-                    }
+                $(currantImg).css({
+                    'animation': 'none 0s',
+                    'z-index': -2
                 });
             };
         };
+        // 更新图片信息
+        prevImg.src = 'file:///' + imgList[oldIndex];
+        currantImg.src = 'file:///' + imgList[imgIndex];
     }
 
     /** 洗牌特效 */
     function imgShuffle() {
-        // 上张图片和当前图片left值百分比
-        let prevLeft = 0, currantLeft = 0;
-        let animationStage = 1; // 动画状态
-        // 图片预加载
-        prevImg.src = 'file:///' + imgList[oldIndex];
-        currantImg.src = 'file:///' + imgList[imgIndex];
         prevImg.onload = function () {
             currantImg.onload = function () {
-                // 初始化CSS
-                $(prevImg).css({
-                    'top': 0,
-                    'left': 0,
-                    'opacity': 1,
-                    'z-index': -1
+                currantImg.addEventListener("animationend", function () {
+                    $(prevImg).css('animation', 'none 0s');
+                    $(currantImg).css('animation', 'none 0s');
                 });
-                $(currantImg).css({
-                    'top': 0,
-                    'left': 0,
-                    'opacity': 1,
-                    'z-index': -2
-                });
-                // 开始CSS动画
-                effectTimer = requestAnimationFrame(function animal() {
-                    if (animationStage !== 3) {
-                        if (animationStage === 1 && currantLeft < 50) {
-                            // 第一阶段：当前图片向右移动，上张图片向左移动，当前动画left = 50%切换第二阶段
-                            $(prevImg).css('left', prevLeft + '%');
-                            $(currantImg).css('left', currantLeft + '%');
-                            // 更新上张图片和当前图片left值百分比
-                            prevLeft -= 2;
-                            currantLeft += 2;
-                        } else {
-                            animationStage = 2;
-                            // 交换上张图片和当前图片叠加顺序
-                            $(prevImg).css('z-index', -2);
-                            $(currantImg).css('z-index', -1);
-                            if (animationStage === 2 && currantLeft > 0) {
-                                // 第二阶段：当前图片向左移动，上张图片向右移动，当前图片left = 0%结束动画
-                                $(prevImg).css('left', prevLeft + '%');
-                                $(currantImg).css('left', currantLeft + '%');
-                                // 更新上张图片和当前图片left值百分比
-                                prevLeft += 2;
-                                currantLeft -= 2;
-                            } else {
-                                animationStage = 3;
-                            }
-                        }
-                        effectTimer = requestAnimationFrame(animal);
-                    } else {
-                        $(currantImg).css('left', 0 + 'px');
-                        cancelAnimationFrame(effectTimer);
-                    }
-                });
+                $(prevImg).css('animation', 'shuffle-prev 5s ease-in-out');
+                $(currantImg).css('animation', 'shuffle-currant 5s ease-in-out');
             };
         };
+        // 更新图片信息
+        prevImg.src = 'file:///' + imgList[oldIndex];
+        currantImg.src = 'file:///' + imgList[imgIndex];
     }
 
     /** 滑动特效 */
     function imgSlider() {
-        // 上张图片和当前图片left值百分比
-        let prevLeft = 0, currantLeft = -100;
-        prevImg.src = 'file:///' + imgList[oldIndex];
-        currantImg.src = 'file:///' + imgList[imgIndex];
         prevImg.onload = function () {
             currantImg.onload = function () {
-                // 初始化CSS
-                $(prevImg).css({
-                    'top': 0,
-                    'left': 0,
-                    'opacity': 1,
-                    'z-index': -2
+                currantImg.addEventListener("animationend", function () {
+                    $(prevImg).css('animation', 'none 0s');
+                    $(currantImg).css('animation', 'none 0s');
                 });
-                $(currantImg).css({
-                    'top': 0,
-                    'left': 0 - canvasWidth,
-                    'opacity': 1,
-                    'z-index': -1
-                });
-                // 开始CSS动画
-                effectTimer = requestAnimationFrame(function animal() {
-                    if (currantLeft <= 0) {
-                        // 上张图片和当前图片向右移动
-                        $(prevImg).css('left', prevLeft + '%');
-                        $(currantImg).css('left', currantLeft + '%');
-                        // 更新上张图片和当前图片left值百分比
-                        prevLeft += 2;
-                        currantLeft += 2;
-                        effectTimer = requestAnimationFrame(animal);
-                    } else {
-                        $(currantImg).css('left', 0 + 'px');
-                        cancelAnimationFrame(effectTimer);
-                    }
-                });
+                $(prevImg).css('animation', 'slider-prev 5s ease-in-out');
+                $(currantImg).css('animation', 'slider-currant 5s ease-in-out');
             };
         };
+        // 更新图片信息
+        prevImg.src = 'file:///' + imgList[oldIndex];
+        currantImg.src = 'file:///' + imgList[imgIndex];
     }
 
     /** 拉伸特效 */
     function imgVerticalIn() {
-        let currantWidth = 0;  // 当前图片宽度
-        let currantLeft = getXY(originX, originY, currantWidth, canvasHeight).x;  // 当前图片left值
-        // 图片预加载
-        prevImg.src = 'file:///' + imgList[oldIndex];
-        currantImg.src = 'file:///' + imgList[imgIndex];
         prevImg.onload = function () {
             currantImg.onload = function () {
-                // 初始化CSS
-                $(prevImg).css({
-                    'top': 0,
-                    'left': 0,
-                    'opacity': 1,
-                    'z-index': -2
+                currantImg.addEventListener("animationend", function () {
+                    $(currantImg).css('animation', 'none 0s');
                 });
-                $(currantImg).css({
-                    'top': 0,
-                    'left': 0,
-                    'opacity': 1,
-                    'z-index': -1
-                });
-                // 开始CSS动画
-                effectTimer = requestAnimationFrame(function animal() {
-                    if (currantWidth < canvasWidth) {
-                        // 当前图片宽度从屏幕中央向左右拉伸
-                        $(currantImg).css({
-                            'width': currantWidth,
-                            'left': currantLeft
-                        });
-                        // 更新当前图片宽度和left值
-                        currantWidth += canvasWidth / 50;
-                        currantLeft -= originX / 50;
-                        effectTimer = requestAnimationFrame(animal);
-                    } else {
-                        $(currantImg).css({
-                            'width': canvasWidth,
-                            'left': 0
-                        });
-                        cancelAnimationFrame(effectTimer);
-                    }
-                });
+                $(currantImg).css('animation', 'vertical-in 5s ease-in-out');
             };
         };
+        // 更新图片信息
+        prevImg.src = 'file:///' + imgList[oldIndex];
+        currantImg.src = 'file:///' + imgList[imgIndex];
     }
 
     /** 收缩特效 */
     function imgVerticalOut() {
-        let prevWidth = canvasWidth;  // 上张图片宽度
-        let prevLeft = getXY(originX, originY, prevWidth, canvasHeight).x;  // 上张图片left值
-        // 图片预加载
-        prevImg.src = 'file:///' + imgList[oldIndex];
-        currantImg.src = 'file:///' + imgList[imgIndex];
         prevImg.onload = function () {
             currantImg.onload = function () {
-                // 初始化CSS
+                prevImg.addEventListener("animationend", function () {
+                    $(prevImg).css({
+                        'animation': 'none 0s',
+                        'z-index': -2
+                    });
+                    $(currantImg).css({
+                        'animation': 'none 0s',
+                        'z-index': -1
+                    });
+                });
                 $(prevImg).css({
-                    'top': 0,
-                    'left': 0,
-                    'opacity': 1,
+                    'animation': 'vertical-out 5s ease-in-out',
                     'z-index': -1
                 });
                 $(currantImg).css({
-                    'top': 0,
-                    'left': 0,
-                    'opacity': 1,
+                    'animation': 'none 0s',
                     'z-index': -2
-                });
-                // 开始CSS动画
-                effectTimer = requestAnimationFrame(function animal() {
-                    if (prevWidth > 0) {
-                        // 上张图片宽度向中央收缩
-                        $(prevImg).css({
-                            'width': prevWidth,
-                            'left': prevLeft
-                        });
-                        // 更新当前图片宽度和left值
-                        prevWidth -= canvasWidth / 50;
-                        prevLeft += originX / 50;
-                        effectTimer = requestAnimationFrame(animal);
-                    } else {
-                        $(currantImg).css('z-index', -1);
-                        $(prevImg).css({
-                            'z-index': -2,
-                            'width': canvasWidth,
-                            'left': 0
-                        });
-                        cancelAnimationFrame(effectTimer);
-                    }
                 });
             };
         };
+        // 更新图片信息
+        prevImg.src = 'file:///' + imgList[oldIndex];
+        currantImg.src = 'file:///' + imgList[imgIndex];
     }
 
     /** 放大特效 */
     function imgZoomIn() {
-        // 当前图片宽度和高度
-        let currantWidth = 0, currantHeight = 0;
-        // 当前图片left值和top值
-        let currantLeft = getXY(originX, originY, currantWidth, currantHeight).x;
-        let currantTop = getXY(originX, originY, currantWidth, currantHeight).y;
-        // 图片预加载
-        prevImg.src = 'file:///' + imgList[oldIndex];
-        currantImg.src = 'file:///' + imgList[imgIndex];
         prevImg.onload = function () {
             currantImg.onload = function () {
-                // 初始化CSS
-                $(prevImg).css({
-                    'top': 0,
-                    'left': 0,
-                    'opacity': 1,
-                    'z-index': -2
+                currantImg.addEventListener("animationend", function () {
+                    $(currantImg).css('animation', 'none 0s');
                 });
-                $(currantImg).css({
-                    'top': 0,
-                    'left': 0,
-                    'opacity': 1,
-                    'z-index': -1
-                });
-                // 开始CSS动画
-                effectTimer = requestAnimationFrame(function animal() {
-                    // 当前图片从屏幕中央向四周放大
-                    if (currantWidth <= canvasWidth && currantHeight <= canvasWidth) {
-                        $(currantImg).css({
-                            'width': currantWidth,
-                            'height': currantHeight,
-                            'left': currantLeft,
-                            'top': currantTop
-                        });
-                        // 更新当前图片宽度、left值和top值
-                        currantLeft -= originX / 50;
-                        currantTop -= originY / 50;
-                        currantWidth += canvasWidth / 50;
-                        currantHeight += canvasHeight / 50;
-                        effectTimer = requestAnimationFrame(animal);
-                    } else {
-                        $(currantImg).css({
-                            'width': currantWidth,
-                            'height': currantHeight,
-                            'left': 0,
-                            'top': 0
-                        });
-                        cancelAnimationFrame(effectTimer);
-                    }
-                });
+                $(currantImg).css('animation', 'zoom-in 5s ease-in-out');
             };
         };
+        // 更新图片信息
+        prevImg.src = 'file:///' + imgList[oldIndex];
+        currantImg.src = 'file:///' + imgList[imgIndex];
     }
 
     /** 缩小特效 */
     function imgZoomOut() {
-        // 上张图片宽度和高度
-        let prevWidth = canvasWidth, prevHeight = canvasHeight;
-        // 上张图片left值和top值
-        let prevLeft = 0;
-        let prevTop = 0;
-        // 图片预加载
-        prevImg.src = 'file:///' + imgList[oldIndex];
-        currantImg.src = 'file:///' + imgList[imgIndex];
         prevImg.onload = function () {
             currantImg.onload = function () {
-                // 初始化CSS
+                prevImg.addEventListener("animationend", function () {
+                    $(prevImg).css({
+                        'animation': 'none 0s',
+                        'z-index': -2
+                    });
+                    $(currantImg).css({
+                        'animation': 'none 0s',
+                        'z-index': -1
+                    });
+                });
                 $(prevImg).css({
-                    'top': 0,
-                    'left': 0,
-                    'opacity': 1,
+                    'animation': 'zoom-out 5s ease-in-out',
                     'z-index': -1
                 });
                 $(currantImg).css({
-                    'top': 0,
-                    'left': 0,
-                    'opacity': 1,
+                    'animation': 'none 0s',
                     'z-index': -2
-                });
-                // 开始CSS动画
-                effectTimer = requestAnimationFrame(function animal() {
-                    if (prevWidth + canvasWidth / 50 > 0 && prevHeight + canvasWidth / 50 > 0) {
-                        // 当前图片向屏幕中央收缩
-                        $(prevImg).css({
-                            'width': prevWidth,
-                            'height': prevHeight,
-                            'left': prevLeft,
-                            'top': prevTop
-                        });
-                        // 更新上张图片宽度、left值和top值
-                        prevLeft += originX / 50;
-                        prevTop += originY / 50;
-                        prevWidth -= canvasWidth / 50;
-                        prevHeight -= canvasHeight / 50;
-                        effectTimer = requestAnimationFrame(animal);
-                    } else {
-                        $(currantImg).css('z-index', -1);
-                        $(prevImg).css({
-                            'z-index': -2,
-                            'width': canvasWidth,
-                            'height': canvasHeight,
-                            'left': 0,
-                            'top': 0
-                        });
-                        cancelAnimationFrame(effectTimer);
-                    }
                 });
             };
         };
+        // 更新图片信息
+        prevImg.src = 'file:///' + imgList[oldIndex];
+        currantImg.src = 'file:///' + imgList[imgIndex];
     }
 
     /**

@@ -1,0 +1,127 @@
+/* http://www.w3school.com.cn/css3/css3_animation.asp */
+/* http://www.ruanyifeng.com/blog/2014/02/css_transition_and_animation.html */
+/* http://www.zhangxinxu.com/wordpress/2013/09/css3-animation-requestanimationframe-tween-%E5%8A%A8%E7%94%BB%E7%AE%97%E6%B3%95/ */
+
+/* 覆盖特效 */
+@keyframes cover {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0%);
+    }
+}
+
+/* 渐显特效 */
+@keyframes fade-in {
+    0% {
+        opacity: 0.00;
+    }
+    100% {
+        opacity: 1.00
+    }
+}
+
+/* 渐隐特效 */
+@keyframes fade-out {
+    0% {
+        opacity: 1.00;
+    }
+    100% {
+        opacity: 0.00
+    }
+}
+
+/* 洗牌特效 */
+@keyframes shuffle-prev {
+    0% {
+        transform: translateX(0%);
+        z-index: -1;
+    }
+    50% {
+        transform: translateX(50%);
+    }
+    100% {
+        transform: translateX(0%);
+        z-index: -2;
+    }
+}
+
+@keyframes shuffle-currant {
+    0% {
+        transform: translateX(0%);
+        z-index: -2;
+    }
+    50% {
+        transform: translateX(-50%);
+    }
+    100% {
+        transform: translateX(0%);
+        z-index: -1;
+    }
+}
+
+/* 滑动特效 */
+@keyframes slider-prev {
+    from {
+        transform: translateX(0%);
+    }
+    to {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes slider-currant {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0%);
+    }
+}
+
+
+
+/* 拉伸特效 */
+@keyframes vertical-in {
+    0% {
+        transform: scale(0.00, 1.00);
+        transform-origin: center center;
+    }
+    100% {
+        transform: scale(1.00, 1.00);
+    }
+}
+
+/* 收缩特效 */
+@keyframes vertical-out {
+    0% {
+        transform: scale(1.00, 1.00);
+        transform-origin: center center;
+    }
+    100% {
+        transform: scale(0.00, 1.00);
+    }
+}
+
+/* 放大特效 */
+@keyframes zoom-in {
+    0% {
+        transform: scale(0.00, 0.00);
+        transform-origin: center center;
+    }
+    100% {
+        transform: scale(1.00, 1.00);
+    }
+}
+
+/** 缩小特效 */
+@keyframes zoom-out {
+    0% {
+        transform: scale(1.00, 1.00);
+        transform-origin: center center;
+    }
+    100% {
+        transform: scale(0.00, 0.00);
+    }
+}

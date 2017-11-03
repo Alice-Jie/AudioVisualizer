@@ -20,7 +20,7 @@
     let files = {};  // 文件路径对象
 
     // 背景/幻灯片/视频配置
-    let BG = {
+    let slider = {
         mode: 'Color',                // 背景模式
         isLinearGradient: false,      // 线性开关
         Color: '255,255,255',         // 背景颜色
@@ -963,142 +963,150 @@
             //-----------------------------------------------------------
 
             // 背景模式
-            if (properties.BG_mode) {
+            if (properties.slider_mode) {
                 // 初始化对应模式的所需环境
-                switch (properties.BG_mode.value) {
+                switch (properties.slider_mode.value) {
                     case 1:
-                        BG.mode = 'Color';
-                        wallpaper.slider('set', 'sliderMode', BG.mode)
-                            .slider('set', 'isLinearGradient', BG.isLinearGradient);
+                        slider.mode = 'Color';
+                        wallpaper.slider('set', 'sliderMode', slider.mode)
+                            .slider('set', 'isLinearGradient', slider.isLinearGradient);
                         break;
                     case 2:
-                        BG.mode = 'Wallpaper';
-                        wallpaper.slider('set', 'sliderMode', BG.mode);
+                        slider.mode = 'Wallpaper';
+                        wallpaper.slider('set', 'sliderMode', slider.mode);
                         break;
                     case 3:
-                        BG.mode = 'Directory';
-                        wallpaper.slider('set', 'sliderMode', BG.mode)
+                        slider.mode = 'Directory';
+                        wallpaper.slider('set', 'sliderMode', slider.mode)
                             .slider('set', 'sliderStyle', directory.sliderStyle)
                             .slider('set', 'timeUnits', directory.timeUnits)
                             .slider('set', 'pauseTime', directory.pauseTime);
                         break;
                     case 4:
-                        BG.mode = 'Video';
-                        wallpaper.slider('set', 'sliderMode', BG.mode);
+                        slider.mode = 'Video';
+                        wallpaper.slider('set', 'sliderMode', slider.mode);
                         break;
                     // no default
                 }
             }
+
+            // # 颜色参数
+            //-----------
+
             // 背景颜色
-            if (properties.BG_Color) {
-                BG.Color = getColor(properties.BG_Color.value);
-                wallpaper.slider('setUserColor', BG.Color);
-                if (BG.mode === 'Color') {
+            if (properties.slider_color_color) {
+                slider.Color = getColor(properties.slider_color_color.value);
+                wallpaper.slider('setUserColor', slider.Color);
+                if (slider.mode === 'Color') {
                     wallpaper.slider('cssUserColor');
                 }
             }
             // 线性颜色开关
-            if (properties.BG_isLinearGradient) {
-                BG.isLinearGradient = properties.BG_isLinearGradient.value;
-                if (BG.mode === 'Color') {
-                    wallpaper.slider('set', 'isLinearGradient', BG.isLinearGradient);
+            if (properties.slider_color_isLinearGradient) {
+                slider.isLinearGradient = properties.slider_color_isLinearGradient.value;
+                if (slider.mode === 'Color') {
+                    wallpaper.slider('set', 'isLinearGradient', slider.isLinearGradient);
                 }
             }
             // 线性颜色1
-            if (properties.BG_linearGradientColor1) {
-                BG.GradientColor1 = getColor(properties.BG_linearGradientColor1.value);
-                wallpaper.slider('setUserLinearGradient', BG.GradientDeg, BG.GradientColor1, BG.GradientColor2);
-                if (BG.mode === 'Color' && BG.isLinearGradient) {
+            if (properties.slider_color_linearGradientColor1) {
+                slider.GradientColor1 = getColor(properties.slider_color_linearGradientColor1.value);
+                wallpaper.slider('setUserLinearGradient', slider.GradientDeg, slider.GradientColor1, slider.GradientColor2);
+                if (slider.mode === 'Color' && slider.isLinearGradient) {
                     wallpaper.slider('cssLinearGradient');
                 }
             }
             // 线性颜色2
-            if (properties.BG_linearGradientColor2) {
-                BG.GradientColor2 = getColor(properties.BG_linearGradientColor2.value);
-                wallpaper.slider('setUserLinearGradient', BG.GradientDeg, BG.GradientColor1, BG.GradientColor2);
-                if (BG.mode === 'Color' && BG.isLinearGradient) {
+            if (properties.slider_color_linearGradientColor2) {
+                slider.GradientColor2 = getColor(properties.slider_color_linearGradientColor2.value);
+                wallpaper.slider('setUserLinearGradient', slider.GradientDeg, slider.GradientColor1, slider.GradientColor2);
+                if (slider.mode === 'Color' && slider.isLinearGradient) {
                     wallpaper.slider('cssLinearGradient');
                 }
             }
             // 线性角度
-            if (properties.BG_linearGradientDeg) {
-                BG.GradientDeg = properties.BG_linearGradientDeg.value;
-                wallpaper.slider('setUserLinearGradient', BG.GradientDeg, BG.GradientColor1, BG.GradientColor2);
-                if (BG.mode === 'Color' && BG.isLinearGradient) {
+            if (properties.slider_color_linearGradientDeg) {
+                slider.GradientDeg = properties.slider_color_linearGradientDeg.value;
+                wallpaper.slider('setUserLinearGradient', slider.GradientDeg, slider.GradientColor1, slider.GradientColor2);
+                if (slider.mode === 'Color' && slider.isLinearGradient) {
                     wallpaper.slider('cssLinearGradient');
                 }
             }
+
+            // # 壁纸参数
+            //-----------
+
             // 更换背景
-            if (properties.BG_image) {
-                if (properties.BG_image.value) {
-                    BG.file = properties.BG_image.value;
-                    wallpaper.slider('setUserImg', BG.file);
-                    if (BG.mode === 'Wallpaper') {
+            if (properties.slider_wallpaper_file) {
+                if (properties.slider_wallpaper_file.value) {
+                    slider.file = properties.slider_wallpaper_file.value;
+                    wallpaper.slider('setUserImg', slider.file);
+                    if (slider.mode === 'Wallpaper') {
                         wallpaper.slider('cssUserImg');
                     }
                 } else {
                     wallpaper.slider('setUserImg', '');
-                    if (BG.mode === 'Wallpaper') {
+                    if (slider.mode === 'Wallpaper') {
                         wallpaper.slider('cssDefaultImg');
                     }
                 }
             }
             // 背景填充样式
-            if (properties.image_fillStyle) {
-                wallpaper.slider('setFillStyle', setFillStyle(properties.image_fillStyle.value));
+            if (properties.slider_wallpaper_fillStyle) {
+                wallpaper.slider('setFillStyle', setFillStyle(properties.slider_wallpaper_fillStyle.value));
             }
 
             // # 幻灯片参数
             //-------------
 
             // 幻灯片目录
-            if (properties.directory) {
-                if (BG.mode === 'Directory') {
+            if (properties.slider_directory) {
+                if (slider.mode === 'Directory') {
                     wallpaper.slider('changeSlider');
                 }
             }
             // 滑动样式
-            if (properties.directory_sliderStyle) {
-                directory.sliderStyle = setSliderStyle(properties.directory_sliderStyle.value);
-                if (BG.mode === 'Directory') {
+            if (properties.slider_directory_sliderStyle) {
+                directory.sliderStyle = setSliderStyle(properties.slider_directory_sliderStyle.value);
+                if (slider.mode === 'Directory') {
                     wallpaper.slider('set', 'sliderStyle', directory.sliderStyle);
                 }
             }
             // 切换特效
-            if (properties.directory_effect) {
-                wallpaper.slider('set', 'effect', setEffect(properties.directory_effect.value));
+            if (properties.slider_directory_effect) {
+                wallpaper.slider('set', 'effect', setEffect(properties.slider_directory_effect.value));
             }
             // IMG适应样式
-            if (properties.directory_imgFitStyle) {
-                wallpaper.slider('set', 'imgFit', setFitStyle(properties.directory_imgFitStyle.value));
+            if (properties.slider_directory_imgFitStyle) {
+                wallpaper.slider('set', 'imgFit', setFitStyle(properties.slider_directory_imgFitStyle.value));
             }
             // IMG背景颜色
-            if (properties.directory_imgBGColor) {
-                wallpaper.slider('set', 'imgBGColor', getColor(properties.directory_imgBGColor.value));
+            if (properties.slider_directory_imgBGColor) {
+                wallpaper.slider('set', 'imgBGColor', getColor(properties.slider_directory_imgBGColor.value));
             }
             // Canvas适应样式
-            if (properties.directory_canvasFitStyle) {
-                wallpaper.slider('set', 'canvasFit', setCanvasFitStyle(properties.directory_canvasFitStyle.value));
+            if (properties.slider_directory_canvasFitStyle) {
+                wallpaper.slider('set', 'canvasFit', setCanvasFitStyle(properties.slider_directory_canvasFitStyle.value));
             }
             // Canvas背景颜色
-            if (properties.directory_canvasBGColor) {
-                wallpaper.slider('set', 'canvasBGColor', getColor(properties.directory_canvasBGColor.value));
+            if (properties.slider_directory_canvasBGColor) {
+                wallpaper.slider('set', 'canvasBGColor', getColor(properties.slider_directory_canvasBGColor.value));
             }
             // 读取模式
-            if (properties.directory_readStyle) {
-                wallpaper.slider('set', 'readStyle', setReadStyle(properties.directory_readStyle.value));
+            if (properties.slider_directory_readStyle) {
+                wallpaper.slider('set', 'readStyle', setReadStyle(properties.slider_directory_readStyle.value));
             }
             // 选择时间单位
-            if (properties.directory_timeUnits) {
-                directory.timeUnits = setTimeUnits(properties.directory_timeUnits.value);
-                if (BG.mode === 'Directory') {
+            if (properties.slider_directory_timeUnits) {
+                directory.timeUnits = setTimeUnits(properties.slider_directory_timeUnits.value);
+                if (slider.mode === 'Directory') {
                     wallpaper.slider('set', 'timeUnits', directory.timeUnits);
                 }
             }
             // 停留时间
-            if (properties.directory_pauseTime) {
-                directory.pauseTime = properties.directory_pauseTime.value;
-                if (BG.mode === 'Directory') {
+            if (properties.slider_directory_pauseTime) {
+                directory.pauseTime = properties.slider_directory_pauseTime.value;
+                if (slider.mode === 'Directory') {
                     wallpaper.slider('set', 'pauseTime', directory.pauseTime);
                 }
             }
@@ -1107,31 +1115,31 @@
             //-----------
 
             // 视频文件
-            if (properties.video_file) {
-                if (properties.video_file.value) {
-                    video.file = properties.video_file.value;
+            if (properties.slider_video_file) {
+                if (properties.slider_video_file.value) {
+                    video.file = properties.slider_video_file.value;
                     wallpaper.slider('setUserVideo', video.file);
-                    if (BG.mode === 'Video') {
+                    if (slider.mode === 'Video') {
                         wallpaper.slider('videoSrcUserVideo');
                     }
                 } else {
                     wallpaper.slider('setUserVideo', '');
-                    if (BG.mode === 'Video') {
+                    if (slider.mode === 'Video') {
                         wallpaper.slider('videoSrcDefaultVideo');
                     }
                 }
             }
             // 视频进度
-            if (properties.video_progress) {
-                video.progress = properties.video_progress.value / 100;
-                if (BG.mode === 'Video') {
+            if (properties.slider_video_progress) {
+                video.progress = properties.slider_video_progress.value / 100;
+                if (slider.mode === 'Video') {
                     wallpaper.slider('set', 'videoProgress', video.progress);
                 }
 
             }
             // 视频切换
-            if (properties.video_switch) {
-                video.switch = properties.video_switch.value;
+            if (properties.slider_video_switch) {
+                video.switch = properties.slider_video_switch.value;
                 switch (video.switch) {
                     case -1:
                         wallpaper.slider('prevVideo');
@@ -1148,30 +1156,30 @@
 
             }
             // 视频切换播放/暂停
-            if (properties.video_isPlay) {
-                video.isPlay = properties.video_isPlay.value;
-                if (BG.mode === 'Video') {
+            if (properties.slider_video_isPlay) {
+                video.isPlay = properties.slider_video_isPlay.value;
+                if (slider.mode === 'Video') {
                     wallpaper.slider('set', 'isVideoPlay', video.isPlay);
                 }
             }
             // 视频音量
-            if (properties.video_volume) {
-                video.volume = properties.video_volume.value / 100;
+            if (properties.slider_video_volume) {
+                video.volume = properties.slider_video_volume.value / 100;
                 wallpaper.slider('set', 'videoVolume', video.volume);
             }
             // 视频播放速度
-            if (properties.video_playBackRate) {
-                video.playbackRate = properties.video_playBackRate.value / 100;
+            if (properties.slider_video_playBackRate) {
+                video.playbackRate = properties.slider_video_playBackRate.value / 100;
                 wallpaper.slider('set', 'playbackRate', video.playbackRate);
             }
             // video适应样式
-            if (properties.video_FitStyle) {
-                video.fitStyle = setFitStyle(properties.video_FitStyle.value);
+            if (properties.slider_video_FitStyle) {
+                video.fitStyle = setFitStyle(properties.slider_video_FitStyle.value);
                 wallpaper.slider('set', 'videoFit', video.fitStyle);
             }
             // video背景颜色
-            if (properties.video_BGColor) {
-                video.BGColor = getColor(properties.video_BGColor.value);
+            if (properties.slider_video_BGColor) {
+                video.BGColor = getColor(properties.slider_video_BGColor.value);
                 wallpaper.slider('set', 'videoBGColor', video.BGColor);
             }
 
@@ -1179,41 +1187,41 @@
             //-----------
 
             // 背景缩放开关
-            if (properties.image_isBackgroundZoom) {
-                wallpaper.slider('set', 'isBackgroundZoom', properties.image_isBackgroundZoom.value);
+            if (properties.slider_isBackgroundZoom) {
+                wallpaper.slider('set', 'isBackgroundZoom', properties.slider_isBackgroundZoom.value);
             }
             // 背景模糊样式
-            if (properties.image_filterBlur) {
-                wallpaper.slider('set', 'isBackgroundBlur', properties.image_filterBlur.value);
+            if (properties.slider_filterBlur) {
+                wallpaper.slider('set', 'isBackgroundBlur', properties.slider_filterBlur.value);
             }
             // 透视效果
-            if (properties.image_perspective) {
-                wallpaper.slider('set', 'perspective', properties.image_perspective.value * 100);
+            if (properties.slider_perspective) {
+                wallpaper.slider('set', 'perspective', properties.slider_perspective.value * 100);
             }
             // 平面宽度(%)
-            if (properties.image_width) {
-                wallpaper.slider('set', 'width', properties.image_width.value / 100);
+            if (properties.slider_width) {
+                wallpaper.slider('set', 'width', properties.slider_width.value / 100);
             }
             // 平面高度(%)
-            if (properties.image_height) {
-                wallpaper.slider('set', 'height', properties.image_height.value / 100);
+            if (properties.slider_height) {
+                wallpaper.slider('set', 'height', properties.slider_height.value / 100);
             }
             // 背景3D旋转
-            if (properties.image_isRotate3D){
-                wallpaper.slider('set', 'isRotate3D', properties.image_isRotate3D.value);
+            if (properties.slider_isRotate3D) {
+                wallpaper.slider('set', 'isRotate3D', properties.slider_isRotate3D.value);
             }
             // 角度大小
-            if (properties.image_degSize) {
-                wallpaper.slider('set', 'degSize', properties.image_degSize.value);
+            if (properties.slider_degSize) {
+                wallpaper.slider('set', 'degSize', properties.slider_degSize.value);
             }
 
             // # 音频参数
             //-----------
 
             // 音频文件
-            if (properties.audio_file) {
-                if (properties.audio_file.value) {
-                    audio.file = properties.audio_file.value;
+            if (properties.slider_audio_file) {
+                if (properties.slider_audio_file.value) {
+                    audio.file = properties.slider_audio_file.value;
                     wallpaper.slider('setUserAudio', audio.file)
                         .slider('audioSrcUserAudio');
                 } else {
@@ -1223,13 +1231,13 @@
                 }
             }
             // 音频进度
-            if (properties.audio_progress) {
-                audio.progress = properties.audio_progress.value / 100;
+            if (properties.slider_audio_progress) {
+                audio.progress = properties.slider_audio_progress.value / 100;
                 wallpaper.slider('set', 'audioProgress', audio.progress);
             }
             // 音频切换
-            if (properties.audio_switch) {
-                audio.switch = properties.audio_switch.value;
+            if (properties.slider_audio_switch) {
+                audio.switch = properties.slider_audio_switch.value;
                 switch (audio.switch) {
                     case -1:
                         wallpaper.slider('prevAudio');
@@ -1246,18 +1254,18 @@
 
             }
             // 音频切换播放/暂停
-            if (properties.audio_isPlay) {
-                audio.isPlay = properties.audio_isPlay.value;
+            if (properties.slider_audio_isPlay) {
+                audio.isPlay = properties.slider_audio_isPlay.value;
                 wallpaper.slider('set', 'isAudioPlay', audio.isPlay);
             }
             // 音频循环
-            if (properties.audio_isLoop) {
-                audio.isLoop = properties.audio_isLoop.value;
+            if (properties.slider_audio_isLoop) {
+                audio.isLoop = properties.slider_audio_isLoop.value;
                 wallpaper.slider('set', 'isAudioLoop', audio.isLoop);
             }
             // 音频音量
-            if (properties.audio_volume) {
-                audio.volume = properties.audio_volume.value / 100;
+            if (properties.slider_audio_volume) {
+                audio.volume = properties.slider_audio_volume.value / 100;
                 wallpaper.slider('set', 'audioVolume', audio.volume);
             }
 

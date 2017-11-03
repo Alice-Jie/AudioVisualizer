@@ -1282,13 +1282,13 @@
         drawCanvas: function (audioArray) {
             this.updateVisualizerBars(audioArray);
             if (// 非静默状态
-                !isSilence(currantAudioArray)
+            !isSilence(currantAudioArray)
                 // 静默特效
-                || (this.isSilenceEffect && isSilence(currantAudioArray) && silenceToken >= silenceTokenMAX)
+            || (this.isSilenceEffect && isSilence(currantAudioArray) && silenceToken >= silenceTokenMAX)
                 // 颜色变换状态
-                || this.colorMode === 'colorTransformation'
+            || this.colorMode === 'colorTransformation'
                 // 彩虹模式且颜色偏移处于激活状态
-                || (this.colorMode === 'rainBow' && this.gradientOffset !== 0)) {
+            || (this.colorMode === 'rainBow' && this.gradientOffset !== 0)) {
                 this.drawVisualizerBars();
                 redrawToken = redrawTokenMAX;
             } else if (redrawToken > 0) {

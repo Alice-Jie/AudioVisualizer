@@ -58,16 +58,16 @@
         "text": "<br/>_______________________________<br/><br/><br/>",
         "type": "text"
       },
-      "BG_Text": {
+      "slider_Text": {
         "order": 1000,
         "condition": "MENU_mode.value == 1 || MENU_mode.value == 2",
-        "text": "ui_BG_Text",
+        "text": "ui_slider_Text",
         "type": "text"
       },
-      "BG_mode": {
+      "slider_mode": {
         "order": 1001,
         "condition": "MENU_mode.value == 1 || MENU_mode.value == 2",
-        "text": "ui_BG_mode",
+        "text": "ui_slider_mode",
         "type": "combo",
         "options": [
           {
@@ -79,7 +79,7 @@
             "value": 2
           },
           {
-            "label": "幻灯片/Directory",
+            "label": "幻灯片/Slides",
             "value": 3
           },
           {
@@ -89,54 +89,54 @@
         ],
         "value": 2
       },
-      "BG_Color": {
+      "slider_color_color": {
         "order": 1002,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && BG_mode.value == 1 && !BG_isLinearGradient.value",
-        "text": "ui_BG_Color",
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && slider_mode.value == 1 && !slider_color_isLinearGradient.value",
+        "text": "ui_slider_color_color",
         "type": "color",
         "value": "0 0 0"
       },
-      "BG_isLinearGradient": {
+      "slider_color_isLinearGradient": {
         "order": 1003,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && BG_mode.value == 1",
-        "text": "ui_BG_isLinearGradient",
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && slider_mode.value == 1",
+        "text": "ui_slider_color_isLinearGradient",
         "type": "bool",
         "value": false
       },
-      "BG_linearGradientColor1": {
+      "slider_color_linearGradientColor1": {
         "order": 1004,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && BG_mode.value == 1 && BG_isLinearGradient.value",
-        "text": "ui_BG_linearGradientColor1",
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && slider_mode.value == 1 && slider_color_isLinearGradient.value",
+        "text": "ui_slider_color_linearGradientColor1",
         "type": "color",
         "value": "0.7411764705882353 0.992156862745098 0"
       },
-      "BG_linearGradientColor2": {
+      "slider_color_linearGradientColor2": {
         "order": 1005,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && BG_mode.value == 1 && BG_isLinearGradient.value",
-        "text": "ui_BG_linearGradientColor2",
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && slider_mode.value == 1 && slider_color_isLinearGradient.value",
+        "text": "ui_slider_color_linearGradientColor2",
         "type": "color",
         "value": "1 1 0"
       },
-      "BG_linearGradientDeg": {
+      "slider_color_linearGradientDeg": {
         "order": 1006,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && BG_mode.value == 1 && BG_isLinearGradient.value",
-        "text": "ui_BG_linearGradientDeg",
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && slider_mode.value == 1 && slider_color_isLinearGradient.value",
+        "text": "ui_slider_color_linearGradientDeg",
         "type": "slider",
         "editable": true,
         "max": 180,
         "min": -180,
         "value": 120
       },
-      "BG_image": {
+      "slider_wallpaper_file": {
         "order": 1007,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && BG_mode.value == 2",
-        "text": "ui_BG_image",
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && slider_mode.value == 2",
+        "text": "ui_slider_wallpaper_file",
         "type": "file"
       },
-      "image_fillStyle": {
+      "slider_wallpaper_fillStyle": {
         "order": 1008,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && (BG_mode.value == 2 || (BG_mode.value == 3 && directory_sliderStyle.value == 1))",
-        "text": "ui_image_fillStyle",
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && (slider_mode.value == 2 || (slider_mode.value == 3 && slider_directory_sliderStyle.value == 1))",
+        "text": "ui_slider_wallpaper_fillStyle",
         "type": "combo",
         "options": [
           {
@@ -162,17 +162,17 @@
         ],
         "value": 1
       },
-      "directory": {
+      "slider_directory": {
         "order": 1012,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && BG_mode.value == 3",
-        "text": "ui_directory",
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && slider_mode.value == 3",
+        "text": "ui_slider_directory",
         "type": "directory",
         "mode": "fetchall"
       },
-      "directory_sliderStyle": {
+      "slider_directory_sliderStyle": {
         "order": 1100,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && BG_mode.value == 3",
-        "text": "ui_directory_sliderStyle",
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && slider_mode.value == 3",
+        "text": "ui_slider_directory_sliderStyle",
         "type": "combo",
         "options": [
           {
@@ -190,10 +190,10 @@
         ],
         "value": 1
       },
-      "directory_effect": {
+      "slider_directory_effect": {
         "order": 1101,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && BG_mode.value == 3 && directory_sliderStyle.value != 1",
-        "text": "ui_directory_effect",
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && slider_mode.value == 3 && slider_directory_sliderStyle.value != 1",
+        "text": "ui_slider_directory_effect",
         "type": "combo",
         "options": [
           {
@@ -239,10 +239,10 @@
         ],
         "value": 0
       },
-      "directory_imgFitStyle": {
+      "slider_directory_imgFitStyle": {
         "order": 1102,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && BG_mode.value == 3 && directory_sliderStyle.value == 2",
-        "text": "ui_directory_imgFitStyle",
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && slider_mode.value == 3 && slider_directory_sliderStyle.value == 2",
+        "text": "ui_slider_directory_imgFitStyle",
         "type": "combo",
         "options": [
           {
@@ -268,17 +268,17 @@
         ],
         "value": 1
       },
-      "directory_imgBGColor": {
+      "slider_directory_imgBGColor": {
         "order": 1103,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && BG_mode.value == 3 && directory_sliderStyle.value == 2",
-        "text": "ui_directory_imgBGColor",
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && slider_mode.value == 3 && slider_directory_sliderStyle.value == 2",
+        "text": "ui_slider_directory_imgBGColor",
         "type": "color",
         "value": "1 1 1"
       },
-      "directory_canvasFitStyle": {
+      "slider_directory_canvasFitStyle": {
         "order": 1102,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && BG_mode.value == 3 && directory_sliderStyle.value == 3",
-        "text": "ui_directory_canvasFitStyle",
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && slider_mode.value == 3 && slider_directory_sliderStyle.value == 3",
+        "text": "ui_slider_directory_canvasFitStyle",
         "type": "combo",
         "options": [
           {
@@ -300,17 +300,17 @@
         ],
         "value": 1
       },
-      "directory_canvasBGColor": {
+      "slider_directory_canvasBGColor": {
         "order": 1103,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && BG_mode.value == 3 && directory_sliderStyle.value == 3",
-        "text": "ui_directory_canvasBGColor",
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && slider_mode.value == 3 && slider_directory_sliderStyle.value == 3",
+        "text": "ui_slider_directory_canvasBGColor",
         "type": "color",
         "value": "1 1 1"
       },
-      "directory_readStyle": {
+      "slider_directory_readStyle": {
         "order": 1104,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && BG_mode.value == 3",
-        "text": "ui_directory_readStyle",
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && slider_mode.value == 3",
+        "text": "ui_slider_directory_readStyle",
         "type": "combo",
         "options": [
           {
@@ -324,10 +324,10 @@
         ],
         "value": 1
       },
-      "directory_timeUnits": {
+      "slider_directory_timeUnits": {
         "order": 1105,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && BG_mode.value == 3",
-        "text": "ui_directory_timeUnits",
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && slider_mode.value == 3",
+        "text": "ui_slider_directory_timeUnits",
         "type": "combo",
         "options": [
           {
@@ -345,43 +345,43 @@
         ],
         "value": 1
       },
-      "directory_pauseTime": {
+      "slider_directory_pauseTime": {
         "order": 1106,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && BG_mode.value == 3",
-        "text": "ui_directory_pauseTime",
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && slider_mode.value == 3",
+        "text": "ui_slider_directory_pauseTime",
         "type": "slider",
         "editable": true,
         "max": 60,
         "min": 1,
         "value": 30
       },
-      "video_Text": {
+      "slider_video_Text": {
         "order": 1200,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && BG_mode.value == 4",
-        "text": "ui_video_Text",
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && slider_mode.value == 4",
+        "text": "ui_slider_video_Text",
         "type": "text"
       },
-      "video_file": {
+      "slider_video_file": {
         "order": 1201,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && BG_mode.value == 4",
-        "text": "ui_video_file",
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && slider_mode.value == 4",
+        "text": "ui_slider_video_file",
         "type": "file",
         "fileType": "video"
       },
-      "video_progress": {
+      "slider_video_progress": {
         "order": 1202,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && BG_mode.value == 4",
-        "text": "ui_video_progress",
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && slider_mode.value == 4",
+        "text": "ui_slider_video_progress",
         "type": "slider",
         "editable": true,
         "max": 100,
         "min": 0,
         "value": 0
       },
-      "video_switch": {
+      "slider_video_switch": {
         "order": 1203,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && BG_mode.value == 4",
-        "text": "ui_video_switch",
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && slider_mode.value == 4",
+        "text": "ui_slider_video_switch",
         "type": "combo",
         "options": [
           {
@@ -399,37 +399,37 @@
         ],
         "value": 0
       },
-      "video_isPlay": {
+      "slider_video_isPlay": {
         "order": 1204,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && BG_mode.value == 4",
-        "text": "ui_video_isPlay",
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && slider_mode.value == 4",
+        "text": "ui_slider_video_isPlay",
         "type": "bool",
         "value": true
       },
-      "video_volume": {
+      "slider_video_volume": {
         "order": 1205,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && BG_mode.value == 4",
-        "text": "ui_video_volume",
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && slider_mode.value == 4",
+        "text": "ui_slider_video_volume",
         "type": "slider",
         "editable": true,
         "max": 100,
         "min": 0,
         "value": 75
       },
-      "video_playBackRate": {
+      "slider_video_playBackRate": {
         "order": 1206,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && BG_mode.value == 4",
-        "text": "ui_video_playBackRate",
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && slider_mode.value == 4",
+        "text": "ui_slider_video_playBackRate",
         "type": "slider",
         "editable": true,
         "max": 400,
         "min": 50,
         "value": 100
       },
-      "video_FitStyle": {
+      "slider_video_FitStyle": {
         "order": 1207,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && BG_mode.value == 4",
-        "text": "ui_video_FitStyle",
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && slider_mode.value == 4",
+        "text": "ui_slider_video_FitStyle",
         "type": "combo",
         "options": [
           {
@@ -455,107 +455,107 @@
         ],
         "value": 1
       },
-      "video_BGColor": {
+      "slider_video_BGColor": {
         "order": 1208,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && BG_mode.value == 4",
-        "text": "ui_video_BGColor",
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && slider_mode.value == 4",
+        "text": "ui_slider_video_BGColor",
         "type": "color",
         "value": "0 0 0"
       },
-      "image_transform": {
+      "slider_transform": {
         "order": 1300,
         "condition": "MENU_mode.value == 1 || MENU_mode.value == 2",
-        "text": "ui_image_transform",
+        "text": "ui_slider_transform",
         "type": "text"
       },
-      "image_isBackgroundZoom": {
+      "slider_isBackgroundZoom": {
         "order": 1301,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && !image_isRotate3D.value",
-        "text": "ui_image_isBackgroundZoom",
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && !slider_isRotate3D.value",
+        "text": "ui_slider_isBackgroundZoom",
         "type": "bool",
         "value": false
       },
-      "image_filterBlur": {
+      "slider_filterBlur": {
         "order": 1302,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && !image_isRotate3D.value",
-        "text": "ui_image_filterBlur",
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && !slider_isRotate3D.value",
+        "text": "ui_slider_filterBlur",
         "type": "bool",
         "value": false
       },
-      "image_perspective": {
+      "slider_perspective": {
         "order": 1303,
         "condition": "MENU_mode.value == 1 || MENU_mode.value == 2",
-        "text": "ui_image_perspective",
+        "text": "ui_slider_perspective",
         "type": "slider",
         "editable": true,
         "max": 40,
         "min": 0,
         "value": 10
       },
-      "image_width": {
+      "slider_width": {
         "order": 1304,
         "condition": "MENU_mode.value == 1 || MENU_mode.value == 2",
-        "text": "ui_image_width",
+        "text": "ui_slider_width",
         "type": "slider",
         "editable": true,
         "max": 200,
         "min": 0,
         "value": 100
       },
-      "image_height": {
+      "slider_height": {
         "order": 1305,
         "condition": "MENU_mode.value == 1 || MENU_mode.value == 2",
-        "text": "ui_image_height",
+        "text": "ui_slider_height",
         "type": "slider",
         "editable": true,
         "max": 200,
         "min": 0,
         "value": 100
       },
-      "image_isRotate3D": {
+      "slider_isRotate3D": {
         "order": 1306,
         "condition": "MENU_mode.value == 1 || MENU_mode.value == 2",
-        "text": "ui_image_isRotate3D",
+        "text": "ui_slider_isRotate3D",
         "type": "bool",
         "value": false
       },
-      "image_degSize": {
+      "slider_degSize": {
         "order": 1307,
-        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && image_isRotate3D.value",
-        "text": "ui_image_degSize",
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 2) && slider_isRotate3D.value",
+        "text": "ui_slider_degSize",
         "type": "slider",
         "editable": true,
         "max": 180,
         "min": 0,
-        "value": 10
+        "value": 5
       },
-      "audio_Text": {
+      "slider_audio_Text": {
         "order": 1400,
         "condition": "MENU_mode.value == 1 || MENU_mode.value == 2",
-        "text": "ui_audio_Text",
+        "text": "ui_slider_audio_Text",
         "type": "text"
       },
-      "audio_file": {
+      "slider_audio_file": {
         "order": 1401,
         "condition": "MENU_mode.value == 1 || MENU_mode.value == 2",
-        "text": "ui_audio_file",
+        "text": "ui_slider_audio_file",
         "type": "file",
         "fileType": "video"
       },
-      "audio_progress": {
+      "slider_audio_progress": {
         "order": 1402,
         "condition": "MENU_mode.value == 1 || MENU_mode.value == 2",
-        "text": "ui_audio_progress",
+        "text": "ui_slider_audio_progress",
         "type": "slider",
         "editable": true,
         "max": 100,
         "min": 0,
         "value": 0
       },
-      "audio_switch": {
+      "slider_audio_switch": {
         "order": 1403,
         "condition": "MENU_mode.value == 1 || MENU_mode.value == 2",
-        "text": "ui_audio_switch",
+        "text": "ui_slider_audio_switch",
         "type": "combo",
         "options": [
           {
@@ -573,24 +573,24 @@
         ],
         "value": 0
       },
-      "audio_isPlay": {
+      "slider_audio_isPlay": {
         "order": 1405,
         "condition": "MENU_mode.value == 1 || MENU_mode.value == 2",
-        "text": "ui_audio_isPlay",
+        "text": "ui_slider_audio_isPlay",
         "type": "bool",
         "value": false
       },
-      "audio_isLoop": {
+      "slider_audio_isLoop": {
         "order": 1406,
         "condition": "MENU_mode.value == 1 || MENU_mode.value == 2",
-        "text": "ui_audio_isLoop",
+        "text": "ui_slider_audio_isLoop",
         "type": "bool",
         "value": false
       },
-      "audio_volume": {
+      "slider_audio_volume": {
         "order": 1407,
         "condition": "MENU_mode.value == 1 || MENU_mode.value == 2",
-        "text": "ui_audio_volume",
+        "text": "ui_slider_audio_volume",
         "type": "slider",
         "editable": true,
         "max": 100,
@@ -4212,54 +4212,54 @@
         "ui_MENU_text": "<h3><b>Menu</b></h3><small>Select the plug-in options to display.</small>",
         "ui_MENU_mode": "<br/>List of Plugins<br/><br/>",
         "Dividing_line0": "------------------------------------------------------------------------------------------------------------------------",
-        "ui_BG_Text": "<h3><b>Background</b></h3><small>Setting background parameters. Currently supports solid color / linear, image, slide and video backgrounds.</small>",
-        "ui_BG_mode": "<br/>Background Mode<br/><br/>",
-        "ui_BG_Color": "<br/>Background Color<br/><br/>",
-        "ui_BG_isLinearGradient": "<br/>Linear Gradient?<br/><br/>",
-        "ui_BG_linearGradientColor1": "<br/>Primary Color<br/><br/>",
-        "ui_BG_linearGradientColor2": "<br/>Secondary Color<br/><br/>",
-        "ui_BG_linearGradientDeg": "<br/>Gradient Angle<br/><br/>",
+        "ui_slider_Text": "<h3><b>Background</b></h3><small>Setting background parameters. Currently supports solid color / linear, image, slide and video backgrounds.</small>",
+        "ui_slider_mode": "<br/>Background Mode<br/><br/>",
+        "ui_slider_color_color": "<br/>Background Color<br/><br/>",
+        "ui_slider_color_isLinearGradient": "<br/>Linear Gradient?<br/><br/>",
+        "ui_slider_color_linearGradientColor1": "<br/>Primary Color<br/><br/>",
+        "ui_slider_color_linearGradientColor2": "<br/>Secondary Color<br/><br/>",
+        "ui_slider_color_linearGradientDeg": "<br/>Gradient Angle<br/><br/>",
         "Dividing_line1": "------------------------------------------------------------------------------------------------------------------------",
-        "ui_BG_image": "<br/>Background Image<br/><br/>",
-        "ui_image_fillStyle": "<br/>Background Fill Style<br/><br/>",
+        "ui_slider_wallpaper_file": "<br/>Background Image<br/><br/>",
+        "ui_slider_wallpaper_fillStyle": "<br/>Background Fill Style<br/><br/>",
         "Dividing_line2": "------------------------------------------------------------------------------------------------------------------------",
-        "ui_directory": "<br/>Image Folder<br/><br/>",
-        "ui_directory_sliderStyle": "<br/>Sliding Style<br/><br/>",
-        "ui_directory_effect": "<br/>Sliding Effect<br/><br/>",
-        "ui_directory_imgFitStyle": "<br/>Image Fill Style<br/><br/>",
-        "ui_directory_imgBGColor": "<br/>Background Color of the Image<br/><br/>",
-        "ui_directory_canvasBGColor": "<br/>Background Color of the Canvas<br/><br/>",
-        "ui_directory_canvasFitStyle": "<br/>Canvas Fill Style<br/><br/>",
-        "ui_directory_readStyle": "<br/>Reading Order<br/><br/>",
-        "ui_directory_timeUnits": "<br/>Unit Duration<br/><br/>",
-        "ui_directory_pauseTime": "<br/>Duration of Image<br/><br/>",
+        "ui_slider_directory": "<br/>Image Folder<br/><br/>",
+        "ui_slider_directory_sliderStyle": "<br/>Sliding Style<br/><br/>",
+        "ui_slider_directory_effect": "<br/>Sliding Effect<br/><br/>",
+        "ui_slider_directory_imgFitStyle": "<br/>Image Fill Style<br/><br/>",
+        "ui_slider_directory_imgBGColor": "<br/>Background Color of the Image<br/><br/>",
+        "ui_slider_directory_canvasBGColor": "<br/>Background Color of the Canvas<br/><br/>",
+        "ui_slider_directory_canvasFitStyle": "<br/>Canvas Fill Style<br/><br/>",
+        "ui_slider_directory_readStyle": "<br/>Reading Order<br/><br/>",
+        "ui_slider_directory_timeUnits": "<br/>Unit Duration<br/><br/>",
+        "ui_slider_directory_pauseTime": "<br/>Duration of Image<br/><br/>",
         "Dividing_line3": "------------------------------------------------------------------------------------------------------------------------",
-        "ui_video_Text": "<span>Support WebM format video, you can convert other formats to WebM by ffmpeg.</span>",
-        "ui_video_file": "<br/>Video File<br/><br/>",
-        "ui_video_progress": "<br/>Progress Bar<br/><br/>",
-        "ui_video_switch": "<br/>Prev/Next Video<br/><br/>",
-        "ui_video_isPlay": "<br/>Play/Pause Video<br/><br/>",
-        "ui_video_volume": "<br/>Video Volume<br/><br/>",
-        "ui_video_playBackRate": "<br/>Playback Rate<br/><br/>",
-        "ui_video_FitStyle": "<br/>Video Fill Style<br/><br/>",
-        "ui_video_BGColor": "<br/>Background Color of the Video<br/><br/>",
+        "ui_slider_video_Text": "<span>Support WebM format video, you can convert other formats to WebM by ffmpeg.</span>",
+        "ui_slider_video_file": "<br/>Video File<br/><br/>",
+        "ui_slider_video_progress": "<br/>Progress Bar<br/><br/>",
+        "ui_slider_video_switch": "<br/>Prev/Next Video<br/><br/>",
+        "ui_slider_video_isPlay": "<br/>Play/Pause Video<br/><br/>",
+        "ui_slider_video_volume": "<br/>Video Volume<br/><br/>",
+        "ui_slider_video_playBackRate": "<br/>Playback Rate<br/><br/>",
+        "ui_slider_video_FitStyle": "<br/>Video Fill Style<br/><br/>",
+        "ui_slider_video_BGColor": "<br/>Background Color of the Video<br/><br/>",
         "Dividing_line4": "------------------------------------------------------------------------------------------------------------------------",
-        "ui_image_transform": "<br/><b>Background - Transform Setting</b><br/><br/>",
-        "ui_image_perspective": "<br/>perspective<br/><br/>",
-        "ui_image_width": "<br/>Width(%)<br/><br/>",
-        "ui_image_height": "<br/>Height(%)<br/><br/>",
-        "ui_image_isRotate3D": "<br/>3D Rotating?<br/><br/>",
-        "ui_image_degSize": "<br/>Angle Size<br/><br/>",
-        "ui_image_isBackgroundZoom": "<br/>Background Zoom Follow Audio?<br/><br/>",
-        "ui_image_filterBlur": "<br/>Background Blur Follow Audio?<br/><br/>",
+        "ui_slider_transform": "<br/><b>Background - Transform Setting</b><br/><br/>",
+        "ui_slider_perspective": "<br/>perspective<br/><br/>",
+        "ui_slider_width": "<br/>Width(%)<br/><br/>",
+        "ui_slider_height": "<br/>Height(%)<br/><br/>",
+        "ui_slider_isRotate3D": "<br/>3D Rotating?<br/><br/>",
+        "ui_slider_degSize": "<br/>Angle Size<br/><br/>",
+        "ui_slider_isBackgroundZoom": "<br/>Background Zoom Follow Audio?<br/><br/>",
+        "ui_slider_filterBlur": "<br/>Background Blur Follow Audio?<br/><br/>",
         "Dividing_line5": "------------------------------------------------------------------------------------------------------------------------",
-        "ui_audio_Text": "<br/><b>Background - Audio Settings</b><br/><br/>",
-        "ui_audio_file": "<br/>Audio File<br/><br/>",
-        "ui_audio_progress": "<br/>Progress Bar<br/><br/>",
-        "ui_audio_switch": "<br/>Prev/Next Audio<br/><br/>",
-        "ui_audio_isPlay": "<br/>Play/Pause Audio<br/><br/>",
-        "ui_audio_isLoop": "<br/>Looping Audio?<br/><br/>",
-        "ui_audio_volume": "<br/>Audio Volume<br/><br/>",
+        "ui_slider_audio_Text": "<br/><b>Background - Audio Settings</b><br/><br/>",
+        "ui_slider_audio_file": "<br/>Audio File<br/><br/>",
+        "ui_slider_audio_progress": "<br/>Progress Bar<br/><br/>",
+        "ui_slider_audio_switch": "<br/>Prev/Next Audio<br/><br/>",
+        "ui_slider_audio_isPlay": "<br/>Play/Pause Audio<br/><br/>",
+        "ui_slider_audio_isLoop": "<br/>Looping Audio?<br/><br/>",
+        "ui_slider_audio_volume": "<br/>Audio Volume<br/><br/>",
         "Dividing_line6": "------------------------------------------------------------------------------------------------------------------------",
         "ui_audioData_AudioText": "<h3><b>Audio</b></h3><small>Sets the audio parameters of the audio ring and audio bars.</small>",
         "ui_audioData_amplitude": "<br/>Audio Amplitude<br/><br/>",
@@ -4606,54 +4606,54 @@
         "ui_MENU_text": "<h3><b>菜单</b></h3><h6>选择要显示的插件选项。</h6>",
         "ui_MENU_mode": "<br/>插件列表<br/><br/>",
         "Dividing_line0": "------------------------------------------------------------------------------------------------------------------------",
-        "ui_BG_Text": "<h3><b>背景</b></h3><h6>设置背景相关的参数。目前支持纯色/线性、图片、</h6><h6>幻灯片和视频背景。</h6>",
-        "ui_BG_mode": "<br/>背景模式<br/><br/>",
-        "ui_BG_Color": "<br/>背景颜色<br/><br/>",
-        "ui_BG_isLinearGradient": "<br/>线性背景<br/><br/>",
-        "ui_BG_linearGradientColor1": "<br/>主要颜色<br/><br/>",
-        "ui_BG_linearGradientColor2": "<br/>次要颜色<br/><br/>",
-        "ui_BG_linearGradientDeg": "<br/>渐变角度<br/><br/>",
+        "ui_slider_Text": "<h3><b>背景</b></h3><h6>设置背景相关的参数。目前支持纯色/线性、图片、</h6><h6>幻灯片和视频背景。</h6>",
+        "ui_slider_mode": "<br/>背景模式<br/><br/>",
+        "ui_slider_color_color": "<br/>背景颜色<br/><br/>",
+        "ui_slider_color_isLinearGradient": "<br/>线性背景<br/><br/>",
+        "ui_slider_color_linearGradientColor1": "<br/>主要颜色<br/><br/>",
+        "ui_slider_color_linearGradientColor2": "<br/>次要颜色<br/><br/>",
+        "ui_slider_color_linearGradientDeg": "<br/>渐变角度<br/><br/>",
         "Dividing_line1": "------------------------------------------------------------------------------------------------------------------------",
-        "ui_BG_image": "<br/>背景图片<br/><br/>",
-        "ui_image_fillStyle": "<br/>背景填充方式<br/><br/>",
+        "ui_slider_wallpaper_file": "<br/>背景图片<br/><br/>",
+        "ui_slider_wallpaper_fillStyle": "<br/>背景填充方式<br/><br/>",
         "Dividing_line2": "------------------------------------------------------------------------------------------------------------------------",
-        "ui_directory": "<br/>背景文件夹<br/><br/>",
-        "ui_directory_sliderStyle": "<br/>滑动方式<br/><br/>",
-        "ui_directory_effect": "<br/>切换特效<br/><br/>",
-        "ui_directory_imgFitStyle": "<br/>图片填充方式<br/><br/>",
-        "ui_directory_imgBGColor": "<br/>图片背景颜色<br/><br/>",
-        "ui_directory_canvasFitStyle": "<br/>Canvas填充方式<br/><br/>",
-        "ui_directory_canvasBGColor": "<br/>Canvas背景颜色<br/><br/>",
-        "ui_directory_readStyle": "<br/>读取顺序<br/><br/>",
-        "ui_directory_timeUnits": "<br/>停留时间单位<br/><br/>",
-        "ui_directory_pauseTime": "<br/>背景停留时间<br/><br/>",
+        "ui_slider_directory": "<br/>背景文件夹<br/><br/>",
+        "ui_slider_directory_sliderStyle": "<br/>滑动方式<br/><br/>",
+        "ui_slider_directory_effect": "<br/>切换特效<br/><br/>",
+        "ui_slider_directory_imgFitStyle": "<br/>图片填充方式<br/><br/>",
+        "ui_slider_directory_imgBGColor": "<br/>图片背景颜色<br/><br/>",
+        "ui_slider_directory_canvasFitStyle": "<br/>Canvas填充方式<br/><br/>",
+        "ui_slider_directory_canvasBGColor": "<br/>Canvas背景颜色<br/><br/>",
+        "ui_slider_directory_readStyle": "<br/>读取顺序<br/><br/>",
+        "ui_slider_directory_timeUnits": "<br/>停留时间单位<br/><br/>",
+        "ui_slider_directory_pauseTime": "<br/>背景停留时间<br/><br/>",
         "Dividing_line3": "------------------------------------------------------------------------------------------------------------------------",
-        "ui_video_Text": "<span>支持WebM格式视频，你可以通过ffmpeg将其他格式转换成WebM。视频列表和转换具体方法详见创意工坊。</span>",
-        "ui_video_file": "<br/>视频文件<br/><br/>",
-        "ui_video_progress": "<br/>进度条<br/><br/>",
-        "ui_video_switch": "<br/>切换视频<br/><br/>",
-        "ui_video_isPlay": "<br/>播放/暂停视频<br/><br/>",
-        "ui_video_volume": "<br/>视频音量<br/><br/>",
-        "ui_video_playBackRate": "<br/>视频播放速度<br/><br/>",
-        "ui_video_FitStyle": "<br/>视频填充方式<br/><br/>",
-        "ui_video_BGColor": "<br/>视频背景颜色<br/><br/>",
+        "ui_slider_video_Text": "<span>支持WebM格式视频，你可以通过ffmpeg将其他格式转换成WebM。视频列表和转换具体方法详见创意工坊。</span>",
+        "ui_slider_video_file": "<br/>视频文件<br/><br/>",
+        "ui_slider_video_progress": "<br/>进度条<br/><br/>",
+        "ui_slider_video_switch": "<br/>切换视频<br/><br/>",
+        "ui_slider_video_isPlay": "<br/>播放/暂停视频<br/><br/>",
+        "ui_slider_video_volume": "<br/>视频音量<br/><br/>",
+        "ui_slider_video_playBackRate": "<br/>视频播放速度<br/><br/>",
+        "ui_slider_video_FitStyle": "<br/>视频填充方式<br/><br/>",
+        "ui_slider_video_BGColor": "<br/>视频背景颜色<br/><br/>",
         "Dividing_line4": "------------------------------------------------------------------------------------------------------------------------",
-        "ui_audio_Text": "<br/><b>背景 - 音频设置</b><br/><br/>",
-        "ui_audio_file": "<br/>音频文件<br/><br/>",
-        "ui_audio_progress": "<br/>进度条<br/><br/>",
-        "ui_audio_switch": "<br/>切换音频<br/><br/>",
-        "ui_audio_isPlay": "<br/>播放音频<br/><br/>",
-        "ui_audio_isLoop": "<br/>循环音频<br/><br/>",
-        "ui_audio_volume": "<br/>音频音量<br/><br/>",
+        "ui_slider_transform": "<br/><b>背景 - 变换设置</b><br/><br/>",
+        "ui_slider_perspective": "<br/>透视<br/><br/>",
+        "ui_slider_width": "<br/>宽度(%)<br/><br/>",
+        "ui_slider_height": "<br/>高度(%)<br/><br/>",
+        "ui_slider_isRotate3D": "<br/>3D旋转<br/><br/>",
+        "ui_slider_degSize": "<br/>角度偏移<br/><br/>",
+        "ui_slider_isBackgroundZoom": "<br/>背景跟随音频缩放<br/><br/>",
+        "ui_slider_filterBlur": "<br/>背景模糊跟随音频<br/><br/>",
         "Dividing_line5": "------------------------------------------------------------------------------------------------------------------------",
-        "ui_image_transform": "<br/><b>背景 - 变换设置</b><br/><br/>",
-        "ui_image_perspective": "<br/>透视<br/><br/>",
-        "ui_image_width": "<br/>宽度(%)<br/><br/>",
-        "ui_image_height": "<br/>高度(%)<br/><br/>",
-        "ui_image_isRotate3D": "<br/>3D旋转<br/><br/>",
-        "ui_image_degSize": "<br/>角度偏移<br/><br/>",
-        "ui_image_isBackgroundZoom": "<br/>背景跟随音频缩放<br/><br/>",
-        "ui_image_filterBlur": "<br/>背景模糊跟随音频<br/><br/>",
+        "ui_slider_audio_Text": "<br/><b>背景 - 音频设置</b><br/><br/>",
+        "ui_slider_audio_file": "<br/>音频文件<br/><br/>",
+        "ui_slider_audio_progress": "<br/>进度条<br/><br/>",
+        "ui_slider_audio_switch": "<br/>切换音频<br/><br/>",
+        "ui_slider_audio_isPlay": "<br/>播放音频<br/><br/>",
+        "ui_slider_audio_isLoop": "<br/>循环音频<br/><br/>",
+        "ui_slider_audio_volume": "<br/>音频音量<br/><br/>",
         "Dividing_line6": "------------------------------------------------------------------------------------------------------------------------",
         "ui_audioData_AudioText": "<h3><b>音频设置</b></h3><h6>设置音频相关的参数，影响音频圆环和音频条形。</h6>",
         "ui_audioData_amplitude": "<br/>音频振幅<br/><br/>",
@@ -5000,54 +5000,54 @@
         "ui_MENU_text": "<h3><b>菜單</b></h3><h6>選擇要顯示的插件選項。</h6>",
         "ui_MENU_mode": "<br/>插件列表<br/><br/>",
         "Dividing_line0": "------------------------------------------------------------------------------------------------------------------------",
-        "ui_BG_Text": "<h3><b>背景</b></h3><h6>設置背景相關的參數。目前支持純色/線性、圖片、</h6><h6>幻燈片和視頻背景。</h6>",
-        "ui_BG_mode": "<br/>背景模式<br/><br/>",
-        "ui_BG_Color": "<br/>背景顏色<br/><br/>",
-        "ui_BG_isLinearGradient": "<br/>線性背景<br/><br/>",
-        "ui_BG_linearGradientColor1": "<br/>主要顏色<br/><br/>",
-        "ui_BG_linearGradientColor2": "<br/>次要顏色<br/><br/>",
-        "ui_BG_linearGradientDeg": "<br/>漸變角度<br/><br/>",
+        "ui_slider_Text": "<h3><b>背景</b></h3><h6>設置背景相關的參數。目前支持純色/線性、圖片、</h6><h6>幻燈片和視頻背景。</h6>",
+        "ui_slider_mode": "<br/>背景模式<br/><br/>",
+        "ui_slider_color_color": "<br/>背景顏色<br/><br/>",
+        "ui_slider_color_isLinearGradient": "<br/>線性背景<br/><br/>",
+        "ui_slider_color_linearGradientColor1": "<br/>主要顏色<br/><br/>",
+        "ui_slider_color_linearGradientColor2": "<br/>次要顏色<br/><br/>",
+        "ui_slider_color_linearGradientDeg": "<br/>漸變角度<br/><br/>",
         "Dividing_line1": "------------------------------------------------------------------------------------------------------------------------",
-        "ui_BG_image": "<br/>背景圖片<br/><br/>",
-        "ui_image_fillStyle": "<br/>背景填充方式<br/><br/>",
+        "ui_slider_wallpaper_file": "<br/>背景圖片<br/><br/>",
+        "ui_slider_wallpaper_fillStyle": "<br/>背景填充方式<br/><br/>",
         "Dividing_line2": "------------------------------------------------------------------------------------------------------------------------",
-        "ui_directory": "<br/>背景文件夾<br/><br/>",
-        "ui_directory_sliderStyle": "<br/>滑動方式<br/><br/>",
-        "ui_directory_effect": "<br/>切換特效<br/><br/>",
-        "ui_directory_imgFitStyle": "<br/>圖片填充方式<br/><br/>",
-        "ui_directory_imgBGColor": "<br/>圖片背景顏色<br/><br/>",
-        "ui_directory_canvasFitStyle": "<br/>Canvas填充方式<br/><br/>",
-        "ui_directory_canvasBGColor": "<br/>Canvas背景顏色<br/><br/>",
-        "ui_directory_readStyle": "<br/>讀取順序<br/><br/>",
-        "ui_directory_timeUnits": "<br/>停留時間單位<br/><br/>",
-        "ui_directory_pauseTime": "<br/>背景停留時間<br/><br/>",
+        "ui_slider_directory": "<br/>背景文件夾<br/><br/>",
+        "ui_slider_directory_sliderStyle": "<br/>滑動方式<br/><br/>",
+        "ui_slider_directory_effect": "<br/>切換特效<br/><br/>",
+        "ui_slider_directory_imgFitStyle": "<br/>圖片填充方式<br/><br/>",
+        "ui_slider_directory_imgBGColor": "<br/>圖片背景顏色<br/><br/>",
+        "ui_slider_directory_canvasFitStyle": "<br/>Canvas填充方式<br/><br/>",
+        "ui_slider_directory_canvasBGColor": "<br/>Canvas背景顏色<br/><br/>",
+        "ui_slider_directory_readStyle": "<br/>讀取順序<br/><br/>",
+        "ui_slider_directory_timeUnits": "<br/>停留時間單位<br/><br/>",
+        "ui_slider_directory_pauseTime": "<br/>背景停留時間<br/><br/>",
         "Dividing_line3": "------------------------------------------------------------------------------------------------------------------------",
-        "ui_video_Text": "<h6>支持WebM格式視頻，妳可以通過ffmpeg將其他格式轉換成WebM。視頻列表和轉換具體方法詳見創意工坊。</h6>",
-        "ui_video_file": "<br/>視頻文件<br/><br/>",
-        "ui_video_progress": "<br/>進度條<br/><br/>",
-        "ui_video_switch": "<br/>切換視頻<br/><br/>",
-        "ui_video_isPlay": "<br/>播放/暫停視頻<br/><br/>",
-        "ui_video_volume": "<br/>視頻音量<br/><br/>",
-        "ui_video_playBackRate": "<br/>視頻播放速度<br/><br/>",
-        "ui_video_FitStyle": "<br/>視頻填充方式<br/><br/>",
-        "ui_video_BGColor": "<br/>視頻背景顏色<br/><br/>",
+        "ui_slider_video_Text": "<span>支持WebM格式視頻，妳可以通過ffmpeg將其他格式轉換成WebM。視頻列表和轉換具體方法詳見創意工坊。</span>",
+        "ui_slider_video_file": "<br/>視頻文件<br/><br/>",
+        "ui_slider_video_progress": "<br/>進度條<br/><br/>",
+        "ui_slider_video_switch": "<br/>切換視頻<br/><br/>",
+        "ui_slider_video_isPlay": "<br/>播放/暫停視頻<br/><br/>",
+        "ui_slider_video_volume": "<br/>視頻音量<br/><br/>",
+        "ui_slider_video_playBackRate": "<br/>視頻播放速度<br/><br/>",
+        "ui_slider_video_FitStyle": "<br/>視頻填充方式<br/><br/>",
+        "ui_slider_video_BGColor": "<br/>視頻背景顏色<br/><br/>",
         "Dividing_line4": "------------------------------------------------------------------------------------------------------------------------",
-        "ui_image_transform": "<br/><b>背景 - 變換設置</b><br/><br/>",
-        "ui_image_perspective": "<br/>透視<br/><br/>",
-        "ui_image_width": "<br/>寬度(%)<br/><br/>",
-        "ui_image_height": "<br/>高度(%)<br/><br/>",
-        "ui_image_isRotate3D": "<br/>3D旋轉<br/><br/>",
-        "ui_image_degSize": "<br/>角度偏移<br/><br/>",
-        "ui_image_isBackgroundZoom": "<br/>背景跟隨音頻縮放<br/><br/>",
-        "ui_image_filterBlur": "<br/>背景模糊跟隨音頻<br/><br/>",
+        "ui_slider_transform": "<br/><b>背景 - 變換設置</b><br/><br/>",
+        "ui_slider_perspective": "<br/>透視<br/><br/>",
+        "ui_slider_width": "<br/>寬度(%)<br/><br/>",
+        "ui_slider_height": "<br/>高度(%)<br/><br/>",
+        "ui_slider_isRotate3D": "<br/>3D旋轉<br/><br/>",
+        "ui_slider_degSize": "<br/>角度偏移<br/><br/>",
+        "ui_slider_isBackgroundZoom": "<br/>背景跟隨音頻縮放<br/><br/>",
+        "ui_slider_filterBlur": "<br/>背景模糊跟隨音頻<br/><br/>",
         "Dividing_line5": "------------------------------------------------------------------------------------------------------------------------",
-        "ui_audio_Text": "<br/><b>背景 - 音頻設置</b><br/><br/>",
-        "ui_audio_file": "<br/>音頻文件<br/><br/>",
-        "ui_audio_progress": "<br/>進度條<br/><br/>",
-        "ui_audio_switch": "<br/>切換音頻<br/><br/>",
-        "ui_audio_isPlay": "<br/>播放音頻<br/><br/>",
-        "ui_audio_isLoop": "<br/>循環音頻<br/><br/>",
-        "ui_audio_volume": "<br/>音頻音量<br/><br/>",
+        "ui_slider_audio_Text": "<br/><b>背景 - 音頻設置</b><br/><br/>",
+        "ui_slider_audio_file": "<br/>音頻文件<br/><br/>",
+        "ui_slider_audio_progress": "<br/>進度條<br/><br/>",
+        "ui_slider_audio_switch": "<br/>切換音頻<br/><br/>",
+        "ui_slider_audio_isPlay": "<br/>播放音頻<br/><br/>",
+        "ui_slider_audio_isLoop": "<br/>循環音頻<br/><br/>",
+        "ui_slider_audio_volume": "<br/>音頻音量<br/><br/>",
         "Dividing_line6": "------------------------------------------------------------------------------------------------------------------------",
         "ui_audioData_AudioText": "<h3><b>音頻設置</b></h3><h6>設置音頻相關的參數，影響音頻圓環和音頻條形。</h6>",
         "ui_audioData_amplitude": "<br/>音頻振幅<br/><br/>",
