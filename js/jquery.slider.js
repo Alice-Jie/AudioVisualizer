@@ -652,9 +652,23 @@
         prevImg.onload = function () {
             currantImg.onload = function () {
                 currantImg.addEventListener("animationend", function () {
-                    $(currantImg).css('animation', 'none 0s');
+                    $(prevImg).css({
+                        'animation': 'none 0s forwards',
+                        'z-index': -2
+                    });
+                    $(currantImg).css({
+                        'animation': 'none 0s forwards',
+                        'z-index': -1
+                    });
                 });
-                $(currantImg).css('animation', 'cover 5s ease-in-out');
+                $(prevImg).css({
+                    'animation': 'none 0s forwards',
+                    'z-index': -2
+                });
+                $(currantImg).css({
+                    'animation': 'cover 5s ease-in-out forwards',
+                    'z-index': -1
+                });
             };
         };
         // 更新图片信息
@@ -667,14 +681,21 @@
         prevImg.onload = function () {
             currantImg.onload = function () {
                 currantImg.addEventListener("animationend", function () {
-                    $(currantImg).css('animation', 'none 0s');
+                    $(prevImg).css({
+                        'animation': 'none 0s forwards',
+                        'z-index': -2
+                    });
+                    $(currantImg).css({
+                        'animation': 'none 0s forwards',
+                        'z-index': -1
+                    });
                 });
                 $(prevImg).css({
-                    'animation': 'none 0s',
+                    'animation': 'none 0s forwards',
                     'z-index': -2
                 });
                 $(currantImg).css({
-                    'animation': 'fade-in 5s ease-in-out',
+                    'animation': 'fade-in 5s ease-in-out forwards',
                     'z-index': -1
                 });
             };
@@ -690,20 +711,20 @@
             currantImg.onload = function () {
                 prevImg.addEventListener("animationend", function () {
                     $(prevImg).css({
-                        'animation': 'none 0s',
+                        'animation': 'none 0s forwards',
                         'z-index': -2
                     });
                     $(currantImg).css({
-                        'animation': 'none 0s',
+                        'animation': 'none 0s forwards',
                         'z-index': -1
                     });
                 });
                 $(prevImg).css({
-                    'animation': 'fade-out 5s ease-in-out',
+                    'animation': 'fade-out 5s ease-in-out forwards',
                     'z-index': -1
                 });
                 $(currantImg).css({
-                    'animation': 'none 0s',
+                    'animation': 'none 0s forwards',
                     'z-index': -2
                 });
             };
@@ -718,11 +739,23 @@
         prevImg.onload = function () {
             currantImg.onload = function () {
                 currantImg.addEventListener("animationend", function () {
-                    $(prevImg).css('animation', 'none 0s');
-                    $(currantImg).css('animation', 'none 0s');
+                    $(prevImg).css({
+                        'animation': 'none 0s forwards',
+                        'z-index': -2
+                    });
+                    $(currantImg).css({
+                        'animation': 'none 0s forwards',
+                        'z-index': -1
+                    });
                 });
-                $(prevImg).css('animation', 'shuffle-prev 5s ease-in-out');
-                $(currantImg).css('animation', 'shuffle-currant 5s ease-in-out');
+                $(prevImg).css({
+                    'animation': 'shuffle-prev 5s ease-in-out',
+                    'z-index': -2
+                });
+                $(currantImg).css({
+                    'animation': 'shuffle-currant 5s ease-in-out',
+                    'z-index': -1
+                });
             };
         };
         // 更新图片信息
@@ -735,11 +768,23 @@
         prevImg.onload = function () {
             currantImg.onload = function () {
                 currantImg.addEventListener("animationend", function () {
-                    $(prevImg).css('animation', 'none 0s');
-                    $(currantImg).css('animation', 'none 0s');
+                    $(prevImg).css({
+                        'animation': 'none 0s forwards',
+                        'z-index': -2
+                    });
+                    $(currantImg).css({
+                        'animation': 'none 0s forwards',
+                        'z-index': -1
+                    });
                 });
-                $(prevImg).css('animation', 'slider-prev 5s ease-in-out');
-                $(currantImg).css('animation', 'slider-currant 5s ease-in-out');
+                $(prevImg).css({
+                    'animation': 'slider-prev 5s ease-in-out forwards',
+                    'z-index': -2
+                });
+                $(currantImg).css({
+                    'animation': 'slider-currant 5s ease-in-out forwards',
+                    'z-index': -1
+                });
             };
         };
         // 更新图片信息
@@ -752,9 +797,23 @@
         prevImg.onload = function () {
             currantImg.onload = function () {
                 currantImg.addEventListener("animationend", function () {
-                    $(currantImg).css('animation', 'none 0s');
+                    $(prevImg).css({
+                        'animation': 'none 0s forwards',
+                        'z-index': -2
+                    });
+                    $(currantImg).css({
+                        'animation': 'none 0s forwards',
+                        'z-index': -1
+                    });
                 });
-                $(currantImg).css('animation', 'vertical-in 5s ease-in-out');
+                $(prevImg).css({
+                    'animation': 'none 0s forwards',
+                    'z-index': -2
+                });
+                $(currantImg).css({
+                    'animation': 'vertical-in 5s ease-in-out forwards',
+                    'z-index': -1
+                });
             };
         };
         // 更新图片信息
@@ -768,20 +827,20 @@
             currantImg.onload = function () {
                 prevImg.addEventListener("animationend", function () {
                     $(prevImg).css({
-                        'animation': 'none 0s',
+                        'animation': 'none 0s forwards',
                         'z-index': -2
                     });
                     $(currantImg).css({
-                        'animation': 'none 0s',
+                        'animation': 'none 0s forwards',
                         'z-index': -1
                     });
                 });
                 $(prevImg).css({
-                    'animation': 'vertical-out 5s ease-in-out',
+                    'animation': 'vertical-out 5s ease-in-out forwards',
                     'z-index': -1
                 });
                 $(currantImg).css({
-                    'animation': 'none 0s',
+                    'animation': 'none 0s forwards',
                     'z-index': -2
                 });
             };
@@ -796,9 +855,23 @@
         prevImg.onload = function () {
             currantImg.onload = function () {
                 currantImg.addEventListener("animationend", function () {
-                    $(currantImg).css('animation', 'none 0s');
+                    $(prevImg).css({
+                        'animation': 'none 0s forwards',
+                        'z-index': -2
+                    });
+                    $(currantImg).css({
+                        'animation': 'none 0s forwards',
+                        'z-index': -1
+                    });
                 });
-                $(currantImg).css('animation', 'zoom-in 5s ease-in-out');
+                $(prevImg).css({
+                    'animation': 'none 0s forwards',
+                    'z-index': -2
+                });
+                $(currantImg).css({
+                    'animation': 'zoom-in 5s ease-in-out forwards',
+                    'z-index': -1
+                });
             };
         };
         // 更新图片信息
@@ -812,20 +885,20 @@
             currantImg.onload = function () {
                 prevImg.addEventListener("animationend", function () {
                     $(prevImg).css({
-                        'animation': 'none 0s',
+                        'animation': 'none 0s forwards',
                         'z-index': -2
                     });
                     $(currantImg).css({
-                        'animation': 'none 0s',
+                        'animation': 'none 0s forwards',
                         'z-index': -1
                     });
                 });
                 $(prevImg).css({
-                    'animation': 'zoom-out 5s ease-in-out',
+                    'animation': 'zoom-out 5s ease-in-out forwards',
                     'z-index': -1
                 });
                 $(currantImg).css({
-                    'animation': 'none 0s',
+                    'animation': 'none 0s forwards',
                     'z-index': -2
                 });
             };
@@ -931,6 +1004,7 @@
             'height': canvasHeight,
             'object-fit': this.imgFit,
             'background-color': 'rgb(' + this.imgBGColor + ')',
+            'animation': 'none 0s forwards',
             'z-index': -2
         });  // prevImg CSS
         $(currantImg).css({
@@ -940,7 +1014,9 @@
             'width': canvasWidth,
             'height': canvasHeight,
             'object-fit': this.imgFit,
+            'animation': 'none 0s forwards',
             'background-color': 'rgb(' + this.imgBGColor + ')',
+
             'z-index': -1
         });  // currantImg CSS
 
@@ -1168,6 +1244,16 @@
             switch (this.effect) {
                 case 'none':
                     stopEffectTimer();
+                    prevImg.onload = function () {
+                    };
+                    currantImg.onload = function () {
+                    };
+                    prevImg.addEventListener("animationend", function () {
+                    });
+                    currantImg.addEventListener("animationend", function () {
+                    });
+                    $(prevImg).css('animation', 'none 0s forwards');
+                    $(currantImg).css('animation', 'none 0s forwards');
                     break;
                 case 'cover':
                     imgCover();
@@ -1198,6 +1284,16 @@
                     break;
                 default:
                     stopEffectTimer();
+                    prevImg.onload = function () {
+                    };
+                    currantImg.onload = function () {
+                    };
+                    prevImg.addEventListener("animationend", function () {
+                    });
+                    currantImg.addEventListener("animationend", function () {
+                    });
+                    $(prevImg).css('animation', 'none 0s forwards');
+                    $(currantImg).css('animation', 'none 0s forwards');
             }
         },
 
@@ -1209,6 +1305,10 @@
             switch (this.effect) {
                 case 'none':
                     stopEffectTimer();
+                    prevImg.onload = function () {
+                    };
+                    currantImg.onload = function () {
+                    };
                     break;
                 case 'cover':
                     canvasCover(this.canvasFit, this.canvasBGColor);
@@ -1239,6 +1339,10 @@
                     break;
                 default:
                     stopEffectTimer();
+                    prevImg.onload = function () {
+                    };
+                    currantImg.onload = function () {
+                    };
             }
         },
 
@@ -1616,6 +1720,7 @@
         /** 停止背景切换计时器 */
         stopSliderTimer: function () {
             timer && clearTimeout(timer);
+            stopEffectTimer();
             this.clearCanvas();
             this.delImg();
         },
