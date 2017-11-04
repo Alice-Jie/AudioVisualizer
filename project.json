@@ -4597,9 +4597,9 @@
         "ui_about_authorText": "<br/>Author：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
         "ui_about_emailText": "<br/>Email：909011298@qq.com<br/>",
-        "ui_about_versionText": "<br/>Version Number：0.6.3<br/>",
-        "ui_about_updateText": "<br/><span>Update Description：</span><br/><span>1.Slider plug-in: Improve slide function</span><br/><span>2.visualizer/logo/time plug-in: Add more transform options</span><br/><span>                           -- From Baidu translate.</span><br/>",
-        "ui_about_describeText": "<br/><span>Relevant Instructions：</span><br/><span>If you have better text translation, please contact me.</span><br/>",
+        "ui_about_versionText": "<br/>Version Number：0.6.4<br/>",
+        "ui_about_updateText": "<br/><span>Update Description：</span><br/><span>1.Slider plug-in: Rewriting Img sliding style algorithms</span><br/><span>2.Default audio: a little story</span><br/><span>                           -- From Baidu translate.</span><br/>",
+        "ui_about_describeText": "<br/><span>Relevant Instructions：</span><br/><span>Instead of adding more functionality, the subsequent update only improves existing functionality.</span><br/>",
         "ui_about_isQRcode": "<br/>Show QRcode?<br/><br/>"
       },
       "zh-chs": {
@@ -4991,9 +4991,9 @@
         "ui_about_authorText": "<br/>作者：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
         "ui_about_emailText": "<br/>Email：909011298@qq.com<br/>",
-        "ui_about_versionText": "<br/>版本号：0.6.3<br/>",
-        "ui_about_updateText": "<br/><span>更新说明：</span><br/><span>1、幻灯片插件：改进幻灯片功能</span><br/><span>2、可视化/标志/日期插件：添加更多变换选项</span><br/>",
-        "ui_about_describeText": "<br/><span>相关说明：</span><br/><span>由于项目工作量较大，难免会有部分BUG没有排查到。如果你发现了BUG，请移步到创意工坊描述BUG发生原因以及产生的结果。感谢大家长期以来的支持。</span><br/>",
+        "ui_about_versionText": "<br/>版本号：0.6.4<br/>",
+        "ui_about_updateText": "<br/><span>更新说明：</span><br/><span>1、幻灯片插件：重写Img切换样式算法</span><br/><span>2、默认音频：a little story</span><br/>",
+        "ui_about_describeText": "<br/><span>相关说明：</span><br/><span>不打算添加更多的功能，后续更新只对已有功能维护改进</span><br/>",
         "ui_about_isQRcode": "<br/>显示二维码<br/><br/>"
       },
       "zh-cht": {
@@ -5385,9 +5385,9 @@
         "ui_about_authorText": "<br/>作者：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
         "ui_about_emailText": "<br/>Email：909011298@qq.com<br/>",
-        "ui_about_versionText": "<br/>版本號：0.6.3<br/>",
-        "ui_about_updateText": "<br/><span>更新說明：</span><br/><span>1、幻燈片插件：改進幻燈片功能</span><br/><span>2、可視化/標誌/日期插件：添加更多變換選項</span><br/>",
-        "ui_about_describeText": "<br/><span>相關說明：</span><br/><span>由於項目工作量較大，難免會有部分BUG沒有排查到。如果妳發現了BUG，請移步到創意工坊描述BUG發生原因以及產生的結果。感謝大家長期以來的支持。</span><br/>",
+        "ui_about_versionText": "<br/>版本號：0.6.4<br/>",
+        "ui_about_updateText": "<br/><span>更新說明：</span><br/><span>1、幻燈片插件：重寫Img切換樣式算法</span><br/><span>2、默認音頻：a little story</span><br/>",
+        "ui_about_describeText": "<br/><span>相關說明：</span><br/><span>不打算添加更多的功能，後續更新只對已有功能維護改進</span><br/>",
         "ui_about_isQRcode": "<br/>顯示二維碼<br/><br/>"
       }
     },
@@ -5397,7 +5397,7 @@
   "tags": [
     "Relaxing"
   ],
-  "title": "[4K]Audio Visualizer v0.6.3(音频可视化)",
+  "title": "[4K]Audio Visualizer v0.6.4(音频可视化)",
   "type": "web",
   "visibility": "public",
   "workshopid": 921617616

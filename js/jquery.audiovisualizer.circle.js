@@ -475,55 +475,55 @@
         this.groupVelocity = options.groupVelocity;        // 群速度
         // 颜色参数
         this.colorMode = options.colorMode;                // 颜色模式
-        this.color = options.color;                        // 颜色
-        this.shadowColor = options.shadowColor;            // 阴影颜色
+        this.color = options.color;                        // 颜色(RGB)
+        this.shadowColor = options.shadowColor;            // 阴影颜色(RGB)
         this.shadowBlur = options.shadowBlur;              // 阴影大小
         this.shadowOverlay = options.shadowOverlay;        // 显示阴影
         this.isRandomColor = options.isRandomColor;        // 随机颜色开关
-        this.firstColor = options.firstColor;              // 起始颜色
-        this.secondColor = options.secondColor;            // 最终颜色
+        this.firstColor = options.firstColor;              // 起始颜色(RGB)
+        this.secondColor = options.secondColor;            // 最终颜色(RGB)
         this.isChangeBlur = options.isChangeBlur;          // 模糊变换开关
         this.hueRange = options.hueRange;                  // 色相范围
         this.saturationRange = options.saturationRange;    // 饱和度范围(%)
         this.lightnessRange = options.lightnessRange;      // 亮度范围(%)
         this.gradientOffset = options.gradientOffset;      // 旋转渐变效果
         // 基础参数
-        this.opacity = options.opacity;                    // 不透明度
-        this.radius = options.radius;                      // 圆环半径
+        this.opacity = options.opacity;                    // 不透明度(%)
+        this.radius = options.radius;                      // 圆环半径(%)
         this.pointNum = options.pointNum;                  // 点的数量
-        this.lineWidth = options.lineWidth;                // 线条粗细
+        this.lineWidth = options.lineWidth;                // 线条粗细(px)
         this.lineJoin = options.lineJoin;                  // 交互类型
-        this.innerDistance = options.innerDistance;        // 内环距离
-        this.outerDistance = options.outerDistance;        // 外环距离
-        this.ringRotation = options.ringRotation;          // 圆环旋转
+        this.innerDistance = options.innerDistance;        // 内环距离(px)
+        this.outerDistance = options.outerDistance;        // 外环距离(px)
+        this.ringRotation = options.ringRotation;          // 圆环旋转(deg)
         this.milliSec = options.milliSec;                  // 绘制间隔(ms)
         // 小球参数
         this.ballSpacer = options.ballSpacer;              // 小球间隔
-        this.ballDistance = options.ballDistance;          // 小球距离
-        this.ballSize = options.ballSize;                  // 小球大小
+        this.ballDistance = options.ballDistance;          // 小球距离(px)
+        this.ballSize = options.ballSize;                  // 小球大小(px)
         this.ballDirection = options.ballDirection;        // 小球方向
         this.bindRingRotation = options.bindRingRotation;  // 绑定圆环旋转
-        this.ballRotation = options.ballRotation;          // 小球旋转
+        this.ballRotation = options.ballRotation;          // 小球旋转(deg)
         // 坐标参数
-        this.offsetX = options.offsetX;                    // X坐标偏移
-        this.offsetY = options.offsetY;                    // Y坐标偏移
+        this.offsetX = options.offsetX;                    // X坐标偏移(%)
+        this.offsetY = options.offsetY;                    // Y坐标偏移(%)
         this.isClickOffset = options.isClickOffset;        // 鼠标坐标偏移
         // 变换参数
         this.isMasking = options.isMasking;                // 蒙版开关
-        this.maskOpacity = options.maskOpacity;            // 蒙版不透明度
-        this.perspective = options.perspective;            // 透视效果
+        this.maskOpacity = options.maskOpacity;            // 蒙版不透明度(%)
+        this.perspective = options.perspective;            // 透视效果(px)
         this.transformMode = options.transformMode;        // 变换模式
-        this.translateX = options.translateX;              // X轴变换
-        this.translateY = options.translateY;              // Y轴变换
+        this.translateX = options.translateX;              // X轴变换(%)
+        this.translateY = options.translateY;              // Y轴变换(%)
         this.width = options.width;                        // 平面宽度(%)
         this.height = options.height;                      // 平面高度(%)
-        this.skewX = options.skewX;                        // X轴倾斜转换
-        this.skewY = options.skewY;                        // Y轴倾斜转换
-        this.rotateX = options.rotateX;                    // X轴3D旋转
-        this.rotateY = options.rotateY;                    // Y轴3D旋转
-        this.rotateZ = options.rotateZ;                    // Z轴3D旋转
+        this.skewX = options.skewX;                        // X轴倾斜转换(deg)
+        this.skewY = options.skewY;                        // Y轴倾斜转换(deg)
+        this.rotateX = options.rotateX;                    // X轴3D旋转(deg)
+        this.rotateY = options.rotateY;                    // Y轴3D旋转(deg)
+        this.rotateZ = options.rotateZ;                    // Z轴3D旋转(deg)
         this.isRotate3D = options.isRotate3D;              // 是否3D旋转
-        this.degSize = options.degSize;                    // 角度大小
+        this.degSize = options.degSize;                    // 角度大小(deg)
         this.topLeftX = options.topLeftX;                  // 左上角X(%)
         this.topLeftY = options.topLeftY;                  // 左上角Y(%)
         this.topRightX = options.topRightX;                // 右上角X(%)
@@ -608,56 +608,56 @@
         groupVelocity: 3,            // 群速度
         // 颜色参数
         colorMode: 'monochrome',     // 颜色模式
-        color: '255,255,255',        // 颜色
-        shadowColor: '255,255,255',  // 阴影颜色
+        color: '255,255,255',        // 颜色(RGB)
+        shadowColor: '255,255,255',  // 阴影颜色(RGB)
         shadowBlur: 0,               // 阴影大小
         shadowOverlay: false,        // 显示阴影
         isRandomColor: true,         // 随机颜色变换
-        firstColor: '255,255,255',   // 起始颜色
-        secondColor: '255,0,0',      // 最终颜色
+        firstColor: '255,255,255',   // 起始颜色(RGB)
+        secondColor: '255,0,0',      // 最终颜色(RGB)
         isChangeBlur: false,         // 模糊颜色变换开关
         hueRange: 360,               // 色相范围
         saturationRange: 100,        // 饱和度范围(%)
         lightnessRange: 50,          // 亮度范围(%)
         gradientOffset: 0,           // 渐变效果偏移
         // 基础参数
-        opacity: 0.90,               // 不透明度
-        radius: 0.5,                 // 圆环半径
+        opacity: 0.90,               // 不透明度(%)
+        radius: 0.5,                 // 圆环半径(%)
         pointNum: 120,               // 点的数量
-        lineWidth: 5,                // 线条粗细
+        lineWidth: 5,                // 线条粗细(%)
         lineJoin: 'butt',            // 交汇类型
-        innerDistance: 0,            // 内环距离
-        outerDistance: 0,            // 外环距离
-        ringRotation: 0,             // 圆环旋转
+        innerDistance: 0,            // 内环距离(px)
+        outerDistance: 0,            // 外环距离(px)
+        ringRotation: 0,             // 圆环旋转(deg)
         milliSec: 30,                // 重绘间隔(ms)
         // 小球参数
         isBall: true,                // 显示小球
         ballSpacer: 3,               // 小球间隔
-        ballDistance: 50,            // 小球距离
-        ballSize: 3,                 // 小球大小
+        ballDistance: 50,            // 小球距离(px)
+        ballSize: 3,                 // 小球大小(px)
         ballDirection: 1,            // 小球方向
         bindRingRotation: false,     // 绑定圆环旋转
-        ballRotation: 0,             // 小球旋转
+        ballRotation: 0,             // 小球旋转(deg)
         // 坐标参数
-        offsetX: 0.5,                // X坐标偏移
-        offsetY: 0.5,                // Y坐标偏移
+        offsetX: 0.5,                // X坐标偏移(%)
+        offsetY: 0.5,                // Y坐标偏移(%)
         isClickOffset: false,        // 鼠标坐标偏移
         // 变换参数
         isMasking: false,            // 显示蒙版
-        maskOpacity: 0.25,           // 蒙版不透明度
-        perspective: 0,              // 透视效果
+        maskOpacity: 0.25,           // 蒙版不透明度(%)
+        perspective: 0,              // 透视效果(px)
         transformMode: 'value',      // 变换模式
         translateX: 0,               // X轴变换(%)
         translateY: 0,               // Y轴变换(%)
         width: 1.00,                 // 平面宽度(%)
         height: 1.00,                // 平面高度(%)
-        skewX: 0,                    // X轴倾斜转换
-        skewY: 0,                    // Y轴倾斜转换
-        rotateX: 0,                  // X轴3D旋转
-        rotateY: 0,                  // Y轴3D旋转
-        rotateZ: 0,                  // Z轴3D旋转
+        skewX: 0,                    // X轴倾斜转换(deg)
+        skewY: 0,                    // Y轴倾斜转换(deg)
+        rotateX: 0,                  // X轴3D旋转(deg)
+        rotateY: 0,                  // Y轴3D旋转(deg)
+        rotateZ: 0,                  // Z轴3D旋转(deg)
         isRotate3D: false,           // 是否3D旋转
-        degSize: 50,                 // 角度大小
+        degSize: 50,                 // 角度大小(deg)
         topLeftX: 0,                 // 左上角X(%)
         topLeftY: 0,                 // 左上角Y(%)
         topRightX: 0,                // 右上角X(%)
