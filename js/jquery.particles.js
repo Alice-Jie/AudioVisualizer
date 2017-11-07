@@ -1,5 +1,5 @@
 /*!
- * jQuery Particles plugin v0.0.8
+ * jQuery Particles plugin v0.0.9
  * reference: http://github.com/VincentGarreau/particles.js
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
@@ -7,7 +7,7 @@
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/10/19
+ * @date 2017/11/07
  */
 
 (function (global, factory) {
@@ -271,6 +271,7 @@
 
         // 基础参数
         this.number = options.number;                        // 粒子数量
+        this.milliSec = options.milliSec;                    // 重绘间隔(ms)
         this.isDensity = options.isDensity;                  // 粒子密度开关
         this.densityArea = options.densityArea;              // 粒子密度范围
         this.opacity = options.opacity;                      // 不透明度
@@ -359,6 +360,7 @@
     Particles.DEFAULTS = {
         // 基础参数
         number: 100,                 // 粒子数量
+        milliSec: 16,                // 重绘间隔(ms)
         isDensity: false,            // 粒子密度开关
         densityArea: 1000,           // 粒子密度范围
         opacity: 0.75,               // 不透明度
@@ -1057,11 +1059,27 @@
             }
         },
 
+        /** 更新粒子属性并绘制粒子 */
+        drawCanvas: function () {
+            this.updateParticlesArray();
+            this.clearCanvas();
+            for (let i = 0; i < particlesArray.length; i++) {
+                // 绘制粒子
+                this.drawParticles(particlesArray[i]);
+                // 绘制连线
+                if (this.linkEnable) {
+                    this.drawParticlesLine(i);
+                    this.interactivityLink && this.drawXYLine(mouseX, mouseY, this.linkDistance);
+                }
+            }
+        },
+
 
         /** 停止粒子计时器 */
         stopParticlesTimer: function () {
             if (timer) {
                 cancelAnimationFrame(timer);
+                clearInterval(timer);
             }
         },
 
@@ -1070,20 +1088,19 @@
             this.stopParticlesTimer();
             let that = this;
             // 开始绘制动画
-            timer = requestAnimationFrame(function animal() {
-                that.updateParticlesArray();
-                context.clearRect(0, 0, canvasWidth, canvasHeight);
-                for (let i = 0; i < particlesArray.length; i++) {
-                    // 绘制粒子
-                    that.drawParticles(particlesArray[i]);
-                    // 绘制连线
-                    if (that.linkEnable) {
-                        that.drawParticlesLine(i);
-                        that.interactivityLink && that.drawXYLine(mouseX, mouseY, that.linkDistance);
-                    }
-                }
-                timer = requestAnimationFrame(animal);
-            });
+            if (this.milliSec > 16) {
+                timer = setInterval(
+                    ()=> {
+                        this.drawCanvas();
+                    }, this.milliSec);
+            } else {
+                timer = requestAnimationFrame(
+                    function animal() {
+                        that.drawCanvas();
+                        timer = requestAnimationFrame(animal);
+                    });
+            }
+
         },
 
 
@@ -1147,7 +1164,7 @@
                         break;
                     case 'speed':
                     case 'speedRandom':
-                        particlesArray[i].speed = (this.speedRandom ? Math.random() : 1) * this.speed;
+                        particlesArray[i].speed = (this.speedRandom ? Math.max(Math.random(), 0.25) : 1) * this.speed;
                         break;
                     case 'isStraight':
                     case 'direction':
@@ -1211,6 +1228,10 @@
                 case 'isStraight':
                     this[property] = value;
                     this.setParticles(property);
+                    break;
+                case 'milliSec':
+                    this.milliSec = value;
+                    this.runParticlesTimer();
                     break;
                 // no default
             }

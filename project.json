@@ -3749,15 +3749,25 @@
         "min": 0,
         "value": 100
       },
-      "particles_isDensity": {
+      "particles_milliSec": {
         "order": 7004,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 7) && particles_isParticles.value",
+        "text": "ui_particles_milliSec",
+        "type": "slider",
+        "editable": true,
+        "max": 160,
+        "min": 16,
+        "value": 16
+      },
+      "particles_isDensity": {
+        "order": 7005,
         "condition": "false",
         "text": "ui_particles_isDensity",
         "type": "bool",
         "value": false
       },
       "particles_densityArea": {
-        "order": 7005,
+        "order": 7006,
         "condition": "false",
         "text": "ui_particles_densityArea",
         "type": "slider",
@@ -3766,7 +3776,7 @@
         "value": 1000
       },
       "particles_opacity": {
-        "order": 7006,
+        "order": 7007,
         "condition": "(MENU_mode.value == 1 || MENU_mode.value == 7) && particles_isParticles.value",
         "text": "ui_particles_opacity",
         "type": "slider",
@@ -3776,21 +3786,21 @@
         "value": 75
       },
       "particles_opacityRandom": {
-        "order": 7007,
+        "order": 7008,
         "condition": "(MENU_mode.value == 1 || MENU_mode.value == 7) && particles_isParticles.value",
         "text": "ui_particles_opacityRandom",
         "type": "bool",
         "value": true
       },
       "particles_isStroke": {
-        "order": 7008,
+        "order": 7009,
         "condition": "(MENU_mode.value == 1 || MENU_mode.value == 7) && particles_isParticles.value && particles_shapeType.value != 5",
         "text": "ui_particles_isStroke",
         "type": "bool",
         "value": false
       },
       "particles_lineWidth": {
-        "order": 7009,
+        "order": 7010,
         "condition": "(MENU_mode.value == 1 || MENU_mode.value == 7) && particles_isParticles.value && particles_shapeType.value != 5 && particles_isStroke.value",
         "text": "ui_particles_lineWidth",
         "type": "slider",
@@ -3800,7 +3810,7 @@
         "value": 2
       },
       "particles_isFill": {
-        "order": 7010,
+        "order": 7011,
         "condition": "(MENU_mode.value == 1 || MENU_mode.value == 7) && particles_isParticles.value && particles_shapeType.value != 5",
         "text": "ui_particles_isFill",
         "type": "bool",
@@ -4551,6 +4561,7 @@
         "ui_particles_basicText": "<br/><b>Particles - Basic Settings</b><br/><br/>",
         "ui_particles_isParticles": "<br/>Show Particles?<br/><br/>",
         "ui_particles_number": "<br/>Particles Numbers<br/><br/>",
+        "ui_particles_milliSec": "<br/>Redraw Interval<br/><br/>",
         "ui_particles_isDensity": "<br/>Particles Density?<br/><br/>",
         "ui_particles_densityArea": "<br/>Density Area<br/><br/>",
         "ui_particles_opacity": "<br/>Particles Opacity<br/><br/>",
@@ -4945,6 +4956,7 @@
         "ui_particles_basicText": "<br/><b>粒子 - 基础设置</b><br/><br/>",
         "ui_particles_isParticles": "<br/>显示粒子<br/><br/>",
         "ui_particles_number": "<br/>粒子数量<br/><br/>",
+        "ui_particles_milliSec": "<br/>重绘间隔<br/><br/>",
         "ui_particles_isDensity": "<br/>启用粒子密度<br/><br/>",
         "ui_particles_densityArea": "<br/>密度区域<br/><br/>",
         "ui_particles_opacity": "<br/>粒子不透明度<br/><br/>",
@@ -5339,6 +5351,7 @@
         "ui_particles_basicText": "<br/><b>粒子 - 基礎設置</b><br/><br/>",
         "ui_particles_isParticles": "<br/>顯示粒子<br/><br/>",
         "ui_particles_number": "<br/>粒子數量<br/><br/>",
+        "ui_particles_milliSec": "<br/>重繪間隔<br/><br/>",
         "ui_particles_isDensity": "<br/>啟用粒子密度<br/><br/>",
         "ui_particles_densityArea": "<br/>密度區域<br/><br/>",
         "ui_particles_opacity": "<br/>粒子不透明度<br/><br/>",

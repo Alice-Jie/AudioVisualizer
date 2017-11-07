@@ -2470,6 +2470,10 @@
             if (properties.particles_number) {
                 wallpaper.particles('addParticles', properties.particles_number.value);
             }
+            // 重绘间隔
+            if (properties.particles_milliSec) {
+                wallpaper.particles('set', 'milliSec', properties.particles_milliSec.value);
+            }
             // 粒子密度开关
             if (properties.particles_isDensity) {
                 wallpaper.particles('set', 'isDensity', properties.particles_isDensity.value);
