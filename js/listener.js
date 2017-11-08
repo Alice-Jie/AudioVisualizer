@@ -355,6 +355,25 @@
     }
 
     /**
+     * 设置衔接模式
+     *
+     * @param  {int} n 衔接模式对应值
+     * @return {string} 衔接模式标识串
+     */
+    function setConnectionMode(n) {
+        switch (n) {
+            case 1:
+                return 'none';
+            case 2:
+                return 'connection';
+            case 3:
+                return 'center';
+            default:
+                return 'connection';
+        }
+    }
+
+    /**
      * 设置变换样式
      *
      * @param  {int} n 变换样式对应值
@@ -1466,6 +1485,18 @@
             if (properties.circle_lineJoin) {
                 wallpaper.visualizerCircle('set', 'lineJoin', setLineJoin(properties.circle_lineJoin.value));
             }
+            // 衔接模式
+            if (properties.circle_connectionMode) {
+                wallpaper.visualizerCircle('set', 'connectionMode', setConnectionMode(properties.circle_connectionMode.value));
+            }
+            // 起始角度
+            if (properties.circle_initialAngle) {
+                wallpaper.visualizerCircle('set', 'initialAngle', properties.circle_initialAngle.value);
+            }
+            // 终止角度
+            if (properties.circle_endAngle) {
+                wallpaper.visualizerCircle('set', 'endAngle', properties.circle_endAngle.value);
+            }
             // 圆环旋转
             if (properties.circle_ringRotation) {
                 wallpaper.visualizerCircle('set', 'ringRotation', properties.circle_ringRotation.value);
@@ -2459,12 +2490,7 @@
 
             // 显示粒子
             if (properties.particles_isParticles) {
-                if (properties.particles_isParticles.value) {
-                    wallpaper.particles('runParticlesTimer');
-                } else {
-                    wallpaper.particles('stopParticlesTimer')
-                        .particles('clearCanvas');
-                }
+                wallpaper.particles('set', 'isParticles', properties.particles_isParticles.value);
             }
             // 粒子数量
             if (properties.particles_number) {

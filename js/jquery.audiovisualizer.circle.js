@@ -1,12 +1,12 @@
 /*！
- * jQuery AudioVisualizer Circle plugin v0.0.18
+ * jQuery AudioVisualizer Circle plugin v0.0.19
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
  * - https://gitee.com/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/10/18
+ * @date 2017/11/09
  */
 
 (function (global, factory) {
@@ -209,13 +209,15 @@
     /**
      *  获取当前点对应的角度
      *
-     * @param  {int}           point 点的数量
-     * @param  {int}           index 音频数组索引
-     * @param  {(int | float)} angle 当前角度
+     * @param  {int}           point        点的数量
+     * @param  {int}           index        音频数组索引
+     * @param  {(int | float)} initialAngle 初始角度
+     * @param  {(int | float)} endAngle     终止角度
+     * @param  {(int | float)} angle        当前角度
      * @return {(int | float)} 当前点对应的角度
      */
-    function getDeg(point, index, angle) {
-        return (Math.PI / 180) * (90 + 360 / point * index + angle);
+    function getDeg(point, index, initialAngle, endAngle, angle) {
+        return (initialAngle + endAngle / point * index + angle) * (Math.PI / 180);
     }
 
     /**
@@ -496,6 +498,9 @@
         this.innerDistance = options.innerDistance;        // 内环距离(px)
         this.outerDistance = options.outerDistance;        // 外环距离(px)
         this.ringRotation = options.ringRotation;          // 圆环旋转(deg)
+        this.connectionMode = options.connectionMode;      // 衔接模式
+        this.initialAngle = options.initialAngle;          // 初始角度(deg)
+        this.endAngle = options.endAngle;                  // 终止角度(deg)
         this.milliSec = options.milliSec;                  // 绘制间隔(ms)
         // 小球参数
         this.ballSpacer = options.ballSpacer;              // 小球间隔
@@ -590,82 +595,85 @@
     // 默认参数
     VisualizerCircle.DEFAULTS = {
         // 音频参数
-        amplitude: 5,                // 振幅
-        decline: 0.2,                // 衰退值
-        peak: 1.5,                   // 峰值
+        amplitude: 5,                  // 振幅
+        decline: 0.2,                  // 衰退值
+        peak: 1.5,                     // 峰值
         // 圆环参数
-        isRing: true,                // 显示环
-        isStaticRing: false,         // 显示静态环
-        isInnerRing: true,           // 显示内环
-        isOuterRing: true,           // 显示外环
-        isLineTo: false,             // 是否连线
-        lineDirection: 'twoRing',    // 连线方向
-        isWave: false,               // 波浪模式
-        waveDirection: 'innerRing',  // 波浪方向
-        isSilenceEffect: false,      // 静默特效
-        respiratoryRate: 0.001,      // 呼吸频率
-        waveAmplitude: 0.5,          // 波振幅
-        groupVelocity: 3,            // 群速度
+        isRing: true,                  // 显示环
+        isStaticRing: false,           // 显示静态环
+        isInnerRing: true,             // 显示内环
+        isOuterRing: true,             // 显示外环
+        isLineTo: false,               // 是否连线
+        lineDirection: 'twoRing',      // 连线方向
+        isWave: false,                 // 波浪模式
+        waveDirection: 'innerRing',    // 波浪方向
+        isSilenceEffect: false,        // 静默特效
+        respiratoryRate: 0.001,        // 呼吸频率
+        waveAmplitude: 0.5,            // 波振幅
+        groupVelocity: 3,              // 群速度
         // 颜色参数
-        colorMode: 'monochrome',     // 颜色模式
-        color: '255,255,255',        // 颜色(RGB)
-        shadowColor: '255,255,255',  // 阴影颜色(RGB)
-        shadowBlur: 0,               // 阴影大小
-        shadowOverlay: false,        // 显示阴影
-        isRandomColor: true,         // 随机颜色变换
-        firstColor: '255,255,255',   // 起始颜色(RGB)
-        secondColor: '255,0,0',      // 最终颜色(RGB)
-        isChangeBlur: false,         // 模糊颜色变换开关
-        hueRange: 360,               // 色相范围
-        saturationRange: 100,        // 饱和度范围(%)
-        lightnessRange: 50,          // 亮度范围(%)
-        gradientOffset: 0,           // 渐变效果偏移
+        colorMode: 'monochrome',       // 颜色模式
+        color: '255,255,255',          // 颜色(RGB)
+        shadowColor: '255,255,255',    // 阴影颜色(RGB)
+        shadowBlur: 0,                 // 阴影大小
+        shadowOverlay: false,          // 显示阴影
+        isRandomColor: true,           // 随机颜色变换
+        firstColor: '255,255,255',     // 起始颜色(RGB)
+        secondColor: '255,0,0',        // 最终颜色(RGB)
+        isChangeBlur: false,           // 模糊颜色变换开关
+        hueRange: 360,                 // 色相范围
+        saturationRange: 100,          // 饱和度范围(%)
+        lightnessRange: 50,            // 亮度范围(%)
+        gradientOffset: 0,             // 渐变效果偏移
         // 基础参数
-        opacity: 0.90,               // 不透明度(%)
-        radius: 0.5,                 // 圆环半径(%)
-        pointNum: 120,               // 点的数量
-        lineWidth: 5,                // 线条粗细(%)
-        lineJoin: 'butt',            // 交汇类型
-        innerDistance: 0,            // 内环距离(px)
-        outerDistance: 0,            // 外环距离(px)
-        ringRotation: 0,             // 圆环旋转(deg)
-        milliSec: 30,                // 重绘间隔(ms)
+        opacity: 0.90,                 // 不透明度(%)
+        radius: 0.5,                   // 圆环半径(%)
+        pointNum: 120,                 // 点的数量
+        lineWidth: 5,                  // 线条粗细(%)
+        lineJoin: 'butt',              // 交汇类型
+        innerDistance: 0,              // 内环距离(px)
+        outerDistance: 0,              // 外环距离(px)
+        connectionMode: 'connection',  // 连接模式
+        initialAngle: 90,              // 初始角度(deg)
+        endAngle: 180,                 // 终止角度(deg)
+        ringRotation: 0,               // 圆环旋转(deg)
+        milliSec: 30,                  // 重绘间隔(ms)
         // 小球参数
-        isBall: true,                // 显示小球
-        ballSpacer: 3,               // 小球间隔
-        ballDistance: 50,            // 小球距离(px)
-        ballSize: 3,                 // 小球大小(px)
-        ballDirection: 1,            // 小球方向
-        bindRingRotation: false,     // 绑定圆环旋转
-        ballRotation: 0,             // 小球旋转(deg)
+        isBall: true,                  // 显示小球
+        ballSpacer: 3,                 // 小球间隔
+        ballDistance: 50,              // 小球距离(px)
+        ballSize: 3,                   // 小球大小(px)
+        ballDirection: 1,              // 小球方向
+        bindRingRotation: false,       // 绑定圆环旋转
+        ballRotation: 0,               // 小球旋转(deg)
         // 坐标参数
-        offsetX: 0.5,                // X坐标偏移(%)
-        offsetY: 0.5,                // Y坐标偏移(%)
-        isClickOffset: false,        // 鼠标坐标偏移
+        offsetX: 0.5,                  // X坐标偏移(%)
+        offsetY: 0.5,                  // Y坐标偏移(%)
+        isClickOffset: false,          // 鼠标坐标偏移
         // 变换参数
-        isMasking: false,            // 显示蒙版
-        maskOpacity: 0.25,           // 蒙版不透明度(%)
-        perspective: 0,              // 透视效果(px)
-        transformMode: 'value',      // 变换模式
-        translateX: 0,               // X轴变换(%)
-        translateY: 0,               // Y轴变换(%)
-        width: 1.00,                 // 平面宽度(%)
-        height: 1.00,                // 平面高度(%)
-        skewX: 0,                    // X轴倾斜转换(deg)
-        skewY: 0,                    // Y轴倾斜转换(deg)
-        rotateX: 0,                  // X轴3D旋转(deg)
-        rotateY: 0,                  // Y轴3D旋转(deg)
-        rotateZ: 0,                  // Z轴3D旋转(deg)
-        isRotate3D: false,           // 是否3D旋转
-        degSize: 50,                 // 角度大小(deg)
-        topLeftX: 0,                 // 左上角X(%)
-        topLeftY: 0,                 // 左上角Y(%)
-        topRightX: 0,                // 右上角X(%)
-        topRightY: 0,                // 右上角Y(%)
-        bottomRightX: 0,             // 右下角X(%)
-        bottomRightY: 0,             // 右下角Y(%)
-        bottomLeftX: 0,              // 左下角X(%)
-        bottomLeftY: 0               // 左下角Y(%)
+        isMasking: false,              // 显示蒙版
+        maskOpacity: 0.25,             // 蒙版不透明度(%)
+        perspective: 0,                // 透视效果(px)
+        transformMode: 'value',        // 变换模式
+        translateX: 0,                 // X轴变换(%)
+        translateY: 0,                 // Y轴变换(%)
+        width: 1.00,                   // 平面宽度(%)
+        height: 1.00,                  // 平面高度(%)
+        skewX: 0,                      // X轴倾斜转换(deg)
+        skewY: 0,                      // Y轴倾斜转换(deg)
+        rotateX: 0,                    // X轴3D旋转(deg)
+        rotateY: 0,                    // Y轴3D旋转(deg)
+        rotateZ: 0,                    // Z轴3D旋转(deg)
+        isRotate3D: false,             // 是否3D旋转
+        degSize: 50,                   // 角度大小(deg)
+        topLeftX: 0,                   // 左上角X(%)
+        topLeftY: 0,                   // 左上角Y(%)
+        topRightX: 0,                  // 右上角X(%)
+        topRightY: 0,                  // 右上角Y(%)
+        bottomRightX: 0,               // 右下角X(%)
+        bottomRightY: 0,               // 右下角Y(%)
+        bottomLeftX: 0,                // 左下角X(%)
+        bottomLeftY: 0                 // 左下角Y(%)
     };
 
     // 公共方法
@@ -882,7 +890,8 @@
             let pointArray = [];
             // 将点数组转换成坐标数组
             for (let i = 0; i < audioArray.length; i++) {
-                let deg = getDeg(audioArray.length, i, rotationAngle1);
+                let pointNum = Math.abs(this.endAngle % 360) === 0 ? audioArray.length : audioArray.length - 1;
+                let deg = getDeg(pointNum, i, this.initialAngle, this.endAngle, rotationAngle1);
                 let radius = this.radius * (minLength / 2);
                 // 根据半径、角度、原点坐标获得坐标数组
                 let point = getXY(radius, deg, originX, originY);
@@ -905,7 +914,8 @@
             let pointArray = [];
             // 将音频数组转换成坐标数组
             for (let i = 0; i < audioArray.length; i++) {
-                let deg = getDeg(audioArray.length, i, rotationAngle1);
+                let pointNum = Math.abs(this.endAngle % 360) === 0 ? audioArray.length : audioArray.length - 1;
+                let deg = getDeg(pointNum, i, this.initialAngle, this.endAngle, rotationAngle1);
                 let audioValue = audioArray[i] * this.amplitude;
                 let radius = this.radius * (minLength / 2)
                     + direction * (audioValue + distance);
@@ -929,7 +939,8 @@
             let pointArray = [];
             // 将点数组转换成坐标数组
             for (let i = 0; i < audioArray.length; i++) {
-                let deg = getDeg(audioArray.length, i, rotationAngle2);
+                let pointNum = Math.abs(this.endAngle % 360) === 0 ? audioArray.length : audioArray.length - 1;
+                let deg = getDeg(pointNum, i, this.initialAngle, this.endAngle, rotationAngle2);
                 let audioValue = audioArray[i] * this.amplitude;
                 let radius = this.radius * (minLength / 2)
                     + (this.outerDistance + this.ballDistance)
@@ -977,14 +988,28 @@
          *  @param {Array.<Object>} pointArray 坐标数组
          */
         drawRing: function (pointArray) {
-            let end = pointArray.length - 1;
             context.save();
-            // 首尾之间的连线
-            context.moveTo(pointArray[end].x, pointArray[end].y);
-            context.lineTo(pointArray[0].x, pointArray[0].y);
+            context.moveTo(pointArray[0].x, pointArray[0].y);
             // 坐标数组之间连线
             for (let i = 1; i < pointArray.length; i++) {
                 context.lineTo(pointArray[i].x, pointArray[i].y);
+            }
+            // 首尾之间的连线
+            switch (this.connectionMode) {
+                case 'none':
+                    context.stroke();
+                    context.closePath();
+                    context.beginPath();
+                    break;
+                case 'connection':
+                    context.lineTo(pointArray[0].x, pointArray[0].y);
+                    break;
+                case 'center':
+                    context.lineTo(canvasWidth * this.offsetX, canvasHeight * this.offsetY);
+                    context.lineTo(pointArray[0].x, pointArray[0].y);
+                    break;
+                default:
+                    context.lineTo(pointArray[0].x, pointArray[0].y);
             }
             context.restore();
         },
@@ -1020,25 +1045,41 @@
          */
         drawWave: function (pointArray1, pointArray2) {
             context.save();
-            // 圆环1首尾之间的连线
-            let end1 = pointArray1.length - 1;
-            context.beginPath();
-            context.moveTo(pointArray1[end1].x, pointArray1[end1].y);
-            context.lineTo(pointArray1[0].x, pointArray1[0].y);
-            // 顺指针连接圆环1路径
-            for (let i = 1; i < pointArray1.length; i++) {
-                context.lineTo(pointArray1[i].x, pointArray1[i].y);
+            if (this.connectionMode === 'connection') {
+                context.beginPath();
+                // 圆环1首尾顶点连线
+                let end1 = pointArray1.length - 1;
+                context.moveTo(pointArray1[end1].x, pointArray1[end1].y);
+                context.lineTo(pointArray1[0].x, pointArray1[0].y);
+                // 顺指针连接圆环1路径
+                for (let i = 1; i < pointArray1.length; i++) {
+                    context.lineTo(pointArray1[i].x, pointArray1[i].y);
+                }
+                context.closePath();
+                // 圆环2尾首顶点连线
+                let end2 = pointArray2.length - 1;
+                context.moveTo(pointArray2[0].x, pointArray2[0].y);
+                context.lineTo(pointArray2[end2].x, pointArray2[end2].y);
+                // 逆指针连接圆环2路径
+                for (let i = pointArray2.length - 2; i >= 0; i--) {
+                    context.lineTo(pointArray2[i].x, pointArray2[i].y);
+                }
+                context.closePath();
+            } else {
+                context.beginPath();
+                // 圆环1和圆环2初始顶点相连
+                context.moveTo(pointArray2[0].x, pointArray2[0].y);
+                context.lineTo(pointArray1[0].x, pointArray1[0].y);
+                // 顺指针连接线段1路径
+                for (let i = 1; i < pointArray1.length; i++) {
+                    context.lineTo(pointArray1[i].x, pointArray1[i].y);
+                }
+                // 逆指针连接线段2路径
+                for (let i = pointArray2.length - 1; i >= 0; i--) {
+                    context.lineTo(pointArray2[i].x, pointArray2[i].y);
+                }
+                context.closePath();
             }
-            context.closePath();
-            // 圆环2首尾之间的连线
-            let end2 = pointArray2.length - 1;
-            context.moveTo(pointArray2[0].x, pointArray2[0].y);
-            context.lineTo(pointArray2[end2].x, pointArray2[end2].y);
-            // 逆指针连接圆环2路径
-            for (let i = pointArray2.length - 2; i >= 0; i--) {
-                context.lineTo(pointArray2[i].x, pointArray2[i].y);
-            }
-            context.closePath();
             // 填充内部区域
             context.fill();
             context.restore();
@@ -1538,6 +1579,9 @@
                 case 'radius':
                 case 'innerDistance':
                 case 'outerDistance':
+                case 'connectionMode':
+                case 'initialAngle':
+                case 'endAngle':
                 case 'ringRotation':
                 case 'ballDistance':
                 case 'ballSize':

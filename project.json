@@ -991,8 +991,49 @@
         "min": -250,
         "value": 1
       },
-      "circle_ringRotation": {
+      "circle_connectionMode": {
         "order": 3208,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && ((circle_isRing.value && circle_colorMode.value != 3) || circle_isWave.value || circle_isLineTo.value)",
+        "text": "ui_circle_connectionMode",
+        "type": "combo",
+        "options": [
+          {
+            "label": "无/None",
+            "value": 1
+          },
+          {
+            "label": "衔接/Connection",
+            "value": 2
+          },
+          {
+            "label": "中心/Center",
+            "value": 3
+          }
+        ],
+        "value": 2
+      },
+      "circle_initialAngle": {
+        "order": 3209,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && ((circle_isRing.value && circle_colorMode.value != 3) || circle_isWave.value || circle_isLineTo.value)",
+        "text": "ui_circle_initialAngle",
+        "type": "slider",
+        "editable": true,
+        "max": 180,
+        "min": -180,
+        "value": 90
+      },
+      "circle_endAngle": {
+        "order": 3210,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && ((circle_isRing.value && circle_colorMode.value != 3) || circle_isWave.value || circle_isLineTo.value)",
+        "text": "ui_circle_endAngle",
+        "type": "slider",
+        "editable": true,
+        "max": 360,
+        "min": -360,
+        "value": 360
+      },
+      "circle_ringRotation": {
+        "order": 3211,
         "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && ((circle_isRing.value && circle_colorMode.value != 3) || circle_isWave.value || circle_isLineTo.value)",
         "text": "ui_circle_ringRotation",
         "type": "slider",
@@ -1002,7 +1043,7 @@
         "value": 0
       },
       "circle_milliSec": {
-        "order": 3209,
+        "order": 3212,
         "condition": "(MENU_mode.value == 1 || MENU_mode.value == 3) && ((circle_isRing.value && circle_colorMode.value != 3) || circle_isWave.value || circle_isLineTo.value || circle_isBall.value)",
         "text": "ui_circle_milliSec",
         "type": "slider",
@@ -4313,6 +4354,9 @@
         "ui_circle_lineJoin": "<br/>Line Join<br/><br/>",
         "ui_circle_innerDistance": "<br/>Inner Distance<br/><br/>",
         "ui_circle_outerDistance": "<br/>Outer Distance<br/><br/>",
+        "ui_circle_connectionMode": "<br/>Connection Mode<br/><br/>",
+        "ui_circle_initialAngle": "<br/>Initial Angle<br/><br/>",
+        "ui_circle_endAngle": "<br/>End Angle<br/><br/>",
         "ui_circle_ringRotation": "<br/>Rotating Ring<br/><br/>",
         "ui_circle_milliSec": "<br/>Redraw Interval<br/><br/>",
         "ui_circle_BallText": "<br/><b>Ring - Ball Settings</b><br/><br/>",
@@ -4707,6 +4751,9 @@
         "ui_circle_lineJoin": "<br/>线交互样式<br/><br/>",
         "ui_circle_innerDistance": "<br/>内环距离<br/><br/>",
         "ui_circle_outerDistance": "<br/>外环距离<br/><br/>",
+        "ui_circle_connectionMode": "<br/>衔接模式<br/><br/>",
+        "ui_circle_initialAngle": "<br/>起始角度<br/><br/>",
+        "ui_circle_endAngle": "<br/>终止角度<br/><br/>",
         "ui_circle_ringRotation": "<br/>旋转圆环<br/><br/>",
         "ui_circle_milliSec": "<br/>重绘间隔<br/><br/>",
         "ui_circle_BallText": "<br/><b>圆环 - 小球设置</b><br/><br/>",
@@ -5102,6 +5149,9 @@
         "ui_circle_lineJoin": "<br/>線交互樣式<br/><br/>",
         "ui_circle_innerDistance": "<br/>內環距離<br/><br/>",
         "ui_circle_outerDistance": "<br/>外環距離<br/><br/>",
+        "ui_circle_connectionMode": "<br/>銜接模式<br/><br/>",
+        "ui_circle_initialAngle": "<br/>起始角度<br/><br/>",
+        "ui_circle_endAngle": "<br/>終止角度<br/><br/>",
         "ui_circle_ringRotation": "<br/>旋轉圓環<br/><br/>",
         "ui_circle_milliSec": "<br/>重繪間隔<br/><br/>",
         "ui_circle_BallText": "<br/><b>圓環 - 小球設置</b><br/><br/>",

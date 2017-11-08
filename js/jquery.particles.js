@@ -1,5 +1,5 @@
 /*!
- * jQuery Particles plugin v0.0.9
+ * jQuery Particles plugin v0.0.10
  * reference: http://github.com/VincentGarreau/particles.js
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
@@ -7,7 +7,7 @@
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/11/07
+ * @date 2017/11/09
  */
 
 (function (global, factory) {
@@ -270,6 +270,7 @@
         this.$el = $(el);
 
         // 基础参数
+        this.isParticles = options.isParticles;              // 显示粒子
         this.number = options.number;                        // 粒子数量
         this.milliSec = options.milliSec;                    // 重绘间隔(ms)
         this.isDensity = options.isDensity;                  // 粒子密度开关
@@ -359,6 +360,7 @@
     // 默认参数
     Particles.DEFAULTS = {
         // 基础参数
+        isParticles: false,          // 显示粒子
         number: 100,                 // 粒子数量
         milliSec: 16,                // 重绘间隔(ms)
         isDensity: false,            // 粒子密度开关
@@ -1229,9 +1231,15 @@
                     this[property] = value;
                     this.setParticles(property);
                     break;
+                case 'isParticles':
                 case 'milliSec':
-                    this.milliSec = value;
-                    this.runParticlesTimer();
+                    this[property] = value;
+                    if (this.isParticles) {
+                        this.runParticlesTimer();
+                    } else {
+                        this.stopParticlesTimer();
+                        this.clearCanvas();
+                    }
                     break;
                 // no default
             }
