@@ -4652,8 +4652,8 @@
         "ui_about_authorText": "<br/>Author：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
         "ui_about_emailText": "<br/>Email：909011298@qq.com<br/>",
-        "ui_about_versionText": "<br/>Version Number：0.6.4<br/>",
-        "ui_about_updateText": "<br/><span>Update Description：</span><br/><span>1.Slider plug-in: Rewriting Img sliding style algorithms</span><br/><span>2.Default audio: a little story</span><br/><span>                           -- From Baidu translate.</span><br/>",
+        "ui_about_versionText": "<br/>Version Number：0.6.5<br/>",
+        "ui_about_updateText": "<br/><span>Update Description：</span><br/><span>1.Audiovisualizer-circle plugin: Adding Connection Mode, Initial Angle and End Angle parameter</span><br/><span>2.Particle plugin: reducing the number of low speed particles at random speeds</span><br/><span>                           -- From Baidu translate.</span><br/>",
         "ui_about_describeText": "<br/><span>Relevant Instructions：</span><br/><span>Instead of adding more functionality, the subsequent update only improves existing functionality.</span><br/>",
         "ui_about_isQRcode": "<br/>Show QRcode?<br/><br/>"
       },
@@ -5050,8 +5050,8 @@
         "ui_about_authorText": "<br/>作者：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
         "ui_about_emailText": "<br/>Email：909011298@qq.com<br/>",
-        "ui_about_versionText": "<br/>版本号：0.6.4<br/>",
-        "ui_about_updateText": "<br/><span>更新说明：</span><br/><span>1、幻灯片插件：重写Img切换样式算法</span><br/><span>2、默认音频：a little story</span><br/>",
+        "ui_about_versionText": "<br/>版本号：0.6.5<br/>",
+        "ui_about_updateText": "<br/><span>更新说明：</span><br/><span>1、音频圆环插件：加入衔接模式、起始角度、终止角度参数</span><br/><span>2、粒子插件：减少随机速度下低速粒子数量</span><br/>",
         "ui_about_describeText": "<br/><span>相关说明：</span><br/><span>不打算添加更多的功能，后续更新只对已有功能维护改进</span><br/>",
         "ui_about_isQRcode": "<br/>显示二维码<br/><br/>"
       },
@@ -5448,8 +5448,8 @@
         "ui_about_authorText": "<br/>作者：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
         "ui_about_emailText": "<br/>Email：909011298@qq.com<br/>",
-        "ui_about_versionText": "<br/>版本號：0.6.4<br/>",
-        "ui_about_updateText": "<br/><span>更新說明：</span><br/><span>1、幻燈片插件：重寫Img切換樣式算法</span><br/><span>2、默認音頻：a little story</span><br/>",
+        "ui_about_versionText": "<br/>版本號：0.6.5<br/>",
+        "ui_about_updateText": "<br/><span>更新說明：</span><br/><span>1、音頻圓環插件：加入銜接模式、起始角度、終止角度參數</span><br/><span>2、粒子插件：減少隨機速度下低速粒子數量</span><br/>",
         "ui_about_describeText": "<br/><span>相關說明：</span><br/><span>不打算添加更多的功能，後續更新只對已有功能維護改進</span><br/>",
         "ui_about_isQRcode": "<br/>顯示二維碼<br/><br/>"
       }
@@ -5460,7 +5460,7 @@
   "tags": [
     "Relaxing"
   ],
-  "title": "[4K]Audio Visualizer v0.6.4(音频可视化)",
+  "title": "[4K]Audio Visualizer v0.6.5(音频可视化)",
   "type": "web",
   "visibility": "public",
   "workshopid": 921617616

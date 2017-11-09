@@ -422,25 +422,25 @@
         setDirectionVector: function () {
             switch (this.direction) {
                 case 'none':
-                    return {x: 0, y: 0};
+                    return {vx: 0, vy: 0};
                 case 'top':
-                    return {x: 0, y: -1};
+                    return {vx: 0, vy: -1.5};
                 case 'top-right':
-                    return {x: 1, y: -1};
+                    return {vx: 1.5, vy: -1.5};
                 case 'right':
-                    return {x: 1, y: -0};
+                    return {vx: 1.5, vy: -0};
                 case 'bottom-right':
-                    return {x: 1, y: 1};
+                    return {vx: 1.5, vy: 1.5};
                 case 'bottom':
-                    return {x: 0, y: 1};
+                    return {vx: 0, vy: 1.5};
                 case 'bottom-left':
-                    return {x: -1, y: 1};
+                    return {vx: -1.5, vy: 1.5};
                 case 'left':
-                    return {x: -1, y: 0};
+                    return {vx: -1.5, vy: 0};
                 case 'top-left':
-                    return {x: -1, y: -1};
+                    return {vx: -1.5, vy: -1.5};
                 default:
-                    return {x: 0, y: 0};
+                    return {vx: 0, vy: 0};
             }
         },
 
@@ -454,11 +454,11 @@
         moveStraight: function (particles) {
             // 设置粒子的移动方向
             if (this.isStraight) {
-                particles.vx = this.setDirectionVector().x;
-                particles.vy = this.setDirectionVector().y;
+                particles.vx = this.setDirectionVector().vx;
+                particles.vy = this.setDirectionVector().vy;
             } else {
-                particles.vx = this.setDirectionVector().x + Math.random() - 0.5;
-                particles.vy = this.setDirectionVector().y + Math.random() - 0.5;
+                particles.vx = this.setDirectionVector().vx + Math.random() - 0.5;
+                particles.vy = this.setDirectionVector().vy + Math.random() - 0.5;
             }
         },
 
@@ -507,7 +507,7 @@
                 }
                 particlesArray[i].radius = (this.sizeRandom ? Math.random() : 1) * this.sizeValue;
                 particlesArray[i].linkColor = this.linkColorRandom ? Math.floor(360 * Math.random()) + ', 100%, 50%' : this.linkColor;
-                particlesArray[i].speed = (this.speedRandom ? Math.random() : 1) * this.speed;
+                particlesArray[i].speed = Math.max((this.speedRandom ? Math.random() : 1) * this.speed, 1);
                 this.moveStraight(particlesArray[i]);  // 设置粒子方向向量
                 checkOverlap(i);  // 检查粒子之间是否重叠
             }
@@ -768,6 +768,7 @@
                     }
                     // 粒子速度
                     tempArray[i].speed = (this.speedRandom ? Math.random() : 1) * this.speed;
+                    tempArray[i].speed = Math.max((this.speedRandom ? Math.random() : 1) * this.speed, 1);
                     this.moveStraight(tempArray[i]);
                 }
                 particlesArray = particlesArray.concat(tempArray);
@@ -1166,7 +1167,7 @@
                         break;
                     case 'speed':
                     case 'speedRandom':
-                        particlesArray[i].speed = (this.speedRandom ? Math.max(Math.random(), 0.25) : 1) * this.speed;
+                        particlesArray[i].speed = Math.max((this.speedRandom ? Math.random() : 1) * this.speed, 1);
                         break;
                     case 'isStraight':
                     case 'direction':
