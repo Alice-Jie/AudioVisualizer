@@ -426,8 +426,8 @@
 
     // 默认参数
     Logo.DEFAULTS = {
-        isLogo: false,               // 显示标志
         // 基础参数
+        isLogo: false,               // 显示标志
         isCircular: true,            // 圆形标志
         opacity: 0.9,                // 不透明度
         isStroke: false,             // 描边开关
@@ -446,7 +446,7 @@
         isRotation: false,           // 是否旋转
         rotationAngle: 0.5,          // 旋转角度
         milliSec: 30,                // 重绘间隔
-        // 标志滤镜
+        // 滤镜参数
         blur: 0,                     // 模糊
         brightness: 100,             // 亮度
         contrast: 100,               // 对比度

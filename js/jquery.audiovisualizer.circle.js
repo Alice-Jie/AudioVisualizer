@@ -635,7 +635,7 @@
         outerDistance: 0,              // 外环距离(px)
         connectionMode: 'connection',  // 连接模式
         initialAngle: 90,              // 初始角度(deg)
-        endAngle: 180,                 // 终止角度(deg)
+        endAngle: 360,                 // 终止角度(deg)
         ringRotation: 0,               // 圆环旋转(deg)
         milliSec: 30,                  // 重绘间隔(ms)
         // 小球参数

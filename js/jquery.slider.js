@@ -954,12 +954,14 @@
         this.isAudioPlay = options.isAudioPlay;            // 是否播放Audio
         this.isAudioLoop = options.isAudioLoop;            // 是否循环播放
         this.audioVolume = options.audioVolume;            // Audio音量
-        // 滤镜参数
-        this.isBackgourndBlur = options.isBackgourndBlur;  // 是否背景模糊
         // 变换参数
         this.isRotate3D = options.isRotate3D;              // 是否3D旋转
-
+        this.degSize = options.degSize;                    // 角度大小
         this.isBackgroundZoom = options.isBackgroundZoom;  // 是否背景缩放
+        this.isBackgourndBlur = options.isBackgourndBlur;  // 是否背景模糊
+        this.perspective = options.perspective;            // 透视效果
+        this.width = options.width;                        // 平面宽度(%)
+        this.height = options.height;                      // 平面高度(%)
 
         // 创建并初始化canvas
         canvas = document.createElement('canvas');
@@ -1045,9 +1047,9 @@
 
     // 默认参数
     Slider.DEFAULTS = {
+        // 幻灯片参数
         sliderMode: 'wallpaper',       // 背景模式
         isLinearGradient: false,       // 线性背景开关
-        // 幻灯片参数
         sliderStyle: 'css',            // 背景切换模式
         readStyle: 'sequential',       // 读取模式
         timeUnits: 'sec',              // 时间单位
@@ -1057,28 +1059,26 @@
         imgBGColor: '255,255,255',     // IMG背景颜色
         canvasFit: 'fill',             // canvas适应方式
         canvasBGColor: '255,255,255',  // canvas背景颜色
-        // video参数
+        // Video参数
         videoProgress: 0,              // Video进度
         isVideoPlay: true,             // 是否播放Video
         videoVolume: 0.75,             // Video音量
-        playbackRate: 1.0,             // Video播放速度
+        playbackRate: 1.00,            // Video播放速度
         videoFit: 'fill',              // Video适应方式
         videoBGColor: '255,255,255',   // Video背景颜色
-        // audio参数
+        // Audio参数
         audioProgress: 0,              // Audio进度
         isAudioPlay: false,            // 是否播放Audio
         isAudioLoop: false,            // 是否循环播放
         audioVolume: 0.75,             // Audio音量
-        // 滤镜参数
-        isBackgroundBlur: false,       // 是否背景缩放
         // 变换参数
+        isRotate3D: false,             // 是否3D旋转
+        degSize: 5,                    // 角度大小
+        isBackgroundZoom: false,       // 是否背景模糊
+        isBackgroundBlur: false,       // 是否背景缩放
         perspective: 0,                // 透视效果
         width: 1.00,                   // 平面宽度(%)
-        height: 1.00,                  // 平面高度(%)
-        degSize: 5,                    // 角度大小
-        isRotate3D: false,             // 是否3D旋转
-        isBackgroundZoom: false        // 是否背景模糊
-
+        height: 1.00                   // 平面高度(%)
     };
 
     // 公共方法
@@ -1681,7 +1681,7 @@
 
         /** 改变滑动模式 */
         changeSliderStyle: function () {
-            if (this.sliderMode === 'Directory') {
+            if (this.sliderMode === 'directory') {
                 switch (this.sliderStyle) {
                     case 'css':
                         this.clearCanvas();
@@ -1701,7 +1701,7 @@
 
         /** 使用imgList当前图片 */
         changeSlider: function () {
-            if (this.sliderMode === 'Directory') {
+            if (this.sliderMode === 'directory') {
                 switch (this.sliderStyle) {
                     case 'css':
                         this.changeBackground();
@@ -1730,7 +1730,7 @@
             clearTimeout(timer);
             timer = setTimeout(
                 ()=> {
-                    if (this.sliderMode === 'Directory' && imgList.length > 1) {
+                    if (this.sliderMode === 'directory' && imgList.length > 1) {
                         // 更新oldIndex
                         oldIndex = imgIndex;
                         // 按读取顺序更新imgIndex
@@ -1758,7 +1758,7 @@
 
         /** 开始背景切换 */
         startSlider: function () {
-            if (this.sliderMode === 'Directory') {
+            if (this.sliderMode === 'directory') {
                 this.changeSliderStyle();
                 this.changeSlider();
                 this.runSliderTimer();
@@ -2023,21 +2023,21 @@
         /** 初始化模式所需要的环境 */
         initSlider: function () {
             switch (this.sliderMode) {
-                case 'Color':
+                case 'color':
                     this.delVideo();
                     this.stopSliderTimer();
                     this.isLinearGradient ? this.cssLinearGradient() : this.cssUserColor();
                     break;
-                case 'Wallpaper':
+                case 'wallpaper':
                     this.delVideo();
                     this.stopSliderTimer();
                     userImg ? this.cssUserImg() : this.cssDefaultImg();
                     break;
-                case 'Directory':
+                case 'directory':
                     this.delVideo();
                     this.startSlider();
                     break;
-                case 'Video':
+                case 'video':
                     this.stopSliderTimer();
                     this.addVideo();
                     userVideo ? this.videoSrcUserVideo() : this.videoSrcDefaultVideo();
@@ -2099,7 +2099,7 @@
                 case 'canvasFit':
                 case 'canvasBGColor':
                     this[property] = value;
-                    if (this.sliderMode === 'Directory' && this.sliderStyle === 'canvas') {
+                    if (this.sliderMode === 'directory' && this.sliderStyle === 'canvas') {
                         this.drawBackground();
                     }
                     break;
@@ -2111,7 +2111,7 @@
                 case 'sliderStyle':
                     this.sliderStyle = value;
                     this.changeSliderStyle();
-                    if (this.sliderMode === 'Directory') {
+                    if (this.sliderMode === 'directory') {
                         this.changeSlider();
                     }
                     break;

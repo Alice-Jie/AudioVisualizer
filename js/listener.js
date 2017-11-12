@@ -21,7 +21,7 @@
 
     // 背景/幻灯片/视频配置
     let slider = {
-        mode: 'Color',                // 背景模式
+        mode: 'wallpaper',            // 背景模式
         isLinearGradient: false,      // 线性开关
         Color: '255,255,255',         // 背景颜色
         GradientDeg: 120,             // 线性角度
@@ -986,23 +986,23 @@
                 // 初始化对应模式的所需环境
                 switch (properties.slider_mode.value) {
                     case 1:
-                        slider.mode = 'Color';
+                        slider.mode = 'color';
                         wallpaper.slider('set', 'sliderMode', slider.mode)
                             .slider('set', 'isLinearGradient', slider.isLinearGradient);
                         break;
                     case 2:
-                        slider.mode = 'Wallpaper';
+                        slider.mode = 'wallpaper';
                         wallpaper.slider('set', 'sliderMode', slider.mode);
                         break;
                     case 3:
-                        slider.mode = 'Directory';
+                        slider.mode = 'directory';
                         wallpaper.slider('set', 'sliderMode', slider.mode)
                             .slider('set', 'sliderStyle', directory.sliderStyle)
                             .slider('set', 'timeUnits', directory.timeUnits)
                             .slider('set', 'pauseTime', directory.pauseTime);
                         break;
                     case 4:
-                        slider.mode = 'Video';
+                        slider.mode = 'video';
                         wallpaper.slider('set', 'sliderMode', slider.mode);
                         break;
                     // no default
@@ -1016,14 +1016,14 @@
             if (properties.slider_color_color) {
                 slider.Color = getColor(properties.slider_color_color.value);
                 wallpaper.slider('setUserColor', slider.Color);
-                if (slider.mode === 'Color') {
+                if (slider.mode === 'color') {
                     wallpaper.slider('cssUserColor');
                 }
             }
             // 线性颜色开关
             if (properties.slider_color_isLinearGradient) {
                 slider.isLinearGradient = properties.slider_color_isLinearGradient.value;
-                if (slider.mode === 'Color') {
+                if (slider.mode === 'color') {
                     wallpaper.slider('set', 'isLinearGradient', slider.isLinearGradient);
                 }
             }
@@ -1031,7 +1031,7 @@
             if (properties.slider_color_linearGradientColor1) {
                 slider.GradientColor1 = getColor(properties.slider_color_linearGradientColor1.value);
                 wallpaper.slider('setUserLinearGradient', slider.GradientDeg, slider.GradientColor1, slider.GradientColor2);
-                if (slider.mode === 'Color' && slider.isLinearGradient) {
+                if (slider.mode === 'color' && slider.isLinearGradient) {
                     wallpaper.slider('cssLinearGradient');
                 }
             }
@@ -1039,7 +1039,7 @@
             if (properties.slider_color_linearGradientColor2) {
                 slider.GradientColor2 = getColor(properties.slider_color_linearGradientColor2.value);
                 wallpaper.slider('setUserLinearGradient', slider.GradientDeg, slider.GradientColor1, slider.GradientColor2);
-                if (slider.mode === 'Color' && slider.isLinearGradient) {
+                if (slider.mode === 'color' && slider.isLinearGradient) {
                     wallpaper.slider('cssLinearGradient');
                 }
             }
@@ -1047,7 +1047,7 @@
             if (properties.slider_color_linearGradientDeg) {
                 slider.GradientDeg = properties.slider_color_linearGradientDeg.value;
                 wallpaper.slider('setUserLinearGradient', slider.GradientDeg, slider.GradientColor1, slider.GradientColor2);
-                if (slider.mode === 'Color' && slider.isLinearGradient) {
+                if (slider.mode === 'color' && slider.isLinearGradient) {
                     wallpaper.slider('cssLinearGradient');
                 }
             }
@@ -1060,12 +1060,12 @@
                 if (properties.slider_wallpaper_file.value) {
                     slider.file = properties.slider_wallpaper_file.value;
                     wallpaper.slider('setUserImg', slider.file);
-                    if (slider.mode === 'Wallpaper') {
+                    if (slider.mode === 'wallpaper') {
                         wallpaper.slider('cssUserImg');
                     }
                 } else {
                     wallpaper.slider('setUserImg', '');
-                    if (slider.mode === 'Wallpaper') {
+                    if (slider.mode === 'wallpaper') {
                         wallpaper.slider('cssDefaultImg');
                     }
                 }
@@ -1080,14 +1080,14 @@
 
             // 幻灯片目录
             if (properties.slider_directory) {
-                if (slider.mode === 'Directory') {
+                if (slider.mode === 'directory') {
                     wallpaper.slider('changeSlider');
                 }
             }
             // 滑动样式
             if (properties.slider_directory_sliderStyle) {
                 directory.sliderStyle = setSliderStyle(properties.slider_directory_sliderStyle.value);
-                if (slider.mode === 'Directory') {
+                if (slider.mode === 'directory') {
                     wallpaper.slider('set', 'sliderStyle', directory.sliderStyle);
                 }
             }
@@ -1118,14 +1118,14 @@
             // 选择时间单位
             if (properties.slider_directory_timeUnits) {
                 directory.timeUnits = setTimeUnits(properties.slider_directory_timeUnits.value);
-                if (slider.mode === 'Directory') {
+                if (slider.mode === 'directory') {
                     wallpaper.slider('set', 'timeUnits', directory.timeUnits);
                 }
             }
             // 停留时间
             if (properties.slider_directory_pauseTime) {
                 directory.pauseTime = properties.slider_directory_pauseTime.value;
-                if (slider.mode === 'Directory') {
+                if (slider.mode === 'directory') {
                     wallpaper.slider('set', 'pauseTime', directory.pauseTime);
                 }
             }
@@ -1138,12 +1138,12 @@
                 if (properties.slider_video_file.value) {
                     video.file = properties.slider_video_file.value;
                     wallpaper.slider('setUserVideo', video.file);
-                    if (slider.mode === 'Video') {
+                    if (slider.mode === 'video') {
                         wallpaper.slider('videoSrcUserVideo');
                     }
                 } else {
                     wallpaper.slider('setUserVideo', '');
-                    if (slider.mode === 'Video') {
+                    if (slider.mode === 'video') {
                         wallpaper.slider('videoSrcDefaultVideo');
                     }
                 }
@@ -1151,7 +1151,7 @@
             // 视频进度
             if (properties.slider_video_progress) {
                 video.progress = properties.slider_video_progress.value / 100;
-                if (slider.mode === 'Video') {
+                if (slider.mode === 'video') {
                     wallpaper.slider('set', 'videoProgress', video.progress);
                 }
 
@@ -1177,7 +1177,7 @@
             // 视频切换播放/暂停
             if (properties.slider_video_isPlay) {
                 video.isPlay = properties.slider_video_isPlay.value;
-                if (slider.mode === 'Video') {
+                if (slider.mode === 'video') {
                     wallpaper.slider('set', 'isVideoPlay', video.isPlay);
                 }
             }

@@ -30,11 +30,18 @@ visualizerbars插件用于创建一个canvas，并绘制一个音频条形。从
 #### 参数列表：
 
 
+**音频参数：**
+
 | 名称 | 类型 | 默认| 描述
 |------|------|-----|-----
 amplitude | int | 5 | 音频条形组的振幅大小
 decline | float | 0.2 | 音频条形组变化灵敏度，最好在0.1~0.2之间
 peak | float | 1.5 | 音频数组所允许值上限
+
+**条形参数：**
+
+| 名称 | 类型 | 默认| 描述
+|------|------|-----|-----
 isLineTo | boolean | false | 音频连线开关
 isBars | boolean | false | 音频条形开关
 barsDirection | string | 'upperBars' | 音频条形成长方向:'upperBars'、'lowerBars'、'twoBars'
@@ -44,6 +51,11 @@ isSilenceEffect | boolean | false | 静默特效开关
 respiratoryRate | float | 0.001 | 音频条形呼吸频率
 waveAmplitude | float | 0.5 | 正弦波振幅
 groupVelocity | int | 3 | 正弦波群速度
+
+**颜色参数：**
+
+| 名称 | 类型 | 默认| 描述
+|------|------|-----|-----
 colorMode | string | 'monochrome' | 颜色模式标识字符串：'monochrome'、'colorTransformation'、'rainBow'
 color | string | '255,255,255' | RGB格式颜色，设置context.fillStyle、strokeStyle
 shadowColor | string | '255,255,255' | RGB格式颜色，设置context.shadowColor
@@ -57,6 +69,11 @@ hueRange | int | 360 | 	色相范围
 saturationRange | int | 100 | 饱和度范围(%)
 lightnessRange | int | 50 | 亮度范围(%)
 gradientOffset | int | 0 | 渐变效果偏移值
+
+**基础参数：**
+
+| 名称 | 类型 | 默认| 描述
+|------|------|-----|-----
 opacity | float | 0.90 | canvas的不透明度
 width | float | 0.5 | 音频条形的宽度大小
 height | int | 2 | 音频条形初始高度
@@ -65,11 +82,34 @@ lineWidth | int | 5 | 设置context.lineWidth
 lineJoin | string | 'butt' | 设置context.lineCap和context.lineJoin：'butt'、'square'、'round'
 barsRotation | int | 0 |  旋转音频条形组，负数为逆时针旋转，正数为顺时针旋转
 milliSec | int | 30 | 重绘音频条形组间隔(ms)
+
+**坐标参数：**
+
+| 名称 | 类型 | 默认| 描述
+|------|------|-----|-----
 offsetX | float | 0.5 | X坐标偏移系数，范围在0~1之间
 offsetY | float | 0.9 | Y坐标偏移系数，范围在0~1之间
 isClickOffset | boolean | false |  开启后，根据鼠标点击位置确定XY坐标偏移系数
+
+**变换参数：**
+
+| 名称 | 类型 | 默认| 描述
+|------|------|-----|-----
 isMasking | boolean | false | 蒙版显示开关
 maskOpacity | float | 0.25 | 蒙版不透明度
+perspective | int | 0| 透视效果距离，0为不启用透视效果
+transformMode | string | 'value' | 变换模式，分别为：'value'模式和'matrix3d'模式
+translateX | int | 0 | 调用css transform方法translateX(x)
+translateY | int | 0 | 调用css transform方法translateY(y)
+width | float | 0.0 | 调用css transform方法scale(width, height)
+height | float | 0.0 | 调用css transform方法scale(width, height)
+skewX | int | 0 | 调用css transform方法scaleX(x)
+skewY | int | 0 | 调用css transform方法scaleY(y)
+rotateX | int | 0 | 调用css transform方法rotateX(angle)
+rotateY | int | 0 | 调用css transform方法rotateY(angle)
+rotateZ | int | 0 | 调用css transform方法rotateZ(angle)
+isRotate3D | boolean | 0 | 启用音频圆环跟随鼠标3D旋转
+degSize | int | 50 | 启用3D旋转下音频圆环旋转幅度
 topLeftX | float | 0 | 扭曲目标左上角X
 topLeftY | float | 0 | 扭曲目标左上角Y
 topRightX | float | 0 | 扭曲目标右上角X
