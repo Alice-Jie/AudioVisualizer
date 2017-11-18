@@ -317,7 +317,8 @@
                     sinaWeather.weatherData.wind = weather.d1 + weather.p1 + '级';
                     (callback && typeof(callback) === "function") && callback();
                 } catch (e) {
-                    weatherStr = '非法城市地址';
+                    weatherStr = '读取天气信息失败，请切换到其他接口';
+                    // weatherStr = '非法城市地址';
                     console.error(e.message);
                 }
             },
