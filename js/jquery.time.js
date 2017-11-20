@@ -1,5 +1,5 @@
 /*!
- * jQuery time plugin v0.0.15
+ * jQuery time plugin v0.0.16
  * moment.js: http://momentjs.cn/
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
@@ -7,7 +7,7 @@
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/10/25
+ * @date 2017/11/20
  */
 
 (function (global, factory) {
@@ -120,6 +120,17 @@
             wind: '未知'          // 风向风力
         }
     };
+    // OpenWeatherMap
+    let openWeatherMap = {
+        basic: {
+            city: '未知'          // 城市
+        },
+        weatherData: {
+            weather: '未知',      // 天气情况
+            temperature: '-1℃',  // 温度情况
+            wind: '未知'          // 风向风力
+        }
+    };
 
     let city = '';
 
@@ -177,14 +188,70 @@
             dataType: "jsonp",
             success: function (result) {
                 if (result.status === 0) {
+                    let address = result.address.split('|');
                     if (!city) {
-                        // 返回 city + 市 （#-_-)┯━┯ (╯°口°)╯(┴—┴
-                        // city = result.address_detail.city;
-                        (callback && typeof(callback) === "function") && callback();
+                        // 若city为空则取IP所在城市
+                        city = address[2];
                     }
+                    (callback && typeof(callback) === "function") && callback();
                 } else {
                     weatherStr = 'IP查询失败';
                     console.error(result.status);
+                }
+            },
+            error: function (XMLHttpRequest) {
+                weatherStr = '错误' + XMLHttpRequest.status + ' ' + XMLHttpRequest.statusText;
+            }
+        });
+    }
+
+    /**
+     * 通过ipinfo.io获取信息
+     *
+     * @param {Function} callback 回调函数
+     */
+    function toIpInfo(callback) {
+        $.ajax({
+            url: 'https://ipinfo.io',
+            type: 'GET',
+            dataType: "json",
+            success: function (result) {
+                if (result.city) {
+                    if (!city) {
+                        city = result.city;
+                    }
+                    (callback && typeof(callback) === "function") && callback();
+                } else {
+                    weatherStr = 'IP查询失败';
+                    console.log(result);
+                }
+
+            },
+            error: function (XMLHttpRequest) {
+                weatherStr = '错误' + XMLHttpRequest.status + ' ' + XMLHttpRequest.statusText;
+            }
+        });
+    }
+
+    /**
+     * 通过ip-api获取信息
+     *
+     * @param {Function} callback 回调函数
+     */
+    function toIpApi(callback) {
+        $.ajax({
+            url: 'http://ip-api.com/json',
+            type: 'GET',
+            dataType: "json",
+            success: function (result) {
+                if (result.status === 'success') {
+                    if (!city) {
+                        city = result.city;
+                    }
+                    (callback && typeof(callback) === "function") && callback();
+                } else {
+                    weatherStr = 'IP查询失败';
+                    console.log(result);
                 }
             },
             error: function (XMLHttpRequest) {
@@ -222,6 +289,12 @@
                     + ' ' + sinaWeather.weatherData.weather
                     + ' ' + sinaWeather.weatherData.temperature
                     + ' ' + sinaWeather.weatherData.wind;
+            // OpenWeatherMap
+            case 'openWeatherMap':
+                return openWeatherMap.basic.city
+                    + ' ' + openWeatherMap.weatherData.weather
+                    + ' ' + openWeatherMap.weatherData.temperature
+                    + ' ' + openWeatherMap.weatherData.wind;
             default:
                 weatherStr = '读取天气数据中...';
         }
@@ -241,7 +314,6 @@
                 // 获取接口状态
                 if (result.HeWeather5[0].status === 'ok') {
                     // 获取天气信息
-                    heWeather.basic.cnty = result.HeWeather5[0].basic.cnty;
                     heWeather.basic.city = result.HeWeather5[0].basic.city;
                     heWeather.weatherData.weather = result.HeWeather5[0].now.cond.txt;
                     heWeather.weatherData.temperature = result.HeWeather5[0].now.tmp + '℃';
@@ -254,7 +326,7 @@
             },
             error: function (XMLHttpRequest) {
                 if (XMLHttpRequest.status === 412) {
-                    weatherStr = '错误' + XMLHttpRequest.status + '本日和风天气访问次数达到上限';
+                    weatherStr = '本日和风天气访问次数达到上限';
                 } else {
                     weatherStr = '错误' + XMLHttpRequest.status + ' ' + XMLHttpRequest.statusText;
                 }
@@ -277,7 +349,6 @@
                 if (result.status === 'success') {
                     // 获取天气信息
                     baiduWeather.basic.city = result.results[0].currentCity;
-                    baiduWeather.weatherData.date = result.results[0].weather_data[0].date;
                     baiduWeather.weatherData.weather = result.results[0].weather_data[0].weather;
                     baiduWeather.weatherData.temperature = result.results[0].weather_data[0].temperature;
                     baiduWeather.weatherData.wind = result.results[0].weather_data[0].wind;
@@ -288,8 +359,8 @@
                 }
             },
             error: function (XMLHttpRequest) {
-                if (XMLHttpRequest.status === 412) {
-                    weatherStr = '错误' + XMLHttpRequest.status + '本日百度天气访问次数达到上限';
+                if (XMLHttpRequest.status === 200) {
+                    weatherStr = '本日百度天气访问次数达到上限';
                 } else {
                     weatherStr = '错误' + XMLHttpRequest.status + ' ' + XMLHttpRequest.statusText;
                 }
@@ -328,6 +399,32 @@
         });
     }
 
+    /**
+     * 获取OpenWeatherMap信息
+     * @param {string} city     城市(China)
+     * @param {Function} callback 回调函数
+     */
+    function getOpenWeatherMap(city, callback) {
+        $.ajax({
+            dataType: 'json',
+            type: 'GET',
+            url: 'http://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=d255413fdfe47f77233403e36b39c33a',
+            success: (result)=> {
+                // 获取天气信息
+                // let fahrenheit = Math.round((result.main.temp - 273.15) * 1.8000 + 32.00);
+                let celsius = Math.round(result.main.temp - 273.15);
+                openWeatherMap.basic.city = result.name;
+                openWeatherMap.weatherData.weather = result.weather[0].main;
+                // openWeatherMap.weatherData.temperature = fahrenheit + '℉';
+                openWeatherMap.weatherData.temperature = celsius + '℃';
+                openWeatherMap.weatherData.wind = 'Wind:' + result.wind.deg + ' deg' + ' ' + result.wind.speed + ' speed';
+                (callback && typeof(callback) === "function") && callback();
+            },
+            error: function (XMLHttpRequest) {
+                weatherStr = '错误' + XMLHttpRequest.status + ' ' + XMLHttpRequest.statusText;
+            }
+        });
+    }
 
     /** 设置RGB增量 */
     function setRGBIncrement() {
@@ -657,6 +754,7 @@
         // 默认开启
         this.setupPointerEvents();
         this.runDateTimer();
+
     };
 
     // 默认参数
@@ -925,6 +1023,12 @@
                         weatherStr = setWeatherStr(this.weatherProvider);
                     });
                     break;
+                // openWeatherMap接口
+                case 'openWeatherMap':
+                    getOpenWeatherMap(city, ()=> {
+                        weatherStr = setWeatherStr(this.weatherProvider);
+                    });
+                    break;
                 default:
                     weatherStr = '读取天气数据中...';
             }
@@ -1110,9 +1214,10 @@
         /** 更新天气 */
         updateWeather: function () {
             city = this.currentCity;
-            toSinaIP(()=> {
-                this.getWeather(city);
-            });
+            // toSinaIP(()=> this.getWeather(city));
+            // toBaiduIP(()=> this.getWeather(city));
+            // toIpInfo(()=> this.getWeather(city));
+            toIpApi(()=> this.getWeather(city));
         },
 
         /** 停止天气计时器 */

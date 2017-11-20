@@ -542,6 +542,8 @@
                 return 'baidu';
             case 3:
                 return 'sina';
+            case 4:
+                return 'openWeatherMap';
             default:
                 return 'heWeather';
         }

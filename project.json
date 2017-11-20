@@ -3450,6 +3450,10 @@
           {
             "label": "新浪天气",
             "value": 3
+          },
+          {
+            "label": "OpenWeatherMap",
+            "value": 4
           }
         ],
         "value": 2
