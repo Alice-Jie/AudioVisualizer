@@ -95,20 +95,22 @@
         redraw: 30                   // 重绘间隔(ms)
     };
     let date = {
-        colorMode: 'monochrome',     // 颜色模式
+        colorMode: 'monochrome',                  // 颜色模式
         // 颜色模式-单色
-        color: '255,255,255',        // 颜色
-        shadowColor: '255,255,255',  // 阴影颜色
-        shadowBlur: 0,               // 发光程度
+        color: '255,255,255',                     // 颜色
+        shadowColor: '255,255,255',               // 阴影颜色
+        shadowBlur: 0,                            // 发光程度
         // 颜色变换参数
-        isRandomColor: true,         // 随机颜色变换
-        firstColor: '255,255,255',   // 起始颜色
-        secondColor: '255,0,0',      // 最终颜色
-        isChangeBlur: false,         // 阴影颜色变换开关
+        isRandomColor: true,                      // 随机颜色变换
+        firstColor: '255,255,255',                // 起始颜色
+        secondColor: '255,0,0',                   // 最终颜色
+        isChangeBlur: false,                      // 阴影颜色变换开关
         // 天气参数
-        isInputCity: false,          // 查询城市天气
-        weatherProvider: '',         // 天气提供者
-        city: ''                     // 中国城市名
+        isInputCity: false,                       // 查询城市天气
+        weatherRegion: 'China',                   // 天气区域
+        globalWeatherProvider: 'openWeatherMap',  // 全球天气提供者
+        ChinaWeatherProvider: 'baidu',            // 中国天气提供者
+        city: ''                                  // 城市名
     };
 
     // 插件列表
@@ -529,12 +531,44 @@
     }
 
     /**
-     * 设置设置天气接口提供者
+     * 设置设置天气地区
+     *
+     * @param  {int} n 天气地区对应值
+     * @return {string} 天气地区标识串
+     */
+    function setWeatherRegion(n) {
+        switch (n) {
+            case 1:
+                return 'global';
+            case 2:
+                return 'China';
+            default:
+                return 'China';
+        }
+    }
+
+    /**
+     * 设置设置全球天气接口提供者
      *
      * @param  {int} n 天气接口提供者对应值
      * @return {string} 天气接口提供者标识串
      */
-    function setWeatherProvider(n) {
+    function setGlobalWeatherProvider(n) {
+        switch (n) {
+            case 1:
+                return 'openWeatherMap';
+            default:
+                return 'openWeatherMap';
+        }
+    }
+
+    /**
+     * 设置设置中国天气接口提供者
+     *
+     * @param  {int} n 天气接口提供者对应值
+     * @return {string} 天气接口提供者标识串
+     */
+    function setChinaWeatherProvider(n) {
         switch (n) {
             case 1:
                 return 'heWeather';
@@ -542,8 +576,6 @@
                 return 'baidu';
             case 3:
                 return 'sina';
-            case 4:
-                return 'openWeatherMap';
             default:
                 return 'heWeather';
         }
@@ -2209,7 +2241,6 @@
             // 时间日期参数
             //-----------------------------------------------------------
 
-
             // # 日期参数
             //-----------
 
@@ -2361,10 +2392,30 @@
             // # 天气参数
             //-----------
 
-            // 天气接口提供者
-            if (properties.date_weatherProvider) {
-                date.weatherProvider = setWeatherProvider(properties.date_weatherProvider.value);
-                wallpaper.time('set', 'weatherProvider', date.weatherProvider);
+            // 天气地区
+            if (properties.date_weatherRegion) {
+                date.weatherRegion = setWeatherRegion(properties.date_weatherRegion.value);
+                wallpaper.time('set', 'weatherRegion', date.weatherRegion);
+                if (date.weatherRegion === 'China') {
+                    wallpaper.time('set', 'weatherProvider', date.ChinaWeatherProvider);
+                } else {
+                    wallpaper.time('set', 'weatherProvider', date.globalWeatherProvider);
+                }
+            }
+            // 天气接口提供者(全球)
+            if (properties.date_weatherProvider_Global) {
+                date.globalWeatherProvider = setGlobalWeatherProvider(properties.date_weatherProvider_Global.value);
+                if (date.weatherRegion === 'global') {
+                    wallpaper.time('set', 'weatherProvider', date.globalWeatherProvider);
+                }
+
+            }
+            // 天气接口提供者(中国)
+            if (properties.date_weatherProvider_China) {
+                date.ChinaWeatherProvider = setChinaWeatherProvider(properties.date_weatherProvider_China.value);
+                if (date.weatherRegion === 'China') {
+                    wallpaper.time('set', 'weatherProvider', date.ChinaWeatherProvider);
+                }
             }
             // 中国天气城市
             if (properties.date_city) {

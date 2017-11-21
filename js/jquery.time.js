@@ -135,7 +135,7 @@
     let city = '';
 
     // 天气信息
-    let weatherStr = '读取天气数据中...';
+    let weatherStr = 'Reading the weather data...';
 
     let timer = null,         // 时间计时器
         weatherTimer = null;  // 天气计时器
@@ -261,46 +261,6 @@
     }
 
     /**
-     * 生成weatherStr信息
-     * 根据天气API提供者设置weatherStr信息
-     *
-     * @param {string} provider API提供者
-     * @return {string} 天气信息字符串
-     */
-    function setWeatherStr(provider) {
-        // 写入weatherStr
-        switch (provider) {
-            // 和风天气
-            case 'heWeather':
-                return heWeather.basic.city
-                    + ' ' + heWeather.weatherData.weather
-                    + ' ' + heWeather.weatherData.temperature
-                    + ' ' + heWeather.weatherData.wind;
-            // 百度天气
-            case 'baidu':
-                // RegExp (\([^\)]+\))
-                return baiduWeather.basic.city
-                    + ' ' + baiduWeather.weatherData.weather
-                    + ' ' + baiduWeather.weatherData.temperature
-                    + ' ' + baiduWeather.weatherData.wind;
-            // 新浪天气
-            case 'sina':
-                return sinaWeather.basic.city
-                    + ' ' + sinaWeather.weatherData.weather
-                    + ' ' + sinaWeather.weatherData.temperature
-                    + ' ' + sinaWeather.weatherData.wind;
-            // OpenWeatherMap
-            case 'openWeatherMap':
-                return openWeatherMap.basic.city
-                    + ' ' + openWeatherMap.weatherData.weather
-                    + ' ' + openWeatherMap.weatherData.temperature
-                    + ' ' + openWeatherMap.weatherData.wind;
-            default:
-                weatherStr = '读取天气数据中...';
-        }
-    }
-
-    /**
      * 获取和风天气信息
      * @param {string}   city     城市(China)
      * @param {Function} callback 回调函数
@@ -388,7 +348,7 @@
                     sinaWeather.weatherData.wind = weather.d1 + weather.p1 + '级';
                     (callback && typeof(callback) === "function") && callback();
                 } catch (e) {
-                    weatherStr = '读取天气信息失败，请切换到其他接口';
+                    weatherStr = '无法访问新浪天气服务器';
                     // weatherStr = '非法城市地址';
                     console.error(e.message);
                 }
@@ -401,7 +361,7 @@
 
     /**
      * 获取OpenWeatherMap信息
-     * @param {string} city     城市(China)
+     * @param {string} city       城市
      * @param {Function} callback 回调函数
      */
     function getOpenWeatherMap(city, callback) {
@@ -411,17 +371,16 @@
             url: 'http://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=d255413fdfe47f77233403e36b39c33a',
             success: (result)=> {
                 // 获取天气信息
-                // let fahrenheit = Math.round((result.main.temp - 273.15) * 1.8000 + 32.00);
+                let fahrenheit = Math.round((result.main.temp - 273.15) * 1.8000 + 32.00);
                 let celsius = Math.round(result.main.temp - 273.15);
                 openWeatherMap.basic.city = result.name;
-                openWeatherMap.weatherData.weather = result.weather[0].main;
-                // openWeatherMap.weatherData.temperature = fahrenheit + '℉';
-                openWeatherMap.weatherData.temperature = celsius + '℃';
-                openWeatherMap.weatherData.wind = 'Wind:' + result.wind.deg + ' deg' + ' ' + result.wind.speed + ' speed';
+                openWeatherMap.weatherData.weather = result.weather[0].description;
+                openWeatherMap.weatherData.temperature = fahrenheit + '℉' + '(' + celsius + '℃' + ')';
+                openWeatherMap.weatherData.wind = 'Wind ' + result.wind.speed + ' m/s';
                 (callback && typeof(callback) === "function") && callback();
             },
             error: function (XMLHttpRequest) {
-                weatherStr = '错误' + XMLHttpRequest.status + ' ' + XMLHttpRequest.statusText;
+                weatherStr = 'Error' + XMLHttpRequest.status + ' ' + XMLHttpRequest.statusText;
             }
         });
     }
@@ -675,6 +634,7 @@
         this.dateFontSize = options.dateFontSize;        // 日期字体大小
         this.distance = options.distance;                // 时间和日期之间距离
         // 天气参数
+        this.weatherRegion = options.weatherRegion;      // 天气区域
         this.weatherProvider = options.weatherProvider;  // 天气API提供者
         this.currentCity = options.currentCity;          // 天气信息
         // 坐标参数
@@ -787,6 +747,7 @@
         dateFontSize: 30,               // 日期字体大小
         distance: 0,                    // 时间与日期之间距离
         // 天气参数
+        weatherRegion: 'China',         // 天气区域
         weatherProvider: 'sina',        // 天气API提供者
         currentCity: '',                // 当前城市
         // 坐标参数
@@ -996,6 +957,45 @@
 
 
         /**
+         * 生成weatherStr信息
+         * 根据天气API提供者设置weatherStr信息
+         *
+         * @return {string} 天气信息字符串
+         */
+        setWeatherStr: function () {
+            // 写入weatherStr
+            switch (this.weatherProvider) {
+                // 和风天气
+                case 'heWeather':
+                    return heWeather.basic.city
+                        + ' ' + heWeather.weatherData.weather
+                        + ' ' + heWeather.weatherData.temperature
+                        + ' ' + heWeather.weatherData.wind;
+                // 百度天气
+                case 'baidu':
+                    // RegExp (\([^\)]+\))
+                    return baiduWeather.basic.city
+                        + ' ' + baiduWeather.weatherData.weather
+                        + ' ' + baiduWeather.weatherData.temperature
+                        + ' ' + baiduWeather.weatherData.wind;
+                // 新浪天气
+                case 'sina':
+                    return sinaWeather.basic.city
+                        + ' ' + sinaWeather.weatherData.weather
+                        + ' ' + sinaWeather.weatherData.temperature
+                        + ' ' + sinaWeather.weatherData.wind;
+                // OpenWeatherMap
+                case 'openWeatherMap':
+                    return openWeatherMap.basic.city
+                        + ' ' + openWeatherMap.weatherData.weather
+                        + ' ' + openWeatherMap.weatherData.temperature
+                        + ' ' + openWeatherMap.weatherData.wind;
+                default:
+                    weatherStr = this.weatherRegion === 'China' ? '未知天气接口' : 'Unknown weather interface';
+            }
+        },
+
+        /**
          * 获取天气信息
          * - 目前支持访问和风天气、百度天气、新浪天气
          * - 访问成功后将天气信息写入对应天气对象
@@ -1007,30 +1007,22 @@
             switch (this.weatherProvider) {
                 // 和风天气接口
                 case 'heWeather':
-                    getHeWeather(city, ()=> {
-                        weatherStr = setWeatherStr(this.weatherProvider);
-                    });
+                    getHeWeather(city, ()=> weatherStr = this.setWeatherStr());
                     break;
                 // 百度天气接口
                 case 'baidu':
-                    getBaiduWeather(city, ()=> {
-                        weatherStr = setWeatherStr(this.weatherProvider);
-                    });
+                    getBaiduWeather(city, ()=> weatherStr = this.setWeatherStr());
                     break;
                 // 新浪天气接口
                 case 'sina':
-                    getSinaWeather(city, ()=> {
-                        weatherStr = setWeatherStr(this.weatherProvider);
-                    });
+                    getSinaWeather(city, ()=> weatherStr = this.setWeatherStr());
                     break;
                 // openWeatherMap接口
                 case 'openWeatherMap':
-                    getOpenWeatherMap(city, ()=> {
-                        weatherStr = setWeatherStr(this.weatherProvider);
-                    });
+                    getOpenWeatherMap(city, ()=> weatherStr = this.setWeatherStr());
                     break;
                 default:
-                    weatherStr = '读取天气数据中...';
+                    weatherStr = this.weatherRegion === 'China' ? '未知天气接口' : 'Unknown weather interface';
             }
         },
 
@@ -1210,14 +1202,21 @@
                 }, milliSec);
         },
 
-
         /** 更新天气 */
         updateWeather: function () {
             city = this.currentCity;
-            // toSinaIP(()=> this.getWeather(city));
-            // toBaiduIP(()=> this.getWeather(city));
-            // toIpInfo(()=> this.getWeather(city));
-            toIpApi(()=> this.getWeather(city));
+            // 选择不同的IP获取方式
+            switch (this.weatherRegion) {
+                case 'global':
+                    // toIpInfo(()=> this.getWeather(city));
+                    toIpApi(()=> this.getWeather(city));
+                    break;
+                case 'China':
+                    // toBaiduIP(()=> this.getWeather(city));
+                    toSinaIP(()=> this.getWeather(city));
+                    break;
+                // no default
+            }
         },
 
         /** 停止天气计时器 */
@@ -1283,6 +1282,7 @@
                     break;
                 case 'isRandomColor':
                 case 'isChangeBlur':
+                case 'weatherRegion':
                 case 'isClickOffset':
                 case 'degSize':
                     this[property] = value;

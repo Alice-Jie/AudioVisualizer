@@ -3433,9 +3433,39 @@
         "text": "ui_date_weatherText",
         "type": "text"
       },
-      "date_weatherProvider": {
+      "date_weatherRegion": {
         "order": 6301,
         "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value && date_dateStyle.value == 8",
+        "text": "ui_date_weatherRegion",
+        "type": "combo",
+        "options": [
+          {
+            "label": "全球/Global",
+            "value": 1
+          },
+          {
+            "label": "中国/China",
+            "value": 2
+          }
+        ],
+        "value": 2
+      },
+      "date_weatherProvider_Global": {
+        "order": 6302,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value && date_dateStyle.value == 8 && date_weatherRegion.value == 1",
+        "text": "ui_date_weatherProvider",
+        "type": "combo",
+        "options": [
+          {
+            "label": "OpenWeatherMap",
+            "value": 1
+          }
+        ],
+        "value": 1
+      },
+      "date_weatherProvider_China": {
+        "order": 6303,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value && date_dateStyle.value == 8 && date_weatherRegion.value == 2",
         "text": "ui_date_weatherProvider",
         "type": "combo",
         "options": [
@@ -3450,16 +3480,12 @@
           {
             "label": "新浪天气",
             "value": 3
-          },
-          {
-            "label": "OpenWeatherMap",
-            "value": 4
           }
         ],
         "value": 2
       },
       "date_city": {
-        "order": 6302,
+        "order": 6304,
         "condition": "(MENU_mode.value == 1 || MENU_mode.value == 6) && date_isDate.value && date_dateStyle.value == 8",
         "text": "ui_date_city",
         "type": "textinput",
@@ -4569,8 +4595,9 @@
         "ui_date_distance": "<br/>Distance<br/><br/>",
         "Dividing_line11": "------------------------------------------------------------------------------------------------------------------------",
         "ui_date_weatherText": "<br/><b>Date - Weather Setting</b><br/>",
-        "ui_date_weatherProvider": "<br/>Weather Interface：<br/><br/>",
-        "ui_date_city": "<br/>Chinese City：<br/><br/>",
+        "ui_date_weatherRegion": "<br/>Weather Region<br/><br/>",
+        "ui_date_weatherProvider": "<br/>Weather Interface<br/><br/>",
+        "ui_date_city": "<br/>City：<br/><br/>",
         "Dividing_line12": "------------------------------------------------------------------------------------------------------------------------",
         "ui_date_coordinateText": "<br/><b>Date - Coordinate Settings</b><br/><br/>",
         "ui_date_offsetX": "<br/>Position X(%)<br/><br/>",
@@ -4967,8 +4994,9 @@
         "ui_date_distance": "<br/>距离<br/><br/>",
         "Dividing_line11": "------------------------------------------------------------------------------------------------------------------------",
         "ui_date_weatherText": "<br/><b>日期 - 天气设置</b><br/>",
-        "ui_date_weatherProvider": "<br/>天气接口：<br/><br/>",
-        "ui_date_city": "<br/>中国城市名：<br/><br/>",
+        "ui_date_weatherRegion": "<br/>天气区域<br/><br/>",
+        "ui_date_weatherProvider": "<br/>天气接口<br/><br/>",
+        "ui_date_city": "<br/>城市名<br/><br/>",
         "Dividing_line12": "------------------------------------------------------------------------------------------------------------------------",
         "ui_date_coordinateText": "<br/><b>日期 - 坐标设置</b><br/><br/>",
         "ui_date_offsetX": "<br/>X轴偏移<br/><br/>",
@@ -5365,8 +5393,9 @@
         "ui_date_distance": "<br/>距離<br/><br/>",
         "Dividing_line11": "------------------------------------------------------------------------------------------------------------------------",
         "ui_date_weatherText": "<br/><b>日期 - 天氣設置</b><br/>",
-        "ui_date_weatherProvider": "<br/>天氣接口：<br/><br/>",
-        "ui_date_city": "<br/>中國城市名：<br/><br/>",
+        "ui_date_weatherRegion": "<br/>天氣區域<br/><br/>",
+        "ui_date_weatherProvider": "<br/>天氣接口<br/><br/>",
+        "ui_date_city": "<br/>城市名<br/><br/>",
         "Dividing_line12": "------------------------------------------------------------------------------------------------------------------------",
         "ui_date_coordinateText": "<br/><b>日期 - 坐標設置</b><br/><br/>",
         "ui_date_offsetX": "<br/>X軸偏移<br/><br/>",
