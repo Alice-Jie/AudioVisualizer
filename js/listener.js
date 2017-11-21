@@ -576,6 +576,8 @@
                 return 'baidu';
             case 3:
                 return 'sina';
+            case 4:
+                return 'k780';
             default:
                 return 'heWeather';
         }

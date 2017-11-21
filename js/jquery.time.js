@@ -87,40 +87,7 @@
         incrementG = (color1.G - color2.G) / incrementMAX,
         incrementB = (color1.B - color2.B) / incrementMAX;
 
-    // 和风天气信息
-    let heWeather = {
-        basic: {
-            city: '未知'           // 城市
-        },
-        weatherData: {
-            weather: '未知',       // 天气情况
-            temperature: '-1℃',   // 温度情况
-            wind: '未知'           // 风向风力
-        }
-    };
-    // 百度天气信息
-    let baiduWeather = {
-        basic: {
-            city: '未知'           // 城市
-        },
-        weatherData: {
-            weather: '未知',       // 天气情况
-            temperature: '-1℃',   // 温度情况
-            wind: '未知'           // 风向风力
-        }
-    };
-    // 新浪天气信息
-    let sinaWeather = {
-        basic: {
-            city: '未知'          // 城市
-        },
-        weatherData: {
-            weather: '未知',      // 天气情况
-            temperature: '-1℃',  // 温度情况
-            wind: '未知'          // 风向风力
-        }
-    };
-    // OpenWeatherMap
+    // 全球天气
     let openWeatherMap = {
         basic: {
             city: '未知'          // 城市
@@ -130,9 +97,51 @@
             temperature: '-1℃',  // 温度情况
             wind: '未知'          // 风向风力
         }
-    };
+    };  // OpenWeatherMap
 
-    let city = '';
+    // 国内天气
+    let heWeather = {
+            basic: {
+                city: '未知'           // 城市
+            },
+            weatherData: {
+                weather: '未知',       // 天气情况
+                temperature: '-1℃',   // 温度情况
+                wind: '未知'           // 风向风力
+            }
+        },       // 和风天气
+        baiduWeather = {
+            basic: {
+                city: '未知'           // 城市
+            },
+            weatherData: {
+                weather: '未知',       // 天气情况
+                temperature: '-1℃',   // 温度情况
+                wind: '未知'           // 风向风力
+            }
+        },    // 百度天气
+        sinaWeather = {
+            basic: {
+                city: '未知'          // 城市
+            },
+            weatherData: {
+                weather: '未知',      // 天气情况
+                temperature: '-1℃',  // 温度情况
+                wind: '未知'          // 风向风力
+            }
+        },     // 新浪天气
+        k780Weather = {
+            basic: {
+                city: '未知'          // 城市
+            },
+            weatherData: {
+                weather: '未知',      // 天气情况
+                temperature: '-1℃',  // 温度情况
+                wind: '未知'          // 风向风力
+            }
+        };     // k780天气
+
+    let city = '';  // 城市名 留空则根据IP地址查询
 
     // 天气信息
     let weatherStr = 'Reading the weather data...';
@@ -260,6 +269,38 @@
         });
     }
 
+
+    /**
+     * 获取OpenWeatherMap信息
+     * @param {string} city       城市
+     * @param {Function} callback 回调函数
+     */
+    function getOpenWeatherMap(city, callback) {
+        $.ajax({
+            dataType: 'json',
+            type: 'GET',
+            url: 'http://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=d255413fdfe47f77233403e36b39c33a',
+            success: (result)=> {
+                // 获取天气信息
+                let fahrenheit = Math.round((result.main.temp - 273.15) * 1.8000 + 32.00);
+                let celsius = Math.round(result.main.temp - 273.15);
+                openWeatherMap.basic.city = result.name;
+                openWeatherMap.weatherData.weather = result.weather[0].description;
+                openWeatherMap.weatherData.temperature = fahrenheit + '℉' + '(' + celsius + '℃' + ')';
+                openWeatherMap.weatherData.wind = 'Wind ' + result.wind.speed + ' m/s';
+                (callback && typeof(callback) === "function") && callback();
+            },
+            error: function (XMLHttpRequest) {
+                if (XMLHttpRequest.status === 0) {
+                    weatherStr = 'connection timeouts, Try connecting again.';
+                } else {
+                    weatherStr = 'ErrorCode' + XMLHttpRequest.status + ' ' + XMLHttpRequest.statusText;
+                }
+
+            }
+        });
+    }
+
     /**
      * 获取和风天气信息
      * @param {string}   city     城市(China)
@@ -280,7 +321,7 @@
                     heWeather.weatherData.wind = result.HeWeather5[0].now.wind.dir + ' ' + result.HeWeather5[0].now.wind.sc + '级';
                     (callback && typeof(callback) === "function") && callback();
                 } else {
-                    weatherStr = '天气接口异常';
+                    weatherStr = '和风天气接口异常';
                     console.error(result.HeWeather5[0].status);
                 }
             },
@@ -288,7 +329,7 @@
                 if (XMLHttpRequest.status === 412) {
                     weatherStr = '本日和风天气访问次数达到上限';
                 } else {
-                    weatherStr = '错误' + XMLHttpRequest.status + ' ' + XMLHttpRequest.statusText;
+                    weatherStr = '错误代码' + XMLHttpRequest.status + ' ' + XMLHttpRequest.statusText;
                 }
             }
         });
@@ -314,7 +355,7 @@
                     baiduWeather.weatherData.wind = result.results[0].weather_data[0].wind;
                     (callback && typeof(callback) === "function") && callback();
                 } else {
-                    weatherStr = '天气接口异常';
+                    weatherStr = '百度天气接口异常';
                     console.error(result.status);
                 }
             },
@@ -322,7 +363,7 @@
                 if (XMLHttpRequest.status === 200) {
                     weatherStr = '本日百度天气访问次数达到上限';
                 } else {
-                    weatherStr = '错误' + XMLHttpRequest.status + ' ' + XMLHttpRequest.statusText;
+                    weatherStr = '错误代码' + XMLHttpRequest.status + ' ' + XMLHttpRequest.statusText;
                 }
             }
         });
@@ -348,7 +389,7 @@
                     sinaWeather.weatherData.wind = weather.d1 + weather.p1 + '级';
                     (callback && typeof(callback) === "function") && callback();
                 } catch (e) {
-                    weatherStr = '无法访问新浪天气服务器';
+                    weatherStr = '新浪天气接口异常';
                     // weatherStr = '非法城市地址';
                     console.error(e.message);
                 }
@@ -360,27 +401,31 @@
     }
 
     /**
-     * 获取OpenWeatherMap信息
-     * @param {string} city       城市
+     * 获取k780天气信息
+     * @param {string}   city     城市(China)
      * @param {Function} callback 回调函数
      */
-    function getOpenWeatherMap(city, callback) {
+    function getK780Weather(city, callback) {
         $.ajax({
             dataType: 'json',
             type: 'GET',
-            url: 'http://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=d255413fdfe47f77233403e36b39c33a',
+            url: 'http://api.k780.com:88/?app=weather.today&weaid=' + city + '&appkey=29829&sign=9e2af8a14e036efc4ab06384f6714600&format=json',
             success: (result)=> {
-                // 获取天气信息
-                let fahrenheit = Math.round((result.main.temp - 273.15) * 1.8000 + 32.00);
-                let celsius = Math.round(result.main.temp - 273.15);
-                openWeatherMap.basic.city = result.name;
-                openWeatherMap.weatherData.weather = result.weather[0].description;
-                openWeatherMap.weatherData.temperature = fahrenheit + '℉' + '(' + celsius + '℃' + ')';
-                openWeatherMap.weatherData.wind = 'Wind ' + result.wind.speed + ' m/s';
-                (callback && typeof(callback) === "function") && callback();
+                // 获取接口状态
+                if (result.success === '1') {
+                    // 获取天气信息
+                    k780Weather.basic.city = result.result.citynm;
+                    k780Weather.weatherData.weather = result.result.weather;
+                    k780Weather.weatherData.temperature = result.result.temperature;
+                    k780Weather.weatherData.wind = result.result.wind + ' ' + result.result.winp;
+                    (callback && typeof(callback) === "function") && callback();
+                } else {
+                    weatherStr = 'K780天气接口异常';
+                    console.error(result.msgid + ' ' + result.msg);
+                }
             },
             error: function (XMLHttpRequest) {
-                weatherStr = 'Error' + XMLHttpRequest.status + ' ' + XMLHttpRequest.statusText;
+                weatherStr = '错误代码' + XMLHttpRequest.status + ' ' + XMLHttpRequest.statusText;
             }
         });
     }
@@ -965,6 +1010,12 @@
         setWeatherStr: function () {
             // 写入weatherStr
             switch (this.weatherProvider) {
+                // OpenWeatherMap
+                case 'openWeatherMap':
+                    return openWeatherMap.basic.city
+                        + ' ' + openWeatherMap.weatherData.weather
+                        + ' ' + openWeatherMap.weatherData.temperature
+                        + ' ' + openWeatherMap.weatherData.wind;
                 // 和风天气
                 case 'heWeather':
                     return heWeather.basic.city
@@ -973,7 +1024,6 @@
                         + ' ' + heWeather.weatherData.wind;
                 // 百度天气
                 case 'baidu':
-                    // RegExp (\([^\)]+\))
                     return baiduWeather.basic.city
                         + ' ' + baiduWeather.weatherData.weather
                         + ' ' + baiduWeather.weatherData.temperature
@@ -984,12 +1034,12 @@
                         + ' ' + sinaWeather.weatherData.weather
                         + ' ' + sinaWeather.weatherData.temperature
                         + ' ' + sinaWeather.weatherData.wind;
-                // OpenWeatherMap
-                case 'openWeatherMap':
-                    return openWeatherMap.basic.city
-                        + ' ' + openWeatherMap.weatherData.weather
-                        + ' ' + openWeatherMap.weatherData.temperature
-                        + ' ' + openWeatherMap.weatherData.wind;
+                // k780天气
+                case 'k780':
+                    return k780Weather.basic.city
+                        + ' ' + k780Weather.weatherData.weather
+                        + ' ' + k780Weather.weatherData.temperature
+                        + ' ' + k780Weather.weatherData.wind;
                 default:
                     weatherStr = this.weatherRegion === 'China' ? '未知天气接口' : 'Unknown weather interface';
             }
@@ -1005,6 +1055,10 @@
          */
         getWeather: function (city) {
             switch (this.weatherProvider) {
+                // openWeatherMap接口
+                case 'openWeatherMap':
+                    getOpenWeatherMap(city, ()=> weatherStr = this.setWeatherStr());
+                    break;
                 // 和风天气接口
                 case 'heWeather':
                     getHeWeather(city, ()=> weatherStr = this.setWeatherStr());
@@ -1017,9 +1071,9 @@
                 case 'sina':
                     getSinaWeather(city, ()=> weatherStr = this.setWeatherStr());
                     break;
-                // openWeatherMap接口
-                case 'openWeatherMap':
-                    getOpenWeatherMap(city, ()=> weatherStr = this.setWeatherStr());
+                // K780天气接口
+                case 'k780':
+                    getK780Weather(city, ()=> weatherStr = this.setWeatherStr());
                     break;
                 default:
                     weatherStr = this.weatherRegion === 'China' ? '未知天气接口' : 'Unknown weather interface';
