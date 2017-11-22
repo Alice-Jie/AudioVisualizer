@@ -3459,6 +3459,10 @@
           {
             "label": "OpenWeatherMap",
             "value": 1
+          },
+          {
+            "label": "Yahoo Weather",
+            "value": 2
           }
         ],
         "value": 1
@@ -3482,7 +3486,7 @@
             "value": 3
           },
           {
-            "label": "国家气象局",
+            "label": "K780天气",
             "value": 4
           }
         ],

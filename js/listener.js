@@ -557,6 +557,8 @@
         switch (n) {
             case 1:
                 return 'openWeatherMap';
+            case 2:
+                return 'yahoo';
             default:
                 return 'openWeatherMap';
         }
