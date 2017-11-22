@@ -3218,7 +3218,7 @@
             "value": 7
           },
           {
-            "label": "天气",
+            "label": "Weather/天气",
             "value": 8
           }
         ],
@@ -4592,7 +4592,7 @@
         "ui_date_timeStyle": "<br/>Time Style<br/><br/>",
         "ui_date_dateStyle": "<br/>Date Style<br/><br/>",
         "ui_date_isFormat": "<br/>Format?<br/><br/>",
-        "ui_date_formatText": "<br/><span>Time format specification:</span><br/><span>YYYY: year MMM: month(non-numeric) </span><br/><span>MM: month(number)</span><br/><span>Do: day(non-numeric) DD: day(number)</span><br/><span>HH: hour(twenty-four-hour system)</span><br/><span> hh: hour(twelve-hour system)</span><br/><span>mm: Min ss: sec</span><br/><span>A: period of time dddd: week</span><br/><span>weather: China weather(cast)</span><br/><br/>",
+        "ui_date_formatText": "<br/><span>Time format specification:</span><br/><span>YYYY: year MMM: month(non-numeric) </span><br/><span>MM: month(number)</span><br/><span>Do: day(non-numeric) DD: day(number)</span><br/><span>HH: hour(twenty-four-hour system)</span><br/><span> hh: hour(twelve-hour system)</span><br/><span>mm: Min ss: sec</span><br/><span>A: period of time dddd: week</span><br/><span>weather:global weather or China weather</span><br/><br/>",
         "ui_date_userTimeStyle": "<br/>Time Style<br/><br/>",
         "ui_date_userDateStyle": "<br/>Date Style<br/><br/>",
         "ui_date_fontFamily": "<br/>Font Family<br/><br/>",
@@ -4691,8 +4691,8 @@
         "ui_about_authorText": "<br/>Author：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
         "ui_about_emailText": "<br/>Email：909011298@qq.com<br/>",
-        "ui_about_versionText": "<br/>Version Number：0.6.5<br/>",
-        "ui_about_updateText": "<br/><span>Update Description：</span><br/><span>1.Audiovisualizer-circle plugin: Adding Connection Mode, Initial Angle and End Angle parameter</span><br/><span>2.Particle plugin: reducing the number of low speed particles at random speeds</span><br/><span>                           -- From Baidu translate.</span><br/>",
+        "ui_about_versionText": "<br/>Version Number：0.6.6 Beta<br/>",
+        "ui_about_updateText": "<br/><span>Update Description：</span><br/><span>Testing new weather interfaces and reducing unnecessary queries.</span><br/><span>                           -- From Baidu translate.</span><br/>",
         "ui_about_describeText": "<br/><span>Relevant Instructions：</span><br/><span>Instead of adding more functionality, the subsequent update only improves existing functionality.</span><br/>",
         "ui_about_isQRcode": "<br/>Show QRcode?<br/><br/>"
       },
@@ -4991,7 +4991,7 @@
         "ui_date_timeStyle": "<br/>时间风格<br/><br/>",
         "ui_date_dateStyle": "<br/>日期风格<br/><br/>",
         "ui_date_isFormat": "<br/>格式化<br/><br/>",
-        "ui_date_formatText": "<br/><span>时间格式说明：</span><br/><span>YYYY：年</span><br/><span>MMM：月(非数字) MM：月(数字)</span><br/><span>Do：日(非数字) DD：日(数字)</span><br/><span>HH：小时(二十四小时制)</span><br/><span>hh：小时(十二小时制)</span><br/><span>mm：分钟 ss：秒</span><br/><span>a：时间段 dddd：星期</span><br/><span>weather: 中国天气(强制)</span><br/><br/>",
+        "ui_date_formatText": "<br/><span>时间格式说明：</span><br/><span>YYYY：年</span><br/><span>MMM：月(非数字) MM：月(数字)</span><br/><span>Do：日(非数字) DD：日(数字)</span><br/><span>HH：小时(二十四小时制)</span><br/><span>hh：小时(十二小时制)</span><br/><span>mm：分钟 ss：秒</span><br/><span>a：时间段 dddd：星期</span><br/><span>weather: 全球天气或中国天气</span><br/><br/>",
         "ui_date_userTimeStyle": "<br/>自定义时间<br/><br/>",
         "ui_date_userDateStyle": "<br/>自定义日期<br/><br/>",
         "ui_date_fontFamily": "<br/>字体风格<br/><br/>",
@@ -5090,8 +5090,8 @@
         "ui_about_authorText": "<br/>作者：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
         "ui_about_emailText": "<br/>Email：909011298@qq.com<br/>",
-        "ui_about_versionText": "<br/>版本号：0.6.5<br/>",
-        "ui_about_updateText": "<br/><span>更新说明：</span><br/><span>1、音频圆环插件：加入衔接模式、起始角度、终止角度参数</span><br/><span>2、粒子插件：减少随机速度下低速粒子数量</span><br/>",
+        "ui_about_versionText": "<br/>版本号：0.6.6 Beta<br/>",
+        "ui_about_updateText": "<br/><span>更新说明：</span><br/><span>测试新的天气接口以及减少不必要查询</span><br/>",
         "ui_about_describeText": "<br/><span>相关说明：</span><br/><span>不打算添加更多的功能，后续更新只对已有功能维护改进</span><br/>",
         "ui_about_isQRcode": "<br/>显示二维码<br/><br/>"
       },
@@ -5390,7 +5390,7 @@
         "ui_date_timeStyle": "<br/>時間風格<br/><br/>",
         "ui_date_dateStyle": "<br/>日期風格<br/><br/>",
         "ui_date_isFormat": "<br/>格式化<br/><br/>",
-        "ui_date_formatText": "<br/><span>時間格式說明：</span><br/><span>YYYY：年</span><br/><span>MMM：月(非數字) MM：月(數字)</span><br/><span>Do：日(非數字) DD：日(數字)</span><br/><span>HH：小時(二十四小時制)</span><br/><span>hh：小時(十二小時制)</span><br/><span>mm：分鐘 ss：秒</span><br/><span>a：時間段 dddd：星期</span><br/><span>weather: 中國天氣(強制)</span><br/><br/>",
+        "ui_date_formatText": "<br/><span>時間格式說明：</span><br/><span>YYYY：年</span><br/><span>MMM：月(非數字) MM：月(數字)</span><br/><span>Do：日(非數字) DD：日(數字)</span><br/><span>HH：小時(二十四小時制)</span><br/><span>hh：小時(十二小時制)</span><br/><span>mm：分鐘 ss：秒</span><br/><span>a：時間段 dddd：星期</span><br/><span>weather: 全球天氣或中國天氣</span><br/><br/>",
         "ui_date_userTimeStyle": "<br/>自定義時間<br/><br/>",
         "ui_date_userDateStyle": "<br/>自定義日期<br/><br/>",
         "ui_date_fontFamily": "<br/>字體風格<br/><br/>",
@@ -5489,8 +5489,8 @@
         "ui_about_authorText": "<br/>作者：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
         "ui_about_emailText": "<br/>Email：909011298@qq.com<br/>",
-        "ui_about_versionText": "<br/>版本號：0.6.5<br/>",
-        "ui_about_updateText": "<br/><span>更新說明：</span><br/><span>1、音頻圓環插件：加入銜接模式、起始角度、終止角度參數</span><br/><span>2、粒子插件：減少隨機速度下低速粒子數量</span><br/>",
+        "ui_about_versionText": "<br/>版本號：0.6.6 Beta<br/>",
+        "ui_about_updateText": "<br/><span>更新說明：</span><br/><span>測試新的天氣接口以及減少不必要查詢</span><br/>",
         "ui_about_describeText": "<br/><span>相關說明：</span><br/><span>不打算添加更多的功能，後續更新只對已有功能維護改進</span><br/>",
         "ui_about_isQRcode": "<br/>顯示二維碼<br/><br/>"
       }
@@ -5501,7 +5501,7 @@
   "tags": [
     "Relaxing"
   ],
-  "title": "[4K]Audio Visualizer v0.6.5(音频可视化)",
+  "title": "[4K]Audio Visualizer v0.6.6 Beta(音频可视化)",
   "type": "web",
   "visibility": "public",
   "workshopid": 921617616

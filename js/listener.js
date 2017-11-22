@@ -6,7 +6,7 @@
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/10/25
+ * @date 2017/11/22
  */
 
 (function ($, window, document, Math) {
@@ -1013,6 +1013,10 @@
 
             /**
              * 壁纸初始化时wallpaper默认遍历运行参数一遍
+             * 通过参数判断的顺序不执行某些函数
+             * 例如：日期-天气参数排在日期-基础设置前面
+             * 第一次遍历由于天气查询未开启，天气地区参数和天气接口参数设置但不查询天气
+             * 直到日期样式参数开启天气查询后才开始查询
              * 参数属性：condition 满足后默认运行该参数一次
              */
 
@@ -2327,72 +2331,6 @@
                 }
             }
 
-            // # 基础参数
-            //-----------
-
-            // 日期不透明度
-            if (properties.date_opacity) {
-                wallpaper.time('set', 'opacity', properties.date_opacity.value / 100);
-            }
-            // 设置语言
-            if (properties.date_language) {
-                wallpaper.time('set', 'language', setDateLang(properties.date_language.value));
-            }
-            // 时间样式
-            if (properties.date_timeStyle) {
-                wallpaper.time('set', 'timeStyle', setTimeStyle(properties.date_timeStyle.value));
-            }
-            // 日期样式
-            if (properties.date_dateStyle) {
-                wallpaper.time('set', 'dateStyle', setDateStyle(properties.date_dateStyle.value));
-                // 天气计时器开关
-                if (properties.date_dateStyle === 8) {
-                    wallpaper.time('runWeatherTimer');
-                } else {
-                    wallpaper.time('stopWeatherTimer');
-                }
-            }
-            // 格式化
-            if (properties.date_isFormat) {
-                wallpaper.time('set', 'isFormat', properties.date_isFormat.value);
-            }
-            // 自定义时间样式
-            if (properties.date_userTimeStyle) {
-                wallpaper.time('set', 'userTimeStyle', properties.date_userTimeStyle.value);
-            }
-            // 自定义日期样式
-            if (properties.date_userDateStyle) {
-                wallpaper.time('set', 'userDateStyle', properties.date_userDateStyle.value);
-                // 天气计时器开关
-                if (properties.date_dateStyle === 8) {
-                    wallpaper.time('runWeatherTimer');
-                } else {
-                    wallpaper.time('stopWeatherTimer');
-                }
-            }
-            // 字体风格
-            if (properties.date_fontFamily) {
-                wallpaper.time('set', 'fontFamily', setFontFamily(properties.date_fontFamily.value));
-            }
-            // 自定义字体风格
-            if (properties.date_userFontFamily) {
-                if (properties.date_userFontFamily.value) {
-                    wallpaper.time('set', 'fontFamily', setFontFamily(properties.date_userFontFamily.value));
-                }
-            }
-            // 时间字体大小
-            if (properties.date_timeFontSize) {
-                wallpaper.time('set', 'timeFontSize', properties.date_timeFontSize.value);
-            }
-            // 日期字体大小
-            if (properties.date_dateFontSize) {
-                wallpaper.time('set', 'dateFontSize', properties.date_dateFontSize.value);
-            }
-            // 时间和日期之间距离
-            if (properties.date_distance) {
-                wallpaper.time('set', 'distance', properties.date_distance.value);
-            }
-
             // # 天气参数
             //-----------
 
@@ -2425,6 +2363,62 @@
             if (properties.date_city) {
                 date.city = properties.date_city.value;
                 wallpaper.time('set', 'currentCity', date.city);
+            }
+
+            // # 基础参数
+            //-----------
+
+            // 日期不透明度
+            if (properties.date_opacity) {
+                wallpaper.time('set', 'opacity', properties.date_opacity.value / 100);
+            }
+            // 设置语言
+            if (properties.date_language) {
+                wallpaper.time('set', 'language', setDateLang(properties.date_language.value));
+            }
+            // 时间样式
+            if (properties.date_timeStyle) {
+                wallpaper.time('set', 'timeStyle', setTimeStyle(properties.date_timeStyle.value));
+            }
+            // 日期样式
+            if (properties.date_dateStyle) {
+                wallpaper.time('set', 'dateStyle', setDateStyle(properties.date_dateStyle.value));
+                // 天气计时器开关
+                wallpaper.time('set', 'isWeather', properties.date_dateStyle.value === 8);
+            }
+            // 格式化
+            if (properties.date_isFormat) {
+                wallpaper.time('set', 'isFormat', properties.date_isFormat.value);
+            }
+            // 自定义时间样式
+            if (properties.date_userTimeStyle) {
+                wallpaper.time('set', 'userTimeStyle', properties.date_userTimeStyle.value);
+            }
+            // 自定义日期样式
+            if (properties.date_userDateStyle) {
+                wallpaper.time('set', 'userDateStyle', properties.date_userDateStyle.value);
+            }
+            // 字体风格
+            if (properties.date_fontFamily) {
+                wallpaper.time('set', 'fontFamily', setFontFamily(properties.date_fontFamily.value));
+            }
+            // 自定义字体风格
+            if (properties.date_userFontFamily) {
+                if (properties.date_userFontFamily.value) {
+                    wallpaper.time('set', 'fontFamily', setFontFamily(properties.date_userFontFamily.value));
+                }
+            }
+            // 时间字体大小
+            if (properties.date_timeFontSize) {
+                wallpaper.time('set', 'timeFontSize', properties.date_timeFontSize.value);
+            }
+            // 日期字体大小
+            if (properties.date_dateFontSize) {
+                wallpaper.time('set', 'dateFontSize', properties.date_dateFontSize.value);
+            }
+            // 时间和日期之间距离
+            if (properties.date_distance) {
+                wallpaper.time('set', 'distance', properties.date_distance.value);
             }
 
             // # 坐标参数

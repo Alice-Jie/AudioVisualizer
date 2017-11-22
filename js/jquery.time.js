@@ -221,7 +221,7 @@
                     (callback && typeof(callback) === "function") && callback();
                 } else {
                     weatherStr = 'IP查询失败';
-                    console.error(result.status);
+                    console.error(result);
                 }
             },
             error: function (XMLHttpRequest) {
@@ -243,12 +243,13 @@
             success: function (result) {
                 if (result.city) {
                     if (!city) {
+                        // 若city为空则取IP所在城市
                         city = result.city;
                     }
                     (callback && typeof(callback) === "function") && callback();
                 } else {
-                    weatherStr = 'IP查询失败';
-                    console.log(result);
+                    weatherStr = 'IP query failed';
+                    console.error(result);
                 }
 
             },
@@ -271,12 +272,13 @@
             success: function (result) {
                 if (result.status === 'success') {
                     if (!city) {
+                        // 若city为空则取IP所在城市
                         city = result.city;
                     }
                     (callback && typeof(callback) === "function") && callback();
                 } else {
-                    weatherStr = 'IP查询失败';
-                    console.log(result);
+                    weatherStr = 'IP query failed';
+                    console.error(result);
                 }
             },
             error: function (XMLHttpRequest) {
@@ -406,7 +408,7 @@
      * @param {Function} callback 回调函数
      */
     function getYahooWeather(city, callback) {
-        yahooWeather.basic.cache++;  // 标记缓存
+        yahooWeather.basic.cache++;    // 标记缓存
         $.ajax({
             dataType: 'json',
             type: 'GET',
@@ -434,7 +436,7 @@
      * @param {Function} callback 回调函数
      */
     function getHeWeather(city, callback) {
-        heWeather.basic.cache++;  // 标记缓存
+        heWeather.basic.cache++;       // 标记缓存
         $.ajax({
             dataType: 'json',
             type: 'GET',
@@ -471,7 +473,7 @@
      * @param {Function} callback 回调函数
      */
     function getBaiduWeather(city, callback) {
-        baiduWeather.basic.cache++;  // 标记缓存
+        baiduWeather.basic.cache++;    // 标记缓存
         $.ajax({
             dataType: 'jsonp',
             type: 'GET',
@@ -508,7 +510,7 @@
      * @param {Function} callback 回调函数
      */
     function getSinaWeather(city, callback) {
-        sinaWeather.basic.cache++;  // 标记缓存
+        sinaWeather.basic.cache++;     // 标记缓存
         $.ajax({
             dataType: 'script',
             scriptCharset: 'gbk',
@@ -542,7 +544,7 @@
      * @param {Function} callback 回调函数
      */
     function getK780Weather(city, callback) {
-        k780Weather.basic.cache++;  // 标记缓存
+        k780Weather.basic.cache++;     // 标记缓存
         $.ajax({
             dataType: 'json',
             type: 'GET',
@@ -819,6 +821,7 @@
         this.dateFontSize = options.dateFontSize;        // 日期字体大小
         this.distance = options.distance;                // 时间和日期之间距离
         // 天气参数
+        this.isWeather = options.isWeather;              // 天气查询开关
         this.weatherRegion = options.weatherRegion;      // 天气区域
         this.weatherProvider = options.weatherProvider;  // 天气API提供者
         this.currentCity = options.currentCity;          // 天气信息
@@ -931,6 +934,7 @@
         dateFontSize: 30,               // 日期字体大小
         distance: 0,                    // 时间与日期之间距离
         // 天气参数
+        isWeather: false,               // 天气查询开关
         weatherRegion: 'China',         // 天气区域
         weatherProvider: 'sina',        // 天气API提供者
         currentCity: '',                // 当前城市
@@ -1133,7 +1137,7 @@
                 case 'HH:mm a':
                     return moment().format(formatStr).toUpperCase();
                 case 'weather':
-                    return weatherStr;
+                    return this.dateStyle === 'weather' ? weatherStr : formatStr;
                 default:
                     return this.isFormat ? moment().format(formatStr).toUpperCase() : formatStr;
             }
@@ -1479,7 +1483,7 @@
         /** 开始天气计时器 */
         runWeatherTimer: function () {
             this.stopWeatherTimer();
-            // this.updateWeather();  立即更新天气
+            this.updateWeather();  // 立即更新天气
             weatherTimer = setInterval(
                 ()=> {
                     this.updateWeather();
@@ -1552,15 +1556,21 @@
                     setColorObj(color2, this.secondColor);
                     setRGBIncrement();
                     break;
+                case 'isWeather':
+                    this.isWeather = value;
+                    this.isWeather ? this.runWeatherTimer() : this.stopWeatherTimer();
+                    break;
                 case 'weatherProvider':
                     this.weatherProvider = value;
-                    this.getWeatherCache();
+                    this.isWeather && this.getWeatherCache();
+                    this.drawDate();
                     break;
                 case 'currentCity':
                     if (this.currentCity !== value) {
                         // 若城市不匹配，则清空缓存标记并更新
                         this.currentCity = value;
-                        this.clearWeatherCache();
+                        this.isWeather && this.clearWeatherCache();
+                        this.drawDate();
                     }
                     break;
                 case 'shadowOverlay':
