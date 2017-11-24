@@ -1412,6 +1412,8 @@
 
         /** 更新天气 */
         updateWeather: function () {
+            // console.count('updateWeather was invoked: ');
+            // console.trace();
             city = this.currentCity;
             // 选择不同的IP获取方式
             switch (this.weatherRegion) {

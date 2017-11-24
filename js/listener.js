@@ -6,7 +6,7 @@
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/11/22
+ * @date 2017/11/24
  */
 
 (function ($, window, document, Math) {
@@ -18,6 +18,7 @@
 
     // 临时储存变量
     let files = {};  // 文件路径对象
+    let isFirst = true;  // 首次遍历标记
 
     // 背景/幻灯片/视频配置
     let slider = {
@@ -1012,12 +1013,13 @@
         applyUserProperties: function (properties) {
 
             /**
-             * 壁纸初始化时wallpaper默认遍历运行参数一遍
-             * 通过参数判断的顺序不执行某些函数
-             * 例如：日期-天气参数排在日期-基础设置前面
-             * 第一次遍历由于天气查询未开启，天气地区参数和天气接口参数设置但不查询天气
-             * 直到日期样式参数开启天气查询后才开始查询
-             * 参数属性：condition 满足后默认运行该参数一次
+             * 壁纸初始化时wallpaper默认遍历运行参数一遍。
+             * 初始遍历参数顺序很重要。
+             * - 例如：日期-天气参数排在日期-基础设置前面
+             * - 第一次遍历由于天气查询未开启，天气地区参数和天气接口参数设置但不查询天气
+             * - 直到日期样式参数开启天气查询后才开始查询
+             *  project.json中参数对象condition属性满足后：
+             *  默认遍历符合该属性的参数一次。
              */
 
             // 背景设置
@@ -1193,7 +1195,7 @@
             // 视频进度
             if (properties.slider_video_progress) {
                 video.progress = properties.slider_video_progress.value / 100;
-                if (slider.mode === 'video') {
+                if (!isFirst && slider.mode === 'video') {
                     wallpaper.slider('set', 'videoProgress', video.progress);
                 }
 
@@ -1201,20 +1203,21 @@
             // 视频切换
             if (properties.slider_video_switch) {
                 video.switch = properties.slider_video_switch.value;
-                switch (video.switch) {
-                    case -1:
-                        wallpaper.slider('prevVideo');
-                        break;
-                    case 0:
-                        wallpaper.slider('currentVideo');
-                        break;
-                    case 1:
-                        wallpaper.slider('nextVideo');
-                        break;
-                    default:
-                        wallpaper.slider('currentVideo');
+                if (!isFirst) {
+                    switch (video.switch) {
+                        case -1:
+                            wallpaper.slider('prevVideo');
+                            break;
+                        case 0:
+                            wallpaper.slider('currentVideo');
+                            break;
+                        case 1:
+                            wallpaper.slider('nextVideo');
+                            break;
+                        default:
+                            wallpaper.slider('currentVideo');
+                    }
                 }
-
             }
             // 视频切换播放/暂停
             if (properties.slider_video_isPlay) {
@@ -2337,12 +2340,8 @@
             // 天气地区
             if (properties.date_weatherRegion) {
                 date.weatherRegion = setWeatherRegion(properties.date_weatherRegion.value);
-                wallpaper.time('set', 'weatherRegion', date.weatherRegion);
-                if (date.weatherRegion === 'China') {
-                    wallpaper.time('set', 'weatherProvider', date.ChinaWeatherProvider);
-                } else {
-                    wallpaper.time('set', 'weatherProvider', date.globalWeatherProvider);
-                }
+                wallpaper.time('set', 'weatherRegion', date.weatherRegion)
+                    .time('set', 'weatherProvider', date.weatherRegion === 'China' ? date.ChinaWeatherProvider : date.globalWeatherProvider);
             }
             // 天气接口提供者(全球)
             if (properties.date_weatherProvider_Global) {
@@ -2350,7 +2349,6 @@
                 if (date.weatherRegion === 'global') {
                     wallpaper.time('set', 'weatherProvider', date.globalWeatherProvider);
                 }
-
             }
             // 天气接口提供者(中国)
             if (properties.date_weatherProvider_China) {
@@ -2715,6 +2713,8 @@
             if (properties.particles_moveOutMode) {
                 wallpaper.particles('set', 'moveOutMode', setMoveOutMode(properties.particles_moveOutMode.value));
             }
+
+            isFirst && (isFirst = false);  // 初始遍历结束后标记状态
 
         },
 
