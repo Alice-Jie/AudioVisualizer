@@ -1,5 +1,5 @@
 /*!
- * jQuery time plugin v0.0.17
+ * jQuery time plugin v0.0.18
  * moment.js: http://momentjs.cn/
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
@@ -7,7 +7,7 @@
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/11/22
+ * @date 2017/11/26
  */
 
 (function (global, factory) {
@@ -155,7 +155,18 @@
                 temperature: '未知',    // 温度情况
                 wind: '未知'            // 风向风力
             }
-        };     // k780天气
+        },     // k780天气
+        CLCWeather = {
+            basic: {
+                cache: 0,               // 缓存
+                city: '未知'            // 城市
+            },
+            weatherData: {
+                weather: '未知',        // 天气情况
+                temperature: '未知',    // 温度情况
+                wind: '未知'            // 风向风力
+            }
+        };      // 中华万年历天气
 
     let city = '';  // 城市名 留空则根据IP地址查询
 
@@ -566,6 +577,40 @@
             },
             error: function (XMLHttpRequest) {
                 openWeatherMap.basic.cache = 0;  // 清除缓存
+                weatherStr = '错误代码' + XMLHttpRequest.status + ' ' + XMLHttpRequest.statusText;
+            }
+        });
+    }
+
+    /**
+     * 获取中华万年历天气信息
+     * @param {string}   city     城市(China)
+     * @param {Function} callback 回调函数
+     */
+    function getCLCWeather(city, callback) {
+        CLCWeather.basic.cache++;     // 标记缓存
+        $.ajax({
+            dataType: 'json',
+            type: 'GET',
+            url: 'http://wthrcdn.etouch.cn/weather_mini?city=' + city,
+            success: (result)=> {
+                // 获取接口状态
+                if (result.desc === 'OK') {
+                    // 获取天气信息
+                    let windSize = result.data.forecast[0].fengli;
+                    CLCWeather.basic.city = result.data.city;
+                    CLCWeather.weatherData.weather = result.data.forecast[0].type;
+                    CLCWeather.weatherData.temperature = result.data.wendu + '℃';
+                    CLCWeather.weatherData.wind = result.data.forecast[0].fengxiang + ' ' + windSize.substring(9, windSize.length - 3);
+                    (callback && typeof(callback) === "function") && callback();
+                } else {
+                    CLCWeather.basic.cache = 0;  // 清除缓存
+                    weatherStr = result.desc === 'invilad-citykey' ? '无效城市地址' : '中国万年历接口异常';
+                    console.error(result);
+                }
+            },
+            error: function (XMLHttpRequest) {
+                CLCWeather.basic.cache = 0;  // 清除缓存
                 weatherStr = '错误代码' + XMLHttpRequest.status + ' ' + XMLHttpRequest.statusText;
             }
         });
@@ -1189,6 +1234,12 @@
                         + ' ' + k780Weather.weatherData.weather
                         + ' ' + k780Weather.weatherData.temperature
                         + ' ' + k780Weather.weatherData.wind;
+                // 中国万年历天气
+                case 'CLCWeather':
+                    return CLCWeather.basic.city
+                        + ' ' + CLCWeather.weatherData.weather
+                        + ' ' + CLCWeather.weatherData.temperature
+                        + ' ' + CLCWeather.weatherData.wind;
                 default:
                     weatherStr = this.weatherRegion === 'China' ? '未知天气接口' : 'Unknown weather interface';
             }
@@ -1228,6 +1279,10 @@
                 // K780天气接口
                 case 'k780':
                     getK780Weather(city, ()=> weatherStr = this.setWeatherStr());
+                    break;
+                case 'CLCWeather':
+                    // 中国万年历天气
+                    getCLCWeather(city, ()=> weatherStr = this.setWeatherStr());
                     break;
                 default:
                     weatherStr = this.weatherRegion === 'China' ? '未知天气接口' : 'Unknown weather interface';
@@ -1457,6 +1512,10 @@
                 case 'k780':
                     k780Weather.basic.cache > 0 ? weatherStr = this.setWeatherStr() : this.updateWeather();
                     break;
+                // 中国万年历天气
+                case 'CLCWeather':
+                    CLCWeather.basic.cache > 0 ? weatherStr = this.setWeatherStr() : this.updateWeather();
+                    break;
                 default:
                     weatherStr = this.weatherRegion === 'China' ? '未知天气信息' : 'Unknown weather information';
             }
@@ -1471,6 +1530,7 @@
             baiduWeather.basic.cache = 0;
             sinaWeather.basic.cache = 0;
             k780Weather.basic.cache = 0;
+            CLCWeather.basic.cache = 0;
             // 更新对应接口信息
             this.updateWeather();
         },

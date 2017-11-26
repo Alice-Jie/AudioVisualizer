@@ -581,6 +581,8 @@
                 return 'sina';
             case 4:
                 return 'k780';
+            case 5:
+                return 'CLCWeather';
             default:
                 return 'heWeather';
         }

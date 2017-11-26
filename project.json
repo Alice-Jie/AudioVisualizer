@@ -3488,6 +3488,10 @@
           {
             "label": "K780天气",
             "value": 4
+          },
+          {
+            "label": "中国万年历",
+            "value": 5
           }
         ],
         "value": 2
@@ -4691,8 +4695,8 @@
         "ui_about_authorText": "<br/>Author：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
         "ui_about_emailText": "<br/>Email：909011298@qq.com<br/>",
-        "ui_about_versionText": "<br/>Version Number：0.6.6 Beta<br/>",
-        "ui_about_updateText": "<br/><span>Update Description：</span><br/><span>Testing new weather interfaces and reducing unnecessary queries.</span><br/><span>                           -- From Baidu translate.</span><br/>",
+        "ui_about_versionText": "<br/>Version Number：0.6.6<br/>",
+        "ui_about_updateText": "<br/><span>Update Description：</span><br/><span>1. Adding weather region parameters.</span><br/><span>2. Adding more weather interfaces.</span><br/><span>                           -- From Baidu translate.</span><br/>",
         "ui_about_describeText": "<br/><span>Relevant Instructions：</span><br/><span>Instead of adding more functionality, the subsequent update only improves existing functionality.</span><br/>",
         "ui_about_isQRcode": "<br/>Show QRcode?<br/><br/>"
       },
@@ -5090,8 +5094,8 @@
         "ui_about_authorText": "<br/>作者：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
         "ui_about_emailText": "<br/>Email：909011298@qq.com<br/>",
-        "ui_about_versionText": "<br/>版本号：0.6.6 Beta<br/>",
-        "ui_about_updateText": "<br/><span>更新说明：</span><br/><span>测试新的天气接口以及减少不必要查询</span><br/>",
+        "ui_about_versionText": "<br/>版本号：0.6.6<br/>",
+        "ui_about_updateText": "<br/><span>更新说明：</span><br/><span>1、添加天气区域参数</span><br/><span>2、添加更多天气接口</span><br/>",
         "ui_about_describeText": "<br/><span>相关说明：</span><br/><span>不打算添加更多的功能，后续更新只对已有功能维护改进</span><br/>",
         "ui_about_isQRcode": "<br/>显示二维码<br/><br/>"
       },
@@ -5489,8 +5493,8 @@
         "ui_about_authorText": "<br/>作者：Alice<br/>",
         "ui_about_qqText": "<br/>QQ：909011298<br/>",
         "ui_about_emailText": "<br/>Email：909011298@qq.com<br/>",
-        "ui_about_versionText": "<br/>版本號：0.6.6 Beta<br/>",
-        "ui_about_updateText": "<br/><span>更新說明：</span><br/><span>測試新的天氣接口以及減少不必要查詢</span><br/>",
+        "ui_about_versionText": "<br/>版本號：0.6.6<br/>",
+        "ui_about_updateText": "<br/><span>更新說明：</span><br/><span>1、添加天氣區域參數</span><br/><span>2、添加更多天氣接口</span><br/>",
         "ui_about_describeText": "<br/><span>相關說明：</span><br/><span>不打算添加更多的功能，後續更新只對已有功能維護改進</span><br/>",
         "ui_about_isQRcode": "<br/>顯示二維碼<br/><br/>"
       }
@@ -5501,7 +5505,7 @@
   "tags": [
     "Relaxing"
   ],
-  "title": "[4K]Audio Visualizer v0.6.6 Beta(音频可视化)",
+  "title": "[4K]Audio Visualizer v0.6.6(音频可视化)",
   "type": "web",
   "visibility": "public",
   "workshopid": 921617616
