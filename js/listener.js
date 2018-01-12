@@ -6,7 +6,7 @@
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/11/24
+ * @date 2018/01/12
  */
 
 (function ($, window, document, Math) {
@@ -474,6 +474,28 @@
     }
 
     /**
+     * 设置3D旋转方式
+     *
+     * @param  {int} n 3D旋转对应值
+     * @return {string} 3D旋转标识串
+     */
+    function setRotate3d(n) {
+        switch (n) {
+            case 1:
+                // 无
+                return 'none';
+            case 2:
+                // 自动
+                return 'auto';
+            case 3:
+                // 鼠标
+                return 'mouse';
+            default:
+                return 'none';
+        }
+    }
+
+    /**
      * 设置时间风格
      *
      * @param  {int} n 时间风格对应值
@@ -578,10 +600,8 @@
             case 2:
                 return 'baidu';
             case 3:
-                return 'sina';
-            case 4:
                 return 'k780';
-            case 5:
+            case 4:
                 return 'CLCWeather';
             default:
                 return 'heWeather';
@@ -2211,8 +2231,20 @@
                 wallpaper.logo('set', 'rotateZ', properties.logo_rotateZ.value);
             }
             // 3D转换
-            if (properties.logo_isRotate3D) {
-                wallpaper.logo('set', 'isRotate3D', properties.logo_isRotate3D.value);
+            if (properties.logo_3DRotation) {
+                wallpaper.logo('set', 'rotate3d', setRotate3d(properties.logo_3DRotation.value));
+            }
+            // X轴自动旋转转换
+            if (properties.logo_autoRotateX) {
+                wallpaper.logo('set', 'autoRotateX', properties.logo_autoRotateX.value / 100);
+            }
+            // Y轴自动旋转转换
+            if (properties.logo_autoRotateY) {
+                wallpaper.logo('set', 'autoRotateY', properties.logo_autoRotateY.value / 100);
+            }
+            // Z轴自动旋转转换
+            if (properties.logo_autoRotateZ) {
+                wallpaper.logo('set', 'autoRotateZ', properties.logo_autoRotateZ.value / 100);
             }
             // 角度大小
             if (properties.logo_degSize) {

@@ -1,12 +1,12 @@
 /*!
- * jQuery time plugin v0.0.9
+ * jQuery time plugin v0.0.10
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
  * - https://gitee.com/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/10/25
+ * @date 2018/01/12
  */
 
 (function (global, factory) {
@@ -76,7 +76,8 @@
 
     let currantAngle = 0;           // 当前角度
 
-    let timer = null;               // Logo计时器
+    let logoTimer = null,           // Logo计时器
+        rotote3DTimer = null;       // 3D旋转计时器
 
     let audioAverage = 0,           // 音频平均值
         audioZoom = 1;              // 标志缩放值
@@ -84,6 +85,10 @@
     let originalPos = [],
         targetPos = [];
 
+    // 3D旋转幅度计数
+    let currantX = 0.0,
+        currantY = 0.0,
+        currantZ = 0.0;
 
     //私有方法
     //--------------------------------------------------------------------------------------------------------------
@@ -360,7 +365,10 @@
         this.rotateX = options.rotateX;              // X轴3D旋转
         this.rotateY = options.rotateY;              // Y轴3D旋转
         this.rotateZ = options.rotateZ;              // Z轴3D旋转
-        this.isRotate3D = options.isRotate3D;        // 是否3D旋转
+        this.rotate3d = options.rotate3d;            // 3D旋转
+        this.autoRotateX = options.autoRotateX;      // X轴自动3D旋转
+        this.autoRotateY = options.autoRotateY;      // Y轴自动3D旋转
+        this.autoRotateZ = options.autoRotateZ;      // Z轴自动3D旋转
         this.degSize = options.degSize;              // 角度大小
         this.topLeftX = options.topLeftX;            // 左上角X(%)
         this.topLeftY = options.topLeftY;            // 左上角Y(%)
@@ -475,7 +483,10 @@
         rotateX: 0,                  // X轴3D旋转
         rotateY: 0,                  // Y轴3D旋转
         rotateZ: 0,                  // Z轴3D旋转
-        isRotate3D: false,           // 是否3D旋转
+        rotate3d: 'none',            // 3D旋转
+        autoRotateX: 0.0,            // X轴3D自动旋转
+        autoRotateY: 0.0,            // Y轴3D自动旋转
+        autoRotateZ: 0.0,            // Z轴3D自动旋转
         degSize: 50,                 // 角度大小
         topLeftX: 0,                 // 左上角X(%)
         topLeftY: 0,                 // 左上角Y(%)
@@ -485,8 +496,6 @@
         bottomRightY: 0,             // 右下角Y(%)
         bottomLeftX: 0,              // 左下角X(%)
         bottomLeftY: 0               // 左下角Y(%)
-
-
     };
 
     // 公共方法
@@ -633,7 +642,7 @@
 
             // 鼠标移动事件
             $(this.$el).on('mousemove', function (e) {
-                if (that.transformMode === 'value' && that.isRotate3D) {
+                if (that.transformMode === 'value' && that.rotate3d === 'mouse') {
                     that.rotate3D(e.clientX, e.clientY);
                 }
             });
@@ -776,22 +785,51 @@
             this.drawLogo();
         },
 
+
         /** 停止Logo计时器 */
         stopLogoTimer: function () {
-            if (timer) {
-                clearTimeout(timer);
-            }
+            logoTimer && clearTimeout(logoTimer);
         },
 
         /** 开始Logo计时器 */
         runLogoTimer: function () {
             this.stopLogoTimer();
-            timer = setTimeout(
+            logoTimer = setTimeout(
                 ()=> {
                     this.drawCanvas();
                     this.runLogoTimer();
                 }, this.milliSec);
         },
+
+        /** 停止3D旋转计时器 */
+        stopRotate3DTimer: function () {
+            rotote3DTimer && clearTimeout(rotote3DTimer);
+        },
+
+        /** 开始3D旋转计时器 */
+        runRotate3DTimer: function () {
+            this.stopRotate3DTimer();
+            rotote3DTimer = setTimeout(
+                ()=> {
+                    currantX += this.autoRotateX;
+                    currantY += this.autoRotateY;
+                    currantZ += this.autoRotateZ;
+                    $(canvas).css({
+                        'transform-origin': '50% 50%',
+                        'transform': (this.perspective ? 'perspective(' + this.perspective + 'px) ' : '')
+                        + 'translateX(' + canvasWidth * this.translateX + 'px)'
+                        + 'translateY(' + canvasHeight * this.translateY + 'px)'
+                        + 'scale(' + this.width + ', ' + this.height + ')'
+                        + 'skewX(' + this.skewX + 'deg)'
+                        + 'skewY(' + this.skewY + 'deg)'
+                        + 'rotateX(' + currantX + 'deg)'
+                        + 'rotateY(' + currantY + 'deg)'
+                        + 'rotateZ(' + currantZ + 'deg)'
+                    });
+                    this.runRotate3DTimer();
+                }, 30);
+        },
+
 
         /** 移除canvas */
         destroy: function () {
@@ -837,6 +875,9 @@
                 case 'isClickOffset':
                 case 'milliSec':
                 case 'degSize':
+                case 'autoRotateX':
+                case 'autoRotateY':
+                case 'autoRotateZ':
                     this[property] = value;
                     break;
                 case 'isMasking':
@@ -901,7 +942,6 @@
                     this[property] = value;
                     this.drawCanvas();
                     break;
-                case 'transformMode':
                 case 'perspective':
                 case 'translateX':
                 case 'translateY':
@@ -909,10 +949,6 @@
                 case 'height':
                 case 'skewX':
                 case 'skewY':
-                case 'rotateX':
-                case 'rotateY':
-                case 'rotateZ':
-                case 'isRotate3D':
                 case 'topLeftX':
                 case 'topLeftY':
                 case 'topRightX':
@@ -923,6 +959,45 @@
                 case 'bottomLeftY':
                     this[property] = value;
                     this.startTransform();
+                    break;
+                case 'rotateX':
+                    currantX = this.rotateZ = value;
+                    this.startTransform();
+                    break;
+                case 'rotateY':
+                    currantY = this.rotateZ = value;
+                    this.startTransform();
+                    break;
+                case 'rotateZ':
+                    currantZ = this.rotateZ = value;
+                    this.startTransform();
+                    break;
+                case 'transformMode':
+                    this[property] = value;
+                    this.startTransform();
+                    if (this.transformMode !== 'value') {
+                        this.stopRotate3DTimer();
+                    }
+                    break;
+                case 'rotate3d':
+                    this.rotate3d = value;
+                    switch (this.rotate3d) {
+                        case 'none':
+                            this.stopRotate3DTimer();
+                            this.startTransform();
+                            break;
+                        case 'auto':
+                            currantZ = this.rotateX;
+                            currantY = this.rotateY;
+                            currantX = this.rotateZ;
+                            this.runRotate3DTimer();
+                            break;
+                        case 'mouse':
+                            this.stopTransform();
+                            this.startTransform();
+                            break;
+                        //no default
+                    }
                     break;
                 // no default
             }
