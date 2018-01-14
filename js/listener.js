@@ -2246,6 +2246,10 @@
             if (properties.logo_autoRotateZ) {
                 wallpaper.logo('set', 'autoRotateZ', properties.logo_autoRotateZ.value / 100);
             }
+            // 重绘间隔
+            if (properties.logo_autoMilliSec) {
+                wallpaper.logo('set', 'autoMilliSec', properties.logo_autoMilliSec.value);
+            }
             // 角度大小
             if (properties.logo_degSize) {
                 wallpaper.logo('set', 'degSize', properties.logo_degSize.value);

@@ -369,6 +369,7 @@
         this.autoRotateX = options.autoRotateX;      // X轴自动3D旋转
         this.autoRotateY = options.autoRotateY;      // Y轴自动3D旋转
         this.autoRotateZ = options.autoRotateZ;      // Z轴自动3D旋转
+        this.autoMilliSec = options.autoMilliSec;    // 自动旋转间隔
         this.degSize = options.degSize;              // 角度大小
         this.topLeftX = options.topLeftX;            // 左上角X(%)
         this.topLeftY = options.topLeftY;            // 左上角Y(%)
@@ -487,6 +488,7 @@
         autoRotateX: 0.0,            // X轴3D自动旋转
         autoRotateY: 0.0,            // Y轴3D自动旋转
         autoRotateZ: 0.0,            // Z轴3D自动旋转
+        autoMilliSec: 30,            // 自动旋转间隔
         degSize: 50,                 // 角度大小
         topLeftX: 0,                 // 左上角X(%)
         topLeftY: 0,                 // 左上角Y(%)
@@ -827,7 +829,7 @@
                         + 'rotateZ(' + currantZ + 'deg)'
                     });
                     this.runRotate3DTimer();
-                }, 30);
+                }, this.autoMilliSec);
         },
 
 
@@ -874,10 +876,11 @@
                 case 'rotationAngle':
                 case 'isClickOffset':
                 case 'milliSec':
-                case 'degSize':
                 case 'autoRotateX':
                 case 'autoRotateY':
                 case 'autoRotateZ':
+                case 'autoMilliSec':
+                case 'degSize':
                     this[property] = value;
                     break;
                 case 'isMasking':
@@ -993,7 +996,7 @@
                             this.runRotate3DTimer();
                             break;
                         case 'mouse':
-                            this.stopTransform();
+                            this.stopRotate3DTimer();
                             this.startTransform();
                             break;
                         //no default

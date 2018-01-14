@@ -2636,8 +2636,18 @@
         "min": -900,
         "value": 0
       },
-      "logo_degSize": {
+      "logo_autoMilliSec": {
         "order": 5422,
+        "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_transformMode.value == 1 && logo_3DRotation.value == 2",
+        "text": "ui_logo_autoMilliSec",
+        "type": "slider",
+        "editable": true,
+        "max": 150,
+        "min": 30,
+        "value": 30
+      },
+      "logo_degSize": {
+        "order": 5423,
         "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_transformMode.value == 1 && logo_3DRotation.value == 3",
         "text": "ui_logo_degSize",
         "type": "slider",
@@ -2647,13 +2657,13 @@
         "value": 30
       },
       "logo_topLeft": {
-        "order": 5423,
+        "order": 5424,
         "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_transformMode.value == 2",
         "text": "ui_logo_topLeft",
         "type": "text"
       },
       "logo_topLeftX": {
-        "order": 5424,
+        "order": 5425,
         "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_transformMode.value == 2",
         "text": "ui_logo_topLeftX",
         "type": "slider",
@@ -2663,7 +2673,7 @@
         "value": 0
       },
       "logo_topLeftY": {
-        "order": 5425,
+        "order": 5426,
         "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_transformMode.value == 2",
         "text": "ui_logo_topLeftY",
         "type": "slider",
@@ -2673,13 +2683,13 @@
         "value": 0
       },
       "logo_topRight": {
-        "order": 5426,
+        "order": 5427,
         "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_transformMode.value == 2",
         "text": "ui_logo_topRight",
         "type": "text"
       },
       "logo_topRightX": {
-        "order": 5427,
+        "order": 5428,
         "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_transformMode.value == 2",
         "text": "ui_logo_topRightX",
         "type": "slider",
@@ -2689,7 +2699,7 @@
         "value": 0
       },
       "logo_topRightY": {
-        "order": 5428,
+        "order": 5429,
         "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_transformMode.value == 2",
         "text": "ui_logo_topRightY",
         "type": "slider",
@@ -2699,13 +2709,13 @@
         "value": 0
       },
       "logo_bottomRight": {
-        "order": 5429,
+        "order": 5431,
         "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_transformMode.value == 2",
         "text": "ui_logo_bottomRight",
         "type": "text"
       },
       "logo_bottomRightX": {
-        "order": 5430,
+        "order": 5431,
         "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_transformMode.value == 2",
         "text": "ui_logo_bottomRightX",
         "type": "slider",
@@ -2715,7 +2725,7 @@
         "value": 0
       },
       "logo_bottomRightY": {
-        "order": 5431,
+        "order": 5432,
         "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_transformMode.value == 2",
         "text": "ui_logo_bottomRightY",
         "type": "slider",
@@ -2725,13 +2735,13 @@
         "value": 0
       },
       "logo_bottomLeft": {
-        "order": 5432,
+        "order": 5433,
         "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_transformMode.value == 2",
         "text": "ui_logo_bottomLeft",
         "type": "text"
       },
       "logo_bottomLeftX": {
-        "order": 5433,
+        "order": 5434,
         "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_transformMode.value == 2",
         "text": "ui_logo_bottomLeftX",
         "type": "slider",
@@ -2741,7 +2751,7 @@
         "value": 0
       },
       "logo_bottomLeftY": {
-        "order": 5434,
+        "order": 5435,
         "condition": "(MENU_mode.value == 1 || MENU_mode.value == 5) && logo_isLogo.value && logo_transformMode.value == 2",
         "text": "ui_logo_bottomLeftY",
         "type": "slider",
@@ -4603,6 +4613,7 @@
         "ui_logo_autoRotateX": "<br/>Auto Rotate X<br/><br/>",
         "ui_logo_autoRotateY": "<br/>Auto Rotate Y<br/><br/>",
         "ui_logo_autoRotateZ": "<br/>Auto Rotate Z<br/><br/>",
+        "ui_logo_autoMilliSec": "<br/>Interval<br/><br/>",
         "ui_logo_degSize": "<br/>Angle Size<br/><br/>",
         "ui_logo_topLeft": "<br/>Top-Left<br/><br/>",
         "ui_logo_topLeftX": "<br/>X(%)：<br/><br/>",
@@ -5005,6 +5016,7 @@
         "ui_logo_autoRotateX": "<br/>自动旋转X轴<br/><br/>",
         "ui_logo_autoRotateY": "<br/>自动旋转Y轴<br/><br/>",
         "ui_logo_autoRotateZ": "<br/>自动旋转Z轴<br/><br/>",
+        "ui_logo_autoMilliSec": "<br/>间隔<br/><br/>",
         "ui_logo_degSize": "<br/>角度偏移<br/><br/>",
         "ui_logo_topLeft": "<br/>左上角<br/><br/>",
         "ui_logo_topLeftX": "<br/>X(%)：<br/><br/>",
@@ -5404,6 +5416,10 @@
         "ui_logo_rotateY": "<br/>Y軸旋轉<br/><br/>",
         "ui_logo_rotateZ": "<br/>Z軸旋轉<br/><br/>",
         "ui_logo_3DRotation": "<br/>3D旋轉<br/><br/>",
+        "ui_logo_autoRotateX": "<br/>自動旋轉X軸<br/><br/>",
+        "ui_logo_autoRotateY": "<br/>自動旋轉Y軸<br/><br/>",
+        "ui_logo_autoRotateZ": "<br/>自動旋轉Z軸<br/><br/>",
+        "ui_logo_autoMilliSec": "<br/>間隔<br/><br/>",
         "ui_logo_degSize": "<br/>角度偏移<br/><br/>",
         "ui_logo_topLeft": "<br/>左上角<br/><br/>",
         "ui_logo_topLeftX": "<br/>X(%)：<br/><br/>",
@@ -5474,9 +5490,6 @@
         "ui_date_rotateY": "<br/>Y軸旋轉<br/><br/>",
         "ui_date_rotateZ": "<br/>Z軸旋轉<br/><br/>",
         "ui_date_isRotate3D": "<br/>3D旋轉<br/><br/>",
-        "ui_logo_autoRotateX": "<br/>自動旋轉X軸<br/><br/>",
-        "ui_logo_autoRotateY": "<br/>自動旋轉Y軸<br/><br/>",
-        "ui_logo_autoRotateZ": "<br/>自動旋轉Z軸<br/><br/>",
         "ui_date_degSize": "<br/>角度偏移<br/><br/>",
         "ui_date_topLeft": "<br/>左上角<br/><br/>",
         "ui_date_topLeftX": "<br/>X(%)：<br/><br/>",
