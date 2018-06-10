@@ -1251,7 +1251,7 @@
          * - 访问成功后将天气信息写入对应天气对象
          * @private
          *
-         * @param {string} city     城市(China)
+         * @param {string} city 城市(China)
          */
         getWeather: function (city) {
             weatherStr = 'Reading the weather data...';
@@ -1477,8 +1477,8 @@
                     toIpApi(()=> this.getWeather(city));
                     break;
                 case 'China':
-                    // toBaiduIP(()=> this.getWeather(city));
-                    toSinaIP(()=> this.getWeather(city));
+                    toBaiduIP(()=> this.getWeather(city));
+                    // toSinaIP(()=> this.getWeather(city));
                     break;
                 // no default
             }
