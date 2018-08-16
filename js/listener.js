@@ -1444,6 +1444,16 @@
                 circle.secondColor = getColor(properties.circle_secondColor.value);
                 wallpaper.visualizerCircle('set', 'secondColor', circle.secondColor);
             }
+            // 圆环和小球绑定阴影颜色
+            if (properties.circle_isChangeBlur) {
+                circle.isChangeBlur = properties.circle_isChangeBlur.value;
+                wallpaper.visualizerCircle('set', 'isChangeBlur', circle.isChangeBlur);
+                // 若不绑定阴影颜色
+                if (circle.isChangeBlur === false) {
+                    wallpaper.visualizerCircle('set', 'shadowColor', circle.shadowColor);
+                }
+
+            }
 
             // # 彩虹渐变参数
             //---------------
@@ -1614,16 +1624,6 @@
             // # 坐标参数
             //-----------
 
-            // 圆环和小球绑定阴影颜色
-            if (properties.circle_isChangeBlur) {
-                circle.isChangeBlur = properties.circle_isChangeBlur.value;
-                wallpaper.visualizerCircle('set', 'isChangeBlur', circle.isChangeBlur);
-                // 若不绑定阴影颜色
-                if (circle.isChangeBlur === false) {
-                    wallpaper.visualizerCircle('set', 'shadowColor', circle.shadowColor);
-                }
-
-            }
             // 圆环和小球X轴偏移
             if (properties.circle_offsetX) {
                 wallpaper.visualizerCircle('set', 'offsetX', properties.circle_offsetX.value / 100);

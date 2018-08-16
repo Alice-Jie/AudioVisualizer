@@ -138,14 +138,15 @@
         if (!audioArray) {
             return true;
         }
+        let totalAudioData = 0;
         for (let i = 0; i < audioArray.length; i++) {
-            if (audioArray[i]) {
-                return false;
-            }
+            totalAudioData += audioArray[i];
+        }
+        if (totalAudioData > 0.001) {
+            return false;
         }
         return true;
     }
-
 
     /**
      * 根据点的数量提取音频数组
@@ -157,7 +158,7 @@
      */
     function getRingArray(audioArray, num) {
         let audioArray1 = [].concat(audioArray) || [];
-        let num1 = Math.min(num || 0, audioArray.length);
+        let num1 = Math.max(3, num);
         let max = audioArray1.length - num1;
         let isFirst = true;  // 头尾元素指示器
         for (let i = 0; i < max; i++) {
@@ -183,7 +184,7 @@
     function getBallArray(audioArray, spacer) {
         let audioArray1 = [].concat(audioArray) || [],
             audioArray2 = [];
-        let spacer1 = spacer || 1;
+        let spacer1 = Math.max(1, spacer);
         for (let i = 0; i < 120; i += spacer1) {
             audioArray2.push(audioArray1[i] || 0);
         }
@@ -1148,10 +1149,11 @@
          * @private
          */
         setRainBow: function (pointNum) {
+            let pointNum1 = Math.max(3, pointNum);
             let rainBowArray = [];
-            let incrementH = this.hueRange / (pointNum * 2);
+            let incrementH = this.hueRange / (pointNum1 * 2);
             let currantH = gradientOffsetRange || 0;
-            for (let i = 0; i < pointNum; i++) {
+            for (let i = 0; i < pointNum1; i++) {
                 let startH = currantH;
                 currantH += incrementH;
                 let endH = currantH;
@@ -1598,7 +1600,7 @@
                     this.drawVisualizerCircle();
                     break;
                 case 'ballSpacer':
-                    this.ballSpacer = value;
+                    this.ballSpacer = Math.max(1, value);
                     ballRainBowArray = this.setRainBow(120 / this.ballSpacer);
                     this.updateVisualizerCircle(currantAudioArray);
                     this.drawVisualizerCircle();
