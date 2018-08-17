@@ -1,12 +1,12 @@
 /*！
- * jQuery AudioVisualizer Circle plugin v0.0.19
+ * jQuery AudioVisualizer Circle plugin v0.0.20
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
  * - https://gitee.com/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/11/09
+ * @date 2018/08/17
  */
 
 (function (global, factory) {
@@ -158,7 +158,10 @@
      */
     function getRingArray(audioArray, num) {
         let audioArray1 = [].concat(audioArray) || [];
-        let num1 = Math.max(3, num);
+        let num1 = 3;
+        if (typeof(num) === 'number') {
+            num1 = Math.max(3, num);
+        }
         let max = audioArray1.length - num1;
         let isFirst = true;  // 头尾元素指示器
         for (let i = 0; i < max; i++) {
@@ -1149,7 +1152,10 @@
          * @private
          */
         setRainBow: function (pointNum) {
-            let pointNum1 = Math.max(3, pointNum);
+            let pointNum1 = 3;
+            if (typeof(pointNum) === 'number') {
+                pointNum1 = Math.max(3, pointNum);
+            }
             let rainBowArray = [];
             let incrementH = this.hueRange / (pointNum1 * 2);
             let currantH = gradientOffsetRange || 0;
@@ -1667,7 +1673,7 @@
 
     // 确保插件不冲突
     $.fn.visualizerCircle.noConflict = function () {
-        $.fn.audiovisualize = old;
+        $.fn.visualizerCircle = old;
         return this;
     };
 

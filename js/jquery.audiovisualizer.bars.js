@@ -1,12 +1,12 @@
 /*！
- * jQuery AudioVisualizer Bars plugin v0.0.14
+ * jQuery AudioVisualizer Bars plugin v0.0.15
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
  * - https://gitee.com/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/10/25
+ * @date 2018/08/17
  */
 
 (function (global, factory) {
@@ -132,10 +132,12 @@
         if (!audioArray) {
             return true;
         }
+        let totalAudioData = 0;
         for (let i = 0; i < audioArray.length; i++) {
-            if (audioArray[i]) {
-                return false;
-            }
+            totalAudioData += audioArray[i];
+        }
+        if (totalAudioData > 0.001) {
+            return false;
         }
         return true;
     }
@@ -150,7 +152,10 @@
      */
     function getBarsArray(audioArray, num) {
         let audioArray1 = [].concat(audioArray) || [];
-        let num1 = Math.min(num || 0, audioArray.length);
+        let num1 = 3;
+        if (typeof(num) === 'number') {
+            num1 = Math.max(3, num);
+        }
         let max = audioArray1.length - num1;
         let isFirst = true;  // 头尾元素指示器
         for (let i = 0; i < max; i++) {
@@ -967,10 +972,14 @@
          * @private
          */
         setRainBow: function (pointNum) {
+            let pointNum1 = 3;
+            if (typeof(pointNum) === 'number') {
+                pointNum1 = Math.max(3, pointNum);
+            }
             let rainBowArray = [];
-            let incrementH = this.hueRange / (pointNum * 2);
+            let incrementH = this.hueRange / (pointNum1 * 2);
             let currantH = gradientOffsetRange || 0;
-            for (let i = 0; i < pointNum; i++) {
+            for (let i = 0; i < pointNum1; i++) {
                 let startH = currantH;
                 currantH += incrementH;
                 let endH = currantH;
@@ -1476,7 +1485,7 @@
 
     // 确保插件不冲突
     $.fn.visualizerBars.noConflict = function () {
-        $.fn.audiovisualize = old;
+        $.fn.visualizerBars = old;
         return this;
     };
 

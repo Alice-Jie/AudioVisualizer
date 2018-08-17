@@ -193,14 +193,14 @@
         $.ajax({
             url: 'http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=json',
             type: 'GET',
-            dataType: "json",
+            dataType: 'json',
             success: function (result) {
                 if (result.ret === 1) {
                     if (!city) {
                         // 若city为空则取IP所在城市
                         city = result.city;
                     }
-                    (callback && typeof(callback) === "function") && callback();
+                    (callback && typeof(callback) === 'function') && callback();
                 } else {
                     weatherStr = 'IP查询失败';
                     console.error(result.ret);
@@ -221,7 +221,7 @@
         $.ajax({
             url: 'https://api.map.baidu.com/location/ip?ak=E909e759b4dcc019acf2b8d61abb80fa',
             type: 'GET',
-            dataType: "jsonp",
+            dataType: 'jsonp',
             success: function (result) {
                 if (result.status === 0) {
                     let address = result.address.split('|');
@@ -229,7 +229,7 @@
                         // 若city为空则取IP所在城市
                         city = address[2];
                     }
-                    (callback && typeof(callback) === "function") && callback();
+                    (callback && typeof(callback) === 'function') && callback();
                 } else {
                     weatherStr = 'IP查询失败';
                     console.error(result);
@@ -250,14 +250,14 @@
         $.ajax({
             url: 'https://ipinfo.io',
             type: 'GET',
-            dataType: "json",
+            dataType: 'json',
             success: function (result) {
                 if (result.city) {
                     if (!city) {
                         // 若city为空则取IP所在城市
                         city = result.city;
                     }
-                    (callback && typeof(callback) === "function") && callback();
+                    (callback && typeof(callback) === 'function') && callback();
                 } else {
                     weatherStr = 'IP query failed';
                     console.error(result);
@@ -279,14 +279,14 @@
         $.ajax({
             url: 'http://ip-api.com/json',
             type: 'GET',
-            dataType: "json",
+            dataType: 'json',
             success: function (result) {
                 if (result.status === 'success') {
                     if (!city) {
                         // 若city为空则取IP所在城市
                         city = result.city;
                     }
-                    (callback && typeof(callback) === "function") && callback();
+                    (callback && typeof(callback) === 'function') && callback();
                 } else {
                     weatherStr = 'IP query failed';
                     console.error(result);
@@ -399,7 +399,7 @@
                 openWeatherMap.weatherData.weather = result.weather[0].description;
                 openWeatherMap.weatherData.temperature = fahrenheit + '℉' + '(' + celsius + '℃' + ')';
                 openWeatherMap.weatherData.wind = 'Winds at ' + toWindDirectionStr('global', result.wind.deg) + ' ' + result.wind.speed + ' m/s';
-                (callback && typeof(callback) === "function") && callback();
+                (callback && typeof(callback) === 'function') && callback();
             },
             error: function (XMLHttpRequest) {
                 openWeatherMap.basic.cache = 0;  // 清除缓存
@@ -432,7 +432,7 @@
                 yahooWeather.weatherData.weather = result.query.results.channel.item.condition.text;
                 yahooWeather.weatherData.temperature = fahrenheit + '℉' + '(' + celsius + '℃' + ')';
                 yahooWeather.weatherData.wind = 'Winds at ' + toWindDirectionStr('global', result.query.results.channel.wind.direction) + ' ' + result.query.results.channel.wind.speed + ' ' + result.query.results.channel.units.speed;
-                (callback && typeof(callback) === "function") && callback();
+                (callback && typeof(callback) === 'function') && callback();
             },
             error: function (XMLHttpRequest) {
                 openWeatherMap.basic.cache = 0;  // 清除缓存
@@ -460,7 +460,7 @@
                     heWeather.weatherData.weather = result.HeWeather5[0].now.cond.txt;
                     heWeather.weatherData.temperature = result.HeWeather5[0].now.tmp + '℃';
                     heWeather.weatherData.wind = result.HeWeather5[0].now.wind.dir + ' ' + result.HeWeather5[0].now.wind.sc + '级';
-                    (callback && typeof(callback) === "function") && callback();
+                    (callback && typeof(callback) === 'function') && callback();
                 } else {
                     openWeatherMap.basic.cache = 0;  // 清除缓存
                     weatherStr = '和风天气接口异常';
@@ -497,7 +497,7 @@
                     baiduWeather.weatherData.weather = result.results[0].weather_data[0].weather;
                     baiduWeather.weatherData.temperature = result.results[0].weather_data[0].temperature;
                     baiduWeather.weatherData.wind = result.results[0].weather_data[0].wind;
-                    (callback && typeof(callback) === "function") && callback();
+                    (callback && typeof(callback) === 'function') && callback();
                 } else {
                     openWeatherMap.basic.cache = 0;  // 清除缓存
                     weatherStr = '百度天气接口异常';
@@ -534,7 +534,7 @@
                     sinaWeather.weatherData.weather = weather.s1;
                     sinaWeather.weatherData.temperature = weather.t1 + '℃～' + weather.t2 + '℃';
                     sinaWeather.weatherData.wind = weather.d1 + weather.p1 + '级';
-                    (callback && typeof(callback) === "function") && callback();
+                    (callback && typeof(callback) === 'function') && callback();
                 } catch (e) {
                     openWeatherMap.basic.cache = 0;  // 清除缓存
                     weatherStr = '新浪天气接口异常';
@@ -568,7 +568,7 @@
                     k780Weather.weatherData.weather = result.result.weather;
                     k780Weather.weatherData.temperature = result.result.temperature;
                     k780Weather.weatherData.wind = result.result.wind + ' ' + result.result.winp;
-                    (callback && typeof(callback) === "function") && callback();
+                    (callback && typeof(callback) === 'function') && callback();
                 } else {
                     openWeatherMap.basic.cache = 0;  // 清除缓存
                     weatherStr = result.msgid + ' ' + result.msg;
@@ -602,7 +602,7 @@
                     CLCWeather.weatherData.weather = result.data.forecast[0].type;
                     CLCWeather.weatherData.temperature = result.data.wendu + '℃';
                     CLCWeather.weatherData.wind = result.data.forecast[0].fengxiang + ' ' + windSize.substring(9, windSize.length - 3);
-                    (callback && typeof(callback) === "function") && callback();
+                    (callback && typeof(callback) === 'function') && callback();
                 } else {
                     CLCWeather.basic.cache = 0;  // 清除缓存
                     weatherStr = result.desc === 'invilad-citykey' ? '无效城市地址' : '中国万年历接口异常';
