@@ -1,12 +1,12 @@
 /*!
- * jQuery Slider plugin v0.0.21
+ * jQuery Slider plugin v0.0.22
  * project:
  * - https://github.com/Alice-Jie/AudioVisualizer
  * - https://gitee.com/Alice_Jie/circleaudiovisualizer
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2017/11/03
+ * @date 2018/09/16
  */
 
 (function (global, factory) {
@@ -195,6 +195,29 @@
     }
 
     /**
+     * 动画以低速开始和结束(Expo)
+     * @param {int}           time   时间计量
+     * @param {int}           during 计量总数
+     * @param {(int | float)} from   开始值
+     * @param {(int | float)} to     结束值
+     * @return {(int | float)} 当前变化值
+     * 参考至：https://github.com/zhangxinxu/Tween/blob/master/tween.js
+     */
+    function easeInOut(time, during, from, to) {
+        let change = to - from;  // 变化数值
+        if (time <= 0) {
+            return from;
+        }
+        if (time >= during) {
+            return to;
+        }
+        if ((time /= during / 2) < 1) {
+            return change / 2 * Math.pow(2, 10 * (time - 1)) + from;
+        }
+        return change / 2 * (-Math.pow(2, -10 * --time) + 2) + from;
+    }
+
+    /**
      * 根据中心点坐标获取图片左上角坐标
      * 返回图片的XY坐标对象
      *
@@ -316,8 +339,14 @@
         }
     }
 
-    /** 覆盖特效 */
+    /** 覆盖特效
+     *
+     * @param {string}  fitStr   自适应字符串
+     * @param {string}  colorStr 颜色字符串
+     */
     function canvasCover(fitStr, colorStr) {
+        // 时间分量和时间总量
+        let time = 0, during = 250;
         let currantWidth = 0; // 当前图片宽度
         prevImg.onload = function () {
             currantImg.onload = function () {
@@ -327,14 +356,15 @@
                 // 开始绘制动画
                 context.save();
                 effectTimer = requestAnimationFrame(function animal() {
-                    if (currantWidth < canvasWidth) {
+                    if (time <= during) {
                         // 绘制上张图片和当前图片
                         context.drawImage(prevCanvas, 0, 0, canvasWidth, canvasHeight);
                         context.drawImage(currantCanvas,
                             0, 0, currantWidth, canvasHeight,
                             0, 0, currantWidth, canvasHeight);
-                        // 更新当前图片宽度
-                        currantWidth += Math.floor(canvasWidth / 50);
+                        // 更新当前时间分量和图片宽度
+                        time++;
+                        currantWidth = easeInOut(time, during, 0, canvasWidth);
                         effectTimer = requestAnimationFrame(animal);
                     } else {
                         currantContext.globalAlpha = prevContext.globalAlpha = 1;
@@ -350,8 +380,14 @@
         currantImg.src = 'file:///' + imgList[imgIndex];
     }
 
-    /** 渐显特效 */
+    /** 渐显特效
+     *
+     * @param {string}  fitStr   自适应字符串
+     * @param {string}  colorStr 颜色字符串
+     */
     function canvasFadeIn(fitStr, colorStr) {
+        // 时间分量和时间总量
+        let time = 250, during = 250;
         let opacity = 100;  // 不透明值
         prevImg.onload = function () {
             currantImg.onload = function () {
@@ -360,7 +396,7 @@
                 // 开始绘制动画
                 context.save();
                 effectTimer = requestAnimationFrame(function animal() {
-                    if (opacity >= 0) {
+                    if (time >= 0) {
                         // 清空prevCanvas内容
                         prevContext.clearRect(0, 0, canvasWidth, canvasHeight);
                         // 绘制prevCanvas
@@ -369,8 +405,9 @@
                         // 绘制当前图片和上张图片
                         context.drawImage(currantCanvas, 0, 0, canvasWidth, canvasHeight);
                         context.drawImage(prevCanvas, 0, 0, canvasWidth, canvasHeight);
-                        // 更新不透明值
-                        opacity -= 2;
+                        // 更新当前时间分量和不透明值
+                        time--;
+                        opacity = easeInOut(time, during, 0, 100);
                         effectTimer = requestAnimationFrame(animal);
                     } else {
                         currantContext.globalAlpha = prevContext.globalAlpha = 1;
@@ -386,8 +423,14 @@
         currantImg.src = 'file:///' + imgList[imgIndex];
     }
 
-    /** 渐隐特效 */
+    /** 渐隐特效
+     *
+     * @param {string}  fitStr   自适应字符串
+     * @param {string}  colorStr 颜色字符串
+     */
     function canvasFadeOut(fitStr, colorStr) {
+        // 时间分量和时间总量
+        let time = 0, during = 250;
         let opacity = 0;  // 不透明值
         prevImg.onload = function () {
             currantImg.onload = function () {
@@ -396,7 +439,7 @@
                 // 开始绘制动画
                 context.save();
                 effectTimer = requestAnimationFrame(function animal() {
-                    if (opacity < 100) {
+                    if (time <= during) {
                         // 清空currantCanvas内容
                         currantContext.clearRect(0, 0, canvasWidth, canvasHeight);
                         // 绘制currantCanvas
@@ -405,8 +448,9 @@
                         // 绘制上张图片和当前图片
                         context.drawImage(prevCanvas, 0, 0, canvasWidth, canvasHeight);
                         context.drawImage(currantCanvas, 0, 0, canvasWidth, canvasHeight);
-                        // 更新透明值
-                        opacity += 2;
+                        // 更新当前时间分量和不透明值
+                        time++;
+                        opacity = easeInOut(time, during, 0, 100);
                         effectTimer = requestAnimationFrame(animal);
                     } else {
                         currantContext.globalAlpha = prevContext.globalAlpha = 1;
@@ -422,8 +466,14 @@
         currantImg.src = 'file:///' + imgList[imgIndex];
     }
 
-    /** 洗牌特效 */
+    /** 洗牌特效
+     *
+     * @param {string}  fitStr   自适应字符串
+     * @param {string}  colorStr 颜色字符串
+     */
     function canvasShuffle(fitStr, colorStr) {
+        // 时间分量和时间总量
+        let time = 0, during = 250;
         let prevWidth = 0, currantWidth = 0;  // 上张图片和当前图片宽度
         prevImg.onload = function () {
             currantImg.onload = function () {
@@ -432,8 +482,8 @@
                 // 开始绘制动画
                 context.save();
                 effectTimer = requestAnimationFrame(function animal() {
-                    if (prevWidth < canvasWidth) {
-                        if (prevWidth <= originX) {
+                    if (time <= during) {
+                        if (time <= during / 2) {
                             // 当前图片“向右移”，上张图片“向左移”
                             context.drawImage(currantCanvas,
                                 0, 0, canvasWidth - currantWidth, canvasHeight,
@@ -450,9 +500,10 @@
                                 0, 0, currantWidth, canvasHeight,
                                 canvasWidth - currantWidth, 0, currantWidth, canvasHeight);
                         }
-                        // 更新上张图片和当前图片宽度
-                        prevWidth += Math.floor(canvasWidth / 50);
-                        currantWidth += Math.floor(canvasWidth / 50);
+                        // 更新当前时间分量、上张图片和当前图片宽度
+                        time++;
+                        prevWidth = easeInOut(time, during, 0, canvasWidth);
+                        currantWidth = easeInOut(time, during, 0, canvasWidth);
                         effectTimer = requestAnimationFrame(animal);
                     } else {
                         currantContext.globalAlpha = prevContext.globalAlpha = 1;
@@ -468,8 +519,14 @@
         currantImg.src = 'file:///' + imgList[imgIndex];
     }
 
-    /** 滑动特效 */
+    /** 滑动特效
+     *
+     * @param {string}  fitStr   自适应字符串
+     * @param {string}  colorStr 颜色字符串
+     */
     function canvasSlider(fitStr, colorStr) {
+        // 时间分量和时间总量
+        let time = 0, during = 250;
         let prevWidth = 0, currantWidth = 0;  // 上张图片和当前图片宽度
         prevImg.onload = function () {
             currantImg.onload = function () {
@@ -478,7 +535,7 @@
                 // 开始绘制动画
                 context.save();
                 effectTimer = requestAnimationFrame(function animal() {
-                    if (currantWidth < canvasWidth) {
+                    if (0 <= during) {
                         // 绘制上张图片和当前图片
                         context.drawImage(currantCanvas,
                             canvasWidth - currantWidth, 0, currantWidth, canvasHeight,
@@ -486,9 +543,10 @@
                         context.drawImage(prevCanvas,
                             0, 0, canvasWidth - prevWidth, canvasHeight,
                             prevWidth, 0, canvasWidth - prevWidth, canvasHeight);
-                        // 更新上张图片和当前图片宽度
-                        prevWidth += Math.floor(canvasWidth / 50);
-                        currantWidth += Math.floor(canvasWidth / 50);
+                        // 更新当前时间分量、上张图片和当前图片宽度
+                        time++;
+                        prevWidth = easeInOut(time, during, 0, canvasWidth);
+                        currantWidth = easeInOut(time, during, 0, canvasWidth);
                         effectTimer = requestAnimationFrame(animal);
                     } else {
                         currantContext.globalAlpha = prevContext.globalAlpha = 1;
@@ -504,8 +562,14 @@
         currantImg.src = 'file:///' + imgList[imgIndex];
     }
 
-    /** 拉伸特效 */
+    /** 拉伸特效
+     *
+     * @param {string}  fitStr   自适应字符串
+     * @param {string}  colorStr 颜色字符串
+     */
     function canvasVerticalIn(fitStr, colorStr) {
+        // 时间分量和时间总量
+        let time = 0, during = 250;
         let currantWidth = 0;  // 当前图片宽度
         let currantX = getXY(originX, originY, currantWidth, canvasHeight).x;  // 当前图片X坐标
         prevImg.onload = function () {
@@ -515,13 +579,14 @@
                 // 开始绘制动画
                 context.save();
                 effectTimer = requestAnimationFrame(function animal() {
-                    if (currantWidth <= canvasWidth) {
+                    if (time <= during) {
                         // 绘制上张图片和当前图片
                         context.drawImage(prevCanvas, 0, 0, canvasWidth, canvasHeight);
-                        context.drawImage(currantCanvas, currantX + currantWidth / 2, 0, currantWidth, canvasHeight);
-                        // 更新当前图片宽度和坐标X
-                        currantWidth += Math.floor(canvasWidth / 50);
-                        currantX -= Math.floor(canvasWidth / 50);
+                        context.drawImage(currantCanvas, currantX, 0, currantWidth, canvasHeight);
+                        // 更新当前时间分量、图片宽度和坐标X
+                        time++;
+                        currantX = easeInOut(during - time, during, 0, canvasWidth / 2);
+                        currantWidth = easeInOut(time, during, 0, canvasWidth);
                         effectTimer = requestAnimationFrame(animal);
                     } else {
                         currantContext.globalAlpha = prevContext.globalAlpha = 1;
@@ -537,8 +602,14 @@
         currantImg.src = 'file:///' + imgList[imgIndex];
     }
 
-    /** 收缩特效 */
+    /** 收缩特效
+     *
+     * @param {string}  fitStr   自适应字符串
+     * @param {string}  colorStr 颜色字符串
+     */
     function canvasVerticalOut(fitStr, colorStr) {
+        // 时间分量和时间总量
+        let time = 250, during = 250;
         let currantWidth = canvasWidth;  // 当前图片宽度
         let currantX = getXY(originX, originY, currantWidth, canvasHeight).x;  // 当前图片X坐标
         prevImg.onload = function () {
@@ -548,13 +619,14 @@
                 // 开始绘制动画
                 context.save();
                 effectTimer = requestAnimationFrame(function animal() {
-                    if (currantWidth > 0) {
+                    if (time >= 0) {
                         // 绘制当前图片和上张图片
                         context.drawImage(currantCanvas, 0, 0, canvasWidth, canvasHeight);
                         context.drawImage(prevCanvas, currantX, 0, currantWidth, canvasHeight);
-                        // 更新当前图片宽度和坐标X
-                        currantWidth -= Math.floor(canvasWidth / 50);
-                        currantX += Math.floor(originX / 50);
+                        // 更新当前时间分量、图片宽度和坐标X
+                        time--;
+                        currantX = easeInOut(during - time, during, 0, canvasWidth / 2);
+                        currantWidth = easeInOut(time, during, 0, canvasWidth);
                         effectTimer = requestAnimationFrame(animal);
                     } else {
                         currantContext.globalAlpha = prevContext.globalAlpha = 1;
@@ -570,8 +642,14 @@
         currantImg.src = 'file:///' + imgList[imgIndex];
     }
 
-    /** 放大特效 */
+    /** 放大特效
+     *
+     * @param {string}  fitStr   自适应字符串
+     * @param {string}  colorStr 颜色字符串
+     */
     function canvasZoomIn(fitStr, colorStr) {
+        // 时间分量和时间总量
+        let time = 0, during = 250;
         // 当前图片宽度和高度
         let currantWidth = 0, currantHeight = 0;
         // 当前图片XY坐标
@@ -584,15 +662,16 @@
                 // 开始绘制动画
                 context.save();
                 effectTimer = requestAnimationFrame(function animal() {
-                    if (currantWidth <= canvasWidth && currantHeight <= canvasWidth) {
+                    if (time <= during) {
                         // 绘制上张图片和当前图片
                         context.drawImage(prevCanvas, 0, 0, canvasWidth, canvasHeight);
-                        context.drawImage(currantCanvas, currantX + currantWidth / 2, currantY + currantHeight / 2, currantWidth, currantHeight);
-                        // 更新当前图片宽度和XY坐标
-                        currantX -= Math.floor(canvasWidth / 50);
-                        currantY -= Math.floor(canvasHeight / 50);
-                        currantWidth += Math.floor(canvasWidth / 50);
-                        currantHeight += Math.floor(canvasHeight / 50);
+                        context.drawImage(currantCanvas, currantX, currantY, currantWidth, currantHeight);
+                        // 更新当前时间分量、图片宽度和XY坐标
+                        time++;
+                        currantX = easeInOut(during - time, during, 0, canvasWidth / 2);
+                        currantY = easeInOut(during - time, during, 0, canvasHeight / 2);
+                        currantWidth = easeInOut(time, during, 0, canvasWidth);
+                        currantHeight = easeInOut(time, during, 0, canvasHeight);
                         effectTimer = requestAnimationFrame(animal);
                     } else {
                         currantContext.globalAlpha = prevContext.globalAlpha = 1;
@@ -608,8 +687,13 @@
         currantImg.src = 'file:///' + imgList[imgIndex];
     }
 
-    /** 缩小特效 */
+    /** 缩小特效
+     *
+     * @param {string}  fitStr   自适应字符串
+     * @param {string}  colorStr 颜色字符串
+     */
     function canvasZoomOut(fitStr, colorStr) {
+        let time = 250, during = 250;
         // 当前图片宽度和高度
         let currantWidth = canvasWidth, currantHeight = canvasHeight;
         // 图片XY坐标
@@ -621,15 +705,16 @@
                 drawOffScreenCanvas(fitStr, currantImg, currantContext, colorStr);
                 // 开始绘制动画
                 effectTimer = requestAnimationFrame(function animal() {
-                    if (currantWidth > 0 && currantHeight > 0) {
+                    if (time >= 0) {
                         // 绘制当前图片和上张图片
                         context.drawImage(currantCanvas, 0, 0, canvasWidth, canvasHeight);
                         context.drawImage(prevCanvas, currantX, currantY, currantWidth, currantHeight);
-                        // 更新当前图片宽度和XY坐标
-                        currantX += Math.floor(originX / 50);
-                        currantY += Math.floor(originY / 50);
-                        currantWidth -= Math.floor(canvasWidth / 50);
-                        currantHeight -= Math.floor(canvasHeight / 50);
+                        // 更新当前时间分量、图片宽度和XY坐标
+                        time--;
+                        currantX = easeInOut(during - time, during, 0, canvasWidth / 2);
+                        currantY = easeInOut(during - time, during, 0, canvasHeight / 2);
+                        currantWidth = easeInOut(time, during, 0, canvasWidth);
+                        currantHeight = easeInOut(time, during, 0, canvasHeight);
                         effectTimer = requestAnimationFrame(animal);
                     } else {
                         currantContext.globalAlpha = prevContext.globalAlpha = 1;
@@ -1239,9 +1324,16 @@
         /**
          * 选择图片切换特效
          * @private
+         *
+         * @param {string} effect 切换特效字符串
          */
-        selectImgEffects: function () {
-            switch (this.effect) {
+        selectImgEffects: function (effect) {
+            let randomStr = [
+                'cover',  'fadeIn', 'fadeOut', 'shuffle', 'slider',
+                'vertIn', 'vertOut', 'zoomIn',  'zoomOut'
+            ];
+            let randomNum = 0;
+            switch (effect) {
                 case 'none':
                     stopEffectTimer();
                     prevImg.onload = function () {
@@ -1282,6 +1374,10 @@
                 case 'zoomOut':
                     imgZoomOut();
                     break;
+                case 'random':
+                    randomNum = Math.floor(Math.random() * randomStr.length);
+                    this.selectImgEffects(randomStr[randomNum]);
+                    break;
                 default:
                     stopEffectTimer();
                     prevImg.onload = function () {
@@ -1300,9 +1396,16 @@
         /**
          * 选择Canvas切换特效
          * @private
+         *
+         * @param {string} effect 切换特效字符串
          */
-        selectCanvasEffects: function () {
-            switch (this.effect) {
+        selectCanvasEffects: function (effect) {
+            let randomStr = [
+                'cover',  'fadeIn', 'fadeOut', 'shuffle', 'slider',
+                'vertIn', 'vertOut', 'zoomIn',  'zoomOut'
+            ];
+            let randomNum = 0;
+            switch (effect) {
                 case 'none':
                     stopEffectTimer();
                     prevImg.onload = function () {
@@ -1336,6 +1439,10 @@
                     break;
                 case 'zoomOut':
                     canvasZoomOut(this.canvasFit, this.canvasBGColor);
+                    break;
+                case 'random':
+                    randomNum = Math.floor(Math.random() * randomStr.length);
+                    this.selectCanvasEffects(randomStr[randomNum]);
                     break;
                 default:
                     stopEffectTimer();
@@ -1746,9 +1853,9 @@
                         }
                         // 选择背景切换特效
                         if (this.sliderStyle === 'image') {
-                            this.selectImgEffects();
+                            this.selectImgEffects(this.effect);
                         } else if (this.sliderStyle === 'canvas') {
-                            this.selectCanvasEffects();
+                            this.selectCanvasEffects(this.effect);
                         }
                     }
                     this.changeSlider();  // 绘制背景

@@ -235,6 +235,10 @@
           {
             "label": "缩小/Zoom-Out",
             "value": 9
+          },
+          {
+            "label": "随机/Random",
+            "value": 10
           }
         ],
         "value": 0

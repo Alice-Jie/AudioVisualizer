@@ -6,7 +6,7 @@
  * - http://steamcommunity.com/sharedfiles/filedetails/?id=921617616
  * @license MIT licensed
  * @author Alice
- * @date 2018/01/12
+ * @date 2018/09/16
  */
 
 (function ($, window, document, Math) {
@@ -223,6 +223,8 @@
                 return 'zoomIn';
             case 9:
                 return 'zoomOut';
+            case 10:
+                return 'random';
             default:
                 return 'none';
         }
