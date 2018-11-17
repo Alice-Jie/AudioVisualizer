@@ -19,35 +19,35 @@
         "type": "combo",
         "options": [
           {
-            "label": "All/全部",
+            "label": "全部&ensp;/&ensp;All",
             "value": 1
           },
           {
-            "label": "Background/背景",
+            "label": "背景&ensp;/&ensp;Background",
             "value": 2
           },
           {
-            "label": "Ring/圆环",
+            "label": "圆环&ensp;/&ensp;Ring",
             "value": 3
           },
           {
-            "label": "Bars/条形",
+            "label": "条形&ensp;/&ensp;Bars",
             "value": 4
           },
           {
-            "label": "Logo/标志",
+            "label": "标志&ensp;/&ensp;Logo",
             "value": 5
           },
           {
-            "label": "Date/日期",
+            "label": "日期&ensp;/&ensp;Date",
             "value": 6
           },
           {
-            "label": "Particles/粒子",
+            "label": "粒子&ensp;/&ensp;Particles",
             "value": 7
           },
           {
-            "label": "None/无",
+            "label": "无&ensp;&ensp;&ensp;/&ensp;None",
             "value": 8
           }
         ],
@@ -71,19 +71,19 @@
         "type": "combo",
         "options": [
           {
-            "label": "颜色/Color",
+            "label": "颜色&ensp;&ensp;&ensp;/&ensp;Color",
             "value": 1
           },
           {
-            "label": "壁纸/Wallpaper",
+            "label": "壁纸&ensp;&ensp;&ensp;/&ensp;Wallpaper",
             "value": 2
           },
           {
-            "label": "幻灯片/Slides",
+            "label": "幻灯片&ensp;/&ensp;Slides",
             "value": 3
           },
           {
-            "label": "视频/Video",
+            "label": "视频&ensp;&ensp;&ensp;/&ensp;Video",
             "value": 4
           }
         ],
@@ -140,23 +140,23 @@
         "type": "combo",
         "options": [
           {
-            "label": "填充/Fill",
+            "label": "填充&ensp;/&ensp;Fill",
             "value": 1
           },
           {
-            "label": "适应/Fit",
+            "label": "适应&ensp;/&ensp;Fit",
             "value": 2
           },
           {
-            "label": "拉伸/Stretch",
+            "label": "拉伸&ensp;/&ensp;Stretch",
             "value": 3
           },
           {
-            "label": "平铺/Tile",
+            "label": "平铺&ensp;/&ensp;Tile",
             "value": 4
           },
           {
-            "label": "居中/Center",
+            "label": "居中&ensp;/&ensp;Center",
             "value": 5
           }
         ],
@@ -197,47 +197,47 @@
         "type": "combo",
         "options": [
           {
-            "label": "关闭/Close",
+            "label": "关闭&ensp;/&ensp;Close",
             "value": 0
           },
           {
-            "label": "覆盖/Cover",
+            "label": "覆盖&ensp;/&ensp;Cover",
             "value": 1
           },
           {
-            "label": "渐显/Fade-In",
+            "label": "渐显&ensp;/&ensp;Fade-In",
             "value": 2
           },
           {
-            "label": "渐隐/Fade-Out",
+            "label": "渐隐&ensp;/&ensp;Fade-Out",
             "value": 3
           },
           {
-            "label": "洗牌/Shuffle",
+            "label": "洗牌&ensp;/&ensp;Shuffle",
             "value": 4
           },
           {
-            "label": "滑动/Slider",
+            "label": "滑动&ensp;/&ensp;Slider",
             "value": 5
           },
           {
-            "label": "拉伸/Vert-In",
+            "label": "拉伸&ensp;/&ensp;Vert-In",
             "value": 6
           },
           {
-            "label": "收缩/Vert-Out",
+            "label": "收缩&ensp;/&ensp;Vert-Out",
             "value": 7
           },
           {
-            "label": "放大/Zoom-In",
+            "label": "放大&ensp;/&ensp;Zoom-In",
             "value": 8
           },
           {
-            "label": "缩小/Zoom-Out",
+            "label": "缩小&ensp;/&ensp;Zoom-Out",
             "value": 9
           },
           {
-            "label": "随机/Random",
+            "label": "随机&ensp;/&ensp;Random",
             "value": 10
           }
         ],
@@ -250,23 +250,23 @@
         "type": "combo",
         "options": [
           {
-            "label": "填充/Fill",
+            "label": "填充&ensp;/&ensp;Fill",
             "value": 1
           },
           {
-            "label": "适应/Fit",
+            "label": "适应&ensp;/&ensp;Fit",
             "value": 2
           },
           {
-            "label": "拉伸/Stretch",
+            "label": "拉伸&ensp;/&ensp;Stretch",
             "value": 3
           },
           {
-            "label": "缩小/Scale-Down",
+            "label": "缩小&ensp;/&ensp;Scale-Down",
             "value": 4
           },
           {
-            "label": "居中/Center",
+            "label": "居中&ensp;/&ensp;Center",
             "value": 5
           }
         ],
@@ -286,19 +286,19 @@
         "type": "combo",
         "options": [
           {
-            "label": "填充/Fill",
+            "label": "填充&ensp;/&ensp;Fill",
             "value": 1
           },
           {
-            "label": "适应/Fit",
+            "label": "适应&ensp;/&ensp;Fit",
             "value": 2
           },
           {
-            "label": "拉伸/Stretch",
+            "label": "拉伸&ensp;/&ensp;Stretch",
             "value": 3
           },
           {
-            "label": "居中/Center",
+            "label": "居中&ensp;/&ensp;Center",
             "value": 4
           }
         ],
@@ -318,11 +318,11 @@
         "type": "combo",
         "options": [
           {
-            "label": "顺序/Sequential",
+            "label": "顺序&ensp;/&ensp;Sequential",
             "value": 1
           },
           {
-            "label": "随机/Random",
+            "label": "随机&ensp;/&ensp;Random",
             "value": 2
           }
         ],
@@ -335,15 +335,15 @@
         "type": "combo",
         "options": [
           {
-            "label": "秒/Sec",
+            "label": "秒&ensp;&ensp;&ensp;/&ensp;Sec",
             "value": 1
           },
           {
-            "label": "分/Min",
+            "label": "分&ensp;&ensp;&ensp;/&ensp;Min",
             "value": 2
           },
           {
-            "label": "小时/Hour",
+            "label": "小时&ensp;/&ensp;Hour",
             "value": 3
           }
         ],
@@ -389,15 +389,15 @@
         "type": "combo",
         "options": [
           {
-            "label": "当前/Current",
+            "label": "当前&ensp;&ensp;&ensp;/&ensp;Current",
             "value": 0
           },
           {
-            "label": "上一个/Prev",
+            "label": "上一个&ensp;/&ensp;Prev",
             "value": -1
           },
           {
-            "label": "下一个/Next",
+            "label": "下一个&ensp;/&ensp;Next",
             "value": 1
           }
         ],
@@ -437,23 +437,23 @@
         "type": "combo",
         "options": [
           {
-            "label": "填充/Fill",
+            "label": "填充&ensp;/&ensp;Fill",
             "value": 1
           },
           {
-            "label": "适应/Fit",
+            "label": "适应&ensp;/&ensp;Fit",
             "value": 2
           },
           {
-            "label": "拉伸/Stretch",
+            "label": "拉伸&ensp;/&ensp;Stretch",
             "value": 3
           },
           {
-            "label": "缩小/Scale-Down",
+            "label": "缩小&ensp;/&ensp;Scale-Down",
             "value": 4
           },
           {
-            "label": "居中/Center",
+            "label": "居中&ensp;/&ensp;Center",
             "value": 5
           }
         ],
@@ -563,15 +563,15 @@
         "type": "combo",
         "options": [
           {
-            "label": "当前/Current",
+            "label": "当前&ensp;&ensp;&ensp;/&ensp;Current",
             "value": 0
           },
           {
-            "label": "上一个/Prev",
+            "label": "上一个&ensp;/&ensp;Prev",
             "value": -1
           },
           {
-            "label": "下一个/Next",
+            "label": "下一个&ensp;/&ensp;Next",
             "value": 1
           }
         ],
@@ -703,15 +703,15 @@
         "type": "combo",
         "options": [
           {
-            "label": "内环/Inner Ring",
+            "label": "内环&ensp;/&ensp;Inner Ring",
             "value": 1
           },
           {
-            "label": "外环/Outer Ring",
+            "label": "外环&ensp;/&ensp;Outer Ring",
             "value": 2
           },
           {
-            "label": "双环/Two Ring",
+            "label": "双环&ensp;/&ensp;Two Ring",
             "value": 3
           }
         ],
@@ -731,15 +731,15 @@
         "type": "combo",
         "options": [
           {
-            "label": "内环/Inner Ring",
+            "label": "内环&ensp;/&ensp;Inner Ring",
             "value": 1
           },
           {
-            "label": "外环/Outer Ring",
+            "label": "外环&ensp;/&ensp;Outer Ring",
             "value": 2
           },
           {
-            "label": "双环/Two Ring",
+            "label": "双环&ensp;/&ensp;Two Ring",
             "value": 3
           }
         ],
@@ -795,15 +795,15 @@
         "type": "combo",
         "options": [
           {
-            "label": "单色/Monochrome",
+            "label": "纯色&ensp;/&ensp;Pure Color",
             "value": 1
           },
           {
-            "label": "颜色变换/Color Transformation",
+            "label": "渐变&ensp;/&ensp;Gradual Change",
             "value": 2
           },
           {
-            "label": "彩虹/RainBow",
+            "label": "彩虹&ensp;/&ensp;RainBow",
             "value": 3
           }
         ],
@@ -961,15 +961,15 @@
         "type": "combo",
         "options": [
           {
-            "label": "扁平/Butt",
+            "label": "扁平&ensp;/&ensp;Butt",
             "value": 1
           },
           {
-            "label": "方形/Miter",
+            "label": "方形&ensp;/&ensp;Miter",
             "value": 2
           },
           {
-            "label": "圆形/Round",
+            "label": "圆形&ensp;/&ensp;Round",
             "value": 3
           }
         ],
@@ -1002,15 +1002,15 @@
         "type": "combo",
         "options": [
           {
-            "label": "无/None",
+            "label": "无&ensp;&ensp;&ensp;/&ensp;None",
             "value": 1
           },
           {
-            "label": "衔接/Connection",
+            "label": "衔接&ensp;/&ensp;Connection",
             "value": 2
           },
           {
-            "label": "中心/Center",
+            "label": "中心&ensp;/&ensp;Center",
             "value": 3
           }
         ],
@@ -1106,11 +1106,11 @@
         "type": "combo",
         "options": [
           {
-            "label": "向外/Outer",
+            "label": "向外&ensp;/&ensp;Outer",
             "value": 1
           },
           {
-            "label": "向内/Inner",
+            "label": "向内&ensp;/&ensp;Inner",
             "value": -1
           }
         ],
@@ -1196,11 +1196,11 @@
         "type": "combo",
         "options": [
           {
-            "label": "值/Value",
+            "label": "值&ensp;&ensp;&ensp;/&ensp;Value",
             "value": 1
           },
           {
-            "label": "坐标/Coordinate",
+            "label": "坐标&ensp;/&ensp;Coordinate",
             "value": 2
           }
         ],
@@ -1466,15 +1466,15 @@
         "type": "combo",
         "options": [
           {
-            "label": "向上条形/Upper Bars",
+            "label": "向上&ensp;/&ensp;Up",
             "value": 1
           },
           {
-            "label": "向下条形/Lower Bars",
+            "label": "向下&ensp;/&ensp;Down",
             "value": 2
           },
           {
-            "label": "双向条形/Two Bars",
+            "label": "双向&ensp;/&ensp;Up and Down",
             "value": 3
           }
         ],
@@ -1494,15 +1494,15 @@
         "type": "combo",
         "options": [
           {
-            "label": "向上条形/Upper Bars",
+            "label": "向上&ensp;/&ensp;Up",
             "value": 1
           },
           {
-            "label": "向下条形/Lower Bars",
+            "label": "向下&ensp;/&ensp;Down",
             "value": 2
           },
           {
-            "label": "双向条形/Two Bars",
+            "label": "双向&ensp;/&ensp;Up and Down",
             "value": 3
           }
         ],
@@ -1558,15 +1558,15 @@
         "type": "combo",
         "options": [
           {
-            "label": "单色/Monochrome",
+            "label": "纯色&ensp;/&ensp;Pure Color",
             "value": 1
           },
           {
-            "label": "颜色变换/Color Transformation",
+            "label": "渐变&ensp;/&ensp;Gradual Change",
             "value": 2
           },
           {
-            "label": "彩虹/RainBow",
+            "label": "彩虹&ensp;/&ensp;RainBow",
             "value": 3
           }
         ],
@@ -1734,15 +1734,15 @@
         "type": "combo",
         "options": [
           {
-            "label": "扁平/Butt",
+            "label": "扁平&ensp;/&ensp;Butt",
             "value": 1
           },
           {
-            "label": "方形/Miter",
+            "label": "方形&ensp;/&ensp;Miter",
             "value": 2
           },
           {
-            "label": "圆形/Round",
+            "label": "圆形&ensp;/&ensp;Round",
             "value": 3
           }
         ],
@@ -1831,11 +1831,11 @@
         "type": "combo",
         "options": [
           {
-            "label": "值/Value",
+            "label": "值&ensp;&ensp;&ensp;/&ensp;Value",
             "value": 1
           },
           {
-            "label": "坐标/Coordinate",
+            "label": "坐标&ensp;/&ensp;Coordinate",
             "value": 2
           }
         ],
@@ -2350,67 +2350,67 @@
         "type": "combo",
         "options": [
           {
-            "label": "正常/normal",
+            "label": "正常&ensp;&ensp;&ensp;&ensp;&ensp;/&ensp;normal",
             "value": 1
           },
           {
-            "label": "正片叠底/multiply",
+            "label": "正片叠底&ensp;/&ensp;multiply",
             "value": 2
           },
           {
-            "label": "滤色/screen",
+            "label": "滤色&ensp;&ensp;&ensp;&ensp;&ensp;/&ensp;screen",
             "value": 3
           },
           {
-            "label": "叠加/overlay",
+            "label": "叠加&ensp;&ensp;&ensp;&ensp;&ensp;/&ensp;overlay",
             "value": 4
           },
           {
-            "label": "变暗/darken",
+            "label": "变暗&ensp;&ensp;&ensp;&ensp;&ensp;/&ensp;darken",
             "value": 5
           },
           {
-            "label": "变亮/lighten",
+            "label": "变亮&ensp;&ensp;&ensp;&ensp;&ensp;/&ensp;lighten",
             "value": 6
           },
           {
-            "label": "颜色减淡/color-dodge",
+            "label": "颜色减淡&ensp;/&ensp;color-dodge",
             "value": 7
           },
           {
-            "label": "颜色加深/color-burn",
+            "label": "颜色加深&ensp;/&ensp;color-burn",
             "value": 8
           },
           {
-            "label": "强光/hard-light",
+            "label": "强光&ensp;&ensp;&ensp;/&ensp;hard-light",
             "value": 9
           },
           {
-            "label": "柔光/soft-light",
+            "label": "柔光&ensp;&ensp;&ensp;/&ensp;soft-light",
             "value": 10
           },
           {
-            "label": "差值/difference",
+            "label": "差值&ensp;&ensp;&ensp;/&ensp;difference",
             "value": 11
           },
           {
-            "label": "排除/exclusion",
+            "label": "排除&ensp;&ensp;&ensp;/&ensp;exclusion",
             "value": 12
           },
           {
-            "label": "色相/hue",
+            "label": "色相&ensp;&ensp;&ensp;/&ensp;hue",
             "value": 13
           },
           {
-            "label": "饱和度/saturation",
+            "label": "饱和度&ensp;/&ensp;saturation",
             "value": 14
           },
           {
-            "label": "颜色/color",
+            "label": "颜色&ensp;&ensp;&ensp;/&ensp;color",
             "value": 15
           },
           {
-            "label": "亮度/luminosity",
+            "label": "亮度&ensp;&ensp;&ensp;/&ensp;luminosity",
             "value": 16
           }
         ],
@@ -2479,11 +2479,11 @@
         "type": "combo",
         "options": [
           {
-            "label": "值/Value",
+            "label": "值&ensp;&ensp;&ensp;/&ensp;Value",
             "value": 1
           },
           {
-            "label": "坐标/Coordinate",
+            "label": "坐标&ensp;/&ensp;Coordinate",
             "value": 2
           }
         ],
@@ -2596,15 +2596,15 @@
         "type": "combo",
         "options": [
           {
-            "label": "无/None",
+            "label": "无&ensp;&ensp;&ensp;/&ensp;None",
             "value": 1
           },
           {
-            "label": "自动/Auto",
+            "label": "自动&ensp;/&ensp;Auto",
             "value": 2
           },
           {
-            "label": "鼠标/Mouse",
+            "label": "鼠标&ensp;/&ensp;Mouse",
             "value": 3
           }
         ],
@@ -2826,11 +2826,11 @@
         "type": "combo",
         "options": [
           {
-            "label": "单色/Monochrome",
+            "label": "纯色&ensp;/&ensp;Pure Color",
             "value": 1
           },
           {
-            "label": "颜色变换/Color Transformation",
+            "label": "渐变&ensp;/&ensp;Gradual Change",
             "value": 2
           }
         ],
@@ -3276,7 +3276,7 @@
             "value": 7
           },
           {
-            "label": "Weather/天气",
+            "label": "天气&ensp;/&ensp;Weather",
             "value": 8
           }
         ],
@@ -3498,11 +3498,11 @@
         "type": "combo",
         "options": [
           {
-            "label": "全球/Global",
+            "label": "全球&ensp;/&ensp;Global",
             "value": 1
           },
           {
-            "label": "中国/China",
+            "label": "中国&ensp;/&ensp;China",
             "value": 2
           }
         ],
@@ -3620,11 +3620,11 @@
         "type": "combo",
         "options": [
           {
-            "label": "值/Value",
+            "label": "值&ensp;&ensp;&ensp;/&ensp;Value",
             "value": 1
           },
           {
-            "label": "坐标/Coordinate",
+            "label": "坐标&ensp;/&ensp;Coordinate",
             "value": 2
           }
         ],
@@ -4020,23 +4020,23 @@
         "type": "combo",
         "options": [
           {
-            "label": "圆形/Circle",
+            "label": "圆形&ensp;&ensp;&ensp;/&ensp;Circle",
             "value": 1
           },
           {
-            "label": "正方形/Edge",
+            "label": "正方形&ensp;/&ensp;Edge",
             "value": 2
           },
           {
-            "label": "三角形/Triangle",
+            "label": "三角形&ensp;/&ensp;Triangle",
             "value": 3
           },
           {
-            "label": "星形/Star",
+            "label": "星形&ensp;&ensp;&ensp;/&ensp;Star",
             "value": 4
           },
           {
-            "label": "图片/Image",
+            "label": "图片&ensp;&ensp;&ensp;/&ensp;Image",
             "value": 5
           }
         ],
@@ -4217,39 +4217,39 @@
         "type": "combo",
         "options": [
           {
-            "label": "无/none",
+            "label": "无&ensp;&ensp;&ensp;/&ensp;none",
             "value": 1
           },
           {
-            "label": "顶部/top",
+            "label": "顶部&ensp;/&ensp;top",
             "value": 2
           },
           {
-            "label": "右上角/top-right",
+            "label": "右上&ensp;/&ensp;top-right",
             "value": 3
           },
           {
-            "label": "右侧/right",
+            "label": "右侧&ensp;/&ensp;right",
             "value": 4
           },
           {
-            "label": "右下角/bottom-right",
+            "label": "右下&ensp;/&ensp;bottom-right",
             "value": 5
           },
           {
-            "label": "底部/bottom",
+            "label": "底部&ensp;/&ensp;bottom",
             "value": 6
           },
           {
-            "label": "左下角/bottom-left",
+            "label": "左下&ensp;/&ensp;bottom-left",
             "value": 7
           },
           {
-            "label": "左侧/left",
+            "label": "左侧&ensp;/&ensp;left",
             "value": 8
           },
           {
-            "label": "左上角/top-left",
+            "label": "左上&ensp;/&ensp;top-left",
             "value": 9
           }
         ],
@@ -4757,6 +4757,409 @@
         "ui_about_updateText": "<br/><span>Update Description：</span><br/><span>1. Adding weather region parameters.</span><br/><span>2. Adding more weather interfaces.</span><br/><span>                           -- From Baidu translate.</span><br/>",
         "ui_about_describeText": "<br/><span>Relevant Instructions：</span><br/><span>Instead of adding more functionality, the subsequent update only improves existing functionality.</span><br/>",
         "ui_about_isQRcode": "<br/>Show QRcode?<br/><br/>"
+      },
+      "ru-ru": {
+        "ui_MENU_mode": "<br/>Список Плагинов<br/><br/>",
+        "ui_MENU_text": "<h3><b>Меню</b></h3><small>Выберите параметры плагина для отображения.</small>",
+        "Dividing_line0": "------------------------------------------------------------------------------------------------------------------------",
+        "ui_slider_Text": "<h3><b>Фон</b></h3><small>Настройка параметров фона. В настоящее время поддерживает сплошной цвет / линейный, изображение, слайд и видео фоны.</small>",
+        "ui_slider_mode": "<br/>Режим Фона<br/><br/>",
+        "ui_slider_color_color": "<br/>Цвет Фона<br/><br/>",
+        "ui_slider_color_isLinearGradient": "<br/>Линейный Градиент?<br/><br/>",
+        "ui_slider_color_linearGradientColor1": "<br/>Первый Цвет<br/><br/>",
+        "ui_slider_color_linearGradientColor2": "<br/>Второй Цвет<br/><br/>",
+        "ui_slider_color_linearGradientDeg": "<br/>Угол Градиента<br/><br/>",
+        "Dividing_line1": "------------------------------------------------------------------------------------------------------------------------",
+        "ui_slider_wallpaper_file": "<br/>Фоновое Изображение<br/><br/>",
+        "ui_slider_wallpaper_fillStyle": "<br/>Стиль Заливки Фона<br/><br/>",
+        "Dividing_line2": "------------------------------------------------------------------------------------------------------------------------",
+        "ui_slider_directory": "<br/>Папака Изображения<br/><br/>",
+        "ui_slider_directory_sliderStyle": "<br/>Стиль Скольжения<br/><br/>",
+        "ui_slider_directory_effect": "<br/>Скользящий Эффект<br/><br/>",
+        "ui_slider_directory_imgFitStyle": "<br/>Стиль Заливки Изображения<br/><br/>",
+        "ui_slider_directory_imgBGColor": "<br/>Цвет фона изображения<br/><br/>",
+        "ui_slider_directory_canvasBGColor": "<br/>Цвет Фона Холста<br/><br/>",
+        "ui_slider_directory_canvasFitStyle": "<br/>Стиль Заливки Холста<br/><br/>",
+        "ui_slider_directory_readStyle": "<br/>Порядок Чтения<br/><br/>",
+        "ui_slider_directory_timeUnits": "<br/>Продолжительность Блока<br/><br/>",
+        "ui_slider_directory_pauseTime": "<br/>Длительность Изображения<br/><br/>",
+        "Dividing_line3": "------------------------------------------------------------------------------------------------------------------------",
+        "ui_slider_video_Text": "<span>Поддерживает видео формата WebM, вы сможете преобразовать другие форматы к WebM с помощью ffmpeg.</span>",
+        "ui_slider_video_file": "<br/>Видеофайл<br/><br/>",
+        "ui_slider_video_progress": "<br/>Прогресс-бар<br/><br/>",
+        "ui_slider_video_switch": "<br/>Пред/След Видео<br/><br/>",
+        "ui_slider_video_isPlay": "<br/>Воспроизведение / Пауза Видео<br/><br/>",
+        "ui_slider_video_volume": "<br/>Громкость Видео<br/><br/>",
+        "ui_slider_video_playBackRate": "<br/>Скорость Воспроизведения<br/><br/>",
+        "ui_slider_video_FitStyle": "<br/>Стиль Заливки Видео<br/><br/>",
+        "ui_slider_video_BGColor": "<br/>Цвет Фона Видео<br/><br/>",
+        "Dividing_line4": "------------------------------------------------------------------------------------------------------------------------",
+        "ui_slider_transform": "<br/><b>Фона - Настройки Трансформации</b><br/><br/>",
+        "ui_slider_perspective": "<br/>Перспектива<br/><br/>",
+        "ui_slider_width": "<br/>Ширина(%)<br/><br/>",
+        "ui_slider_height": "<br/>Высота(%)<br/><br/>",
+        "ui_slider_isRotate3D": "<br/>3D Вращение?<br/><br/>",
+        "ui_slider_degSize": "<br/>Размер Угла<br/><br/>",
+        "ui_slider_isBackgroundZoom": "<br/>Увелечение Фона Следует За Звуком?<br/><br/>",
+        "ui_slider_filterBlur": "<br/>Размытие Фона Следует За Звуком?<br/><br/>",
+        "Dividing_line5": "------------------------------------------------------------------------------------------------------------------------",
+        "ui_slider_audio_Text": "<br/><b>Фон - Настройки Звука</b><br/><br/>",
+        "ui_slider_audio_file": "<br/>Аудиофайл<br/><br/>",
+        "ui_slider_audio_progress": "<br/>Прогресс-бар<br/><br/>",
+        "ui_slider_audio_switch": "<br/>Пред/След Аудио<br/><br/>",
+        "ui_slider_audio_isPlay": "<br/>Воспроизведение / Пауза Аудио<br/><br/>",
+        "ui_slider_audio_isLoop": "<br/>Зыцикливать Аудио?<br/><br/>",
+        "ui_slider_audio_volume": "<br/>Громкость Аудио<br/><br/>",
+        "Dividing_line6": "------------------------------------------------------------------------------------------------------------------------",
+        "ui_audioData_AudioText": "<h3><b>Аудио</b></h3><small>Устанавливает параметры звука звукового кольца и аудио баров.</small>",
+        "ui_audioData_amplitude": "<br/>Амплитуда Звука<br/><br/>",
+        "ui_audioData_decline": "<br/>Снижение Звука<br/><br/>",
+        "ui_audioData_peak": "<br/>Аудио Пик<br/><br/>",
+        "Dividing_line7": "------------------------------------------------------------------------------------------------------------------------",
+        "ui_circle_Text": "<h3><b>Кольцо</b></h3><small>Задаются параметры, относящиеся к звуковому кольцу, и настраиваются основные параметры, параметры координат, параметры кольца, параметры линии и параметры шара.</small>",
+        "ui_circle_basicText": "<br/><b>Кольцо - Основные Настройки</b><br/><br/>",
+        "ui_circle_isRing": "<br/>Показывать Кольцо?<br/><br/>",
+        "ui_circle_isStaticRing": "<br/>Показать Статическое Кольцо?<br/><br/>",
+        "ui_circle_isInnerRing": "<br/>Показать Внутреннее Кольцо?<br/><br/>",
+        "ui_circle_isOuterRing": "<br/>Показать Внешнее Кольцо?<br/><br/>",
+        "ui_circle_isLineTo": "<br/>Показать Строку?<br/><br/>",
+        "ui_circle_lineDirection": "<br/>Направление Линии<br/><br/>",
+        "ui_circle_isWave": "<br/>Показать Волну?<br/><br/>",
+        "ui_circle_waveDirection": "<br/>Направление Волны<br/><br/>",
+        "ui_circle_isBall": "<br/>Показывать Шары?<br/><br/>",
+        "ui_circle_isSilenceEffect": "<br/>Эффект Тишины?<br/><br/>",
+        "ui_circle_respiratoryRate": "<br/>Частота Ритма<br/><br/>",
+        "ui_circle_waveAmplitude": "<br/>Амплитуда Волны<br/><br/>",
+        "ui_circle_groupVelocity": "<br/>Групповая Скорость<br/><br/>",
+        "ui_circle_colorText": "<br/><b>Кольцо - Настройки Цвета</b><br/>",
+        "ui_circle_colorMode": "<br/>Цветовой Режим<br/><br/>",
+        "ui_circle_color": "<br/>Цвет<br/><br/>",
+        "ui_circle_shadowColor": "<br/>Цвет Свечения<br/><br/>",
+        "ui_circle_shadowBlur": "<br/>Размер Свечения(px)<br/><br/>",
+        "ui_circle_shadowOverlay": "<br/>Накладывать Тени?<br/><br/>",
+        "ui_circle_isRandomColor": "<br/>Случайный Цвет?<br/><br/>",
+        "ui_circle_firstColor": "<br/>Первый Цвет<br/><br/>",
+        "ui_circle_secondColor": "<br/>Второй Цвет<br/><br/>",
+        "ui_circle_isChangeBlur": "<br/>Связать Светящиеся Цвета?<br/><br/>",
+        "ui_circle_hueRange": "<br/>Диапазон Оттенков<br/><br/>",
+        "ui_circle_saturationRange": "<br/>Диапазон Насыщенности<br/><br/>",
+        "ui_circle_lightnessRange": "<br/>Диапазон Света<br/><br/>",
+        "ui_circle_gradientOffset": "<br/>Смещение Градиента<br/><br/>",
+        "ui_circle_ringText": "<br/><b>Кольцо - Настройки Кольца</b><br/><br/>",
+        "ui_circle_opacity": "<br/>Непрозрачность<br/><br/>",
+        "ui_circle_radius": "<br/>Радиус<br/><br/>",
+        "ui_circle_pointNum": "<br/>Количество<br/><br/>",
+        "ui_circle_lineWidth": "<br/>Тольщина Линии<br/><br/>",
+        "ui_circle_lineJoin": "<br/>Соединение Линий<br/><br/>",
+        "ui_circle_innerDistance": "<br/>Внутреннее Расстояние<br/><br/>",
+        "ui_circle_outerDistance": "<br/>Наружное Расстояние<br/><br/>",
+        "ui_circle_connectionMode": "<br/>Режим Соединения<br/><br/>",
+        "ui_circle_initialAngle": "<br/>Начальный Угол<br/><br/>",
+        "ui_circle_endAngle": "<br/>Конечный Угол<br/><br/>",
+        "ui_circle_ringRotation": "<br/>Вращение Кольца<br/><br/>",
+        "ui_circle_milliSec": "<br/>Перерисовать Интервал<br/><br/>",
+        "ui_circle_BallText": "<br/><b>Кольцо - Настройки Шара</b><br/><br/>",
+        "ui_circle_ballSpacer": "<br/>Количество Шаров<br/><br/>",
+        "ui_circle_ballDistance": "<br/>Расстояние Шара<br/><br/>",
+        "ui_circle_ballSize": "<br/>Размер Шара<br/><br/>",
+        "ui_circle_ballDirection": "<br/>Направление Шара<br/><br/>",
+        "ui_circle_bindRingRotation": "<br/>Вращать Шары?<br/><br/>",
+        "ui_circle_ballRotation": "<br/>Вращение Шара<br/><br/>",
+        "ui_circle_coordinateText": "<br/><b>Кольцо - Настройки Координат</b><br/><br/>",
+        "ui_circle_offsetX": "<br/>Позиция X(%)<br/><br/>",
+        "ui_circle_offsetY": "<br/>Позиция Y(%)<br/><br/>",
+        "ui_circle_isClickOffset": "<br/>Кольцо На Месте Клика?<br/><br/>",
+        "ui_circle_transform": "<br/><b>Кольцо - Настройки Трансфомации</b><br/><br/>",
+        "ui_circle_isMasking": "<br/>Показать Маскировку?<br/><br/>",
+        "ui_circle_maskOpacity": "<br/>Маскирование Непрозрачности<br/><br/>",
+        "ui_circle_transformMode": "<br/>Режим Трансформации<br/><br/>",
+        "ui_circle_perspective": "<br/>Перспектива<br/><br/>",
+        "ui_circle_translateX": "<br/>Трансформировать X(%)<br/><br/>",
+        "ui_circle_translateY": "<br/>Трансформировать Y(%)<br/><br/>",
+        "ui_circle_width": "<br/>Ширина(%)<br/><br/>",
+        "ui_circle_height": "<br/>Высота(%)<br/><br/>",
+        "ui_circle_skewX": "<br/>Наклон X<br/><br/>",
+        "ui_circle_skewY": "<br/>Наклон Y<br/><br/>",
+        "ui_circle_rotateX": "<br/>Поворот X<br/><br/>",
+        "ui_circle_rotateY": "<br/>Поворот Y<br/><br/>",
+        "ui_circle_rotateZ": "<br/>Поворот Z<br/><br/>",
+        "ui_circle_isRotate3D": "<br/>3D Вращение?<br/><br/>",
+        "ui_circle_degSize": "<br/>Размер Угла<br/><br/>",
+        "ui_circle_topLeft": "<br/>Сверху Слева<br/><br/>",
+        "ui_circle_topLeftX": "<br/>X(%)：<br/><br/>",
+        "ui_circle_topLeftY": "<br/>Y(%)：<br/><br/>",
+        "ui_circle_topRight": "<br/>Сверху Справа<br/><br/>",
+        "ui_circle_topRightX": "<br/>X(%)：<br/><br/>",
+        "ui_circle_topRightY": "<br/>Y(%)：<br/><br/>",
+        "ui_circle_bottomRight": "<br/>Внизу Справа<br/><br/>",
+        "ui_circle_bottomRightX": "<br/>X(%)：<br/><br/>",
+        "ui_circle_bottomRightY": "<br/>Y(%)：<br/><br/>",
+        "ui_circle_bottomLeft": "<br/>Внизу Слева<br/><br/>",
+        "ui_circle_bottomLeftX": "<br/>X(%)：<br/><br/>",
+        "ui_circle_bottomLeftY": "<br/>Y(%)：<br/><br/>",
+        "Dividing_line8": "------------------------------------------------------------------------------------------------------------------------",
+        "ui_bars_Text": "<h3><b>Бары</b></h3><small>Задаются параметры, относящиеся к аудио-барам, и настраиваются основные параметры, параметры координат, параметры баров и параметры линий.</small>",
+        "ui_bars_basicText": "<br/><b>Бары - Основные Настройки</b><br/><br/>",
+        "ui_bars_isLineTo": "<br/>Показать Строку?<br/><br/>",
+        "ui_bars_isBars": "<br/>Показывать Бары?<br/><br/>",
+        "ui_bars_barsDirection": "<br/>Направление Баров<br/><br/>",
+        "ui_bars_isWave": "<br/>Показать Волну?<br/><br/>",
+        "ui_bars_waveDirection": "<br/>Направлене Волны<br/><br/>",
+        "ui_bars_isSilenceEffect": "<br/>Эффект Тишины?<br/><br/>",
+        "ui_bars_respiratoryRate": "<br/>Частота Ритма<br/><br/>",
+        "ui_bars_groupVelocity": "<br/>Групповая Скорость<br/><br/>",
+        "ui_bars_waveAmplitude": "<br/>Амплитуда Волны<br/><br/>",
+        "ui_bars_colorText": "<br/><b>Бары - Настройка Цвета</b><br/><br/>",
+        "ui_bars_colorMode": "<br/>Цветовой Режим<br/><br/>",
+        "ui_bars_color": "<br/>Цвет<br/><br/>",
+        "ui_bars_shadowColor": "<br/>Цвет Свечения<br/><br/>",
+        "ui_bars_shadowBlur": "<br/>Размер Свечения(px)<br/><br/>",
+        "ui_bars_shadowOverlay": "<br/>Наложение Теней?<br/><br/>",
+        "ui_bars_isRandomColor": "<br/>Случайный Цвет?<br/><br/>",
+        "ui_bars_firstColor": "<br/>Первый Цвет<br/><br/>",
+        "ui_bars_secondColor": "<br/>Второй Цвет<br/><br/>",
+        "ui_bars_isChangeBlur": "<br/>Связать Светящиеся Цвета?<br/><br/>",
+        "ui_bars_hueRange": "<br/>Диапазон Оттенков<br/><br/>",
+        "ui_bars_saturationRange": "<br/>Диапазон Насыщенности<br/><br/>",
+        "ui_bars_lightnessRange": "<br/>Диапазон Света <br/><br/>",
+        "ui_bars_gradientOffset": "<br/>Смещение Градиента<br/><br/>",
+        "ui_bars_barsText": "<br/><b>Бары - Настройки Баров</b><br/><br/>",
+        "ui_bars_opacity": "<br/>Непрозрачность<br/><br/>",
+        "ui_bars_barsWidth": "<br/>Ширина<br/><br/>",
+        "ui_bars_barsHeight": "<br/>Высота<br/><br/>",
+        "ui_bars_pointNum": "<br/>Количество<br/><br/>",
+        "ui_bars_lineWidth": "<br/>Толщина Линии<br/><br/>",
+        "ui_bars_lineJoin": "<br/>Соединение Линий<br/><br/>",
+        "ui_bars_barsRotation": "<br/>Вращение Баров<br/><br/>",
+        "ui_bars_milliSec": "<br/>Перерисовать Интервал<br/><br/>",
+        "ui_bars_coordinateText": "<br/><b>Бары - Настройки Координат</b><br/><br/>",
+        "ui_bars_offsetX": "<br/>Позиция X(%)<br/><br/>",
+        "ui_bars_offsetY": "<br/>Позиция Y(%)<br/><br/>",
+        "ui_bars_isClickOffset": "<br/>Бары На месте Клика?<br/><br/>",
+        "ui_bars_transform": "<br/><b>Бары - Настройка Трансфомации</b><br/><br/>",
+        "ui_bars_isMasking": "<br/>Показать Маскировку?<br/><br/>",
+        "ui_bars_maskOpacity": "<br/>Маскирование Непрозрачности<br/><br/>",
+        "ui_bars_transformMode": "<br/>Режим Трансформации<br/><br/>",
+        "ui_bars_perspective": "<br/>Перспектива<br/><br/>",
+        "ui_bars_translateX": "<br/>Трансформировать X(%)<br/><br/>",
+        "ui_bars_translateY": "<br/>Трансформировать Y(%)<br/><br/>",
+        "ui_bars_width": "<br/>Ширина(%)<br/><br/>",
+        "ui_bars_height": "<br/>Высота(%)<br/><br/>",
+        "ui_bars_skewX": "<br/>Наклон X<br/><br/>",
+        "ui_bars_skewY": "<br/>Наклон Y<br/><br/>",
+        "ui_bars_rotateX": "<br/>Поворот X<br/><br/>",
+        "ui_bars_rotateY": "<br/>Поворот Y<br/><br/>",
+        "ui_bars_rotateZ": "<br/>Поворот Z<br/><br/>",
+        "ui_bars_isRotate3D": "<br/>3D Вращение?<br/><br/>",
+        "ui_bars_degSize": "<br/>Размер Угла<br/><br/>",
+        "ui_bars_topLeft": "<br/>Вверху Слева<br/><br/>",
+        "ui_bars_topLeftX": "<br/>X(%)：<br/><br/>",
+        "ui_bars_topLeftY": "<br/>Y(%)：<br/><br/>",
+        "ui_bars_topRight": "<br/>Вверху Справа<br/><br/>",
+        "ui_bars_topRightX": "<br/>X(%)：<br/><br/>",
+        "ui_bars_topRightY": "<br/>Y(%)：<br/><br/>",
+        "ui_bars_bottomRight": "<br/>Внизу Справа<br/><br/>",
+        "ui_bars_bottomRightX": "<br/>X(%)：<br/><br/>",
+        "ui_bars_bottomRightY": "<br/>Y(%)：<br/><br/>",
+        "ui_bars_bottomLeft": "<br/>Внизу Слева<br/><br/>",
+        "ui_bars_bottomLeftX": "<br/>X(%)：<br/><br/>",
+        "ui_bars_bottomLeftY": "<br/>Y(%)：<br/><br/>",
+        "Dividing_line9": "------------------------------------------------------------------------------------------------------------------------",
+        "ui_logo_Text": "<h3><b>Логотип</b></h3><small>Задаются параметры, связанные с логотипом, настраиваются основные параметры, параметры координат, параметры логотипа, параметры фильтра и режим смешивания.</small>",
+        "ui_logo_basicText": "<br/><b>Логотип - Основные Настройки</b><br/><br/>",
+        "ui_logo_isLogo": "<br/>Показывать Логотип?<br/><br/>",
+        "ui_logo_image": "<br/>Изображение Логотипа<br/><br/>",
+        "ui_logo_isCircular": "<br/>Круговой Логотип?<br/><br/>",
+        "ui_logo_opacity": "<br/>Непрозрачность<br/><br/>",
+        "ui_logo_isStroke": "<br/>Обводить?<br/><br/>",
+        "ui_logo_strokeColor": "<br/>Цвет Обводки<br/><br/>",
+        "ui_logo_lineWidth": "<br/>Ширина Обводки(px)<br/><br/>",
+        "ui_logo_dottedLine": "<br/>Пунктирная Линия<br/><br/>",
+        "ui_logo_shadowColor": "<br/>Цвет Свечения<br/><br/>",
+        "ui_logo_shadowBlur": "<br/>Размер Свечения(px)<br/><br/>",
+        "ui_logo_logoText": "<br/><b>Логотип - Настройки Логотипа</b><br/><br/>",
+        "ui_logo_zoom": "<br/>Зум<br/><br/>",
+        "ui_logo_isZoomFollow": "<br/>Увелечение Следует За Звуком?<br/><br/>",
+        "ui_logo_zoomRate": "<br/>Изменение Ритма<br/><br/>",
+        "ui_logo_widthRatio": "<br/>Коэффициент Ширины<br/><br/>",
+        "ui_logo_heightRatio": "<br/>Коэффициент Высоты<br/><br/>",
+        "ui_logo_initialAngle": "<br/>Начальный Угол<br/><br/>",
+        "ui_logo_isRotation": "<br/>Вращать?<br/><br/>",
+        "ui_logo_rotationAngle": "<br/>Угол Поворота<br/><br/>",
+        "ui_logo_milliSec": "<br/>Перерисовать Интервал<br/><br/>",
+        "ui_logo_filterText": "<br/><b>Логотип - Фильтры</b><br/><br/>",
+        "ui_logo_blur": "<br/>Размытие<br/><br/>",
+        "ui_logo_brightness": "<br/>Яркость<br/><br/>",
+        "ui_logo_contrast": "<br/>Контраст<br/><br/>",
+        "ui_logo_grayScale": "<br/>Шкала Серого<br/><br/>",
+        "ui_logo_hueRotate": "<br/>Поворот Оттенка<br/><br/>",
+        "ui_logo_invert": "<br/>Инвертировать<br/><br/>",
+        "ui_logo_saturate": "<br/>Насыщать<br/><br/>",
+        "ui_logo_sepia": "<br/>Сепия<br/><br/>",
+        "ui_logo_mixBlendModeText": "<br/><b>Логотип - Режим Смешивания</b><br/><br/>",
+        "ui_logo_mixBlendMode": "<br/>Режим Смешивания<br/><br/>",
+        "ui_logo_coordinateText": "<br/><b>логотип - Настройки Координат</b><br/><br/>",
+        "ui_logo_offsetX": "<br/>Позиция X(%)<br/><br/>",
+        "ui_logo_offsetY": "<br/>Позиция Y(%)<br/><br/>",
+        "ui_logo_isClickOffset": "<br/>Логотип На Месте Клика?<br/><br/>",
+        "ui_logo_transform": "<br/><b>Логотип - Настройки Трансфомации</b><br/><br/>",
+        "ui_logo_isMasking": "<br/>Показать Маскировку?<br/><br/>",
+        "ui_logo_maskOpacity": "<br/>Маскирование Непрозрачности<br/><br/>",
+        "ui_logo_transformMode": "<br/>Режим Трансфомации<br/><br/>",
+        "ui_logo_perspective": "<br/>Перспектива<br/><br/>",
+        "ui_logo_translateX": "<br/>Трансформировать X(%)<br/><br/>",
+        "ui_logo_translateY": "<br/>Трансформировать Y(%)<br/><br/>",
+        "ui_logo_width": "<br/>Ширина(%)<br/><br/>",
+        "ui_logo_height": "<br/>Васота(%)<br/><br/>",
+        "ui_logo_skewX": "<br/>Наклон X<br/><br/>",
+        "ui_logo_skewY": "<br/>Наклон Y<br/><br/>",
+        "ui_logo_rotateX": "<br/>Повернуть X<br/><br/>",
+        "ui_logo_rotateY": "<br/>Повернуть Y<br/><br/>",
+        "ui_logo_rotateZ": "<br/>Повернуть Z<br/><br/>",
+        "ui_logo_3DRotation": "<br/>3D Вращение<br/><br/>",
+        "ui_logo_autoRotateX": "<br/>Автоповорот X<br/><br/>",
+        "ui_logo_autoRotateY": "<br/>Автоповорот Y<br/><br/>",
+        "ui_logo_autoRotateZ": "<br/>Автоповорот Z<br/><br/>",
+        "ui_logo_autoMilliSec": "<br/>Интервал<br/><br/>",
+        "ui_logo_degSize": "<br/>Размер Угла<br/><br/>",
+        "ui_logo_topLeft": "<br/>Сверху Слева<br/><br/>",
+        "ui_logo_topLeftX": "<br/>X(%)：<br/><br/>",
+        "ui_logo_topLeftY": "<br/>Y(%)：<br/><br/>",
+        "ui_logo_topRight": "<br/>Сверху Справа<br/><br/>",
+        "ui_logo_topRightX": "<br/>X(%)：<br/><br/>",
+        "ui_logo_topRightY": "<br/>Y(%)：<br/><br/>",
+        "ui_logo_bottomRight": "<br/>Снизу Справа<br/><br/>",
+        "ui_logo_bottomRightX": "<br/>X(%)：<br/><br/>",
+        "ui_logo_bottomRightY": "<br/>Y(%)：<br/><br/>",
+        "ui_logo_bottomLeft": "<br/>Снизу Слева<br/><br/>",
+        "ui_logo_bottomLeftX": "<br/>X(%)：<br/><br/>",
+        "ui_logo_bottomLeftY": "<br/>Y(%)：<br/><br/>",
+        "Dividing_line10": "------------------------------------------------------------------------------------------------------------------------",
+        "ui_date_Text": "<h3><b>Дата</b></h3><small>Задаются параметры, связанные с датой, настраиваются основные параметры, параметры координат, параметры данных и параметры погоды. Погода показывает только поддержку Китая.</small>",
+        "ui_date_basicText": "<br/><b>Дата - Основные Настройки</b><br/><br/>",
+        "ui_date_isDate": "<br/>Показывать Дату?<br/><br/>",
+        "ui_date_isStroke": "<br/>Обводить?<br/><br/>",
+        "ui_date_lineWidth": "<br/>Ширина Обводки<br/><br/>",
+        "ui_date_isFill": "<br/>Заполнять?<br/><br/>",
+        "ui_date_colorText": "<br/><b>Дата - Настройки Цвета</b><br/><br/>",
+        "ui_date_colorMode": "<br/>Цветовой Режим<br/><br/>",
+        "ui_date_color": "<br/>Цвет<br/><br/>",
+        "ui_date_shadowColor": "<br/>Наложение Теней<br/><br/>",
+        "ui_date_shadowBlur": "<br/>Размер Свечения(px)<br/><br/>",
+        "ui_date_shadowOverlay": "<br/>Накладывать Тени?<br/><br/>",
+        "ui_date_isRandomColor": "<br/>Случайный Цвет?<br/><br/>",
+        "ui_date_firstColor": "<br/>Первый Цвет<br/><br/>",
+        "ui_date_secondColor": "<br/>Второй Цвет<br/><br/>",
+        "ui_date_isChangeBlur": "<br/>Связать Светящиеся Цвета?<br/><br/>",
+        "ui_date_dateText": "<br/><b>Дата - Настройки Даты</b><br/><br/>",
+        "ui_date_opacity": "<br/>Непрозрачность<br/><br/>",
+        "ui_date_language": "<br/>Язык Даты<br/><br/>",
+        "ui_date_timeStyle": "<br/>Стиль Времени<br/><br/>",
+        "ui_date_dateStyle": "<br/>Стиль Даты<br/><br/>",
+        "ui_date_isFormat": "<br/>Формат?<br/><br/>",
+        "ui_date_formatText": "<br/><span>Спецификация формата времени:</span><br/><span>YYYY: Год MMM: Месяц(Нечисловой) </span><br/><span>MM: Месяц(Число)</span><br/><span>Do: День(Нечисловой) DD: День(Число)</span><br/><span>HH: Часы(24-часовой Формат)</span><br/><span> hh: Часы(12-часовой Формат)</span><br/><span>mm: Минуты ss: Секунды</span><br/><span>A: Период Времени dddd: Неделя</span><br/><span>weather:Глобальная Погода Или Погода В Китае</span><br/><br/>",
+        "ui_date_userTimeStyle": "<br/>Стиль Времени<br/><br/>",
+        "ui_date_userDateStyle": "<br/>Стиль Даты<br/><br/>",
+        "ui_date_fontFamily": "<br/>Шрифт<br/><br/>",
+        "ui_date_userFontFamily": "<br/>Название Шрифта<br/><br/>",
+        "ui_date_userFontFamilyText": "<br/>Твоя Папка Со Шрифтами(C:\\Windows\\Fonts)<br/><br/>",
+        "ui_date_timeFontSize": "<br/>Размер Шрифта Времени<br/><br/>",
+        "ui_date_dateFontSize": "<br/>Размер Текста Даты<br/><br/>",
+        "ui_date_distance": "<br/>Дистанция<br/><br/>",
+        "Dividing_line11": "------------------------------------------------------------------------------------------------------------------------",
+        "ui_date_weatherText": "<br/><b>Дата - Настройки Погоды</b><br/>",
+        "ui_date_weatherRegion": "<br/>Погодный Регион<br/><br/>",
+        "ui_date_weatherProvider": "<br/>Погодный Интерфейс<br/><br/>",
+        "ui_date_city": "<br/>Город：<br/><br/>",
+        "Dividing_line12": "------------------------------------------------------------------------------------------------------------------------",
+        "ui_date_coordinateText": "<br/><b>Дата - Настройки Координат</b><br/><br/>",
+        "ui_date_offsetX": "<br/>Позиция X(%)<br/><br/>",
+        "ui_date_offsetY": "<br/>Позиция Y(%)<br/><br/>",
+        "ui_date_isClickOffset": "<br/>Дата На Месте Клика?<br/><br/>",
+        "ui_date_transform": "<br/><b>Дата - Настройка Трансфомации</b><br/><br/>",
+        "ui_date_isMasking": "<br/>Показать Маскировку?<br/><br/>",
+        "ui_date_maskOpacity": "<br/>Маскирование Непрозрачности<br/><br/>",
+        "ui_date_transformMode": "<br/>Режим Трансфомации<br/><br/>",
+        "ui_date_perspective": "<br/>Перспектива<br/><br/>",
+        "ui_date_translateX": "<br/>Трансформировать X(%)<br/><br/>",
+        "ui_date_translateY": "<br/>Трансформировать Y(%)<br/><br/>",
+        "ui_date_width": "<br/>Ширина(%)<br/><br/>",
+        "ui_date_height": "<br/>Высота(%)<br/><br/>",
+        "ui_date_skewX": "<br/>Наклон X<br/><br/>",
+        "ui_date_skewY": "<br/>Наклон Y<br/><br/>",
+        "ui_date_rotateX": "<br/>Повернуть X<br/><br/>",
+        "ui_date_rotateY": "<br/>Повернуть Y<br/><br/>",
+        "ui_date_rotateZ": "<br/>Повернуть Z<br/><br/>",
+        "ui_date_isRotate3D": "<br/>3D Вращение?<br/><br/>",
+        "ui_date_degSize": "<br/>Размер Угла<br/><br/>",
+        "ui_date_topLeft": "<br/>Сверху Слева<br/><br/>",
+        "ui_date_topLeftX": "<br/>X(%)：<br/><br/>",
+        "ui_date_topLeftY": "<br/>Y(%)：<br/><br/>",
+        "ui_date_topRight": "<br/>Сверху Справа<br/><br/>",
+        "ui_date_topRightX": "<br/>X(%)：<br/><br/>",
+        "ui_date_topRightY": "<br/>Y(%)：<br/><br/>",
+        "ui_date_bottomRight": "<br/>Внизу Справа<br/><br/>",
+        "ui_date_bottomRightX": "<br/>X(%)：<br/><br/>",
+        "ui_date_bottomRightY": "<br/>Y(%)：<br/><br/>",
+        "ui_date_bottomLeft": "<br/>Внизу Слева<br/><br/>",
+        "ui_date_bottomLeftX": "<br/>X(%)：<br/><br/>",
+        "ui_date_bottomLeftY": "<br/>Y(%)：<br/><br/>",
+        "Dividing_line13": "------------------------------------------------------------------------------------------------------------------------",
+        "ui_particles_Text": "<h3><b>Частицы</b></h3><small>Задаются параметры, связанные с частицами, и настраиваются основные параметры, параметры типа, параметры линии и параметры перемещения.</small>",
+        "ui_particles_basicText": "<br/><b>Частицы - Основные Настройки</b><br/><br/>",
+        "ui_particles_isParticles": "<br/>Показывать Частицы?<br/><br/>",
+        "ui_particles_number": "<br/>Количество Частиц<br/><br/>",
+        "ui_particles_milliSec": "<br/>Перерисовать Интервал<br/><br/>",
+        "ui_particles_isDensity": "<br/>Плотность Частиц?<br/><br/>",
+        "ui_particles_densityArea": "<br/>Плотность Арены<br/><br/>",
+        "ui_particles_opacity": "<br/>Непрозрачность Частиц<br/><br/>",
+        "ui_particles_opacityRandom": "<br/>Случайная Непрозрачность?<br/><br/>",
+        "ui_particles_isStroke": "<br/>Обводка?<br/><br/>",
+        "ui_particles_lineWidth": "<br/>Ширина Обводки(px)<br/><br/>",
+        "ui_particles_isFill": "<br/>Заполнять?<br/><br/>",
+        "ui_particles_colorText": "<br/><b>Частицы - Настройки Цвета</b><br/><br/>",
+        "ui_particles_color": "<br/>Цвет Частиц<br/><br/>",
+        "ui_particles_isColorFollow": "<br/>Цвет Следует За Звуком?<br/><br/>",
+        "ui_particles_colorRate": "<br/>Изменение Ритма<br/><br/>",
+        "ui_particles_colorRandom": "<br/>Случайный Цвет?<br/><br/>",
+        "ui_particles_shadowColor": "<br/>Цвет Свечения<br/><br/>",
+        "ui_particles_shadowBlur": "<br/>Размер Свечения(px)<br/><br/>",
+        "ui_particles_sizeText": "<br/><b>Частицы - Параметры Типа</b><br/><br/>",
+        "ui_particles_shapeType": "<br/>Форма Частиц<br/><br/>",
+        "ui_particles_image": "<br/>Изображение Частиц<br/><br/>",
+        "ui_particles_rotationAngle": "<br/>Угол Пововрота<br/><br/>",
+        "ui_particles_angleRandom": "<br/>Случайный Угол?<br/><br/>",
+        "ui_particles_sizeValue": "<br/>Размер Частиц<br/><br/>",
+        "ui_particles_sizeRandom": "<br/>Случайный Размер?<br/><br/>",
+        "ui_particles_isSizeFollow": "<br/>Размер Следует За Звуком?<br/><br/>",
+        "ui_particles_sizeRate": "<br/>Изменение Ритма<br/><br/>",
+        "ui_particles_lineText": "<br/><b>Частицы - Настройки Линии</b><br/><br/>",
+        "ui_particles_linkEnable": "<br/>Показывать Линии?<br/><br/>",
+        "ui_particles_mouseInteraction": "<br/>Взаимодействие С Мышью?<br/><br/>",
+        "ui_particles_linkDistance": "<br/>Дистанция Линии<br/><br/>",
+        "ui_particles_linkWidth": "<br/>Толщина Линии<br/><br/>",
+        "ui_particles_linkColor": "<br/>Цвет Линии<br/><br/>",
+        "ui_particles_linkColorRandom": "<br/>Случайный Цвет Линии?<br/><br/>",
+        "ui_particles_linkOpacity": "<br/>Непрозрачность Линии<br/><br/>",
+        "ui_particles_moveText": "<br/><b>Частицы - Настройки Движения</b><br/><br/>",
+        "ui_particles_isMove": "<br/>Частицы Движутся?<br/><br/>",
+        "ui_particles_isMoveFollow": "<br/>Скорость Следует За Звуком?<br/><br/>",
+        "ui_particles_moveRate": "<br/>Изменение Ритма<br/><br/>",
+        "ui_particles_speed": "<br/>Скорость Частиц<br/><br/>",
+        "ui_particles_speedRandom": "<br/>Случайная Скорость?<br/><br/>",
+        "ui_particles_direction": "<br/>Направления Частиц<br/><br/>",
+        "ui_particles_isStraight": "<br/>Двигаются Прямо?<br/><br/>",
+        "ui_particles_isBounce": "<br/>Отскакивают?<br/><br/>",
+        "ui_particles_moveOutMode": "<br/>Исчезновение<br/><br/>",
+        "Dividing_line14": "------------------------------------------------------------------------------------------------------------------------",
+        "ui_about_isAbout": "<h3><b>Об Обоях</b></h3><span>Shoshin wasuru bekarazu</span>",
+        "ui_about_authorText": "<br/>Автор：Alice<br/>",
+        "ui_about_qqText": "<br/>QQ：909011298<br/>",
+        "ui_about_emailText": "<br/>Email：909011298@qq.com<br/>",
+        "ui_about_versionText": "<br/>Номер Версии：0.6.6<br/>",
+        "ui_about_updateText": "<br/><span>Описание Обновления：</span><br/><span>1. Добавление параметров региона погоды.</span><br/><span>2. Добавление дополнительных погодных интерфейсов.</span><br/><span> -- Автор Русского Перевода Magikman</span><br/>",
+        "ui_about_describeText": "<br/><span>Соответствующие Указания：</span><br/><span>Вместо добавления дополнительных функциональных возможностей последующее обновление только улучшает существующие функциональные возможности.</span><br/>",
+        "ui_about_isQRcode": "<br/>Показать QRcode?<br/><br/>"
       },
       "zh-chs": {
         "ui_MENU_text": "<h3><b>菜单</b></h3><h6>选择要显示的插件选项。</h6>",
